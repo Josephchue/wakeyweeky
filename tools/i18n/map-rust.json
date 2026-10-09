@@ -1,0 +1,7256 @@
+[
+ {
+  "key": "sys.hints.02",
+  "file": "src-tauri/src/hints.rs",
+  "line": 34,
+  "kind": "rs-literal",
+  "raw": "记提示状态失败：{e}",
+  "value": "记提示状态失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "sys.hints.01",
+  "file": "src-tauri/src/hints.rs",
+  "line": 22,
+  "kind": "rs-literal",
+  "raw": "没有这个提示：{id}",
+  "value": "没有这个提示：{id}",
+  "mode": "format"
+ },
+ {
+  "key": "ach.collect_80.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 297,
+  "kind": "rs-literal",
+  "raw": "点亮 80 枚暗章。",
+  "value": "点亮 80 枚暗章。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.collect_80.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 297,
+  "kind": "rs-literal",
+  "raw": "收集狂",
+  "value": "收集狂",
+  "mode": "const"
+ },
+ {
+  "key": "ach.collect_50.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 296,
+  "kind": "rs-literal",
+  "raw": "点亮 50 枚。",
+  "value": "点亮 50 枚。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.collect_50.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 296,
+  "kind": "rs-literal",
+  "raw": "章章相扣",
+  "value": "章章相扣",
+  "mode": "const"
+ },
+ {
+  "key": "ach.collect_30.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 295,
+  "kind": "rs-literal",
+  "raw": "点亮 30 枚。",
+  "value": "点亮 30 枚。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.collect_30.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 295,
+  "kind": "rs-literal",
+  "raw": "渐入佳境",
+  "value": "渐入佳境",
+  "mode": "const"
+ },
+ {
+  "key": "ach.collect_10.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 294,
+  "kind": "rs-literal",
+  "raw": "点亮 10 枚暗章。",
+  "value": "点亮 10 枚暗章。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.collect_10.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 294,
+  "kind": "rs-literal",
+  "raw": "拾章者",
+  "value": "拾章者",
+  "mode": "const"
+ },
+ {
+  "key": "ach.schedule_30.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 292,
+  "kind": "rs-literal",
+  "raw": "一天里建了 30 块。",
+  "value": "一天里建了 30 块。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.schedule_30.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 292,
+  "kind": "rs-literal",
+  "raw": "排班狂魔",
+  "value": "排班狂魔",
+  "mode": "const"
+ },
+ {
+  "key": "ach.birthday.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 291,
+  "kind": "rs-literal",
+  "raw": "用满一年，还在用。",
+  "value": "用满一年，还在用。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.birthday.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 291,
+  "kind": "rs-literal",
+  "raw": "生日快乐",
+  "value": "生日快乐",
+  "mode": "const"
+ },
+ {
+  "key": "ach.template_100.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 290,
+  "kind": "rs-literal",
+  "raw": "用模板铺 100 次。",
+  "value": "用模板铺 100 次。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.template_100.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 290,
+  "kind": "rs-literal",
+  "raw": "铺路大师",
+  "value": "铺路大师",
+  "mode": "const"
+ },
+ {
+  "key": "ach.seq_50.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 289,
+  "kind": "rs-literal",
+  "raw": "接出 50 条序列。",
+  "value": "接出 50 条序列。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.seq_50.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 289,
+  "kind": "rs-literal",
+  "raw": "千丝万缕",
+  "value": "千丝万缕",
+  "mode": "const"
+ },
+ {
+  "key": "ach.undo_100.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 288,
+  "kind": "rs-literal",
+  "raw": "撤销 100 次。",
+  "value": "撤销 100 次。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.undo_100.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 288,
+  "kind": "rs-literal",
+  "raw": "反复无常",
+  "value": "反复无常",
+  "mode": "const"
+ },
+ {
+  "key": "ach.perfect_month.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 287,
+  "kind": "rs-literal",
+  "raw": "某个月 ≥20 块到点、一块没落下。",
+  "value": "某个月 ≥20 块到点、一块没落下。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.perfect_month.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 287,
+  "kind": "rs-literal",
+  "raw": "完美的一月",
+  "value": "完美的一月",
+  "mode": "const"
+ },
+ {
+  "key": "ach.month_streak_12.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 286,
+  "kind": "rs-literal",
+  "raw": "连续 12 个月有动作。",
+  "value": "连续 12 个月有动作。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.month_streak_12.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 286,
+  "kind": "rs-literal",
+  "raw": "月月不断",
+  "value": "月月不断",
+  "mode": "const"
+ },
+ {
+  "key": "ach.how_did_we_get_here.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 285,
+  "kind": "rs-literal",
+  "raw": "有一周里六样东西全齐。",
+  "value": "有一周里六样东西全齐。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.how_did_we_get_here.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 285,
+  "kind": "rs-literal",
+  "raw": "我们怎么排到这的？",
+  "value": "我们怎么排到这的？",
+  "mode": "const"
+ },
+ {
+  "key": "ach.all_categories.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 284,
+  "kind": "rs-literal",
+  "raw": "至少用过 5 个分类，且每个分类都排过 3 块以上。",
+  "value": "至少用过 5 个分类，且每个分类都排过 3 块以上。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.all_categories.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 284,
+  "kind": "rs-literal",
+  "raw": "全都排过",
+  "value": "全都排过",
+  "mode": "const"
+ },
+ {
+  "key": "ach.pack_rat.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 283,
+  "kind": "rs-literal",
+  "raw": "累计建过 1000 个块。",
+  "value": "累计建过 1000 个块。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.pack_rat.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 283,
+  "kind": "rs-literal",
+  "raw": "电子包浆",
+  "value": "电子包浆",
+  "mode": "const"
+ },
+ {
+  "key": "ach.time_master.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 282,
+  "kind": "rs-literal",
+  "raw": "连续 4 周每周全勤。",
+  "value": "连续 4 周每周全勤。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.time_master.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 282,
+  "kind": "rs-literal",
+  "raw": "时间管理大师",
+  "value": "时间管理大师",
+  "mode": "const"
+ },
+ {
+  "key": "ach.streak_100.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 281,
+  "kind": "rs-literal",
+  "raw": "连续 100 天有排程动作。",
+  "value": "连续 100 天有排程动作。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.streak_100.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 281,
+  "kind": "rs-literal",
+  "raw": "传火",
+  "value": "传火",
+  "mode": "const"
+ },
+ {
+  "key": "ach.hours_1000.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 280,
+  "kind": "rs-literal",
+  "raw": "完成时长累计 1000 小时。",
+  "value": "完成时长累计 1000 小时。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.hours_1000.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 280,
+  "kind": "rs-literal",
+  "raw": "一寸光阴",
+  "value": "一寸光阴",
+  "mode": "const"
+ },
+ {
+  "key": "ach.thousand.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 279,
+  "kind": "rs-literal",
+  "raw": "完成 1000 次。",
+  "value": "完成 1000 次。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.thousand.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 279,
+  "kind": "rs-literal",
+  "raw": "千锤百炼",
+  "value": "千锤百炼",
+  "mode": "const"
+ },
+ {
+  "key": "ach.days_365.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 278,
+  "kind": "rs-literal",
+  "raw": "累计 365 天。",
+  "value": "累计 365 天。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.days_365.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 278,
+  "kind": "rs-literal",
+  "raw": "一年的翻页与落笔",
+  "value": "一年的翻页与落笔",
+  "mode": "const"
+ },
+ {
+  "key": "ach.worker.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 276,
+  "kind": "rs-literal",
+  "raw": "某个工作日 9–18 点排了 8 块以上。",
+  "value": "某个工作日 9–18 点排了 8 块以上。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.worker.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 276,
+  "kind": "rs-literal",
+  "raw": "打工人",
+  "value": "打工人",
+  "mode": "const"
+ },
+ {
+  "key": "ach.friday_hell.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 275,
+  "kind": "rs-literal",
+  "raw": "某个周五排了 8 块以上。",
+  "value": "某个周五排了 8 块以上。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.friday_hell.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 275,
+  "kind": "rs-literal",
+  "raw": "星期五差点打倒我",
+  "value": "星期五差点打倒我",
+  "mode": "const"
+ },
+ {
+  "key": "ach.rain_dew.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 274,
+  "kind": "rs-literal",
+  "raw": "一周里有 5 个不同任务被完成。",
+  "value": "一周里有 5 个不同任务被完成。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.rain_dew.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 274,
+  "kind": "rs-literal",
+  "raw": "雨露均沾",
+  "value": "雨露均沾",
+  "mode": "const"
+ },
+ {
+  "key": "ach.hom_quest_clear.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 273,
+  "kind": "rs-literal",
+  "raw": "连续 3 天每天都有完成。",
+  "value": "连续 3 天每天都有完成。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.hom_undo5.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 272,
+  "kind": "rs-literal",
+  "raw": "撤销 5 次。",
+  "value": "撤销 5 次。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.hom_undo5.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 272,
+  "kind": "rs-literal",
+  "raw": "回到未未未未来",
+  "value": "回到未未未未来",
+  "mode": "const"
+ },
+ {
+  "key": "ach.hom_praise_sun.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 271,
+  "kind": "rs-literal",
+  "raw": "有一周 ≥10 块全部排在白天。",
+  "value": "有一周 ≥10 块全部排在白天。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.hom_praise_sun.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 271,
+  "kind": "rs-literal",
+  "raw": "赞美太阳",
+  "value": "赞美太阳",
+  "mode": "const"
+ },
+ {
+  "key": "ach.hom_faster.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 270,
+  "kind": "rs-literal",
+  "raw": "一块在开始后 15 分钟内被完成。",
+  "value": "一块在开始后 15 分钟内被完成。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.hom_faster.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 270,
+  "kind": "rs-literal",
+  "raw": "快不过光速",
+  "value": "快不过光速",
+  "mode": "const"
+ },
+ {
+  "key": "ach.hom_way_ahead.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 269,
+  "kind": "rs-literal",
+  "raw": "第一次提前完成。",
+  "value": "第一次提前完成。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.hom_way_ahead.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 269,
+  "kind": "rs-literal",
+  "raw": "遥遥领先",
+  "value": "遥遥领先",
+  "mode": "const"
+ },
+ {
+  "key": "ach.hom_my_all.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 268,
+  "kind": "rs-literal",
+  "raw": "第一次 Ctrl+A 全选。",
+  "value": "第一次 Ctrl+A 全选。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.hom_my_all.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 268,
+  "kind": "rs-literal",
+  "raw": "我全都要",
+  "value": "我全都要",
+  "mode": "const"
+ },
+ {
+  "key": "ach.hom_dont_move.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 267,
+  "kind": "rs-literal",
+  "raw": "第一次用 Enter 拿起一块。",
+  "value": "第一次用 Enter 拿起一块。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.hom_dont_move.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 267,
+  "kind": "rs-literal",
+  "raw": "动啊，为什么不动？",
+  "value": "动啊，为什么不动？",
+  "mode": "const"
+ },
+ {
+  "key": "ach.balanced.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 266,
+  "kind": "rs-literal",
+  "raw": "一天里必填与弹性各有 2 块完成。",
+  "value": "一天里必填与弹性各有 2 块完成。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.balanced.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 266,
+  "kind": "rs-literal",
+  "raw": "荤素搭配",
+  "value": "荤素搭配",
+  "mode": "const"
+ },
+ {
+  "key": "ach.free_weekend.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 265,
+  "kind": "rs-literal",
+  "raw": "有一个完整周末没有排块。",
+  "value": "有一个完整周末没有排块。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.free_weekend.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 265,
+  "kind": "rs-literal",
+  "raw": "解放周末",
+  "value": "解放周末",
+  "mode": "const"
+ },
+ {
+  "key": "ach.blank_week.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 264,
+  "kind": "rs-literal",
+  "raw": "有一整周没有排任何块。",
+  "value": "有一整周没有排任何块。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.blank_week.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 264,
+  "kind": "rs-literal",
+  "raw": "留白",
+  "value": "留白",
+  "mode": "const"
+ },
+ {
+  "key": "ach.category_boss.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 263,
+  "kind": "rs-literal",
+  "raw": "用过 10 个分类。",
+  "value": "用过 10 个分类。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.category_boss.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 263,
+  "kind": "rs-literal",
+  "raw": "分类大亨",
+  "value": "分类大亨",
+  "mode": "const"
+ },
+ {
+  "key": "ach.long_name.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 262,
+  "kind": "rs-literal",
+  "raw": "给任务起了一个 20 字以上的名字。",
+  "value": "给任务起了一个 20 字以上的名字。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.long_name.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 262,
+  "kind": "rs-literal",
+  "raw": "长篇大论",
+  "value": "长篇大论",
+  "mode": "const"
+ },
+ {
+  "key": "ach.archaeologist.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 261,
+  "kind": "rs-literal",
+  "raw": "翻开 12 周前的一周。",
+  "value": "翻开 12 周前的一周。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.archaeologist.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 261,
+  "kind": "rs-literal",
+  "raw": "考古学家",
+  "value": "考古学家",
+  "mode": "const"
+ },
+ {
+  "key": "ach.one_key_three.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 260,
+  "kind": "rs-literal",
+  "raw": "接出一条 3 环的序列。",
+  "value": "接出一条 3 环的序列。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.one_key_three.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 260,
+  "kind": "rs-literal",
+  "raw": "一键三连",
+  "value": "一键三连",
+  "mode": "const"
+ },
+ {
+  "key": "ach.overwork_day.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 259,
+  "kind": "rs-literal",
+  "raw": "一天里建了 20 块。",
+  "value": "一天里建了 20 块。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.overwork_day.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 259,
+  "kind": "rs-literal",
+  "raw": "搁这儿排班呢",
+  "value": "搁这儿排班呢",
+  "mode": "const"
+ },
+ {
+  "key": "ach.quantum_speed.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 258,
+  "kind": "rs-literal",
+  "raw": "60 秒内建了 5 块。",
+  "value": "60 秒内建了 5 块。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.quantum_speed.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 258,
+  "kind": "rs-literal",
+  "raw": "量子波动速排",
+  "value": "量子波动速排",
+  "mode": "const"
+ },
+ {
+  "key": "ach.boomerang.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 257,
+  "kind": "rs-literal",
+  "raw": "漂走的块又排回了原来的时段。",
+  "value": "漂走的块又排回了原来的时段。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.boomerang.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 257,
+  "kind": "rs-literal",
+  "raw": "回旋镖",
+  "value": "回旋镖",
+  "mode": "const"
+ },
+ {
+  "key": "ach.warp_bubble.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 256,
+  "kind": "rs-literal",
+  "raw": "把一个块一口气挪到 4 周之外。",
+  "value": "把一个块一口气挪到 4 周之外。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.warp_bubble.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 256,
+  "kind": "rs-literal",
+  "raw": "曲速泡",
+  "value": "曲速泡",
+  "mode": "const"
+ },
+ {
+  "key": "ach.next_week_move.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 255,
+  "kind": "rs-literal",
+  "raw": "把一个块挪到下一周。",
+  "value": "把一个块挪到下一周。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.next_week_move.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 255,
+  "kind": "rs-literal",
+  "raw": "下周再说",
+  "value": "下周再说",
+  "mode": "const"
+ },
+ {
+  "key": "ach.ma_hou_pao.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 254,
+  "kind": "rs-literal",
+  "raw": "第一次补上超时的完成。",
+  "value": "第一次补上超时的完成。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.ma_hou_pao.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 254,
+  "kind": "rs-literal",
+  "raw": "马后炮",
+  "value": "马后炮",
+  "mode": "const"
+ },
+ {
+  "key": "ach.sorry_today.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 253,
+  "kind": "rs-literal",
+  "raw": "第一次标未完成。",
+  "value": "第一次标未完成。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.sorry_today.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 253,
+  "kind": "rs-literal",
+  "raw": "抱歉，今天不行",
+  "value": "抱歉，今天不行",
+  "mode": "const"
+ },
+ {
+  "key": "ach.five_same.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 252,
+  "kind": "rs-literal",
+  "raw": "同一天给同一件事排了 5 块。",
+  "value": "同一天给同一件事排了 5 块。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.five_same.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 252,
+  "kind": "rs-literal",
+  "raw": "真爱",
+  "value": "真爱",
+  "mode": "const"
+ },
+ {
+  "key": "ach.all_done_week.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 251,
+  "kind": "rs-literal",
+  "raw": "有一周 ≥5 块到点、一块没落下。",
+  "value": "有一周 ≥5 块到点、一块没落下。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.all_done_week.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 251,
+  "kind": "rs-literal",
+  "raw": "全勤",
+  "value": "全勤",
+  "mode": "const"
+ },
+ {
+  "key": "ach.full_week.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 250,
+  "kind": "rs-literal",
+  "raw": "一周 7 天都有块。",
+  "value": "一周 7 天都有块。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.full_week.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 250,
+  "kind": "rs-literal",
+  "raw": "满格",
+  "value": "满格",
+  "mode": "const"
+ },
+ {
+  "key": "ach.back_after_gap.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 249,
+  "kind": "rs-literal",
+  "raw": "隔了 30 天又回来。",
+  "value": "隔了 30 天又回来。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.back_after_gap.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 249,
+  "kind": "rs-literal",
+  "raw": "仍然活着",
+  "value": "仍然活着",
+  "mode": "const"
+ },
+ {
+  "key": "ach.flip_flop.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 248,
+  "kind": "rs-literal",
+  "raw": "同一天把同一块挪了 5 次。",
+  "value": "同一天把同一块挪了 5 次。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.flip_flop.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 248,
+  "kind": "rs-literal",
+  "raw": "朝三暮四",
+  "value": "朝三暮四",
+  "mode": "const"
+ },
+ {
+  "key": "ach.overload_first.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 247,
+  "kind": "rs-literal",
+  "raw": "第一次看到理智值超载。",
+  "value": "第一次看到理智值超载。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.overload_first.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 247,
+  "kind": "rs-literal",
+  "raw": "满载",
+  "value": "满载",
+  "mode": "const"
+ },
+ {
+  "key": "ach.sanity_exempt.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 246,
+  "kind": "rs-literal",
+  "raw": "第一次给任务标「不计入理智值」。",
+  "value": "第一次给任务标「不计入理智值」。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.sanity_exempt.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 246,
+  "kind": "rs-literal",
+  "raw": "网开一面",
+  "value": "网开一面",
+  "mode": "const"
+ },
+ {
+  "key": "ach.diamond_layer.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 245,
+  "kind": "rs-literal",
+  "raw": "第一次把块设成必填。",
+  "value": "第一次把块设成必填。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.diamond_layer.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 245,
+  "kind": "rs-literal",
+  "raw": "必属精品",
+  "value": "必属精品",
+  "mode": "const"
+ },
+ {
+  "key": "ach.min_block.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 244,
+  "kind": "rs-literal",
+  "raw": "排了一个 15 分钟的块。",
+  "value": "排了一个 15 分钟的块。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.min_block.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 244,
+  "kind": "rs-literal",
+  "raw": "见缝插针",
+  "value": "见缝插针",
+  "mode": "const"
+ },
+ {
+  "key": "ach.weekend_back.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 243,
+  "kind": "rs-literal",
+  "raw": "从隐藏的周末里把块找回来。",
+  "value": "从隐藏的周末里把块找回来。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.weekend_back.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 243,
+  "kind": "rs-literal",
+  "raw": "失而复得",
+  "value": "失而复得",
+  "mode": "const"
+ },
+ {
+  "key": "ach.jump_weeks.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 242,
+  "kind": "rs-literal",
+  "raw": "一口气翻到 4 周之后。",
+  "value": "一口气翻到 4 周之后。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.jump_weeks.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 242,
+  "kind": "rs-literal",
+  "raw": "在空中翻周程度的能力",
+  "value": "在空中翻周程度的能力",
+  "mode": "const"
+ },
+ {
+  "key": "ach.next_week_first.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 241,
+  "kind": "rs-literal",
+  "raw": "第一次翻到下一周。",
+  "value": "第一次翻到下一周。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.next_week_first.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 241,
+  "kind": "rs-literal",
+  "raw": "隔周有眼",
+  "value": "隔周有眼",
+  "mode": "const"
+ },
+ {
+  "key": "ach.past_week.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 240,
+  "kind": "rs-literal",
+  "raw": "点开 4 周前的一周。",
+  "value": "点开 4 周前的一周。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.past_week.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 240,
+  "kind": "rs-literal",
+  "raw": "昨日重现",
+  "value": "昨日重现",
+  "mode": "const"
+ },
+ {
+  "key": "ach.drift_depth_3.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 239,
+  "kind": "rs-literal",
+  "raw": "同一条漂流链漂过 3 次。",
+  "value": "同一条漂流链漂过 3 次。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.drift_depth_3.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 239,
+  "kind": "rs-literal",
+  "raw": "颠沛流离",
+  "value": "颠沛流离",
+  "mode": "const"
+ },
+ {
+  "key": "ach.undo_after_delete.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 238,
+  "kind": "rs-literal",
+  "raw": "删掉块后又把它撤回来。",
+  "value": "删掉块后又把它撤回来。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.undo_after_delete.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 238,
+  "kind": "rs-literal",
+  "raw": "亡羊补牢",
+  "value": "亡羊补牢",
+  "mode": "const"
+ },
+ {
+  "key": "ach.undo_first.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 237,
+  "kind": "rs-literal",
+  "raw": "第一次按下撤销。",
+  "value": "第一次按下撤销。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.undo_first.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 237,
+  "kind": "rs-literal",
+  "raw": "计划有变",
+  "value": "计划有变",
+  "mode": "const"
+ },
+ {
+  "key": "ach.owl_3.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 235,
+  "kind": "rs-literal",
+  "raw": "连续 3 天 0–4 点完成。",
+  "value": "连续 3 天 0–4 点完成。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.owl_3.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 235,
+  "kind": "rs-literal",
+  "raw": "熬夜冠军",
+  "value": "熬夜冠军",
+  "mode": "const"
+ },
+ {
+  "key": "ach.early_3.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 234,
+  "kind": "rs-literal",
+  "raw": "连续 3 天 7–9 点完成。",
+  "value": "连续 3 天 7–9 点完成。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.early_3.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 234,
+  "kind": "rs-literal",
+  "raw": "早八人",
+  "value": "早八人",
+  "mode": "const"
+ },
+ {
+  "key": "ach.same_time_5.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 233,
+  "kind": "rs-literal",
+  "raw": "连续 5 天把块排在同一时刻。",
+  "value": "连续 5 天把块排在同一时刻。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.same_time_5.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 233,
+  "kind": "rs-literal",
+  "raw": "守株待兔",
+  "value": "守株待兔",
+  "mode": "const"
+ },
+ {
+  "key": "ach.cross_year.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 232,
+  "kind": "rs-literal",
+  "raw": "12 月 31 日还在排程。",
+  "value": "12 月 31 日还在排程。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.cross_year.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 232,
+  "kind": "rs-literal",
+  "raw": "跨年",
+  "value": "跨年",
+  "mode": "const"
+ },
+ {
+  "key": "ach.daily_30.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 231,
+  "kind": "rs-literal",
+  "raw": "连续 30 天。",
+  "value": "连续 30 天。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.daily_30.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 231,
+  "kind": "rs-literal",
+  "raw": "还能排下去吗？",
+  "value": "还能排下去吗？",
+  "mode": "const"
+ },
+ {
+  "key": "ach.daily_7.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 230,
+  "kind": "rs-literal",
+  "raw": "连续 7 个自然日排过程。",
+  "value": "连续 7 个自然日排过程。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.daily_7.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 230,
+  "kind": "rs-literal",
+  "raw": "一周不断",
+  "value": "一周不断",
+  "mode": "const"
+ },
+ {
+  "key": "ach.sunday_planner.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 229,
+  "kind": "rs-literal",
+  "raw": "周日就在排下一周的块。",
+  "value": "周日就在排下一周的块。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.sunday_planner.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 229,
+  "kind": "rs-literal",
+  "raw": "未雨绸缪",
+  "value": "未雨绸缪",
+  "mode": "const"
+ },
+ {
+  "key": "ach.weekend_warrior.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 228,
+  "kind": "rs-literal",
+  "raw": "周六或周日排过程。",
+  "value": "周六或周日排过程。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.weekend_warrior.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 228,
+  "kind": "rs-literal",
+  "raw": "周末战士",
+  "value": "周末战士",
+  "mode": "const"
+ },
+ {
+  "key": "ach.night_done.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 227,
+  "kind": "rs-literal",
+  "raw": "0–4 点标下完成。",
+  "value": "0–4 点标下完成。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.night_done.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 227,
+  "kind": "rs-literal",
+  "raw": "深夜的哲学",
+  "value": "深夜的哲学",
+  "mode": "const"
+ },
+ {
+  "key": "ach.before_midnight.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 226,
+  "kind": "rs-literal",
+  "raw": "23 点标下完成。",
+  "value": "23 点标下完成。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.before_midnight.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 226,
+  "kind": "rs-literal",
+  "raw": "赶在午夜前",
+  "value": "赶在午夜前",
+  "mode": "const"
+ },
+ {
+  "key": "ach.early_bird.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 225,
+  "kind": "rs-literal",
+  "raw": "7–9 点标下完成。",
+  "value": "7–9 点标下完成。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.night_owl.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 224,
+  "kind": "rs-literal",
+  "raw": "0–4 点还在排程。",
+  "value": "0–4 点还在排程。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.night_owl.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 224,
+  "kind": "rs-literal",
+  "raw": "夜猫子",
+  "value": "夜猫子",
+  "mode": "const"
+ },
+ {
+  "key": "ach.panel_first.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 222,
+  "kind": "rs-literal",
+  "raw": "第一次打开暗章面板。",
+  "value": "第一次打开暗章面板。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.panel_first.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 222,
+  "kind": "rs-literal",
+  "raw": "对暗号的人",
+  "value": "对暗号的人",
+  "mode": "const"
+ },
+ {
+  "key": "ach.category_first.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 221,
+  "kind": "rs-literal",
+  "raw": "第一次给任务归类。",
+  "value": "第一次给任务归类。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.category_first.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 221,
+  "kind": "rs-literal",
+  "raw": "分门别类",
+  "value": "分门别类",
+  "mode": "const"
+ },
+ {
+  "key": "ach.quiet_first.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 220,
+  "kind": "rs-literal",
+  "raw": "第一次打开免打扰。",
+  "value": "第一次打开免打扰。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.quiet_first.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 220,
+  "kind": "rs-literal",
+  "raw": "先别急",
+  "value": "先别急",
+  "mode": "const"
+ },
+ {
+  "key": "ach.help_first.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 219,
+  "kind": "rs-literal",
+  "raw": "第一次打开说明页。",
+  "value": "第一次打开说明页。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.help_first.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 219,
+  "kind": "rs-literal",
+  "raw": "知识就是力量",
+  "value": "知识就是力量",
+  "mode": "const"
+ },
+ {
+  "key": "ach.portable_first.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 218,
+  "kind": "rs-literal",
+  "raw": "第一次切换数据位置。",
+  "value": "第一次切换数据位置。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.portable_first.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 218,
+  "kind": "rs-literal",
+  "raw": "说走就走",
+  "value": "说走就走",
+  "mode": "const"
+ },
+ {
+  "key": "ach.hotkey_first.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 217,
+  "kind": "rs-literal",
+  "raw": "第一次用全局快捷键把窗口叫回来。",
+  "value": "第一次用全局快捷键把窗口叫回来。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.hotkey_first.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 217,
+  "kind": "rs-literal",
+  "raw": "召唤术",
+  "value": "召唤术",
+  "mode": "const"
+ },
+ {
+  "key": "ach.backup_first.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 216,
+  "kind": "rs-literal",
+  "raw": "第一次导出备份。",
+  "value": "第一次导出备份。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.backup_first.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 216,
+  "kind": "rs-literal",
+  "raw": "留一手",
+  "value": "留一手",
+  "mode": "const"
+ },
+ {
+  "key": "ach.export_ics.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 215,
+  "kind": "rs-literal",
+  "raw": "第一次导出 .ics。",
+  "value": "第一次导出 .ics。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.export_ics.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 215,
+  "kind": "rs-literal",
+  "raw": "出门看看",
+  "value": "出门看看",
+  "mode": "const"
+ },
+ {
+  "key": "ach.review_first.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 214,
+  "kind": "rs-literal",
+  "raw": "第一次打开总览。",
+  "value": "第一次打开总览。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.review_first.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 214,
+  "kind": "rs-literal",
+  "raw": "复盘时刻",
+  "value": "复盘时刻",
+  "mode": "const"
+ },
+ {
+  "key": "ach.stats_first.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 213,
+  "kind": "rs-literal",
+  "raw": "第一次打开统计。",
+  "value": "第一次打开统计。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.stats_first.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 213,
+  "kind": "rs-literal",
+  "raw": "一览无余",
+  "value": "一览无余",
+  "mode": "const"
+ },
+ {
+  "key": "ach.batch_first.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 212,
+  "kind": "rs-literal",
+  "raw": "第一次用批量操作。",
+  "value": "第一次用批量操作。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.batch_first.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 212,
+  "kind": "rs-literal",
+  "raw": "一手抓",
+  "value": "一手抓",
+  "mode": "const"
+ },
+ {
+  "key": "ach.days_100.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 210,
+  "kind": "rs-literal",
+  "raw": "累计 100 个排过程的日子。",
+  "value": "累计 100 个排过程的日子。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.days_100.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 210,
+  "kind": "rs-literal",
+  "raw": "百日的排布与取舍",
+  "value": "百日的排布与取舍",
+  "mode": "const"
+ },
+ {
+  "key": "ach.rearrange_100.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 209,
+  "kind": "rs-literal",
+  "raw": "移动与拉伸累计 100 次。",
+  "value": "移动与拉伸累计 100 次。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.rearrange_100.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 209,
+  "kind": "rs-literal",
+  "raw": "反复横跳",
+  "value": "反复横跳",
+  "mode": "const"
+ },
+ {
+  "key": "ach.merge_10.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 208,
+  "kind": "rs-literal",
+  "raw": "融合 10 次。",
+  "value": "融合 10 次。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.merge_10.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 208,
+  "kind": "rs-literal",
+  "raw": "严丝合缝",
+  "value": "严丝合缝",
+  "mode": "const"
+ },
+ {
+  "key": "ach.postpone_10.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 207,
+  "kind": "rs-literal",
+  "raw": "手动漂 10 次。",
+  "value": "手动漂 10 次。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.postpone_10.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 207,
+  "kind": "rs-literal",
+  "raw": "下次一定",
+  "value": "下次一定",
+  "mode": "const"
+ },
+ {
+  "key": "ach.created_100.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 206,
+  "kind": "rs-literal",
+  "raw": "建过 100 个块。",
+  "value": "建过 100 个块。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.created_100.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 206,
+  "kind": "rs-literal",
+  "raw": "块，更多的块",
+  "value": "块，更多的块",
+  "mode": "const"
+ },
+ {
+  "key": "ach.achievements.21",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 990,
+  "kind": "rs-literal",
+  "raw": "读序列失败：{e}",
+  "value": "读序列失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "ach.hours_100.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 205,
+  "kind": "rs-literal",
+  "raw": "完成时长累计 100 小时。",
+  "value": "完成时长累计 100 小时。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.hours_100.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 205,
+  "kind": "rs-literal",
+  "raw": "一百小时",
+  "value": "一百小时",
+  "mode": "const"
+ },
+ {
+  "key": "ach.achievements.20",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 984,
+  "kind": "rs-literal",
+  "raw": "读序列失败：{e}",
+  "value": "读序列失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "ach.achievements.19",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 981,
+  "kind": "rs-literal",
+  "raw": "读序列失败：{e}",
+  "value": "读序列失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "ach.done_100.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 204,
+  "kind": "rs-literal",
+  "raw": "完成 100 次。",
+  "value": "完成 100 次。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.done_100.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 204,
+  "kind": "rs-literal",
+  "raw": "百步",
+  "value": "百步",
+  "mode": "const"
+ },
+ {
+  "key": "ach.achievements.18",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 966,
+  "kind": "rs-literal",
+  "raw": "读任务失败：{e}",
+  "value": "读任务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "ach.achievements.17",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 964,
+  "kind": "rs-literal",
+  "raw": "读任务失败：{e}",
+  "value": "读任务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "ach.done_10.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 203,
+  "kind": "rs-literal",
+  "raw": "完成 10 次。",
+  "value": "完成 10 次。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.done_10.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 203,
+  "kind": "rs-literal",
+  "raw": "小有起色",
+  "value": "小有起色",
+  "mode": "const"
+ },
+ {
+  "key": "ach.achievements.16",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 953,
+  "kind": "rs-literal",
+  "raw": "读任务失败：{e}",
+  "value": "读任务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "ach.achievements.15",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 906,
+  "kind": "rs-literal",
+  "raw": "读块失败：{e}",
+  "value": "读块失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "ach.resize_first.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 201,
+  "kind": "rs-literal",
+  "raw": "第一次拖边缘拉长一块。",
+  "value": "第一次拖边缘拉长一块。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.resize_first.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 201,
+  "kind": "rs-literal",
+  "raw": "一寸长一寸强",
+  "value": "一寸长一寸强",
+  "mode": "const"
+ },
+ {
+  "key": "ach.achievements.14",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 903,
+  "kind": "rs-literal",
+  "raw": "读块失败：{e}",
+  "value": "读块失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "ach.achievements.13",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 889,
+  "kind": "rs-literal",
+  "raw": "读块失败：{e}",
+  "value": "读块失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "ach.first_merge.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 200,
+  "kind": "rs-literal",
+  "raw": "两块相接的同一件事，自己合成了一块。",
+  "value": "两块相接的同一件事，自己合成了一块。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.first_merge.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 200,
+  "kind": "rs-literal",
+  "raw": "一拍即合",
+  "value": "一拍即合",
+  "mode": "const"
+ },
+ {
+  "key": "ach.achievements.12",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 737,
+  "kind": "rs-literal",
+  "raw": "读事件失败：{e}",
+  "value": "读事件失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "ach.achievements.11",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 735,
+  "kind": "rs-literal",
+  "raw": "读事件失败：{e}",
+  "value": "读事件失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "ach.first_drift.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 199,
+  "kind": "rs-literal",
+  "raw": "第一次把没做完的块交给下一次。",
+  "value": "第一次把没做完的块交给下一次。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.first_drift.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 199,
+  "kind": "rs-literal",
+  "raw": "顺水推舟",
+  "value": "顺水推舟",
+  "mode": "const"
+ },
+ {
+  "key": "ach.achievements.10",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 725,
+  "kind": "rs-literal",
+  "raw": "读事件失败：{e}",
+  "value": "读事件失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "ach.achievements.09",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 659,
+  "kind": "rs-literal",
+  "raw": "清成就失败：{e}",
+  "value": "清成就失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "ach.first_sequence.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 198,
+  "kind": "rs-literal",
+  "raw": "第一次把两块接成一条序列。",
+  "value": "第一次把两块接成一条序列。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.first_sequence.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 198,
+  "kind": "rs-literal",
+  "raw": "藕断丝连",
+  "value": "藕断丝连",
+  "mode": "const"
+ },
+ {
+  "key": "ach.achievements.08",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 652,
+  "kind": "rs-literal",
+  "raw": "写成就失败：{e}",
+  "value": "写成就失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "ach.achievements.07",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 561,
+  "kind": "rs-literal",
+  "raw": "未知的成就信号：{signal}",
+  "value": "未知的成就信号：{signal}",
+  "mode": "format"
+ },
+ {
+  "key": "ach.first_template.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 197,
+  "kind": "rs-literal",
+  "raw": "第一次用模板铺出一周骨架。",
+  "value": "第一次用模板铺出一周骨架。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.first_template.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 197,
+  "kind": "rs-literal",
+  "raw": "按图索骥",
+  "value": "按图索骥",
+  "mode": "const"
+ },
+ {
+  "key": "ach.achievements.06",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 551,
+  "kind": "rs-literal",
+  "raw": "写成就失败：{e}",
+  "value": "写成就失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "ach.achievements.05",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 530,
+  "kind": "rs-literal",
+  "raw": "读成就失败：{e}",
+  "value": "读成就失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "ach.first_temp.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 196,
+  "kind": "rs-literal",
+  "raw": "第一次用临时安排块。",
+  "value": "第一次用临时安排块。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.first_temp.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 196,
+  "kind": "rs-literal",
+  "raw": "机会把握者",
+  "value": "机会把握者",
+  "mode": "const"
+ },
+ {
+  "key": "ach.achievements.04",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 449,
+  "kind": "rs-literal",
+  "raw": "写成就失败：{e}",
+  "value": "写成就失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "ach.achievements.03",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 435,
+  "kind": "rs-literal",
+  "raw": "读成就失败：{e}",
+  "value": "读成就失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "ach.first_done.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 195,
+  "kind": "rs-literal",
+  "raw": "第一次标下完成。",
+  "value": "第一次标下完成。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.first_done.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 195,
+  "kind": "rs-literal",
+  "raw": "第一个 ✓",
+  "value": "第一个 ✓",
+  "mode": "const"
+ },
+ {
+  "key": "ach.achievements.02",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 432,
+  "kind": "rs-literal",
+  "raw": "读成就失败：{e}",
+  "value": "读成就失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "ach.achievements.01",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 423,
+  "kind": "rs-literal",
+  "raw": "读成就失败：{e}",
+  "value": "读成就失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "ach.first_block.desc",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 194,
+  "kind": "rs-literal",
+  "raw": "第一块任务落上时间轴。",
+  "value": "第一块任务落上时间轴。",
+  "mode": "const"
+ },
+ {
+  "key": "ach.first_block.name",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 194,
+  "kind": "rs-literal",
+  "raw": "破土",
+  "value": "破土",
+  "mode": "const"
+ },
+ {
+  "key": "err.backup.24",
+  "file": "src-tauri/src/backup.rs",
+  "line": 156,
+  "kind": "rs-literal",
+  "raw": "这个备份来自更新的版本（迁移 {version} 本版不认识）—— 先把应用升级到同版本再恢复",
+  "value": "这个备份来自更新的版本（迁移 {version} 本版不认识）—— 先把应用升级到同版本再恢复",
+  "mode": "format"
+ },
+ {
+  "key": "err.backup.23",
+  "file": "src-tauri/src/backup.rs",
+  "line": 141,
+  "kind": "rs-literal",
+  "raw": "这不像 WakeyWeeky 的备份（缺少表：{}）",
+  "value": "这不像 WakeyWeeky 的备份（缺少表：{p1}）",
+  "mode": "format"
+ },
+ {
+  "key": "err.backup.22",
+  "file": "src-tauri/src/backup.rs",
+  "line": 91,
+  "kind": "rs-literal",
+  "raw": "恢复失败：{e}（已继续用旧库；待恢复文件留着，下次启动会再试）",
+  "value": "恢复失败：{e}（已继续用旧库；待恢复文件留着，下次启动会再试）",
+  "mode": "format"
+ },
+ {
+  "key": "err.backup.21",
+  "file": "src-tauri/src/backup.rs",
+  "line": 85,
+  "kind": "rs-literal",
+  "raw": "恢复失败（{e}），且旧库回位也不成：{back_err}（旧库还在 {}）",
+  "value": "恢复失败（{e}），且旧库回位也不成：{back_err}（旧库还在 {p1}）",
+  "mode": "format"
+ },
+ {
+  "key": "err.backup.20",
+  "file": "src-tauri/src/backup.rs",
+  "line": 54,
+  "kind": "rs-literal",
+  "raw": "{e}（旧库还在 {}，先别用这个应用，把它改名回 {}）",
+  "value": "{e}（旧库还在 {p1}，先别用这个应用，把它改名回 {p2}）",
+  "mode": "format"
+ },
+ {
+  "key": "err.backup.19",
+  "file": "src-tauri/src/backup.rs",
+  "line": 206,
+  "kind": "rs-literal",
+  "raw": "{what}失败（重试 {attempts} 次仍被占用）：{last}",
+  "value": "{what}失败（重试 {attempts} 次仍被占用）：{last}",
+  "mode": "format"
+ },
+ {
+  "key": "err.backup.18",
+  "file": "src-tauri/src/backup.rs",
+  "line": 187,
+  "kind": "rs-literal",
+  "raw": "打不开这个文件（不是 SQLite 库？）：{e}",
+  "value": "打不开这个文件（不是 SQLite 库？）：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.backup.17",
+  "file": "src-tauri/src/backup.rs",
+  "line": 182,
+  "kind": "rs-literal",
+  "raw": "读取备份大小失败：{e}",
+  "value": "读取备份大小失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.backup.16",
+  "file": "src-tauri/src/backup.rs",
+  "line": 178,
+  "kind": "rs-literal",
+  "raw": "刚导出的备份没通过完整性检查：{ok}",
+  "value": "刚导出的备份没通过完整性检查：{ok}",
+  "mode": "format"
+ },
+ {
+  "key": "err.backup.15",
+  "file": "src-tauri/src/backup.rs",
+  "line": 176,
+  "kind": "rs-literal",
+  "raw": "校验刚导出的备份失败：{e}",
+  "value": "校验刚导出的备份失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.backup.14",
+  "file": "src-tauri/src/backup.rs",
+  "line": 167,
+  "kind": "rs-literal",
+  "raw": "生成备份失败：{e}（目标位置不可写？移动盘 / 网盘请换个位置）",
+  "value": "生成备份失败：{e}（目标位置不可写？移动盘 / 网盘请换个位置）",
+  "mode": "format"
+ },
+ {
+  "key": "err.backup.13",
+  "file": "src-tauri/src/backup.rs",
+  "line": 165,
+  "kind": "rs-literal",
+  "raw": "目标路径含非法字符",
+  "value": "目标路径含非法字符",
+  "mode": "simple"
+ },
+ {
+  "key": "err.backup.12",
+  "file": "src-tauri/src/backup.rs",
+  "line": 151,
+  "kind": "rs-literal",
+  "raw": "读取备份的迁移记录失败：{e}",
+  "value": "读取备份的迁移记录失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.backup.11",
+  "file": "src-tauri/src/backup.rs",
+  "line": 149,
+  "kind": "rs-literal",
+  "raw": "读取备份的迁移记录失败：{e}",
+  "value": "读取备份的迁移记录失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.backup.10",
+  "file": "src-tauri/src/backup.rs",
+  "line": 146,
+  "kind": "rs-literal",
+  "raw": "读取备份的迁移记录失败：{e}",
+  "value": "读取备份的迁移记录失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.backup.09",
+  "file": "src-tauri/src/backup.rs",
+  "line": 132,
+  "kind": "rs-literal",
+  "raw": "检查备份的表失败：{e}",
+  "value": "检查备份的表失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.backup.08",
+  "file": "src-tauri/src/backup.rs",
+  "line": 122,
+  "kind": "rs-literal",
+  "raw": "这个备份没通过完整性检查：{ok}",
+  "value": "这个备份没通过完整性检查：{ok}",
+  "mode": "format"
+ },
+ {
+  "key": "err.backup.07",
+  "file": "src-tauri/src/backup.rs",
+  "line": 120,
+  "kind": "rs-literal",
+  "raw": "打不开这个文件（不是 SQLite 数据库？）：{e}",
+  "value": "打不开这个文件（不是 SQLite 数据库？）：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.backup.06",
+  "file": "src-tauri/src/backup.rs",
+  "line": 115,
+  "kind": "rs-literal",
+  "raw": "这个路径不是文件",
+  "value": "这个路径不是文件",
+  "mode": "simple"
+ },
+ {
+  "key": "err.backup.05",
+  "file": "src-tauri/src/backup.rs",
+  "line": 79,
+  "kind": "rs-literal",
+  "raw": "拷贝回旧库也失败：{e}",
+  "value": "拷贝回旧库也失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.backup.04",
+  "file": "src-tauri/src/backup.rs",
+  "line": 76,
+  "kind": "rs-literal",
+  "raw": "旧库回位",
+  "value": "旧库回位",
+  "mode": "simple"
+ },
+ {
+  "key": "err.backup.03",
+  "file": "src-tauri/src/backup.rs",
+  "line": 74,
+  "kind": "rs-literal",
+  "raw": "新库就位",
+  "value": "新库就位",
+  "mode": "simple"
+ },
+ {
+  "key": "err.backup.02",
+  "file": "src-tauri/src/backup.rs",
+  "line": 70,
+  "kind": "rs-literal",
+  "raw": "旧库让位",
+  "value": "旧库让位",
+  "mode": "simple"
+ },
+ {
+  "key": "err.backup.01",
+  "file": "src-tauri/src/backup.rs",
+  "line": 50,
+  "kind": "rs-literal",
+  "raw": "旧库回位",
+  "value": "旧库回位",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_achievements.02",
+  "file": "src-tauri/src/commands/achievements.rs",
+  "line": 36,
+  "kind": "rs-literal",
+  "raw": "只有 debug 构建能清空",
+  "value": "只有 debug 构建能清空",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_achievements.01",
+  "file": "src-tauri/src/commands/achievements.rs",
+  "line": 27,
+  "kind": "rs-literal",
+  "raw": "只有 debug 构建能全解锁",
+  "value": "只有 debug 构建能全解锁",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_backup.06",
+  "file": "src-tauri/src/commands/backup.rs",
+  "line": 100,
+  "kind": "rs-literal",
+  "raw": "复制备份文件失败：{e}",
+  "value": "复制备份文件失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.cmd_backup.05",
+  "file": "src-tauri/src/commands/backup.rs",
+  "line": 98,
+  "kind": "rs-literal",
+  "raw": "清理上次的待恢复文件失败：{e}",
+  "value": "清理上次的待恢复文件失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.cmd_backup.04",
+  "file": "src-tauri/src/commands/backup.rs",
+  "line": 91,
+  "kind": "rs-literal",
+  "raw": "清理旧的恢复前副本失败：{e}",
+  "value": "清理旧的恢复前副本失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.cmd_backup.03",
+  "file": "src-tauri/src/commands/backup.rs",
+  "line": 84,
+  "kind": "rs-literal",
+  "raw": "选中的就是当前数据库本身，无需恢复",
+  "value": "选中的就是当前数据库本身，无需恢复",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_backup.02",
+  "file": "src-tauri/src/commands/backup.rs",
+  "line": 62,
+  "kind": "rs-literal",
+  "raw": "目标文件已存在，且删不掉：{e}",
+  "value": "目标文件已存在，且删不掉：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.cmd_backup.01",
+  "file": "src-tauri/src/commands/backup.rs",
+  "line": 59,
+  "kind": "rs-literal",
+  "raw": "目标位置是当前数据库本身 —— 请换一个地方",
+  "value": "目标位置是当前数据库本身 —— 请换一个地方",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_blocks.26",
+  "file": "src-tauri/src/commands/blocks.rs",
+  "line": 416,
+  "kind": "rs-literal",
+  "raw": "漂流换时段",
+  "value": "漂流换时段",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_blocks.25",
+  "file": "src-tauri/src/commands/blocks.rs",
+  "line": 351,
+  "kind": "rs-literal",
+  "raw": "提交复制失败：{e}",
+  "value": "提交复制失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.cmd_blocks.24",
+  "file": "src-tauri/src/commands/blocks.rs",
+  "line": 327,
+  "kind": "rs-literal",
+  "raw": "开启复制事务失败：{e}",
+  "value": "开启复制事务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.cmd_blocks.23",
+  "file": "src-tauri/src/commands/blocks.rs",
+  "line": 324,
+  "kind": "rs-literal",
+  "raw": "复制块",
+  "value": "复制块",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_blocks.22",
+  "file": "src-tauri/src/commands/blocks.rs",
+  "line": 322,
+  "kind": "rs-literal",
+  "raw": "没有要复制的块",
+  "value": "没有要复制的块",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_blocks.21",
+  "file": "src-tauri/src/commands/blocks.rs",
+  "line": 271,
+  "kind": "rs-literal",
+  "raw": "切换层级",
+  "value": "切换层级",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_blocks.20",
+  "file": "src-tauri/src/commands/blocks.rs",
+  "line": 244,
+  "kind": "rs-literal",
+  "raw": "移动块",
+  "value": "移动块",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_blocks.19",
+  "file": "src-tauri/src/commands/blocks.rs",
+  "line": 218,
+  "kind": "rs-literal",
+  "raw": "标记未完成",
+  "value": "标记未完成",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_blocks.18",
+  "file": "src-tauri/src/commands/blocks.rs",
+  "line": 218,
+  "kind": "rs-literal",
+  "raw": "标记完成",
+  "value": "标记完成",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_blocks.17",
+  "file": "src-tauri/src/commands/blocks.rs",
+  "line": 191,
+  "kind": "rs-literal",
+  "raw": "删除块",
+  "value": "删除块",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_blocks.16",
+  "file": "src-tauri/src/commands/blocks.rs",
+  "line": 167,
+  "kind": "rs-literal",
+  "raw": "标记未完成",
+  "value": "标记未完成",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_blocks.15",
+  "file": "src-tauri/src/commands/blocks.rs",
+  "line": 154,
+  "kind": "rs-literal",
+  "raw": "标记完成",
+  "value": "标记完成",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_blocks.14",
+  "file": "src-tauri/src/commands/blocks.rs",
+  "line": 142,
+  "kind": "rs-literal",
+  "raw": "删除块",
+  "value": "删除块",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_blocks.13",
+  "file": "src-tauri/src/commands/blocks.rs",
+  "line": 123,
+  "kind": "rs-literal",
+  "raw": "新建块",
+  "value": "新建块",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_blocks.12",
+  "file": "src-tauri/src/commands/blocks.rs",
+  "line": 102,
+  "kind": "rs-literal",
+  "raw": "新建临时块",
+  "value": "新建临时块",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_blocks.11",
+  "file": "src-tauri/src/commands/blocks.rs",
+  "line": 65,
+  "kind": "rs-literal",
+  "raw": "调整块",
+  "value": "调整块",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_blocks.10",
+  "file": "src-tauri/src/commands/blocks.rs",
+  "line": 64,
+  "kind": "rs-literal",
+  "raw": "改块名",
+  "value": "改块名",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_blocks.09",
+  "file": "src-tauri/src/commands/blocks.rs",
+  "line": 63,
+  "kind": "rs-literal",
+  "raw": "移动块",
+  "value": "移动块",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_blocks.08",
+  "file": "src-tauri/src/commands/blocks.rs",
+  "line": 62,
+  "kind": "rs-literal",
+  "raw": "拉伸块",
+  "value": "拉伸块",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_blocks.07",
+  "file": "src-tauri/src/commands/blocks.rs",
+  "line": 61,
+  "kind": "rs-literal",
+  "raw": "切换层级",
+  "value": "切换层级",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_blocks.06",
+  "file": "src-tauri/src/commands/blocks.rs",
+  "line": 47,
+  "kind": "rs-literal",
+  "raw": "计入理智",
+  "value": "计入理智",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_blocks.05",
+  "file": "src-tauri/src/commands/blocks.rs",
+  "line": 47,
+  "kind": "rs-literal",
+  "raw": "不计入理智",
+  "value": "不计入理智",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_blocks.04",
+  "file": "src-tauri/src/commands/blocks.rs",
+  "line": 35,
+  "kind": "rs-literal",
+  "raw": "；",
+  "value": "；",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_blocks.03",
+  "file": "src-tauri/src/commands/blocks.rs",
+  "line": 30,
+  "kind": "rs-literal",
+  "raw": "摘掉 {unlinked} 条不该在同一序列里的漂流链成员",
+  "value": "摘掉 {unlinked} 条不该在同一序列里的漂流链成员",
+  "mode": "format"
+ },
+ {
+  "key": "err.cmd_blocks.02",
+  "file": "src-tauri/src/commands/blocks.rs",
+  "line": 27,
+  "kind": "rs-literal",
+  "raw": "已合并 {merged} 处重复的同任务块",
+  "value": "已合并 {merged} 处重复的同任务块",
+  "mode": "format"
+ },
+ {
+  "key": "err.cmd_blocks.01",
+  "file": "src-tauri/src/commands/blocks.rs",
+  "line": 16,
+  "kind": "rs-literal",
+  "raw": "整理重复块与序列",
+  "value": "整理重复块与序列",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_calendar.02",
+  "file": "src-tauri/src/commands/calendar.rs",
+  "line": 34,
+  "kind": "rs-literal",
+  "raw": "写入失败：{e}",
+  "value": "写入失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.cmd_calendar.01",
+  "file": "src-tauri/src/commands/calendar.rs",
+  "line": 29,
+  "kind": "rs-literal",
+  "raw": "请选择一个保存位置",
+  "value": "请选择一个保存位置",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_history.03",
+  "file": "src-tauri/src/commands/history.rs",
+  "line": 204,
+  "kind": "rs-literal",
+  "raw": "没有可重做的操作",
+  "value": "没有可重做的操作",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_history.02",
+  "file": "src-tauri/src/commands/history.rs",
+  "line": 181,
+  "kind": "rs-literal",
+  "raw": "删除块",
+  "value": "删除块",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_history.01",
+  "file": "src-tauri/src/commands/history.rs",
+  "line": 151,
+  "kind": "rs-literal",
+  "raw": "没有可撤销的操作",
+  "value": "没有可撤销的操作",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_portable.10",
+  "file": "src-tauri/src/commands/portable.rs",
+  "line": 117,
+  "kind": "rs-literal",
+  "raw": "另一边那份打不开：{}（没有拿它覆盖任何东西）",
+  "value": "另一边那份打不开：{p1}（没有拿它覆盖任何东西）",
+  "mode": "format"
+ },
+ {
+  "key": "err.cmd_portable.09",
+  "file": "src-tauri/src/commands/portable.rs",
+  "line": 134,
+  "kind": "rs-literal",
+  "raw": "{e}；另外撤掉便携开关也失败：{back}",
+  "value": "{e}；另外撤掉便携开关也失败：{back}",
+  "mode": "format"
+ },
+ {
+  "key": "err.cmd_portable.08",
+  "file": "src-tauri/src/commands/portable.rs",
+  "line": 112,
+  "kind": "rs-literal",
+  "raw": "另一边还没有数据 —— 用「复制过去并启用」即可",
+  "value": "另一边还没有数据 —— 用「复制过去并启用」即可",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_portable.07",
+  "file": "src-tauri/src/commands/portable.rs",
+  "line": 95,
+  "kind": "rs-literal",
+  "raw": "不认识的选择：{pick}",
+  "value": "不认识的选择：{pick}",
+  "mode": "format"
+ },
+ {
+  "key": "err.cmd_portable.06",
+  "file": "src-tauri/src/commands/portable.rs",
+  "line": 90,
+  "kind": "rs-literal",
+  "raw": "这个位置不能开便携（exe 所在目录不可写）—— 把应用整个文件夹拷到一个你能写的位置再开",
+  "value": "这个位置不能开便携（exe 所在目录不可写）—— 把应用整个文件夹拷到一个你能写的位置再开",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_portable.05",
+  "file": "src-tauri/src/commands/portable.rs",
+  "line": 84,
+  "kind": "rs-literal",
+  "raw": "便携模式当前不可用（目录写不进去）—— 先换一个可写的位置再试",
+  "value": "便携模式当前不可用（目录写不进去）—— 先换一个可写的位置再试",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_portable.04",
+  "file": "src-tauri/src/commands/portable.rs",
+  "line": 61,
+  "kind": "rs-literal",
+  "raw": "便携（exe\\data\\）",
+  "value": "便携（exe\\data\\）",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_portable.03",
+  "file": "src-tauri/src/commands/portable.rs",
+  "line": 61,
+  "kind": "rs-literal",
+  "raw": "默认位置",
+  "value": "默认位置",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_portable.02",
+  "file": "src-tauri/src/commands/portable.rs",
+  "line": 59,
+  "kind": "rs-literal",
+  "raw": "默认位置",
+  "value": "默认位置",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_portable.01",
+  "file": "src-tauri/src/commands/portable.rs",
+  "line": 59,
+  "kind": "rs-literal",
+  "raw": "便携（exe\\data\\）",
+  "value": "便携（exe\\data\\）",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_repeats.05",
+  "file": "src-tauri/src/commands/repeats.rs",
+  "line": 98,
+  "kind": "rs-literal",
+  "raw": "每周重复排入",
+  "value": "每周重复排入",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_repeats.04",
+  "file": "src-tauri/src/commands/repeats.rs",
+  "line": 78,
+  "kind": "rs-literal",
+  "raw": "删除每周重复",
+  "value": "删除每周重复",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_repeats.03",
+  "file": "src-tauri/src/commands/repeats.rs",
+  "line": 66,
+  "kind": "rs-literal",
+  "raw": "暂停每周重复",
+  "value": "暂停每周重复",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_repeats.02",
+  "file": "src-tauri/src/commands/repeats.rs",
+  "line": 66,
+  "kind": "rs-literal",
+  "raw": "启用每周重复",
+  "value": "启用每周重复",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_repeats.01",
+  "file": "src-tauri/src/commands/repeats.rs",
+  "line": 45,
+  "kind": "rs-literal",
+  "raw": "添加每周重复",
+  "value": "添加每周重复",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_sequences.04",
+  "file": "src-tauri/src/commands/sequences.rs",
+  "line": 69,
+  "kind": "rs-literal",
+  "raw": "删除序列",
+  "value": "删除序列",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_sequences.03",
+  "file": "src-tauri/src/commands/sequences.rs",
+  "line": 55,
+  "kind": "rs-literal",
+  "raw": "从序列里取出",
+  "value": "从序列里取出",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_sequences.02",
+  "file": "src-tauri/src/commands/sequences.rs",
+  "line": 40,
+  "kind": "rs-literal",
+  "raw": "接进序列",
+  "value": "接进序列",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_sequences.01",
+  "file": "src-tauri/src/commands/sequences.rs",
+  "line": 23,
+  "kind": "rs-literal",
+  "raw": "新建序列",
+  "value": "新建序列",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_settings.23",
+  "file": "src-tauri/src/commands/settings.rs",
+  "line": 353,
+  "kind": "rs-literal",
+  "raw": "提前档位只支持 {} 分钟",
+  "value": "提前档位只支持 {p1} 分钟",
+  "mode": "format"
+ },
+ {
+  "key": "err.cmd_settings.22",
+  "file": "src-tauri/src/commands/settings.rs",
+  "line": 317,
+  "kind": "rs-literal",
+  "raw": "栏宽要在 {}–{} 像素之间",
+  "value": "栏宽要在 {p1}–{p2} 像素之间",
+  "mode": "format"
+ },
+ {
+  "key": "err.cmd_settings.21",
+  "file": "src-tauri/src/commands/settings.rs",
+  "line": 279,
+  "kind": "rs-literal",
+  "raw": "每日预算要在 {}–{} 分钟之间",
+  "value": "每日预算要在 {p1}–{p2} 分钟之间",
+  "mode": "format"
+ },
+ {
+  "key": "err.cmd_settings.20",
+  "file": "src-tauri/src/commands/settings.rs",
+  "line": 391,
+  "kind": "rs-literal",
+  "raw": "设置项不存在：{key}",
+  "value": "设置项不存在：{key}",
+  "mode": "format"
+ },
+ {
+  "key": "err.cmd_settings.19",
+  "file": "src-tauri/src/commands/settings.rs",
+  "line": 389,
+  "kind": "rs-literal",
+  "raw": "模板建议得写成 {\"enabled\":true,\"days\":1..365,\"done\":0..1000}",
+  "value": "模板建议得写成 {\"enabled\":true,\"days\":1..365,\"done\":0..1000}",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_settings.18",
+  "file": "src-tauri/src/commands/settings.rs",
+  "line": 383,
+  "kind": "rs-literal",
+  "raw": "键位提示栏只认 always / hidden",
+  "value": "键位提示栏只认 always / hidden",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_settings.17",
+  "file": "src-tauri/src/commands/settings.rs",
+  "line": 377,
+  "kind": "rs-literal",
+  "raw": "任务栏形态只认 open / rail",
+  "value": "任务栏形态只认 open / rail",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_settings.16",
+  "file": "src-tauri/src/commands/settings.rs",
+  "line": 372,
+  "kind": "rs-literal",
+  "raw": "收起的分类得是 JSON 字符串数组",
+  "value": "收起的分类得是 JSON 字符串数组",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_settings.15",
+  "file": "src-tauri/src/commands/settings.rs",
+  "line": 367,
+  "kind": "rs-literal",
+  "raw": "这个开关只认 0 或 1",
+  "value": "这个开关只认 0 或 1",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_settings.14",
+  "file": "src-tauri/src/commands/settings.rs",
+  "line": 363,
+  "kind": "rs-literal",
+  "raw": "筛选得写成 {\"kind\":\"all\"|\"uncat\"|\"cat\",\"name\"}",
+  "value": "筛选得写成 {\"kind\":\"all\"|\"uncat\"|\"cat\",\"name\"}",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_settings.13",
+  "file": "src-tauri/src/commands/settings.rs",
+  "line": 348,
+  "kind": "rs-literal",
+  "raw": "提前分钟数得是整数",
+  "value": "提前分钟数得是整数",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_settings.12",
+  "file": "src-tauri/src/commands/settings.rs",
+  "line": 341,
+  "kind": "rs-literal",
+  "raw": "「明早」的时刻得写成 HH:MM（比如 08:00）",
+  "value": "「明早」的时刻得写成 HH:MM（比如 08:00）",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_settings.11",
+  "file": "src-tauri/src/commands/settings.rs",
+  "line": 327,
+  "kind": "rs-literal",
+  "raw": "免打扰截止时刻不能是负数（0 = 取消静音）",
+  "value": "免打扰截止时刻不能是负数（0 = 取消静音）",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_settings.10",
+  "file": "src-tauri/src/commands/settings.rs",
+  "line": 325,
+  "kind": "rs-literal",
+  "raw": "免打扰截止时刻得是整数（Unix 秒）",
+  "value": "免打扰截止时刻得是整数（Unix 秒）",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_settings.09",
+  "file": "src-tauri/src/commands/settings.rs",
+  "line": 312,
+  "kind": "rs-literal",
+  "raw": "栏宽得是个整数（像素）",
+  "value": "栏宽得是个整数（像素）",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_settings.08",
+  "file": "src-tauri/src/commands/settings.rs",
+  "line": 308,
+  "kind": "rs-literal",
+  "raw": "提醒时刻得写成「sun 20:00」或「mon 09:00」",
+  "value": "提醒时刻得写成「sun 20:00」或「mon 09:00」",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_settings.07",
+  "file": "src-tauri/src/commands/settings.rs",
+  "line": 302,
+  "kind": "rs-literal",
+  "raw": "到点时的动作只认 open / hint / off",
+  "value": "到点时的动作只认 open / hint / off",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_settings.06",
+  "file": "src-tauri/src/commands/settings.rs",
+  "line": 296,
+  "kind": "rs-literal",
+  "raw": "这个开关只认 0 或 1",
+  "value": "这个开关只认 0 或 1",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_settings.04",
+  "file": "src-tauri/src/commands/settings.rs",
+  "line": 286,
+  "kind": "rs-literal",
+  "raw": "这个开关只认 0 或 1",
+  "value": "这个开关只认 0 或 1",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_settings.03",
+  "file": "src-tauri/src/commands/settings.rs",
+  "line": 274,
+  "kind": "rs-literal",
+  "raw": "每日预算得是个整数（分钟）",
+  "value": "每日预算得是个整数（分钟）",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_settings.02",
+  "file": "src-tauri/src/commands/settings.rs",
+  "line": 266,
+  "kind": "rs-literal",
+  "raw": "这个开关只认 0 或 1",
+  "value": "这个开关只认 0 或 1",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_settings.01",
+  "file": "src-tauri/src/commands/settings.rs",
+  "line": 260,
+  "kind": "rs-literal",
+  "raw": "设置项不存在：{key}",
+  "value": "设置项不存在：{key}",
+  "mode": "format"
+ },
+ {
+  "key": "err.cmd_tasks.10",
+  "file": "src-tauri/src/commands/tasks.rs",
+  "line": 140,
+  "kind": "rs-literal",
+  "raw": "删除任务",
+  "value": "删除任务",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_tasks.09",
+  "file": "src-tauri/src/commands/tasks.rs",
+  "line": 134,
+  "kind": "rs-literal",
+  "raw": "改分类",
+  "value": "改分类",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_tasks.08",
+  "file": "src-tauri/src/commands/tasks.rs",
+  "line": 111,
+  "kind": "rs-literal",
+  "raw": "恢复归档",
+  "value": "恢复归档",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_tasks.07",
+  "file": "src-tauri/src/commands/tasks.rs",
+  "line": 101,
+  "kind": "rs-literal",
+  "raw": "归档任务",
+  "value": "归档任务",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_tasks.06",
+  "file": "src-tauri/src/commands/tasks.rs",
+  "line": 95,
+  "kind": "rs-literal",
+  "raw": "调整顺序",
+  "value": "调整顺序",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_tasks.05",
+  "file": "src-tauri/src/commands/tasks.rs",
+  "line": 77,
+  "kind": "rs-literal",
+  "raw": "计入理智",
+  "value": "计入理智",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_tasks.04",
+  "file": "src-tauri/src/commands/tasks.rs",
+  "line": 77,
+  "kind": "rs-literal",
+  "raw": "不计入理智",
+  "value": "不计入理智",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_tasks.03",
+  "file": "src-tauri/src/commands/tasks.rs",
+  "line": 57,
+  "kind": "rs-literal",
+  "raw": "改任务设置",
+  "value": "改任务设置",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_tasks.02",
+  "file": "src-tauri/src/commands/tasks.rs",
+  "line": 41,
+  "kind": "rs-literal",
+  "raw": "改任务名",
+  "value": "改任务名",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_tasks.01",
+  "file": "src-tauri/src/commands/tasks.rs",
+  "line": 30,
+  "kind": "rs-literal",
+  "raw": "新建任务",
+  "value": "新建任务",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_templates.03",
+  "file": "src-tauri/src/commands/templates.rs",
+  "line": 93,
+  "kind": "rs-literal",
+  "raw": "套用模板",
+  "value": "套用模板",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_templates.02",
+  "file": "src-tauri/src/commands/templates.rs",
+  "line": 85,
+  "kind": "rs-literal",
+  "raw": "删除模板",
+  "value": "删除模板",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_templates.01",
+  "file": "src-tauri/src/commands/templates.rs",
+  "line": 81,
+  "kind": "rs-literal",
+  "raw": "保存模板",
+  "value": "保存模板",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_tray.01",
+  "file": "src-tauri/src/commands/tray.rs",
+  "line": 17,
+  "kind": "rs-literal",
+  "raw": "未知的托盘状态：{state}",
+  "value": "未知的托盘状态：{state}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.209",
+  "file": "src-tauri/src/db.rs",
+  "line": 2295,
+  "kind": "rs-literal",
+  "raw": "漂流子分支过深（超过 {MAX_CHAIN_DEPTH} 级），疑似数据异常",
+  "value": "漂流子分支过深（超过 {MAX_CHAIN_DEPTH} 级），疑似数据异常",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.208",
+  "file": "src-tauri/src/db.rs",
+  "line": 2282,
+  "kind": "rs-literal",
+  "raw": "漂流链过长或存在环（超过 {MAX_CHAIN_DEPTH} 级），疑似数据异常",
+  "value": "漂流链过长或存在环（超过 {MAX_CHAIN_DEPTH} 级），疑似数据异常",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.207",
+  "file": "src-tauri/src/db.rs",
+  "line": 2844,
+  "kind": "rs-literal",
+  "raw": "查询任务块失败：{e}",
+  "value": "查询任务块失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.206",
+  "file": "src-tauri/src/db.rs",
+  "line": 2803,
+  "kind": "rs-literal",
+  "raw": "提交批量改层失败：{e}",
+  "value": "提交批量改层失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.205",
+  "file": "src-tauri/src/db.rs",
+  "line": 2781,
+  "kind": "rs-literal",
+  "raw": "开启批量改层事务失败：{e}",
+  "value": "开启批量改层事务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.204",
+  "file": "src-tauri/src/db.rs",
+  "line": 2777,
+  "kind": "rs-literal",
+  "raw": "层级不合法：只支持 required / elastic",
+  "value": "层级不合法：只支持 required / elastic",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.203",
+  "file": "src-tauri/src/db.rs",
+  "line": 2765,
+  "kind": "rs-literal",
+  "raw": "提交批量移动失败：{e}",
+  "value": "提交批量移动失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.202",
+  "file": "src-tauri/src/db.rs",
+  "line": 2718,
+  "kind": "rs-literal",
+  "raw": "开启批量移动事务失败：{e}",
+  "value": "开启批量移动事务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.201",
+  "file": "src-tauri/src/db.rs",
+  "line": 2646,
+  "kind": "rs-literal",
+  "raw": "不能把它排到链上前一环之前 —— 那会让顺序立刻乱掉；要调整请先挪前一环，或解除链接",
+  "value": "不能把它排到链上前一环之前 —— 那会让顺序立刻乱掉；要调整请先挪前一环，或解除链接",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.200",
+  "file": "src-tauri/src/db.rs",
+  "line": 2630,
+  "kind": "rs-literal",
+  "raw": "新时段超出合理范围",
+  "value": "新时段超出合理范围",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.199",
+  "file": "src-tauri/src/db.rs",
+  "line": 2626,
+  "kind": "rs-literal",
+  "raw": "新时段超出合理范围",
+  "value": "新时段超出合理范围",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.198",
+  "file": "src-tauri/src/db.rs",
+  "line": 2615,
+  "kind": "rs-literal",
+  "raw": "任务块不存在",
+  "value": "任务块不存在",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.197",
+  "file": "src-tauri/src/db.rs",
+  "line": 2614,
+  "kind": "rs-literal",
+  "raw": "保存块名失败：{e}",
+  "value": "保存块名失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.196",
+  "file": "src-tauri/src/db.rs",
+  "line": 2607,
+  "kind": "rs-literal",
+  "raw": "块名过长（最多 {MAX_TITLE_CHARS} 个字符）",
+  "value": "块名过长（最多 {MAX_TITLE_CHARS} 个字符）",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.195",
+  "file": "src-tauri/src/db.rs",
+  "line": 2596,
+  "kind": "rs-literal",
+  "raw": "任务块不存在",
+  "value": "任务块不存在",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.194",
+  "file": "src-tauri/src/db.rs",
+  "line": 2555,
+  "kind": "rs-literal",
+  "raw": "顺延后时段超出合理范围",
+  "value": "顺延后时段超出合理范围",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.193",
+  "file": "src-tauri/src/db.rs",
+  "line": 2489,
+  "kind": "rs-literal",
+  "raw": "读取前一环失败：{e}",
+  "value": "读取前一环失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.192",
+  "file": "src-tauri/src/db.rs",
+  "line": 2487,
+  "kind": "rs-literal",
+  "raw": "查询前一环失败：{e}",
+  "value": "查询前一环失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.191",
+  "file": "src-tauri/src/db.rs",
+  "line": 2484,
+  "kind": "rs-literal",
+  "raw": "准备查询前一环失败：{e}",
+  "value": "准备查询前一环失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.190",
+  "file": "src-tauri/src/db.rs",
+  "line": 2469,
+  "kind": "rs-literal",
+  "raw": "查询前一环失败：{e}",
+  "value": "查询前一环失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.189",
+  "file": "src-tauri/src/db.rs",
+  "line": 2430,
+  "kind": "rs-literal",
+  "raw": "不能把它漂到链上前一环之前 —— 那会让顺序立刻乱掉；要调整请先挪前一环，或解除链接",
+  "value": "不能把它漂到链上前一环之前 —— 那会让顺序立刻乱掉；要调整请先挪前一环，或解除链接",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.188",
+  "file": "src-tauri/src/db.rs",
+  "line": 2407,
+  "kind": "rs-literal",
+  "raw": "任务块不存在",
+  "value": "任务块不存在",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.187",
+  "file": "src-tauri/src/db.rs",
+  "line": 2405,
+  "kind": "rs-literal",
+  "raw": "继承块名失败：{e}",
+  "value": "继承块名失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.186",
+  "file": "src-tauri/src/db.rs",
+  "line": 2394,
+  "kind": "rs-literal",
+  "raw": "记录后续块来源失败：{e}",
+  "value": "记录后续块来源失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.185",
+  "file": "src-tauri/src/db.rs",
+  "line": 2375,
+  "kind": "rs-literal",
+  "raw": "新时段超出合理范围",
+  "value": "新时段超出合理范围",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.184",
+  "file": "src-tauri/src/db.rs",
+  "line": 2369,
+  "kind": "rs-literal",
+  "raw": "任务块不存在",
+  "value": "任务块不存在",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.183",
+  "file": "src-tauri/src/db.rs",
+  "line": 2355,
+  "kind": "rs-literal",
+  "raw": "统计块数失败：{e}",
+  "value": "统计块数失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.182",
+  "file": "src-tauri/src/db.rs",
+  "line": 2311,
+  "kind": "rs-literal",
+  "raw": "读取子分支失败：{e}",
+  "value": "读取子分支失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.181",
+  "file": "src-tauri/src/db.rs",
+  "line": 2307,
+  "kind": "rs-literal",
+  "raw": "查询子分支失败：{e}",
+  "value": "查询子分支失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.180",
+  "file": "src-tauri/src/db.rs",
+  "line": 2304,
+  "kind": "rs-literal",
+  "raw": "查询子分支失败：{e}",
+  "value": "查询子分支失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.179",
+  "file": "src-tauri/src/db.rs",
+  "line": 2266,
+  "kind": "rs-literal",
+  "raw": "查询后续块失败：{e}",
+  "value": "查询后续块失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.178",
+  "file": "src-tauri/src/db.rs",
+  "line": 2193,
+  "kind": "rs-literal",
+  "raw": "读融合候选失败：{e}",
+  "value": "读融合候选失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.177",
+  "file": "src-tauri/src/db.rs",
+  "line": 2191,
+  "kind": "rs-literal",
+  "raw": "查融合候选失败：{e}",
+  "value": "查融合候选失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.176",
+  "file": "src-tauri/src/db.rs",
+  "line": 2185,
+  "kind": "rs-literal",
+  "raw": "查融合候选失败：{e}",
+  "value": "查融合候选失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.175",
+  "file": "src-tauri/src/db.rs",
+  "line": 2157,
+  "kind": "rs-literal",
+  "raw": "融合清理失败：{e}",
+  "value": "融合清理失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.174",
+  "file": "src-tauri/src/db.rs",
+  "line": 2155,
+  "kind": "rs-literal",
+  "raw": "融合写回失败：{e}",
+  "value": "融合写回失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.173",
+  "file": "src-tauri/src/db.rs",
+  "line": 2093,
+  "kind": "rs-literal",
+  "raw": "查待融合块失败：{e}",
+  "value": "查待融合块失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.172",
+  "file": "src-tauri/src/db.rs",
+  "line": 2072,
+  "kind": "rs-literal",
+  "raw": "查成员失败：{e}",
+  "value": "查成员失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.171",
+  "file": "src-tauri/src/db.rs",
+  "line": 2052,
+  "kind": "rs-literal",
+  "raw": "查序列成员失败：{e}",
+  "value": "查序列成员失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.170",
+  "file": "src-tauri/src/db.rs",
+  "line": 2035,
+  "kind": "rs-literal",
+  "raw": "摘除非法序列成员失败：{e}",
+  "value": "摘除非法序列成员失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.169",
+  "file": "src-tauri/src/db.rs",
+  "line": 2025,
+  "kind": "rs-literal",
+  "raw": "查环号失败：{e}",
+  "value": "查环号失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.168",
+  "file": "src-tauri/src/db.rs",
+  "line": 2010,
+  "kind": "rs-literal",
+  "raw": "查序列成员失败：{e}",
+  "value": "查序列成员失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.167",
+  "file": "src-tauri/src/db.rs",
+  "line": 1945,
+  "kind": "rs-literal",
+  "raw": "记录事件失败：{e}",
+  "value": "记录事件失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.166",
+  "file": "src-tauri/src/db.rs",
+  "line": 1922,
+  "kind": "rs-literal",
+  "raw": "任务块不存在",
+  "value": "任务块不存在",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.165",
+  "file": "src-tauri/src/db.rs",
+  "line": 1921,
+  "kind": "rs-literal",
+  "raw": "重置提醒状态失败：{e}",
+  "value": "重置提醒状态失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.164",
+  "file": "src-tauri/src/db.rs",
+  "line": 1912,
+  "kind": "rs-literal",
+  "raw": "任务块不存在",
+  "value": "任务块不存在",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.163",
+  "file": "src-tauri/src/db.rs",
+  "line": 1910,
+  "kind": "rs-literal",
+  "raw": "更新任务块层级失败：{e}",
+  "value": "更新任务块层级失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.162",
+  "file": "src-tauri/src/db.rs",
+  "line": 1905,
+  "kind": "rs-literal",
+  "raw": "任务块不存在",
+  "value": "任务块不存在",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.161",
+  "file": "src-tauri/src/db.rs",
+  "line": 1902,
+  "kind": "rs-literal",
+  "raw": "层级不合法：只支持 required / elastic",
+  "value": "层级不合法：只支持 required / elastic",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.160",
+  "file": "src-tauri/src/db.rs",
+  "line": 1892,
+  "kind": "rs-literal",
+  "raw": "提交批量标记失败：{e}",
+  "value": "提交批量标记失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.159",
+  "file": "src-tauri/src/db.rs",
+  "line": 1880,
+  "kind": "rs-literal",
+  "raw": "开启批量标记事务失败：{e}",
+  "value": "开启批量标记事务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.158",
+  "file": "src-tauri/src/db.rs",
+  "line": 1875,
+  "kind": "rs-literal",
+  "raw": "状态不合法：只支持 done / missed",
+  "value": "状态不合法：只支持 done / missed",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.157",
+  "file": "src-tauri/src/db.rs",
+  "line": 1864,
+  "kind": "rs-literal",
+  "raw": "任务块不存在",
+  "value": "任务块不存在",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.156",
+  "file": "src-tauri/src/db.rs",
+  "line": 1846,
+  "kind": "rs-literal",
+  "raw": "更新任务块状态失败：{e}",
+  "value": "更新任务块状态失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.155",
+  "file": "src-tauri/src/db.rs",
+  "line": 1829,
+  "kind": "rs-literal",
+  "raw": "任务块不存在",
+  "value": "任务块不存在",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.154",
+  "file": "src-tauri/src/db.rs",
+  "line": 1811,
+  "kind": "rs-literal",
+  "raw": "写入提醒水位线失败：{e}",
+  "value": "写入提醒水位线失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.153",
+  "file": "src-tauri/src/db.rs",
+  "line": 1732,
+  "kind": "rs-literal",
+  "raw": "读取序列失败：{e}",
+  "value": "读取序列失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.152",
+  "file": "src-tauri/src/db.rs",
+  "line": 1730,
+  "kind": "rs-literal",
+  "raw": "查询序列失败：{e}",
+  "value": "查询序列失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.151",
+  "file": "src-tauri/src/db.rs",
+  "line": 1725,
+  "kind": "rs-literal",
+  "raw": "准备查询序列失败：{e}",
+  "value": "准备查询序列失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.150",
+  "file": "src-tauri/src/db.rs",
+  "line": 1711,
+  "kind": "rs-literal",
+  "raw": "删除序列失败：{e}",
+  "value": "删除序列失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.149",
+  "file": "src-tauri/src/db.rs",
+  "line": 1704,
+  "kind": "rs-literal",
+  "raw": "提交移出失败：{e}",
+  "value": "提交移出失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.148",
+  "file": "src-tauri/src/db.rs",
+  "line": 1698,
+  "kind": "rs-literal",
+  "raw": "删除空序列失败：{e}",
+  "value": "删除空序列失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.147",
+  "file": "src-tauri/src/db.rs",
+  "line": 1694,
+  "kind": "rs-literal",
+  "raw": "统计成员失败：{e}",
+  "value": "统计成员失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.146",
+  "file": "src-tauri/src/db.rs",
+  "line": 1685,
+  "kind": "rs-literal",
+  "raw": "这个块不在这条序列里",
+  "value": "这个块不在这条序列里",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.145",
+  "file": "src-tauri/src/db.rs",
+  "line": 1683,
+  "kind": "rs-literal",
+  "raw": "移出序列失败：{e}",
+  "value": "移出序列失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.144",
+  "file": "src-tauri/src/db.rs",
+  "line": 1677,
+  "kind": "rs-literal",
+  "raw": "开启移出事务失败：{e}",
+  "value": "开启移出事务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.143",
+  "file": "src-tauri/src/db.rs",
+  "line": 1661,
+  "kind": "rs-literal",
+  "raw": "清理空序列失败：{e}",
+  "value": "清理空序列失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.142",
+  "file": "src-tauri/src/db.rs",
+  "line": 1640,
+  "kind": "rs-literal",
+  "raw": "读取序列失败：{e}",
+  "value": "读取序列失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.141",
+  "file": "src-tauri/src/db.rs",
+  "line": 1638,
+  "kind": "rs-literal",
+  "raw": "查询序列失败：{e}",
+  "value": "查询序列失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.140",
+  "file": "src-tauri/src/db.rs",
+  "line": 1635,
+  "kind": "rs-literal",
+  "raw": "准备查询序列失败：{e}",
+  "value": "准备查询序列失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.139",
+  "file": "src-tauri/src/db.rs",
+  "line": 1625,
+  "kind": "rs-literal",
+  "raw": "提交建序列失败：{e}",
+  "value": "提交建序列失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.138",
+  "file": "src-tauri/src/db.rs",
+  "line": 1623,
+  "kind": "rs-literal",
+  "raw": "加入序列失败：{e}",
+  "value": "加入序列失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.137",
+  "file": "src-tauri/src/db.rs",
+  "line": 1617,
+  "kind": "rs-literal",
+  "raw": "新建序列失败：{e}",
+  "value": "新建序列失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.136",
+  "file": "src-tauri/src/db.rs",
+  "line": 1612,
+  "kind": "rs-literal",
+  "raw": "开启建序列事务失败：{e}",
+  "value": "开启建序列事务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.135",
+  "file": "src-tauri/src/db.rs",
+  "line": 1593,
+  "kind": "rs-literal",
+  "raw": "序列名过长（最多 {MAX_TITLE_CHARS} 个字符）",
+  "value": "序列名过长（最多 {MAX_TITLE_CHARS} 个字符）",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.134",
+  "file": "src-tauri/src/db.rs",
+  "line": 1590,
+  "kind": "rs-literal",
+  "raw": "序列名不能为空",
+  "value": "序列名不能为空",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.133",
+  "file": "src-tauri/src/db.rs",
+  "line": 1582,
+  "kind": "rs-literal",
+  "raw": "提交恢复失败：{e}",
+  "value": "提交恢复失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.132",
+  "file": "src-tauri/src/db.rs",
+  "line": 1578,
+  "kind": "rs-literal",
+  "raw": "恢复 {table} 失败：{e}",
+  "value": "恢复 {table} 失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.131",
+  "file": "src-tauri/src/db.rs",
+  "line": 1573,
+  "kind": "rs-literal",
+  "raw": "快照行格式不对（{table}）",
+  "value": "快照行格式不对（{table}）",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.130",
+  "file": "src-tauri/src/db.rs",
+  "line": 1569,
+  "kind": "rs-literal",
+  "raw": "恢复 {table} 失败：{e}",
+  "value": "恢复 {table} 失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.129",
+  "file": "src-tauri/src/db.rs",
+  "line": 1555,
+  "kind": "rs-literal",
+  "raw": "快照缺 rows（{table}）",
+  "value": "快照缺 rows（{table}）",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.128",
+  "file": "src-tauri/src/db.rs",
+  "line": 1549,
+  "kind": "rs-literal",
+  "raw": "快照缺 cols（{table}）",
+  "value": "快照缺 cols（{table}）",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.127",
+  "file": "src-tauri/src/db.rs",
+  "line": 1542,
+  "kind": "rs-literal",
+  "raw": "清空 {table} 失败：{e}",
+  "value": "清空 {table} 失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.126",
+  "file": "src-tauri/src/db.rs",
+  "line": 1538,
+  "kind": "rs-literal",
+  "raw": "开启恢复事务失败：{e}",
+  "value": "开启恢复事务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.125",
+  "file": "src-tauri/src/db.rs",
+  "line": 1535,
+  "kind": "rs-literal",
+  "raw": "快照解析失败：{e}",
+  "value": "快照解析失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.124",
+  "file": "src-tauri/src/db.rs",
+  "line": 1491,
+  "kind": "rs-literal",
+  "raw": "拍快照失败（{table}）：{e}",
+  "value": "拍快照失败（{table}）：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.123",
+  "file": "src-tauri/src/db.rs",
+  "line": 1489,
+  "kind": "rs-literal",
+  "raw": "拍快照失败（{table}）：{e}",
+  "value": "拍快照失败（{table}）：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.122",
+  "file": "src-tauri/src/db.rs",
+  "line": 1477,
+  "kind": "rs-literal",
+  "raw": "拍快照失败（{table}）：{e}",
+  "value": "拍快照失败（{table}）：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.121",
+  "file": "src-tauri/src/db.rs",
+  "line": 1401,
+  "kind": "rs-literal",
+  "raw": "顺延后时段超出合理范围",
+  "value": "顺延后时段超出合理范围",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.120",
+  "file": "src-tauri/src/db.rs",
+  "line": 1388,
+  "kind": "rs-literal",
+  "raw": "接链后找不到它的环号",
+  "value": "接链后找不到它的环号",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.119",
+  "file": "src-tauri/src/db.rs",
+  "line": 1385,
+  "kind": "rs-literal",
+  "raw": "接链后找不到它所在的序列",
+  "value": "接链后找不到它所在的序列",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.118",
+  "file": "src-tauri/src/db.rs",
+  "line": 1380,
+  "kind": "rs-literal",
+  "raw": "提交插链失败：{e}",
+  "value": "提交插链失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.117",
+  "file": "src-tauri/src/db.rs",
+  "line": 1379,
+  "kind": "rs-literal",
+  "raw": "插入链节失败：{e}",
+  "value": "插入链节失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.116",
+  "file": "src-tauri/src/db.rs",
+  "line": 1374,
+  "kind": "rs-literal",
+  "raw": "腾位置失败：{e}",
+  "value": "腾位置失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.115",
+  "file": "src-tauri/src/db.rs",
+  "line": 1368,
+  "kind": "rs-literal",
+  "raw": "开启插链事务失败：{e}",
+  "value": "开启插链事务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.114",
+  "file": "src-tauri/src/db.rs",
+  "line": 1365,
+  "kind": "rs-literal",
+  "raw": "起点块不在链上",
+  "value": "起点块不在链上",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.113",
+  "file": "src-tauri/src/db.rs",
+  "line": 1362,
+  "kind": "rs-literal",
+  "raw": "起点块不在链上",
+  "value": "起点块不在链上",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.112",
+  "file": "src-tauri/src/db.rs",
+  "line": 1355,
+  "kind": "rs-literal",
+  "raw": "链内重排失败：{e}",
+  "value": "链内重排失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.111",
+  "file": "src-tauri/src/db.rs",
+  "line": 1349,
+  "kind": "rs-literal",
+  "raw": "这两块已经在同一环上了",
+  "value": "这两块已经在同一环上了",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.110",
+  "file": "src-tauri/src/db.rs",
+  "line": 1343,
+  "kind": "rs-literal",
+  "raw": "新建序列需要一个名字",
+  "value": "新建序列需要一个名字",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.109",
+  "file": "src-tauri/src/db.rs",
+  "line": 1334,
+  "kind": "rs-literal",
+  "raw": "这个块已经属于另一条序列了（先解除它的链接）",
+  "value": "这个块已经属于另一条序列了（先解除它的链接）",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.108",
+  "file": "src-tauri/src/db.rs",
+  "line": 1328,
+  "kind": "rs-literal",
+  "raw": "要接上的块不存在",
+  "value": "要接上的块不存在",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.107",
+  "file": "src-tauri/src/db.rs",
+  "line": 1327,
+  "kind": "rs-literal",
+  "raw": "起点块不存在",
+  "value": "起点块不存在",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.106",
+  "file": "src-tauri/src/db.rs",
+  "line": 1325,
+  "kind": "rs-literal",
+  "raw": "不能把一块接到它自己后面",
+  "value": "不能把一块接到它自己后面",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.105",
+  "file": "src-tauri/src/db.rs",
+  "line": 1316,
+  "kind": "rs-literal",
+  "raw": "一条漂流链只能占同一个链位：不能把它的一段放到别的位置（中间夹别的块也不行）",
+  "value": "一条漂流链只能占同一个链位：不能把它的一段放到别的位置（中间夹别的块也不行）",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.104",
+  "file": "src-tauri/src/db.rs",
+  "line": 1311,
+  "kind": "rs-literal",
+  "raw": "查环号失败：{e}",
+  "value": "查环号失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.103",
+  "file": "src-tauri/src/db.rs",
+  "line": 1288,
+  "kind": "rs-literal",
+  "raw": "读序列成员失败：{e}",
+  "value": "读序列成员失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.102",
+  "file": "src-tauri/src/db.rs",
+  "line": 1286,
+  "kind": "rs-literal",
+  "raw": "查序列成员失败：{e}",
+  "value": "查序列成员失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.101",
+  "file": "src-tauri/src/db.rs",
+  "line": 1283,
+  "kind": "rs-literal",
+  "raw": "查序列成员失败：{e}",
+  "value": "查序列成员失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.100",
+  "file": "src-tauri/src/db.rs",
+  "line": 1270,
+  "kind": "rs-literal",
+  "raw": "已经结束的块（残影 / 已完成）不能再接进序列",
+  "value": "已经结束的块（残影 / 已完成）不能再接进序列",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.99",
+  "file": "src-tauri/src/db.rs",
+  "line": 1268,
+  "kind": "rs-literal",
+  "raw": "任务块不存在",
+  "value": "任务块不存在",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.98",
+  "file": "src-tauri/src/db.rs",
+  "line": 1262,
+  "kind": "rs-literal",
+  "raw": "已经结束的块（残影 / 已完成）不能再往序列里接东西",
+  "value": "已经结束的块（残影 / 已完成）不能再往序列里接东西",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.97",
+  "file": "src-tauri/src/db.rs",
+  "line": 1260,
+  "kind": "rs-literal",
+  "raw": "目标块不存在",
+  "value": "目标块不存在",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.96",
+  "file": "src-tauri/src/db.rs",
+  "line": 1234,
+  "kind": "rs-literal",
+  "raw": "新建的序列读不回来",
+  "value": "新建的序列读不回来",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.95",
+  "file": "src-tauri/src/db.rs",
+  "line": 1232,
+  "kind": "rs-literal",
+  "raw": "提交建序列失败：{e}",
+  "value": "提交建序列失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.94",
+  "file": "src-tauri/src/db.rs",
+  "line": 1230,
+  "kind": "rs-literal",
+  "raw": "加入序列失败：{e}",
+  "value": "加入序列失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.93",
+  "file": "src-tauri/src/db.rs",
+  "line": 1224,
+  "kind": "rs-literal",
+  "raw": "新建序列失败：{e}",
+  "value": "新建序列失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.92",
+  "file": "src-tauri/src/db.rs",
+  "line": 1219,
+  "kind": "rs-literal",
+  "raw": "开启建序列事务失败：{e}",
+  "value": "开启建序列事务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.91",
+  "file": "src-tauri/src/db.rs",
+  "line": 1210,
+  "kind": "rs-literal",
+  "raw": "读取块时间失败：{e}",
+  "value": "读取块时间失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.90",
+  "file": "src-tauri/src/db.rs",
+  "line": 1199,
+  "kind": "rs-literal",
+  "raw": "同一个块不能重复链接",
+  "value": "同一个块不能重复链接",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.89",
+  "file": "src-tauri/src/db.rs",
+  "line": 1192,
+  "kind": "rs-literal",
+  "raw": "至少要有两个块才能组成序列",
+  "value": "至少要有两个块才能组成序列",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.88",
+  "file": "src-tauri/src/db.rs",
+  "line": 1179,
+  "kind": "rs-literal",
+  "raw": "这个块已经属于另一条序列了（先解链再链接）",
+  "value": "这个块已经属于另一条序列了（先解链再链接）",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.87",
+  "file": "src-tauri/src/db.rs",
+  "line": 1177,
+  "kind": "rs-literal",
+  "raw": "检查块所属序列失败：{e}",
+  "value": "检查块所属序列失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.86",
+  "file": "src-tauri/src/db.rs",
+  "line": 1168,
+  "kind": "rs-literal",
+  "raw": "要链接的块不存在（可能刚被删掉）",
+  "value": "要链接的块不存在（可能刚被删掉）",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.85",
+  "file": "src-tauri/src/db.rs",
+  "line": 1166,
+  "kind": "rs-literal",
+  "raw": "检查块是否存在失败：{e}",
+  "value": "检查块是否存在失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.84",
+  "file": "src-tauri/src/db.rs",
+  "line": 1154,
+  "kind": "rs-literal",
+  "raw": "任务块不存在",
+  "value": "任务块不存在",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.83",
+  "file": "src-tauri/src/db.rs",
+  "line": 1153,
+  "kind": "rs-literal",
+  "raw": "顺延后续链节失败：{e}",
+  "value": "顺延后续链节失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.82",
+  "file": "src-tauri/src/db.rs",
+  "line": 1141,
+  "kind": "rs-literal",
+  "raw": "读取后续链节失败：{e}",
+  "value": "读取后续链节失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.81",
+  "file": "src-tauri/src/db.rs",
+  "line": 1138,
+  "kind": "rs-literal",
+  "raw": "查询后续链节失败：{e}",
+  "value": "查询后续链节失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.80",
+  "file": "src-tauri/src/db.rs",
+  "line": 1135,
+  "kind": "rs-literal",
+  "raw": "准备查询后续链节失败：{e}",
+  "value": "准备查询后续链节失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.79",
+  "file": "src-tauri/src/db.rs",
+  "line": 1115,
+  "kind": "rs-literal",
+  "raw": "让新块接替链上位置失败：{e}",
+  "value": "让新块接替链上位置失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.78",
+  "file": "src-tauri/src/db.rs",
+  "line": 1101,
+  "kind": "rs-literal",
+  "raw": "查询块在链上的位置失败：{e}",
+  "value": "查询块在链上的位置失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.77",
+  "file": "src-tauri/src/db.rs",
+  "line": 1085,
+  "kind": "rs-literal",
+  "raw": "查询块所属序列失败：{e}",
+  "value": "查询块所属序列失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.76",
+  "file": "src-tauri/src/db.rs",
+  "line": 1061,
+  "kind": "rs-literal",
+  "raw": "读取序列失败：{e}",
+  "value": "读取序列失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.75",
+  "file": "src-tauri/src/db.rs",
+  "line": 1048,
+  "kind": "rs-literal",
+  "raw": "读取成员失败：{e}",
+  "value": "读取成员失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.74",
+  "file": "src-tauri/src/db.rs",
+  "line": 1046,
+  "kind": "rs-literal",
+  "raw": "查询成员失败：{e}",
+  "value": "查询成员失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.73",
+  "file": "src-tauri/src/db.rs",
+  "line": 1038,
+  "kind": "rs-literal",
+  "raw": "准备查询成员失败：{e}",
+  "value": "准备查询成员失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.72",
+  "file": "src-tauri/src/db.rs",
+  "line": 1026,
+  "kind": "rs-literal",
+  "raw": "重排成员失败：{e}",
+  "value": "重排成员失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.71",
+  "file": "src-tauri/src/db.rs",
+  "line": 1012,
+  "kind": "rs-literal",
+  "raw": "读取成员失败：{e}",
+  "value": "读取成员失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.70",
+  "file": "src-tauri/src/db.rs",
+  "line": 1010,
+  "kind": "rs-literal",
+  "raw": "读取成员失败：{e}",
+  "value": "读取成员失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.69",
+  "file": "src-tauri/src/db.rs",
+  "line": 1007,
+  "kind": "rs-literal",
+  "raw": "准备重排失败：{e}",
+  "value": "准备重排失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.68",
+  "file": "src-tauri/src/db.rs",
+  "line": 952,
+  "kind": "rs-literal",
+  "raw": "提交删除失败：{e}",
+  "value": "提交删除失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.67",
+  "file": "src-tauri/src/db.rs",
+  "line": 950,
+  "kind": "rs-literal",
+  "raw": "删除任务块失败：{e}",
+  "value": "删除任务块失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.66",
+  "file": "src-tauri/src/db.rs",
+  "line": 944,
+  "kind": "rs-literal",
+  "raw": "开启删除事务失败：{e}",
+  "value": "开启删除事务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.65",
+  "file": "src-tauri/src/db.rs",
+  "line": 901,
+  "kind": "rs-literal",
+  "raw": "创建任务块失败：{e}",
+  "value": "创建任务块失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.64",
+  "file": "src-tauri/src/db.rs",
+  "line": 855,
+  "kind": "rs-literal",
+  "raw": "任务不存在",
+  "value": "任务不存在",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.63",
+  "file": "src-tauri/src/db.rs",
+  "line": 854,
+  "kind": "rs-literal",
+  "raw": "查询任务失败：{e}",
+  "value": "查询任务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.62",
+  "file": "src-tauri/src/db.rs",
+  "line": 731,
+  "kind": "rs-literal",
+  "raw": "创建模板块失败：{e}",
+  "value": "创建模板块失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.61",
+  "file": "src-tauri/src/db.rs",
+  "line": 670,
+  "kind": "rs-literal",
+  "raw": "创建隐藏任务失败：{e}",
+  "value": "创建隐藏任务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.60",
+  "file": "src-tauri/src/db.rs",
+  "line": 660,
+  "kind": "rs-literal",
+  "raw": "写入设置失败：{e}",
+  "value": "写入设置失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.59",
+  "file": "src-tauri/src/db.rs",
+  "line": 650,
+  "kind": "rs-literal",
+  "raw": "读取设置失败：{e}",
+  "value": "读取设置失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.58",
+  "file": "src-tauri/src/db.rs",
+  "line": 639,
+  "kind": "rs-literal",
+  "raw": "查询当前块提示失败：{e}",
+  "value": "查询当前块提示失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.57",
+  "file": "src-tauri/src/db.rs",
+  "line": 607,
+  "kind": "rs-literal",
+  "raw": "查询当前块失败：{e}",
+  "value": "查询当前块失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.56",
+  "file": "src-tauri/src/db.rs",
+  "line": 566,
+  "kind": "rs-literal",
+  "raw": "读重复标记失败：{e}",
+  "value": "读重复标记失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.55",
+  "file": "src-tauri/src/db.rs",
+  "line": 563,
+  "kind": "rs-literal",
+  "raw": "查询重复标记失败：{e}",
+  "value": "查询重复标记失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.54",
+  "file": "src-tauri/src/db.rs",
+  "line": 553,
+  "kind": "rs-literal",
+  "raw": "查询重复标记失败：{e}",
+  "value": "查询重复标记失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.53",
+  "file": "src-tauri/src/db.rs",
+  "line": 527,
+  "kind": "rs-literal",
+  "raw": "读取任务块失败：{e}",
+  "value": "读取任务块失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.52",
+  "file": "src-tauri/src/db.rs",
+  "line": 523,
+  "kind": "rs-literal",
+  "raw": "查询任务块失败：{e}",
+  "value": "查询任务块失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.51",
+  "file": "src-tauri/src/db.rs",
+  "line": 520,
+  "kind": "rs-literal",
+  "raw": "查询任务块失败：{e}",
+  "value": "查询任务块失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.50",
+  "file": "src-tauri/src/db.rs",
+  "line": 502,
+  "kind": "rs-literal",
+  "raw": "读取任务失败：{e}",
+  "value": "读取任务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.49",
+  "file": "src-tauri/src/db.rs",
+  "line": 493,
+  "kind": "rs-literal",
+  "raw": "任务不存在（可能已被删除）",
+  "value": "任务不存在（可能已被删除）",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.48",
+  "file": "src-tauri/src/db.rs",
+  "line": 491,
+  "kind": "rs-literal",
+  "raw": "重命名任务失败：{e}",
+  "value": "重命名任务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.47",
+  "file": "src-tauri/src/db.rs",
+  "line": 486,
+  "kind": "rs-literal",
+  "raw": "任务标题过长（最多 {MAX_TITLE_CHARS} 个字符）",
+  "value": "任务标题过长（最多 {MAX_TITLE_CHARS} 个字符）",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.46",
+  "file": "src-tauri/src/db.rs",
+  "line": 483,
+  "kind": "rs-literal",
+  "raw": "任务标题不能为空",
+  "value": "任务标题不能为空",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.45",
+  "file": "src-tauri/src/db.rs",
+  "line": 473,
+  "kind": "rs-literal",
+  "raw": "删除任务失败：{e}",
+  "value": "删除任务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.44",
+  "file": "src-tauri/src/db.rs",
+  "line": 471,
+  "kind": "rs-literal",
+  "raw": "统计连带块失败：{e}",
+  "value": "统计连带块失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.43",
+  "file": "src-tauri/src/db.rs",
+  "line": 456,
+  "kind": "rs-literal",
+  "raw": "创建任务失败：{e}",
+  "value": "创建任务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.42",
+  "file": "src-tauri/src/db.rs",
+  "line": 437,
+  "kind": "rs-literal",
+  "raw": "算新任务的位置失败：{e}",
+  "value": "算新任务的位置失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.41",
+  "file": "src-tauri/src/db.rs",
+  "line": 430,
+  "kind": "rs-literal",
+  "raw": "任务标题过长（最多 {MAX_TITLE_CHARS} 个字符）",
+  "value": "任务标题过长（最多 {MAX_TITLE_CHARS} 个字符）",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.40",
+  "file": "src-tauri/src/db.rs",
+  "line": 427,
+  "kind": "rs-literal",
+  "raw": "任务标题不能为空",
+  "value": "任务标题不能为空",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.39",
+  "file": "src-tauri/src/db.rs",
+  "line": 419,
+  "kind": "rs-literal",
+  "raw": "读取任务失败：{e}",
+  "value": "读取任务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.38",
+  "file": "src-tauri/src/db.rs",
+  "line": 415,
+  "kind": "rs-literal",
+  "raw": "查询任务失败：{e}",
+  "value": "查询任务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.37",
+  "file": "src-tauri/src/db.rs",
+  "line": 412,
+  "kind": "rs-literal",
+  "raw": "查询任务失败：{e}",
+  "value": "查询任务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.36",
+  "file": "src-tauri/src/db.rs",
+  "line": 391,
+  "kind": "rs-literal",
+  "raw": "提交迁移 {version} 失败：{e}",
+  "value": "提交迁移 {version} 失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.35",
+  "file": "src-tauri/src/db.rs",
+  "line": 389,
+  "kind": "rs-literal",
+  "raw": "记录迁移 {version} 失败：{e}",
+  "value": "记录迁移 {version} 失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.34",
+  "file": "src-tauri/src/db.rs",
+  "line": 381,
+  "kind": "rs-literal",
+  "raw": "执行迁移 {version} 失败：{e}",
+  "value": "执行迁移 {version} 失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.33",
+  "file": "src-tauri/src/db.rs",
+  "line": 377,
+  "kind": "rs-literal",
+  "raw": "开启迁移事务失败：{e}",
+  "value": "开启迁移事务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.32",
+  "file": "src-tauri/src/db.rs",
+  "line": 368,
+  "kind": "rs-literal",
+  "raw": "读取迁移记录失败：{e}",
+  "value": "读取迁移记录失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.31",
+  "file": "src-tauri/src/db.rs",
+  "line": 358,
+  "kind": "rs-literal",
+  "raw": "创建迁移记录表失败：{e}",
+  "value": "创建迁移记录表失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.30",
+  "file": "src-tauri/src/db.rs",
+  "line": 328,
+  "kind": "rs-literal",
+  "raw": "开启外键约束失败：{e}",
+  "value": "开启外键约束失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.29",
+  "file": "src-tauri/src/db.rs",
+  "line": 326,
+  "kind": "rs-literal",
+  "raw": "打开数据库失败：{e}",
+  "value": "打开数据库失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.28",
+  "file": "src-tauri/src/db.rs",
+  "line": 319,
+  "kind": "rs-literal",
+  "raw": "单个时间块不能超过 3 天",
+  "value": "单个时间块不能超过 3 天",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.27",
+  "file": "src-tauri/src/db.rs",
+  "line": 316,
+  "kind": "rs-literal",
+  "raw": "单个时间块不能短于 15 分钟",
+  "value": "单个时间块不能短于 15 分钟",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.26",
+  "file": "src-tauri/src/db.rs",
+  "line": 313,
+  "kind": "rs-literal",
+  "raw": "时间超出合理范围",
+  "value": "时间超出合理范围",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.25",
+  "file": "src-tauri/src/db.rs",
+  "line": 310,
+  "kind": "rs-literal",
+  "raw": "结束时间必须晚于开始时间",
+  "value": "结束时间必须晚于开始时间",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.24",
+  "file": "src-tauri/src/db.rs",
+  "line": 307,
+  "kind": "rs-literal",
+  "raw": "时间不能为负数",
+  "value": "时间不能为负数",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.23",
+  "file": "src-tauri/src/db.rs",
+  "line": 287,
+  "kind": "rs-literal",
+  "raw": "临时安排",
+  "value": "临时安排",
+  "mode": "const"
+ },
+ {
+  "key": "err.db.22",
+  "file": "src-tauri/src/db.rs",
+  "line": 257,
+  "kind": "rs-literal",
+  "raw": "写排序失败：{e}",
+  "value": "写排序失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.21",
+  "file": "src-tauri/src/db.rs",
+  "line": 252,
+  "kind": "rs-literal",
+  "raw": "准备排序失败：{e}",
+  "value": "准备排序失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.20",
+  "file": "src-tauri/src/db.rs",
+  "line": 241,
+  "kind": "rs-literal",
+  "raw": "任务块不存在",
+  "value": "任务块不存在",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.19",
+  "file": "src-tauri/src/db.rs",
+  "line": 239,
+  "kind": "rs-literal",
+  "raw": "任务块不存在",
+  "value": "任务块不存在",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.18",
+  "file": "src-tauri/src/db.rs",
+  "line": 237,
+  "kind": "rs-literal",
+  "raw": "更新「不计入理智」失败：{e}",
+  "value": "更新「不计入理智」失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.17",
+  "file": "src-tauri/src/db.rs",
+  "line": 225,
+  "kind": "rs-literal",
+  "raw": "任务不存在（可能已被删除）",
+  "value": "任务不存在（可能已被删除）",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.16",
+  "file": "src-tauri/src/db.rs",
+  "line": 223,
+  "kind": "rs-literal",
+  "raw": "任务不存在（可能已被删除）",
+  "value": "任务不存在（可能已被删除）",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.15",
+  "file": "src-tauri/src/db.rs",
+  "line": 221,
+  "kind": "rs-literal",
+  "raw": "更新「不计入理智」失败：{e}",
+  "value": "更新「不计入理智」失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.14",
+  "file": "src-tauri/src/db.rs",
+  "line": 209,
+  "kind": "rs-literal",
+  "raw": "改分类失败：{e}",
+  "value": "改分类失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.13",
+  "file": "src-tauri/src/db.rs",
+  "line": 198,
+  "kind": "rs-literal",
+  "raw": "分类名过长（最多 {MAX_CATEGORY_CHARS} 个字符）",
+  "value": "分类名过长（最多 {MAX_CATEGORY_CHARS} 个字符）",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.12",
+  "file": "src-tauri/src/db.rs",
+  "line": 194,
+  "kind": "rs-literal",
+  "raw": "要改的分类名不能为空",
+  "value": "要改的分类名不能为空",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.11",
+  "file": "src-tauri/src/db.rs",
+  "line": 178,
+  "kind": "rs-literal",
+  "raw": "任务不存在（可能已被删除）",
+  "value": "任务不存在（可能已被删除）",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.10",
+  "file": "src-tauri/src/db.rs",
+  "line": 176,
+  "kind": "rs-literal",
+  "raw": "恢复归档失败：{e}",
+  "value": "恢复归档失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.09",
+  "file": "src-tauri/src/db.rs",
+  "line": 160,
+  "kind": "rs-literal",
+  "raw": "任务不存在（可能已被删除）",
+  "value": "任务不存在（可能已被删除）",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.08",
+  "file": "src-tauri/src/db.rs",
+  "line": 158,
+  "kind": "rs-literal",
+  "raw": "归档任务失败：{e}",
+  "value": "归档任务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.07",
+  "file": "src-tauri/src/db.rs",
+  "line": 146,
+  "kind": "rs-literal",
+  "raw": "任务不存在（可能已被删除）",
+  "value": "任务不存在（可能已被删除）",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.06",
+  "file": "src-tauri/src/db.rs",
+  "line": 144,
+  "kind": "rs-literal",
+  "raw": "更新任务属性失败：{e}",
+  "value": "更新任务属性失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.05",
+  "file": "src-tauri/src/db.rs",
+  "line": 126,
+  "kind": "rs-literal",
+  "raw": "预估时长请在 1～1440 分钟之间",
+  "value": "预估时长请在 1～1440 分钟之间",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.04",
+  "file": "src-tauri/src/db.rs",
+  "line": 104,
+  "kind": "rs-literal",
+  "raw": "任务标题过长（最多 {MAX_TITLE_CHARS} 个字符）",
+  "value": "任务标题过长（最多 {MAX_TITLE_CHARS} 个字符）",
+  "mode": "format"
+ },
+ {
+  "key": "err.db.03",
+  "file": "src-tauri/src/db.rs",
+  "line": 101,
+  "kind": "rs-literal",
+  "raw": "任务标题不能为空",
+  "value": "任务标题不能为空",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.02",
+  "file": "src-tauri/src/db.rs",
+  "line": 95,
+  "kind": "rs-literal",
+  "raw": "任务不存在（可能已被删除）",
+  "value": "任务不存在（可能已被删除）",
+  "mode": "simple"
+ },
+ {
+  "key": "err.db.01",
+  "file": "src-tauri/src/db.rs",
+  "line": 75,
+  "kind": "rs-literal",
+  "raw": "读取任务失败：{e}",
+  "value": "读取任务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "sys.hint.06",
+  "file": "src-tauri/src/hint.rs",
+  "line": 41,
+  "kind": "rs-literal",
+  "raw": "还剩 {d} 天 {h} 小时",
+  "value": "还剩 {d} 天 {h} 小时",
+  "mode": "format"
+ },
+ {
+  "key": "sys.hint.05",
+  "file": "src-tauri/src/hint.rs",
+  "line": 39,
+  "kind": "rs-literal",
+  "raw": "还剩 {d} 天",
+  "value": "还剩 {d} 天",
+  "mode": "format"
+ },
+ {
+  "key": "sys.hint.04",
+  "file": "src-tauri/src/hint.rs",
+  "line": 34,
+  "kind": "rs-literal",
+  "raw": "还剩 {h} 小时 {m} 分",
+  "value": "还剩 {h} 小时 {m} 分",
+  "mode": "format"
+ },
+ {
+  "key": "sys.hint.03",
+  "file": "src-tauri/src/hint.rs",
+  "line": 32,
+  "kind": "rs-literal",
+  "raw": "还剩 {h} 小时",
+  "value": "还剩 {h} 小时",
+  "mode": "format"
+ },
+ {
+  "key": "sys.hint.02",
+  "file": "src-tauri/src/hint.rs",
+  "line": 28,
+  "kind": "rs-literal",
+  "raw": "还剩 {minutes} 分",
+  "value": "还剩 {minutes} 分",
+  "mode": "format"
+ },
+ {
+  "key": "sys.hint.01",
+  "file": "src-tauri/src/hint.rs",
+  "line": 24,
+  "kind": "rs-literal",
+  "raw": "即将结束",
+  "value": "即将结束",
+  "mode": "simple"
+ },
+ {
+  "key": "sys.hotkeys.02",
+  "file": "src-tauri/src/hotkeys.rs",
+  "line": 99,
+  "kind": "rs-literal",
+  "raw": "；",
+  "value": "；",
+  "mode": "simple"
+ },
+ {
+  "key": "sys.hotkeys.01",
+  "file": "src-tauri/src/hotkeys.rs",
+  "line": 96,
+  "kind": "rs-literal",
+  "raw": "{label}：{e}",
+  "value": "{label}：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.ics.07",
+  "file": "src-tauri/src/ics.rs",
+  "line": 163,
+  "kind": "rs-literal",
+  "raw": "读取块失败：{e}",
+  "value": "读取块失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.ics.06",
+  "file": "src-tauri/src/ics.rs",
+  "line": 160,
+  "kind": "rs-literal",
+  "raw": "查询块失败：{e}",
+  "value": "查询块失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.ics.05",
+  "file": "src-tauri/src/ics.rs",
+  "line": 148,
+  "kind": "rs-literal",
+  "raw": "{layer_text} · 分类：{cat}",
+  "value": "{layer_text} · 分类：{cat}",
+  "mode": "format"
+ },
+ {
+  "key": "err.ics.04",
+  "file": "src-tauri/src/ics.rs",
+  "line": 146,
+  "kind": "rs-literal",
+  "raw": "弹性层",
+  "value": "弹性层",
+  "mode": "simple"
+ },
+ {
+  "key": "err.ics.03",
+  "file": "src-tauri/src/ics.rs",
+  "line": 146,
+  "kind": "rs-literal",
+  "raw": "必填层",
+  "value": "必填层",
+  "mode": "simple"
+ },
+ {
+  "key": "err.ics.02",
+  "file": "src-tauri/src/ics.rs",
+  "line": 142,
+  "kind": "rs-literal",
+  "raw": "临时安排",
+  "value": "临时安排",
+  "mode": "simple"
+ },
+ {
+  "key": "err.ics.01",
+  "file": "src-tauri/src/ics.rs",
+  "line": 132,
+  "kind": "rs-literal",
+  "raw": "查询块失败：{e}",
+  "value": "查询块失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "sys.lib.02",
+  "file": "src-tauri/src/lib.rs",
+  "line": 79,
+  "kind": "rs-literal",
+  "raw": "创建应用数据目录失败：{e}",
+  "value": "创建应用数据目录失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "sys.lib.01",
+  "file": "src-tauri/src/lib.rs",
+  "line": 77,
+  "kind": "rs-literal",
+  "raw": "获取应用数据目录失败：{e}",
+  "value": "获取应用数据目录失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "sys.notify.20",
+  "file": "src-tauri/src/notify.rs",
+  "line": 694,
+  "kind": "rs-literal",
+  "raw": "「{}」等 {} 个块到点了 · {list} · 回应用窗口点 ✓/✗ 标记",
+  "value": "「{p1}」等 {p2} 个块到点了 · {list} · 回应用窗口点 ✓/✗ 标记",
+  "mode": "format"
+ },
+ {
+  "key": "sys.notify.19",
+  "file": "src-tauri/src/notify.rs",
+  "line": 1066,
+  "kind": "rs-literal",
+  "raw": "统计错过的提醒失败：{e}",
+  "value": "统计错过的提醒失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "sys.notify.18",
+  "file": "src-tauri/src/notify.rs",
+  "line": 1047,
+  "kind": "rs-literal",
+  "raw": "查询下一个到期时刻失败：{e}",
+  "value": "查询下一个到期时刻失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "sys.notify.17",
+  "file": "src-tauri/src/notify.rs",
+  "line": 1019,
+  "kind": "rs-literal",
+  "raw": "统计待重试提醒失败：{e}",
+  "value": "统计待重试提醒失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "sys.notify.16",
+  "file": "src-tauri/src/notify.rs",
+  "line": 966,
+  "kind": "rs-literal",
+  "raw": "读取通知候选失败：{e}",
+  "value": "读取通知候选失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "sys.notify.15",
+  "file": "src-tauri/src/notify.rs",
+  "line": 962,
+  "kind": "rs-literal",
+  "raw": "执行通知查询失败：{e}",
+  "value": "执行通知查询失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "sys.notify.14",
+  "file": "src-tauri/src/notify.rs",
+  "line": 948,
+  "kind": "rs-literal",
+  "raw": "准备通知查询失败：{e}",
+  "value": "准备通知查询失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "sys.notify.13",
+  "file": "src-tauri/src/notify.rs",
+  "line": 929,
+  "kind": "rs-literal",
+  "raw": "读取提醒候选失败：{e}",
+  "value": "读取提醒候选失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "sys.notify.12",
+  "file": "src-tauri/src/notify.rs",
+  "line": 926,
+  "kind": "rs-literal",
+  "raw": "执行提醒查询失败：{e}",
+  "value": "执行提醒查询失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "sys.notify.11",
+  "file": "src-tauri/src/notify.rs",
+  "line": 913,
+  "kind": "rs-literal",
+  "raw": "准备提醒查询失败：{e}",
+  "value": "准备提醒查询失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "sys.notify.10",
+  "file": "src-tauri/src/notify.rs",
+  "line": 795,
+  "kind": "rs-literal",
+  "raw": "获取数据库锁失败：{e}",
+  "value": "获取数据库锁失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "sys.notify.09",
+  "file": "src-tauri/src/notify.rs",
+  "line": 728,
+  "kind": "rs-literal",
+  "raw": "{}（共 {} 块）",
+  "value": "{p1}（共 {p2} 块）",
+  "mode": "format"
+ },
+ {
+  "key": "sys.notify.08",
+  "file": "src-tauri/src/notify.rs",
+  "line": 697,
+  "kind": "rs-literal",
+  "raw": "「{}」到点了 · 回应用窗口点 ✓/✗ 标记",
+  "value": "「{p1}」到点了 · 回应用窗口点 ✓/✗ 标记",
+  "mode": "format"
+ },
+ {
+  "key": "sys.notify.07",
+  "file": "src-tauri/src/notify.rs",
+  "line": 660,
+  "kind": "rs-literal",
+  "raw": "静默",
+  "value": "静默",
+  "mode": "simple"
+ },
+ {
+  "key": "sys.notify.06",
+  "file": "src-tauri/src/notify.rs",
+  "line": 660,
+  "kind": "rs-literal",
+  "raw": "本轮第一条·带声音",
+  "value": "本轮第一条·带声音",
+  "mode": "simple"
+ },
+ {
+  "key": "sys.notify.05",
+  "file": "src-tauri/src/notify.rs",
+  "line": 575,
+  "kind": "rs-literal",
+  "raw": "「{}」该开始了 · 回应用窗口看时间轴",
+  "value": "「{p1}」该开始了 · 回应用窗口看时间轴",
+  "mode": "format"
+ },
+ {
+  "key": "sys.notify.04",
+  "file": "src-tauri/src/notify.rs",
+  "line": 573,
+  "kind": "rs-literal",
+  "raw": "「{}」快开始了 · 回应用窗口看时间轴",
+  "value": "「{p1}」快开始了 · 回应用窗口看时间轴",
+  "mode": "format"
+ },
+ {
+  "key": "sys.notify.03",
+  "file": "src-tauri/src/notify.rs",
+  "line": 494,
+  "kind": "rs-literal",
+  "raw": "「{}」等 {} 个块到点了",
+  "value": "「{p1}」等 {p2} 个块到点了",
+  "mode": "format"
+ },
+ {
+  "key": "sys.notify.02",
+  "file": "src-tauri/src/notify.rs",
+  "line": 477,
+  "kind": "rs-literal",
+  "raw": "点下面的按钮就能标记；也可以回应用窗口处理",
+  "value": "点下面的按钮就能标记；也可以回应用窗口处理",
+  "mode": "simple"
+ },
+ {
+  "key": "sys.notify.01",
+  "file": "src-tauri/src/notify.rs",
+  "line": 476,
+  "kind": "rs-literal",
+  "raw": "「{}」到点了",
+  "value": "「{p1}」到点了",
+  "mode": "format"
+ },
+ {
+  "key": "sys.toast.04",
+  "file": "src-tauri/src/notify/toast.rs",
+  "line": 106,
+  "kind": "rs-literal",
+  "raw": "查询块是否存在失败：{e}",
+  "value": "查询块是否存在失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "sys.toast.03",
+  "file": "src-tauri/src/notify/toast.rs",
+  "line": 82,
+  "kind": "rs-literal",
+  "raw": "发送通知失败：{e:?}",
+  "value": "发送通知失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "sys.toast.02",
+  "file": "src-tauri/src/notify/toast.rs",
+  "line": 73,
+  "kind": "rs-literal",
+  "raw": "✗ 未完成",
+  "value": "✗ 未完成",
+  "mode": "simple"
+ },
+ {
+  "key": "sys.toast.01",
+  "file": "src-tauri/src/notify/toast.rs",
+  "line": 72,
+  "kind": "rs-literal",
+  "raw": "✓ 已完成",
+  "value": "✓ 已完成",
+  "mode": "simple"
+ },
+ {
+  "key": "err.portable.09",
+  "file": "src-tauri/src/portable.rs",
+  "line": 295,
+  "kind": "rs-literal",
+  "raw": "{e}；且另一边的数据没能放回（还在 {}，原因：{back}）",
+  "value": "{e}；且另一边的数据没能放回（还在 {p1}，原因：{back}）",
+  "mode": "format"
+ },
+ {
+  "key": "err.portable.08",
+  "file": "src-tauri/src/portable.rs",
+  "line": 285,
+  "kind": "rs-literal",
+  "raw": "挪不动另一边现有的数据（{}）：{e}",
+  "value": "挪不动另一边现有的数据（{p1}）：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.portable.07",
+  "file": "src-tauri/src/portable.rs",
+  "line": 273,
+  "kind": "rs-literal",
+  "raw": "建目录失败（{}）：{e}",
+  "value": "建目录失败（{p1}）：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.portable.06",
+  "file": "src-tauri/src/portable.rs",
+  "line": 262,
+  "kind": "rs-literal",
+  "raw": "便携首次启用失败：{err}（这次先用默认位置）",
+  "value": "便携首次启用失败：{err}（这次先用默认位置）",
+  "mode": "format"
+ },
+ {
+  "key": "err.portable.05",
+  "file": "src-tauri/src/portable.rs",
+  "line": 239,
+  "kind": "rs-literal",
+  "raw": "打不开原有数据：{e}",
+  "value": "打不开原有数据：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.portable.04",
+  "file": "src-tauri/src/portable.rs",
+  "line": 168,
+  "kind": "rs-literal",
+  "raw": "删 portable.flag 失败：{e}",
+  "value": "删 portable.flag 失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.portable.03",
+  "file": "src-tauri/src/portable.rs",
+  "line": 162,
+  "kind": "rs-literal",
+  "raw": "写 portable.flag 失败：{e}（这个位置能写吗？换一个可写的文件夹再用便携模式）",
+  "value": "写 portable.flag 失败：{e}（这个位置能写吗？换一个可写的文件夹再用便携模式）",
+  "mode": "format"
+ },
+ {
+  "key": "err.portable.02",
+  "file": "src-tauri/src/portable.rs",
+  "line": 131,
+  "kind": "rs-literal",
+  "raw": "便携目录建不出来：{e} —— 这次先用默认位置",
+  "value": "便携目录建不出来：{e} —— 这次先用默认位置",
+  "mode": "format"
+ },
+ {
+  "key": "err.portable.01",
+  "file": "src-tauri/src/portable.rs",
+  "line": 124,
+  "kind": "rs-literal",
+  "raw": "便携目录写不进去（目录只读？）—— 这次先用默认位置",
+  "value": "便携目录写不进去（目录只读？）—— 这次先用默认位置",
+  "mode": "simple"
+ },
+ {
+  "key": "err.repeats.44",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 359,
+  "kind": "rs-literal",
+  "raw": "提交生成失败：{e}",
+  "value": "提交生成失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.repeats.43",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 355,
+  "kind": "rs-literal",
+  "raw": "记录重复水位线失败：{e}",
+  "value": "记录重复水位线失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.repeats.42",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 346,
+  "kind": "rs-literal",
+  "raw": "记录重复水位线失败：{e}",
+  "value": "记录重复水位线失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.repeats.41",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 338,
+  "kind": "rs-literal",
+  "raw": "查询时段冲突失败：{e}",
+  "value": "查询时段冲突失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.repeats.40",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 325,
+  "kind": "rs-literal",
+  "raw": "查询重复水位线失败：{e}",
+  "value": "查询重复水位线失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.repeats.39",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 303,
+  "kind": "rs-literal",
+  "raw": "读重复规则失败：{e}",
+  "value": "读重复规则失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.repeats.38",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 300,
+  "kind": "rs-literal",
+  "raw": "查询重复规则失败：{e}",
+  "value": "查询重复规则失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.repeats.37",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 288,
+  "kind": "rs-literal",
+  "raw": "查询重复规则失败：{e}",
+  "value": "查询重复规则失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.repeats.36",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 277,
+  "kind": "rs-literal",
+  "raw": "开启生成事务失败：{e}",
+  "value": "开启生成事务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.repeats.35",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 265,
+  "kind": "rs-literal",
+  "raw": "重复规则不存在",
+  "value": "重复规则不存在",
+  "mode": "simple"
+ },
+ {
+  "key": "err.repeats.34",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 263,
+  "kind": "rs-literal",
+  "raw": "删除重复规则失败：{e}",
+  "value": "删除重复规则失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.repeats.33",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 249,
+  "kind": "rs-literal",
+  "raw": "保存重复规则失败：{e}",
+  "value": "保存重复规则失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.repeats.32",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 229,
+  "kind": "rs-literal",
+  "raw": "提交撤下失败：{e}",
+  "value": "提交撤下失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.repeats.31",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 227,
+  "kind": "rs-literal",
+  "raw": "记删除事件失败：{e}",
+  "value": "记删除事件失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.repeats.30",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 215,
+  "kind": "rs-literal",
+  "raw": "撤下重复块失败：{e}",
+  "value": "撤下重复块失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.repeats.29",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 213,
+  "kind": "rs-literal",
+  "raw": "清重复水位线失败：{e}",
+  "value": "清重复水位线失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.repeats.28",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 207,
+  "kind": "rs-literal",
+  "raw": "开启撤下事务失败：{e}",
+  "value": "开启撤下事务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.repeats.27",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 201,
+  "kind": "rs-literal",
+  "raw": "查未开始的重复块失败：{e}",
+  "value": "查未开始的重复块失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.repeats.26",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 181,
+  "kind": "rs-literal",
+  "raw": "保存重复规则失败：{e}",
+  "value": "保存重复规则失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.repeats.25",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 156,
+  "kind": "rs-literal",
+  "raw": "这个时段已经有重复规则了",
+  "value": "这个时段已经有重复规则了",
+  "mode": "simple"
+ },
+ {
+  "key": "err.repeats.24",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 153,
+  "kind": "rs-literal",
+  "raw": "查询重复规则失败：{e}",
+  "value": "查询重复规则失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.repeats.23",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 144,
+  "kind": "rs-literal",
+  "raw": "一个任务最多 {MAX_RULES_PER_TASK} 条重复规则",
+  "value": "一个任务最多 {MAX_RULES_PER_TASK} 条重复规则",
+  "mode": "format"
+ },
+ {
+  "key": "err.repeats.22",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 142,
+  "kind": "rs-literal",
+  "raw": "统计重复规则失败：{e}",
+  "value": "统计重复规则失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.repeats.21",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 137,
+  "kind": "rs-literal",
+  "raw": "任务已归档：先恢复它，再建重复",
+  "value": "任务已归档：先恢复它，再建重复",
+  "mode": "simple"
+ },
+ {
+  "key": "err.repeats.20",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 134,
+  "kind": "rs-literal",
+  "raw": "任务不存在",
+  "value": "任务不存在",
+  "mode": "simple"
+ },
+ {
+  "key": "err.repeats.19",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 132,
+  "kind": "rs-literal",
+  "raw": "查询任务失败：{e}",
+  "value": "查询任务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.repeats.18",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 125,
+  "kind": "rs-literal",
+  "raw": "时刻不合法（0:00–23:59）",
+  "value": "时刻不合法（0:00–23:59）",
+  "mode": "simple"
+ },
+ {
+  "key": "err.repeats.17",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 122,
+  "kind": "rs-literal",
+  "raw": "周几不合法（0 = 周一 … 6 = 周日）",
+  "value": "周几不合法（0 = 周一 … 6 = 周日）",
+  "mode": "simple"
+ },
+ {
+  "key": "err.repeats.16",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 108,
+  "kind": "rs-literal",
+  "raw": "读重复规则失败：{e}",
+  "value": "读重复规则失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.repeats.15",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 105,
+  "kind": "rs-literal",
+  "raw": "查询重复规则失败：{e}",
+  "value": "查询重复规则失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.repeats.14",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 102,
+  "kind": "rs-literal",
+  "raw": "查询重复规则失败：{e}",
+  "value": "查询重复规则失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.repeats.13",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 90,
+  "kind": "rs-literal",
+  "raw": "层级不合法：只支持 required / elastic",
+  "value": "层级不合法：只支持 required / elastic",
+  "mode": "simple"
+ },
+ {
+  "key": "err.repeats.12",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 83,
+  "kind": "rs-literal",
+  "raw": "读重复规则失败：{other}",
+  "value": "读重复规则失败：{other}",
+  "mode": "format"
+ },
+ {
+  "key": "err.repeats.11",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 82,
+  "kind": "rs-literal",
+  "raw": "重复规则不存在",
+  "value": "重复规则不存在",
+  "mode": "simple"
+ },
+ {
+  "key": "err.repeats.10",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 63,
+  "kind": "rs-literal",
+  "raw": "每{day} {:02}:{:02}",
+  "value": "每{day} {p1}:{p2}",
+  "mode": "format"
+ },
+ {
+  "key": "err.repeats.09",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 62,
+  "kind": "rs-literal",
+  "raw": "周一",
+  "value": "周一",
+  "mode": "simple"
+ },
+ {
+  "key": "err.repeats.08",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 61,
+  "kind": "rs-literal",
+  "raw": "周日",
+  "value": "周日",
+  "mode": "const"
+ },
+ {
+  "key": "err.repeats.07",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 61,
+  "kind": "rs-literal",
+  "raw": "周六",
+  "value": "周六",
+  "mode": "const"
+ },
+ {
+  "key": "err.repeats.06",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 61,
+  "kind": "rs-literal",
+  "raw": "周五",
+  "value": "周五",
+  "mode": "const"
+ },
+ {
+  "key": "err.repeats.05",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 61,
+  "kind": "rs-literal",
+  "raw": "周四",
+  "value": "周四",
+  "mode": "const"
+ },
+ {
+  "key": "err.repeats.04",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 61,
+  "kind": "rs-literal",
+  "raw": "周三",
+  "value": "周三",
+  "mode": "const"
+ },
+ {
+  "key": "err.repeats.03",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 61,
+  "kind": "rs-literal",
+  "raw": "周二",
+  "value": "周二",
+  "mode": "const"
+ },
+ {
+  "key": "err.repeats.02",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 61,
+  "kind": "rs-literal",
+  "raw": "周一",
+  "value": "周一",
+  "mode": "const"
+ },
+ {
+  "key": "err.repeats.01",
+  "file": "src-tauri/src/repeats.rs",
+  "line": 55,
+  "kind": "rs-literal",
+  "raw": "查询重复规则失败：{e}",
+  "value": "查询重复规则失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.sanity.03",
+  "file": "src-tauri/src/sanity.rs",
+  "line": 323,
+  "kind": "rs-literal",
+  "raw": "读取行为事件失败：{e}",
+  "value": "读取行为事件失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.sanity.02",
+  "file": "src-tauri/src/sanity.rs",
+  "line": 320,
+  "kind": "rs-literal",
+  "raw": "查询行为事件失败：{e}",
+  "value": "查询行为事件失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.sanity.01",
+  "file": "src-tauri/src/sanity.rs",
+  "line": 310,
+  "kind": "rs-literal",
+  "raw": "查询行为事件失败：{e}",
+  "value": "查询行为事件失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.scheduler.05",
+  "file": "src-tauri/src/scheduler.rs",
+  "line": 240,
+  "kind": "rs-literal",
+  "raw": "{what}失败（退出码 {:?}）：{}{}",
+  "value": "{what}失败（退出码 {p1}）：{p2}{p3}",
+  "mode": "format"
+ },
+ {
+  "key": "err.scheduler.04",
+  "file": "src-tauri/src/scheduler.rs",
+  "line": 61,
+  "kind": "rs-literal",
+  "raw": "<?xml version=\"1.0\" encoding=\"UTF-16\"?>\n<Task version=\"1.2\" xmlns=\"http://schemas.microsoft.com/windows/2004/02/mit/task\">\n  <RegistrationInfo>\n    <Description>WakeyWeeky 提醒兜底：到点时唤醒应用（隐藏启动，只留托盘）</Description>\n    <URI>\\WakeyWeeky\\Reminder</URI>\n  </RegistrationInfo>\n  <Principals>\n    <Principal id=\"Author\">\n      <LogonType>InteractiveToken</LogonType>\n      <RunLevel>LeastPrivilege</RunLevel>\n    </Principal>\n  </Principals>\n  <Settings>\n    <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>\n    <StopIfGoingOnBatteries>false</StopIfGoingOnBatteries>\n    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>\n    <StartWhenAvailable>true</StartWhenAvailable>\n  </Settings>\n  <Triggers>\n    <TimeTrigger>\n      <StartBoundary>{boundary}</StartBoundary>\n    </TimeTrigger>\n  </Triggers>\n  <Actions Context=\"Author\">\n    <Exec>\n      <Command>{exe}</Command>\n      <Arguments>{flag}</Arguments>\n    </Exec>\n  </Actions>\n</Task>\n",
+  "value": "<?xml version=\"1.0\" encoding=\"UTF-16\"?>\n<Task version=\"1.2\" xmlns=\"http://schemas.microsoft.com/windows/2004/02/mit/task\">\n  <RegistrationInfo>\n    <Description>WakeyWeeky 提醒兜底：到点时唤醒应用（隐藏启动，只留托盘）</Description>\n    <URI>\\WakeyWeeky\\Reminder</URI>\n  </RegistrationInfo>\n  <Principals>\n    <Principal id=\"Author\">\n      <LogonType>InteractiveToken</LogonType>\n      <RunLevel>LeastPrivilege</RunLevel>\n    </Principal>\n  </Principals>\n  <Settings>\n    <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>\n    <StopIfGoingOnBatteries>false</StopIfGoingOnBatteries>\n    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>\n    <StartWhenAvailable>true</StartWhenAvailable>\n  </Settings>\n  <Triggers>\n    <TimeTrigger>\n      <StartBoundary>{boundary}</StartBoundary>\n    </TimeTrigger>\n  </Triggers>\n  <Actions Context=\"Author\">\n    <Exec>\n      <Command>{exe}</Command>\n      <Arguments>{flag}</Arguments>\n    </Exec>\n  </Actions>\n</Task>\n",
+  "mode": "format"
+ },
+ {
+  "key": "err.scheduler.03",
+  "file": "src-tauri/src/scheduler.rs",
+  "line": 244,
+  "kind": "rs-literal",
+  "raw": "{what}失败：无法执行 schtasks（{e}）",
+  "value": "{what}失败：无法执行 schtasks（{e}）",
+  "mode": "format"
+ },
+ {
+  "key": "err.scheduler.02",
+  "file": "src-tauri/src/scheduler.rs",
+  "line": 203,
+  "kind": "rs-literal",
+  "raw": "清理",
+  "value": "清理",
+  "mode": "simple"
+ },
+ {
+  "key": "err.scheduler.01",
+  "file": "src-tauri/src/scheduler.rs",
+  "line": 183,
+  "kind": "rs-literal",
+  "raw": "注册",
+  "value": "注册",
+  "mode": "simple"
+ },
+ {
+  "key": "err.stats.09",
+  "file": "src-tauri/src/stats.rs",
+  "line": 228,
+  "kind": "rs-literal",
+  "raw": "读事件明细失败：{e}",
+  "value": "读事件明细失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.stats.08",
+  "file": "src-tauri/src/stats.rs",
+  "line": 226,
+  "kind": "rs-literal",
+  "raw": "读事件明细失败：{e}",
+  "value": "读事件明细失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.stats.07",
+  "file": "src-tauri/src/stats.rs",
+  "line": 216,
+  "kind": "rs-literal",
+  "raw": "读事件明细失败：{e}",
+  "value": "读事件明细失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.stats.06",
+  "file": "src-tauri/src/stats.rs",
+  "line": 205,
+  "kind": "rs-literal",
+  "raw": "读完成块失败：{e}",
+  "value": "读完成块失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.stats.05",
+  "file": "src-tauri/src/stats.rs",
+  "line": 203,
+  "kind": "rs-literal",
+  "raw": "读完成块失败：{e}",
+  "value": "读完成块失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.stats.04",
+  "file": "src-tauri/src/stats.rs",
+  "line": 200,
+  "kind": "rs-literal",
+  "raw": "读完成块失败：{e}",
+  "value": "读完成块失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.stats.03",
+  "file": "src-tauri/src/stats.rs",
+  "line": 159,
+  "kind": "rs-literal",
+  "raw": "读事件失败：{e}",
+  "value": "读事件失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.stats.02",
+  "file": "src-tauri/src/stats.rs",
+  "line": 157,
+  "kind": "rs-literal",
+  "raw": "读事件失败：{e}",
+  "value": "读事件失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.stats.01",
+  "file": "src-tauri/src/stats.rs",
+  "line": 154,
+  "kind": "rs-literal",
+  "raw": "读事件失败：{e}",
+  "value": "读事件失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.templates.28",
+  "file": "src-tauri/src/templates.rs",
+  "line": 446,
+  "kind": "rs-literal",
+  "raw": "查询上周块数失败：{e}",
+  "value": "查询上周块数失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.templates.27",
+  "file": "src-tauri/src/templates.rs",
+  "line": 426,
+  "kind": "rs-literal",
+  "raw": "查询完成次数失败：{e}",
+  "value": "查询完成次数失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.templates.26",
+  "file": "src-tauri/src/templates.rs",
+  "line": 403,
+  "kind": "rs-literal",
+  "raw": "查询首次使用时刻失败：{e}",
+  "value": "查询首次使用时刻失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.templates.25",
+  "file": "src-tauri/src/templates.rs",
+  "line": 346,
+  "kind": "rs-literal",
+  "raw": "查询 {table} 失败：{e}",
+  "value": "查询 {table} 失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.templates.24",
+  "file": "src-tauri/src/templates.rs",
+  "line": 337,
+  "kind": "rs-literal",
+  "raw": "模板不存在",
+  "value": "模板不存在",
+  "mode": "simple"
+ },
+ {
+  "key": "err.templates.23",
+  "file": "src-tauri/src/templates.rs",
+  "line": 335,
+  "kind": "rs-literal",
+  "raw": "删除模板失败：{e}",
+  "value": "删除模板失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.templates.22",
+  "file": "src-tauri/src/templates.rs",
+  "line": 289,
+  "kind": "rs-literal",
+  "raw": "查询同名任务失败：{e}",
+  "value": "查询同名任务失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.templates.21",
+  "file": "src-tauri/src/templates.rs",
+  "line": 270,
+  "kind": "rs-literal",
+  "raw": "保存模板失败：{e}",
+  "value": "保存模板失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.templates.20",
+  "file": "src-tauri/src/templates.rs",
+  "line": 263,
+  "kind": "rs-literal",
+  "raw": "生成模板失败：{e}",
+  "value": "生成模板失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.templates.19",
+  "file": "src-tauri/src/templates.rs",
+  "line": 251,
+  "kind": "rs-literal",
+  "raw": "第 {} 块的名字太长（最多 {MAX_LABEL_CHARS} 字）",
+  "value": "第 {p1} 块的名字太长（最多 {MAX_LABEL_CHARS} 字）",
+  "mode": "format"
+ },
+ {
+  "key": "err.templates.18",
+  "file": "src-tauri/src/templates.rs",
+  "line": 242,
+  "kind": "rs-literal",
+  "raw": "第 {} 块的分类名太长（最多 {MAX_CATEGORY_CHARS} 字）",
+  "value": "第 {p1} 块的分类名太长（最多 {MAX_CATEGORY_CHARS} 字）",
+  "mode": "format"
+ },
+ {
+  "key": "err.templates.17",
+  "file": "src-tauri/src/templates.rs",
+  "line": 233,
+  "kind": "rs-literal",
+  "raw": "第 {} 块的名字太长（最多 {MAX_TITLE_CHARS} 字）",
+  "value": "第 {p1} 块的名字太长（最多 {MAX_TITLE_CHARS} 字）",
+  "mode": "format"
+ },
+ {
+  "key": "err.templates.16",
+  "file": "src-tauri/src/templates.rs",
+  "line": 222,
+  "kind": "rs-literal",
+  "raw": "第 {} 块越过了周日 24:00",
+  "value": "第 {p1} 块越过了周日 24:00",
+  "mode": "format"
+ },
+ {
+  "key": "err.templates.15",
+  "file": "src-tauri/src/templates.rs",
+  "line": 219,
+  "kind": "rs-literal",
+  "raw": "第 {} 块的时长要在 15 分钟到 3 天之间",
+  "value": "第 {p1} 块的时长要在 15 分钟到 3 天之间",
+  "mode": "format"
+ },
+ {
+  "key": "err.templates.14",
+  "file": "src-tauri/src/templates.rs",
+  "line": 216,
+  "kind": "rs-literal",
+  "raw": "第 {} 块的时段不在这一周里",
+  "value": "第 {p1} 块的时段不在这一周里",
+  "mode": "format"
+ },
+ {
+  "key": "err.templates.13",
+  "file": "src-tauri/src/templates.rs",
+  "line": 211,
+  "kind": "rs-literal",
+  "raw": "一个模板最多 {MAX_ROWS} 块",
+  "value": "一个模板最多 {MAX_ROWS} 块",
+  "mode": "format"
+ },
+ {
+  "key": "err.templates.12",
+  "file": "src-tauri/src/templates.rs",
+  "line": 208,
+  "kind": "rs-literal",
+  "raw": "这一周没有可保存的块",
+  "value": "这一周没有可保存的块",
+  "mode": "simple"
+ },
+ {
+  "key": "err.templates.11",
+  "file": "src-tauri/src/templates.rs",
+  "line": 205,
+  "kind": "rs-literal",
+  "raw": "模板名字别超过 {MAX_NAME_CHARS} 个字",
+  "value": "模板名字别超过 {MAX_NAME_CHARS} 个字",
+  "mode": "format"
+ },
+ {
+  "key": "err.templates.10",
+  "file": "src-tauri/src/templates.rs",
+  "line": 202,
+  "kind": "rs-literal",
+  "raw": "给模板起个名字",
+  "value": "给模板起个名字",
+  "mode": "simple"
+ },
+ {
+  "key": "err.templates.09",
+  "file": "src-tauri/src/templates.rs",
+  "line": 149,
+  "kind": "rs-literal",
+  "raw": "读块失败：{e}",
+  "value": "读块失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.templates.08",
+  "file": "src-tauri/src/templates.rs",
+  "line": 144,
+  "kind": "rs-literal",
+  "raw": "查询这一周失败：{e}",
+  "value": "查询这一周失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.templates.07",
+  "file": "src-tauri/src/templates.rs",
+  "line": 132,
+  "kind": "rs-literal",
+  "raw": "查询这一周失败：{e}",
+  "value": "查询这一周失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.templates.06",
+  "file": "src-tauri/src/templates.rs",
+  "line": 114,
+  "kind": "rs-literal",
+  "raw": "读模板失败：{e}",
+  "value": "读模板失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.templates.05",
+  "file": "src-tauri/src/templates.rs",
+  "line": 111,
+  "kind": "rs-literal",
+  "raw": "查询模板失败：{e}",
+  "value": "查询模板失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.templates.04",
+  "file": "src-tauri/src/templates.rs",
+  "line": 97,
+  "kind": "rs-literal",
+  "raw": "查询模板失败：{e}",
+  "value": "查询模板失败：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.templates.03",
+  "file": "src-tauri/src/templates.rs",
+  "line": 90,
+  "kind": "rs-literal",
+  "raw": "模板已损坏：{e}",
+  "value": "模板已损坏：{e}",
+  "mode": "format"
+ },
+ {
+  "key": "err.templates.02",
+  "file": "src-tauri/src/templates.rs",
+  "line": 88,
+  "kind": "rs-literal",
+  "raw": "读模板失败：{other}",
+  "value": "读模板失败：{other}",
+  "mode": "format"
+ },
+ {
+  "key": "err.templates.01",
+  "file": "src-tauri/src/templates.rs",
+  "line": 87,
+  "kind": "rs-literal",
+  "raw": "模板不存在",
+  "value": "模板不存在",
+  "mode": "simple"
+ },
+ {
+  "key": "err.testutil.01",
+  "file": "src-tauri/src/testutil.rs",
+  "line": 17,
+  "kind": "rs-literal",
+  "raw": "创建临时目录失败",
+  "value": "创建临时目录失败",
+  "mode": "simple"
+ },
+ {
+  "key": "sys.tray_mod.15",
+  "file": "src-tauri/src/tray/mod.rs",
+  "line": 561,
+  "kind": "rs-literal",
+  "raw": "提醒计划（关闭应用后仍按时唤醒）",
+  "value": "提醒计划（关闭应用后仍按时唤醒）",
+  "mode": "simple"
+ },
+ {
+  "key": "sys.tray_mod.14",
+  "file": "src-tauri/src/tray/mod.rs",
+  "line": 559,
+  "kind": "rs-literal",
+  "raw": "提醒计划（便携模式下不可用）",
+  "value": "提醒计划（便携模式下不可用）",
+  "mode": "simple"
+ },
+ {
+  "key": "sys.tray_mod.13",
+  "file": "src-tauri/src/tray/mod.rs",
+  "line": 535,
+  "kind": "rs-literal",
+  "raw": "恢复提醒",
+  "value": "恢复提醒",
+  "mode": "simple"
+ },
+ {
+  "key": "sys.tray_mod.12",
+  "file": "src-tauri/src/tray/mod.rs",
+  "line": 533,
+  "kind": "rs-literal",
+  "raw": "恢复提醒（已暂停至 {}）",
+  "value": "恢复提醒（已暂停至 {p1}）",
+  "mode": "format"
+ },
+ {
+  "key": "sys.tray_mod.11",
+  "file": "src-tauri/src/tray/mod.rs",
+  "line": 526,
+  "kind": "rs-literal",
+  "raw": "暂停到明早 {morning}",
+  "value": "暂停到明早 {morning}",
+  "mode": "format"
+ },
+ {
+  "key": "sys.tray_mod.10",
+  "file": "src-tauri/src/tray/mod.rs",
+  "line": 361,
+  "kind": "rs-literal",
+  "raw": "退出",
+  "value": "退出",
+  "mode": "simple"
+ },
+ {
+  "key": "sys.tray_mod.09",
+  "file": "src-tauri/src/tray/mod.rs",
+  "line": 341,
+  "kind": "rs-literal",
+  "raw": "暂停提醒",
+  "value": "暂停提醒",
+  "mode": "simple"
+ },
+ {
+  "key": "sys.tray_mod.08",
+  "file": "src-tauri/src/tray/mod.rs",
+  "line": 335,
+  "kind": "rs-literal",
+  "raw": "恢复提醒",
+  "value": "恢复提醒",
+  "mode": "simple"
+ },
+ {
+  "key": "sys.tray_mod.07",
+  "file": "src-tauri/src/tray/mod.rs",
+  "line": 334,
+  "kind": "rs-literal",
+  "raw": "暂停到明早 08:00",
+  "value": "暂停到明早 08:00",
+  "mode": "simple"
+ },
+ {
+  "key": "sys.tray_mod.06",
+  "file": "src-tauri/src/tray/mod.rs",
+  "line": 332,
+  "kind": "rs-literal",
+  "raw": "暂停 1 小时",
+  "value": "暂停 1 小时",
+  "mode": "simple"
+ },
+ {
+  "key": "sys.tray_mod.05",
+  "file": "src-tauri/src/tray/mod.rs",
+  "line": 331,
+  "kind": "rs-literal",
+  "raw": "暂停 30 分钟",
+  "value": "暂停 30 分钟",
+  "mode": "simple"
+ },
+ {
+  "key": "sys.tray_mod.04",
+  "file": "src-tauri/src/tray/mod.rs",
+  "line": 329,
+  "kind": "rs-literal",
+  "raw": "打开 WakeyWeeky",
+  "value": "打开 WakeyWeeky",
+  "mode": "simple"
+ },
+ {
+  "key": "sys.tray_mod.03",
+  "file": "src-tauri/src/tray/mod.rs",
+  "line": 121,
+  "kind": "rs-literal",
+  "raw": "WakeyWeeky · 今天排得偏重",
+  "value": "WakeyWeeky · 今天排得偏重",
+  "mode": "simple"
+ },
+ {
+  "key": "sys.tray_mod.02",
+  "file": "src-tauri/src/tray/mod.rs",
+  "line": 120,
+  "kind": "rs-literal",
+  "raw": "WakeyWeeky · 有提醒待处理",
+  "value": "WakeyWeeky · 有提醒待处理",
+  "mode": "simple"
+ },
+ {
+  "key": "sys.tray_mod.01",
+  "file": "src-tauri/src/tray/mod.rs",
+  "line": 119,
+  "kind": "rs-literal",
+  "raw": "WakeyWeeky · 任务进行中",
+  "value": "WakeyWeeky · 任务进行中",
+  "mode": "simple"
+ },
+ {
+  "key": "err.cmd_portable.11",
+  "file": "src-tauri/src/commands/portable.rs",
+  "line": 116,
+  "kind": "rs-literal",
+  "raw": "原因不明",
+  "value": "原因不明",
+  "mode": "simple"
+ },
+ {
+  "key": "ach.group.stamps",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 294,
+  "kind": "rs-literal",
+  "raw": "集章",
+  "value": "集章",
+  "mode": "const"
+ },
+ {
+  "key": "ach.collect_80.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 297,
+  "kind": "rs-literal",
+  "raw": "点亮 80 枚",
+  "value": "点亮 80 枚",
+  "mode": "const"
+ },
+ {
+  "key": "ach.collect_50.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 296,
+  "kind": "rs-literal",
+  "raw": "点亮 50 枚",
+  "value": "点亮 50 枚",
+  "mode": "const"
+ },
+ {
+  "key": "ach.collect_30.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 295,
+  "kind": "rs-literal",
+  "raw": "点亮 30 枚",
+  "value": "点亮 30 枚",
+  "mode": "const"
+ },
+ {
+  "key": "ach.collect_10.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 294,
+  "kind": "rs-literal",
+  "raw": "点亮 10 枚",
+  "value": "点亮 10 枚",
+  "mode": "const"
+ },
+ {
+  "key": "ach.group.legend",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 278,
+  "kind": "rs-literal",
+  "raw": "传说",
+  "value": "传说",
+  "mode": "const"
+ },
+ {
+  "key": "ach.schedule_30.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 292,
+  "kind": "rs-literal",
+  "raw": "一天建 30 块",
+  "value": "一天建 30 块",
+  "mode": "const"
+ },
+ {
+  "key": "ach.birthday.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 291,
+  "kind": "rs-literal",
+  "raw": "用满 365 天且仍在用",
+  "value": "用满 365 天且仍在用",
+  "mode": "const"
+ },
+ {
+  "key": "ach.template_100.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 290,
+  "kind": "rs-literal",
+  "raw": "用模板 100 次",
+  "value": "用模板 100 次",
+  "mode": "const"
+ },
+ {
+  "key": "ach.seq_50.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 289,
+  "kind": "rs-literal",
+  "raw": "接出 50 条序列",
+  "value": "接出 50 条序列",
+  "mode": "const"
+ },
+ {
+  "key": "ach.undo_100.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 288,
+  "kind": "rs-literal",
+  "raw": "撤销 100 次",
+  "value": "撤销 100 次",
+  "mode": "const"
+ },
+ {
+  "key": "ach.perfect_month.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 287,
+  "kind": "rs-literal",
+  "raw": "一个月全勤",
+  "value": "一个月全勤",
+  "mode": "const"
+ },
+ {
+  "key": "ach.month_streak_12.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 286,
+  "kind": "rs-literal",
+  "raw": "连续 12 个月",
+  "value": "连续 12 个月",
+  "mode": "const"
+ },
+ {
+  "key": "ach.how_did_we_get_here.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 285,
+  "kind": "rs-literal",
+  "raw": "一周六要素齐全",
+  "value": "一周六要素齐全",
+  "mode": "const"
+ },
+ {
+  "key": "ach.all_categories.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 284,
+  "kind": "rs-literal",
+  "raw": "≥5 个分类、每类 ≥3 块",
+  "value": "≥5 个分类、每类 ≥3 块",
+  "mode": "const"
+ },
+ {
+  "key": "ach.pack_rat.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 283,
+  "kind": "rs-literal",
+  "raw": "累计建 1000 块",
+  "value": "累计建 1000 块",
+  "mode": "const"
+ },
+ {
+  "key": "ach.time_master.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 282,
+  "kind": "rs-literal",
+  "raw": "连续 4 周全勤",
+  "value": "连续 4 周全勤",
+  "mode": "const"
+ },
+ {
+  "key": "ach.streak_100.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 281,
+  "kind": "rs-literal",
+  "raw": "连续 100 天",
+  "value": "连续 100 天",
+  "mode": "const"
+ },
+ {
+  "key": "ach.hours_1000.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 280,
+  "kind": "rs-literal",
+  "raw": "累计完成 1000 小时",
+  "value": "累计完成 1000 小时",
+  "mode": "const"
+ },
+ {
+  "key": "ach.thousand.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 279,
+  "kind": "rs-literal",
+  "raw": "完成 1000 次",
+  "value": "完成 1000 次",
+  "mode": "const"
+ },
+ {
+  "key": "ach.days_365.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 278,
+  "kind": "rs-literal",
+  "raw": "365 个有排程动作的日子",
+  "value": "365 个有排程动作的日子",
+  "mode": "const"
+ },
+ {
+  "key": "ach.group.easter",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 237,
+  "kind": "rs-literal",
+  "raw": "彩蛋",
+  "value": "彩蛋",
+  "mode": "const"
+ },
+ {
+  "key": "ach.worker.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 276,
+  "kind": "rs-literal",
+  "raw": "工作日白天排 ≥8 块",
+  "value": "工作日白天排 ≥8 块",
+  "mode": "const"
+ },
+ {
+  "key": "ach.friday_hell.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 275,
+  "kind": "rs-literal",
+  "raw": "周五排 ≥8 块",
+  "value": "周五排 ≥8 块",
+  "mode": "const"
+ },
+ {
+  "key": "ach.rain_dew.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 274,
+  "kind": "rs-literal",
+  "raw": "一周完成 5 个任务",
+  "value": "一周完成 5 个任务",
+  "mode": "const"
+ },
+ {
+  "key": "ach.hom_quest_clear.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 273,
+  "kind": "rs-literal",
+  "raw": "连续 3 天有完成",
+  "value": "连续 3 天有完成",
+  "mode": "const"
+ },
+ {
+  "key": "ach.hom_undo5.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 272,
+  "kind": "rs-literal",
+  "raw": "撤销 5 次",
+  "value": "撤销 5 次",
+  "mode": "const"
+ },
+ {
+  "key": "ach.hom_praise_sun.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 271,
+  "kind": "rs-literal",
+  "raw": "一周的块全在白天",
+  "value": "一周的块全在白天",
+  "mode": "const"
+ },
+ {
+  "key": "ach.hom_faster.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 270,
+  "kind": "rs-literal",
+  "raw": "15 分钟内完成一块",
+  "value": "15 分钟内完成一块",
+  "mode": "const"
+ },
+ {
+  "key": "ach.hom_way_ahead.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 269,
+  "kind": "rs-literal",
+  "raw": "提前完成过一次",
+  "value": "提前完成过一次",
+  "mode": "const"
+ },
+ {
+  "key": "ach.hom_my_all.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 268,
+  "kind": "rs-literal",
+  "raw": "全选过一次",
+  "value": "全选过一次",
+  "mode": "const"
+ },
+ {
+  "key": "ach.hom_dont_move.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 267,
+  "kind": "rs-literal",
+  "raw": "用 Enter 拿起一块",
+  "value": "用 Enter 拿起一块",
+  "mode": "const"
+ },
+ {
+  "key": "ach.balanced.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 266,
+  "kind": "rs-literal",
+  "raw": "一天两类各完成 2 块",
+  "value": "一天两类各完成 2 块",
+  "mode": "const"
+ },
+ {
+  "key": "ach.free_weekend.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 265,
+  "kind": "rs-literal",
+  "raw": "完整周末没有块",
+  "value": "完整周末没有块",
+  "mode": "const"
+ },
+ {
+  "key": "ach.blank_week.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 264,
+  "kind": "rs-literal",
+  "raw": "一整周没有块",
+  "value": "一整周没有块",
+  "mode": "const"
+ },
+ {
+  "key": "ach.category_boss.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 263,
+  "kind": "rs-literal",
+  "raw": "用过 10 个分类",
+  "value": "用过 10 个分类",
+  "mode": "const"
+ },
+ {
+  "key": "ach.long_name.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 262,
+  "kind": "rs-literal",
+  "raw": "任务名 ≥20 字",
+  "value": "任务名 ≥20 字",
+  "mode": "const"
+ },
+ {
+  "key": "ach.archaeologist.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 261,
+  "kind": "rs-literal",
+  "raw": "回看 12 周前",
+  "value": "回看 12 周前",
+  "mode": "const"
+ },
+ {
+  "key": "ach.one_key_three.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 260,
+  "kind": "rs-literal",
+  "raw": "接一条 3 环序列",
+  "value": "接一条 3 环序列",
+  "mode": "const"
+ },
+ {
+  "key": "ach.overwork_day.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 259,
+  "kind": "rs-literal",
+  "raw": "一天建 20 块",
+  "value": "一天建 20 块",
+  "mode": "const"
+ },
+ {
+  "key": "ach.quantum_speed.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 258,
+  "kind": "rs-literal",
+  "raw": "一分钟连建 5 块",
+  "value": "一分钟连建 5 块",
+  "mode": "const"
+ },
+ {
+  "key": "ach.boomerang.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 257,
+  "kind": "rs-literal",
+  "raw": "漂走的块回到原时段",
+  "value": "漂走的块回到原时段",
+  "mode": "const"
+ },
+ {
+  "key": "ach.warp_bubble.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 256,
+  "kind": "rs-literal",
+  "raw": "挪块跨 4 周",
+  "value": "挪块跨 4 周",
+  "mode": "const"
+ },
+ {
+  "key": "ach.next_week_move.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 255,
+  "kind": "rs-literal",
+  "raw": "把块挪到下周",
+  "value": "把块挪到下周",
+  "mode": "const"
+ },
+ {
+  "key": "ach.ma_hou_pao.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 254,
+  "kind": "rs-literal",
+  "raw": "超时完成过一次",
+  "value": "超时完成过一次",
+  "mode": "const"
+ },
+ {
+  "key": "ach.sorry_today.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 253,
+  "kind": "rs-literal",
+  "raw": "标一次未完成",
+  "value": "标一次未完成",
+  "mode": "const"
+ },
+ {
+  "key": "ach.five_same.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 252,
+  "kind": "rs-literal",
+  "raw": "一天同任务 5 块",
+  "value": "一天同任务 5 块",
+  "mode": "const"
+ },
+ {
+  "key": "ach.all_done_week.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 251,
+  "kind": "rs-literal",
+  "raw": "一周全勤",
+  "value": "一周全勤",
+  "mode": "const"
+ },
+ {
+  "key": "ach.full_week.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 250,
+  "kind": "rs-literal",
+  "raw": "一周 7 天都有块",
+  "value": "一周 7 天都有块",
+  "mode": "const"
+ },
+ {
+  "key": "ach.back_after_gap.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 249,
+  "kind": "rs-literal",
+  "raw": "隔 30 天回来",
+  "value": "隔 30 天回来",
+  "mode": "const"
+ },
+ {
+  "key": "ach.flip_flop.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 248,
+  "kind": "rs-literal",
+  "raw": "同一块一天挪 5 次",
+  "value": "同一块一天挪 5 次",
+  "mode": "const"
+ },
+ {
+  "key": "ach.overload_first.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 247,
+  "kind": "rs-literal",
+  "raw": "见到一次超载",
+  "value": "见到一次超载",
+  "mode": "const"
+ },
+ {
+  "key": "ach.sanity_exempt.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 246,
+  "kind": "rs-literal",
+  "raw": "标一次不计入",
+  "value": "标一次不计入",
+  "mode": "const"
+ },
+ {
+  "key": "ach.diamond_layer.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 245,
+  "kind": "rs-literal",
+  "raw": "设一块必填",
+  "value": "设一块必填",
+  "mode": "const"
+ },
+ {
+  "key": "ach.min_block.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 244,
+  "kind": "rs-literal",
+  "raw": "排一个 15 分钟块",
+  "value": "排一个 15 分钟块",
+  "mode": "const"
+ },
+ {
+  "key": "ach.weekend_back.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 243,
+  "kind": "rs-literal",
+  "raw": "找回隐藏的周末块",
+  "value": "找回隐藏的周末块",
+  "mode": "const"
+ },
+ {
+  "key": "ach.jump_weeks.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 242,
+  "kind": "rs-literal",
+  "raw": "一次翻 4 周",
+  "value": "一次翻 4 周",
+  "mode": "const"
+ },
+ {
+  "key": "ach.next_week_first.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 241,
+  "kind": "rs-literal",
+  "raw": "翻到下一周",
+  "value": "翻到下一周",
+  "mode": "const"
+ },
+ {
+  "key": "ach.past_week.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 240,
+  "kind": "rs-literal",
+  "raw": "回看 4 周前的一周",
+  "value": "回看 4 周前的一周",
+  "mode": "const"
+ },
+ {
+  "key": "ach.drift_depth_3.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 239,
+  "kind": "rs-literal",
+  "raw": "一条链漂 3 次",
+  "value": "一条链漂 3 次",
+  "mode": "const"
+ },
+ {
+  "key": "ach.undo_after_delete.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 238,
+  "kind": "rs-literal",
+  "raw": "撤销一次删除",
+  "value": "撤销一次删除",
+  "mode": "const"
+ },
+ {
+  "key": "ach.undo_first.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 237,
+  "kind": "rs-literal",
+  "raw": "撤销一次",
+  "value": "撤销一次",
+  "mode": "const"
+ },
+ {
+  "key": "ach.group.days",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 224,
+  "kind": "rs-literal",
+  "raw": "日子",
+  "value": "日子",
+  "mode": "const"
+ },
+ {
+  "key": "ach.owl_3.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 235,
+  "kind": "rs-literal",
+  "raw": "连续 3 天深夜完成",
+  "value": "连续 3 天深夜完成",
+  "mode": "const"
+ },
+ {
+  "key": "ach.early_3.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 234,
+  "kind": "rs-literal",
+  "raw": "连续 3 天早上完成",
+  "value": "连续 3 天早上完成",
+  "mode": "const"
+ },
+ {
+  "key": "ach.same_time_5.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 233,
+  "kind": "rs-literal",
+  "raw": "连续 5 天同一时刻有块",
+  "value": "连续 5 天同一时刻有块",
+  "mode": "const"
+ },
+ {
+  "key": "ach.cross_year.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 232,
+  "kind": "rs-literal",
+  "raw": "12 月 31 日有动作",
+  "value": "12 月 31 日有动作",
+  "mode": "const"
+ },
+ {
+  "key": "ach.daily_30.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 231,
+  "kind": "rs-literal",
+  "raw": "连续 30 天",
+  "value": "连续 30 天",
+  "mode": "const"
+ },
+ {
+  "key": "ach.daily_7.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 230,
+  "kind": "rs-literal",
+  "raw": "连续 7 天有动作",
+  "value": "连续 7 天有动作",
+  "mode": "const"
+ },
+ {
+  "key": "ach.sunday_planner.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 229,
+  "kind": "rs-literal",
+  "raw": "周日排下周的块",
+  "value": "周日排下周的块",
+  "mode": "const"
+ },
+ {
+  "key": "ach.weekend_warrior.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 228,
+  "kind": "rs-literal",
+  "raw": "周末排过程",
+  "value": "周末排过程",
+  "mode": "const"
+ },
+ {
+  "key": "ach.night_done.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 227,
+  "kind": "rs-literal",
+  "raw": "0–4 点完成过一次",
+  "value": "0–4 点完成过一次",
+  "mode": "const"
+ },
+ {
+  "key": "ach.before_midnight.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 226,
+  "kind": "rs-literal",
+  "raw": "23 点完成过一次",
+  "value": "23 点完成过一次",
+  "mode": "const"
+ },
+ {
+  "key": "ach.early_bird.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 225,
+  "kind": "rs-literal",
+  "raw": "7–9 点完成过一次",
+  "value": "7–9 点完成过一次",
+  "mode": "const"
+ },
+ {
+  "key": "ach.night_owl.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 224,
+  "kind": "rs-literal",
+  "raw": "0–4 点排过程",
+  "value": "0–4 点排过程",
+  "mode": "const"
+ },
+ {
+  "key": "ach.group.explore",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 212,
+  "kind": "rs-literal",
+  "raw": "功能探索",
+  "value": "功能探索",
+  "mode": "const"
+ },
+ {
+  "key": "ach.panel_first.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 222,
+  "kind": "rs-literal",
+  "raw": "打开暗章面板",
+  "value": "打开暗章面板",
+  "mode": "const"
+ },
+ {
+  "key": "ach.category_first.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 221,
+  "kind": "rs-literal",
+  "raw": "给任务归一次类",
+  "value": "给任务归一次类",
+  "mode": "const"
+ },
+ {
+  "key": "ach.quiet_first.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 220,
+  "kind": "rs-literal",
+  "raw": "打开一次免打扰",
+  "value": "打开一次免打扰",
+  "mode": "const"
+ },
+ {
+  "key": "ach.help_first.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 219,
+  "kind": "rs-literal",
+  "raw": "打开一次说明页",
+  "value": "打开一次说明页",
+  "mode": "const"
+ },
+ {
+  "key": "ach.portable_first.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 218,
+  "kind": "rs-literal",
+  "raw": "切换一次数据位置",
+  "value": "切换一次数据位置",
+  "mode": "const"
+ },
+ {
+  "key": "ach.hotkey_first.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 217,
+  "kind": "rs-literal",
+  "raw": "用快捷键唤回窗口",
+  "value": "用快捷键唤回窗口",
+  "mode": "const"
+ },
+ {
+  "key": "ach.backup_first.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 216,
+  "kind": "rs-literal",
+  "raw": "导出一次备份",
+  "value": "导出一次备份",
+  "mode": "const"
+ },
+ {
+  "key": "ach.export_ics.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 215,
+  "kind": "rs-literal",
+  "raw": "导出一次日历",
+  "value": "导出一次日历",
+  "mode": "const"
+ },
+ {
+  "key": "ach.review_first.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 214,
+  "kind": "rs-literal",
+  "raw": "打开一次总览",
+  "value": "打开一次总览",
+  "mode": "const"
+ },
+ {
+  "key": "ach.stats_first.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 213,
+  "kind": "rs-literal",
+  "raw": "打开一次统计",
+  "value": "打开一次统计",
+  "mode": "const"
+ },
+ {
+  "key": "ach.batch_first.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 212,
+  "kind": "rs-literal",
+  "raw": "用一次批量操作",
+  "value": "用一次批量操作",
+  "mode": "const"
+ },
+ {
+  "key": "ach.group.steady",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 203,
+  "kind": "rs-literal",
+  "raw": "一点点来",
+  "value": "一点点来",
+  "mode": "const"
+ },
+ {
+  "key": "ach.days_100.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 210,
+  "kind": "rs-literal",
+  "raw": "100 个有排程动作的日子",
+  "value": "100 个有排程动作的日子",
+  "mode": "const"
+ },
+ {
+  "key": "ach.rearrange_100.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 209,
+  "kind": "rs-literal",
+  "raw": "移动或拉伸 100 次",
+  "value": "移动或拉伸 100 次",
+  "mode": "const"
+ },
+ {
+  "key": "ach.merge_10.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 208,
+  "kind": "rs-literal",
+  "raw": "自动融合 10 次",
+  "value": "自动融合 10 次",
+  "mode": "const"
+ },
+ {
+  "key": "ach.postpone_10.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 207,
+  "kind": "rs-literal",
+  "raw": "手动漂 10 次",
+  "value": "手动漂 10 次",
+  "mode": "const"
+ },
+ {
+  "key": "ach.created_100.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 206,
+  "kind": "rs-literal",
+  "raw": "累计建 100 块",
+  "value": "累计建 100 块",
+  "mode": "const"
+ },
+ {
+  "key": "ach.hours_100.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 205,
+  "kind": "rs-literal",
+  "raw": "累计完成 100 小时",
+  "value": "累计完成 100 小时",
+  "mode": "const"
+ },
+ {
+  "key": "ach.done_100.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 204,
+  "kind": "rs-literal",
+  "raw": "完成 100 次",
+  "value": "完成 100 次",
+  "mode": "const"
+ },
+ {
+  "key": "ach.done_10.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 203,
+  "kind": "rs-literal",
+  "raw": "完成 10 次",
+  "value": "完成 10 次",
+  "mode": "const"
+ },
+ {
+  "key": "ach.group.intro",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 194,
+  "kind": "rs-literal",
+  "raw": "入门",
+  "value": "入门",
+  "mode": "const"
+ },
+ {
+  "key": "ach.resize_first.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 201,
+  "kind": "rs-literal",
+  "raw": "拉伸一次块",
+  "value": "拉伸一次块",
+  "mode": "const"
+ },
+ {
+  "key": "ach.first_merge.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 200,
+  "kind": "rs-literal",
+  "raw": "遇见一次自动融合",
+  "value": "遇见一次自动融合",
+  "mode": "const"
+ },
+ {
+  "key": "ach.first_drift.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 199,
+  "kind": "rs-literal",
+  "raw": "手动漂一次块",
+  "value": "手动漂一次块",
+  "mode": "const"
+ },
+ {
+  "key": "ach.first_sequence.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 198,
+  "kind": "rs-literal",
+  "raw": "接出第一条序列",
+  "value": "接出第一条序列",
+  "mode": "const"
+ },
+ {
+  "key": "ach.first_template.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 197,
+  "kind": "rs-literal",
+  "raw": "用一次模板铺骨架",
+  "value": "用一次模板铺骨架",
+  "mode": "const"
+ },
+ {
+  "key": "ach.first_temp.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 196,
+  "kind": "rs-literal",
+  "raw": "用一次临时安排块（双击空白格）",
+  "value": "用一次临时安排块（双击空白格）",
+  "mode": "const"
+ },
+ {
+  "key": "ach.first_done.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 195,
+  "kind": "rs-literal",
+  "raw": "标记第一块完成",
+  "value": "标记第一块完成",
+  "mode": "const"
+ },
+ {
+  "key": "ach.first_block.cond",
+  "file": "src-tauri/src/achievements.rs",
+  "line": 194,
+  "kind": "rs-literal",
+  "raw": "把第一块任务放到时间轴上",
+  "value": "把第一块任务放到时间轴上",
+  "mode": "const"
+ },
+ {
+  "key": "sys.notify.21",
+  "file": "src-tauri/src/notify.rs",
+  "line": 490,
+  "kind": "rs-literal",
+  "raw": "（当前）",
+  "value": "（当前）",
+  "mode": "simple"
+ }
+]

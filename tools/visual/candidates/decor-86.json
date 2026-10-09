@@ -1,0 +1,70 @@
+{
+  "note": "round86（0.32.0；0.32.1 你把 ⑤ 定稿为「字号不加 / 保留 0.06em 字距」）· **9 套内置配色的「长相」参数表**（= 生成器的唯一输入，也是 3.2 主题包 `decor`/`display` 维度的落地形态）。两块：`display` = 展示字（字体族枚举 / 大小写 / 字号倍率 / 字距 / 字重 / 小大写）；`deco` = 形状与线条。规则（唯一实现）在 `src/lib/styles/decor.css` 与四个组件里 —— 这里只放**值**。\n\n键名与语义（生成器逐键登记成 `--deco-*`；没写的键 = 该套不画那一项）：\n· blockRadius 块圆角（默认 var(--radius-sm)）· blockBorderWidth 描边宽（默认 1px）· blockShadow 块 box-shadow · blockClip 块 clip-path（只挂 [data-overlay=inline] 的块）\n· cornerSize/cornerInset/cornerMark 右上角小三角（谷地黄）· hudSize/hudEdge/hudColor 左上+右下 L 形角标（终端）\n· timelineHeadShadow / backlogHeadShadow 两个 head 的 inset 线 · headRule 两个 head 底部 1px 渐隐线（背景画）· dayHeadRule 日头下细线（背景画）\n· itemLine Backlog 行底细线（值 = 颜色）· panelBorder / panelShadow 覆盖面板描边（白瓷，点名配色的规则）· pageOverlay body::after 整页叠层（固定层 + pointer-events:none）\n· tokens 其它既有令牌的直接覆盖（白瓷的 --layer-bar-width）\n\n纪律：**同一套不许同时写 blockClip 与 blockShadow**（裁切会把外发光/硬投影一起裁掉）——生成器会拒绝写文件。",
+  "display": {
+    "endfield": { "font": "mono", "transform": "uppercase", "tracking": "0.1em" },
+    "terminal": { "font": "mono", "tracking": "0.14em" },
+    "deepsea": { "font": "samigirian", "transform": "lowercase", "titleTransform": "lowercase", "tracking": "0.06em" },
+    "bauhaus": { "font": "jost", "weight": "700", "tracking": "0.02em" },
+    "artdeco": { "font": "poiret", "tracking": "0.18em", "variant": "small-caps" },
+    "cassette": { "font": "mono", "tracking": "0.06em" },
+    "north": { "font": "samigirian", "transform": "uppercase", "tracking": "0.06em" },
+    "brutal": { "font": "archivo", "weight": "800", "tracking": "0" },
+    "porcelain": { "font": "marcellus", "transform": "uppercase", "tracking": "0.18em" }
+  },
+  "deco": {
+    "endfield": {
+      "blockClip": "polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 0 100%)",
+      "cornerSize": "9px",
+      "cornerInset": "0 0 auto auto",
+      "cornerMark": "linear-gradient(135deg, var(--accent-deco) 0 42%, transparent 50%)",
+      "timelineHeadShadow": "inset 3px 0 0 var(--accent-deco)",
+      "backlogHeadShadow": "inset 3px 0 0 var(--accent-deco)"
+    },
+    "terminal": {
+      "blockShadow": "0 0 0 1px color-mix(in srgb, var(--accent-deco) 45%, transparent), 0 0 12px color-mix(in srgb, var(--accent-deco) 16%, transparent)",
+      "hudSize": "7px",
+      "hudEdge": "1px",
+      "hudColor": "var(--accent-deco)",
+      "cornerInset": "auto -1px -1px auto",
+      "timelineHeadShadow": "inset 0 -1px 0 color-mix(in srgb, var(--accent-deco) 55%, transparent)"
+    },
+    "deepsea": {
+      "blockRadius": "10px",
+      "blockShadow": "0 0 16px color-mix(in srgb, var(--accent-deco) 18%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--accent-deco) 22%, transparent)",
+      "pageOverlay": "radial-gradient(90% 60% at 18% 0%, color-mix(in srgb, var(--accent-deco) 10%, transparent), transparent 70%)"
+    },
+    "bauhaus": {
+      "blockBorderWidth": "2px",
+      "timelineHeadShadow": "inset 0 -3px 0 var(--accent-deco)",
+      "backlogHeadShadow": "inset 0 -3px 0 var(--cat-3)"
+    },
+    "artdeco": {
+      "blockShadow": "0 0 0 1px color-mix(in srgb, var(--medal) 80%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--medal) 26%, transparent)",
+      "headRule": "linear-gradient(90deg, color-mix(in srgb, var(--medal) 70%, transparent), transparent)"
+    },
+    "cassette": {
+      "blockRadius": "6px",
+      "blockShadow": "inset 0 0 0 1px color-mix(in srgb, var(--accent-deco) 32%, transparent), 0 1px 0 rgb(0 0 0 / 0.2)",
+      "pageOverlay": "radial-gradient(120% 90% at 50% 45%, transparent 58%, rgb(0 0 0 / 0.22))"
+    },
+    "north": {
+      "blockRadius": "8px",
+      "timelineHeadShadow": "inset 0 -1px 0 color-mix(in srgb, var(--accent-deco) 45%, transparent)"
+    },
+    "brutal": {
+      "blockBorderWidth": "2px",
+      "blockShadow": "0 0 0 2px var(--text-primary), 3px 3px 0 color-mix(in srgb, var(--text-primary) 85%, transparent)",
+      "timelineHeadShadow": "inset 0 -3px 0 var(--text-primary)"
+    },
+    "porcelain": {
+      "blockShadow": "inset 3px 0 0 color-mix(in srgb, var(--accent-deco) 85%, transparent)",
+      "dayHeadRule": "linear-gradient(color-mix(in srgb, var(--text-primary) 28%, transparent), color-mix(in srgb, var(--text-primary) 28%, transparent))",
+      "timelineHeadShadow": "inset 0 -1px 0 color-mix(in srgb, var(--text-primary) 35%, transparent)",
+      "backlogHeadShadow": "inset 0 -1px 0 color-mix(in srgb, var(--text-primary) 28%, transparent)",
+      "itemLine": "color-mix(in srgb, var(--text-primary) 8%, transparent)",
+      "panelBorder": "1px solid color-mix(in srgb, var(--text-primary) 16%, transparent)",
+      "panelShadow": "0 18px 60px rgb(0 0 0 / 0.12)",
+      "tokens": { "--layer-bar-width": "3px" }
+    }
+  }
+}

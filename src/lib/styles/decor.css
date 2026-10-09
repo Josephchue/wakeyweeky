@@ -1,0 +1,67 @@
+/**
+ * round86（0.32.0 · ③）· **装饰层**：9 套内置配色的形状 / 线 / 层 —— 规则唯一实现。
+ *
+ * 分工（与 `docs/plans/round86-decor-and-display.md` §3、§4 同一张表）：
+ *   · **值**在生成物里：`tools/visual/candidates/decor-86.json` →（`gen-palettes-85.mjs`）→
+ *     `src/lib/styles/palettes.css` 的 `--deco-*` 令牌（`node tools/visual/gen-palettes-85.mjs --check` 防漂移）；
+ *   · **规则**在这里（+ 四个组件里各自的挂钩：块外表 / 两个 head / 日头 / Backlog 行）——
+ *     读令牌画东西，**默认值 = 今天的观感**（老 3 套逐像素不变）。
+ *
+ * 三条纪律（改动前先读）：
+ *   1. **没有 `!important`** —— `:root[data-palette] …` 的特异性已盖过组件里的 scoped 规则；
+ *   2. **不吃手势** —— 装饰层（伪元素 / `body::after`）一律 `pointer-events: none`，且不占布局；
+ *   3. **块上的形状与浮层解耦** —— `clip-path`（斜切角）**只挂 `[data-overlay="inline"]` 的块**：
+ *      矮块的动作浮层挂在块外，而裁切作用于元素自己与**全部后代**（W3C《CSS Masking L1》）；
+ *      且非 `none` 的裁切会新建层叠上下文（MDN），会改块内 `.actions` 的 z 序。
+ */
+
+/* ---------- 块：HUD 角标（终端：左上 + 右下）与右上角小三角（谷地黄）----------
+   `::before` = 左上 L 形；`::after` = 右下 L 形**或**右上角小三角 —— 两套不会同时用。
+   尺寸 0 + 颜色 transparent 时什么都不画（老 3 套与没写这两项的配色就是这一档）。 */
+:root[data-palette] .block::before,
+:root[data-palette] .block::after {
+  content: "";
+  position: absolute;
+  width: var(--deco-hud-size, 0px);
+  height: var(--deco-hud-size, 0px);
+  border: 0 solid var(--deco-hud-color, transparent);
+  pointer-events: none;
+}
+
+:root[data-palette] .block::before {
+  top: -1px;
+  left: -1px;
+  border-top-width: var(--deco-hud-edge, 0px);
+  border-left-width: var(--deco-hud-edge, 0px);
+}
+
+:root[data-palette] .block::after {
+  inset: var(--deco-corner-inset, auto -1px -1px auto); /* 默认右下角（终端的 HUD） */
+  width: var(--deco-corner-size, var(--deco-hud-size, 0px));
+  height: var(--deco-corner-size, var(--deco-hud-size, 0px));
+  border-right-width: var(--deco-hud-edge, 0px);
+  border-bottom-width: var(--deco-hud-edge, 0px);
+  /* 右上角小三角（谷地黄）：一块 9×9 的渐变 —— 斜切角把它的外半边裁掉，剩下正好是角上的三角形 */
+  background: var(--deco-corner-mark, none);
+}
+
+/* ---------- 整页叠层：深海的柔光晕 / 卡带的 CRT 暗角 ----------
+   固定层 + `pointer-events: none`（绝不吃手势）。**不写 z-index** —— 与 round84 样张同款：
+   它画在普通内容之上，而带正 z-index 的东西（吸顶日头 4 / 选中块 2 / 现在线 3 / 覆盖面板 40+）在它上面。 */
+:root[data-palette] body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: var(--deco-page-overlay, none);
+}
+
+/* ---------- 覆盖面板：白瓷的细描边 + 更轻的投影 ----------
+   为什么**点名配色**而不是写通用令牌钩子：各面板自己写了 `border` / `box-shadow`（组件里的
+   scoped 规则，特异性更高），通用钩子的回退值会把老 3 套的面板描边一起去掉（那是改观感，不是加装饰）。
+   值仍来自生成物（`--deco-panel-*`）。要推广到更多配色时：把选择器换成 `:root[data-palette]`，
+   并给回退值填上各面板的现值（`1px solid var(--text-secondary)` / `var(--shadow-pop)`）。 */
+:root[data-palette="porcelain"] .overlay-panel {
+  border: var(--deco-panel-border, 1px solid var(--text-secondary));
+  box-shadow: var(--deco-panel-shadow, var(--shadow-pop));
+}

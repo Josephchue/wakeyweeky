@@ -1,0 +1,53 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "WakeyWeeky",
+  "version": "1.0.2",
+  "identifier": "com.wakeyweeky.app",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "WakeyWeeky",
+        "width": 1200,
+        "height": 800,
+        "dragDropEnabled": false,
+        "minWidth": 715,
+        "minHeight": 600
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": [
+      "msi"
+    ],
+    "windows": {
+      "wix": {
+        "upgradeCode": "cd3e0368-29a9-541e-9b74-50067d2ca069"
+      }
+    },
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "resources": [
+      "resources/ICONS-LICENSE.md",
+      "resources/SAMIGIRIAN-OFL.txt",
+      "resources/PoiretOne-OFL.txt",
+      "resources/Jost-OFL.txt",
+      "resources/ArchivoBlack-OFL.txt",
+      "resources/Marcellus-OFL.txt"
+    ]
+  }
+}

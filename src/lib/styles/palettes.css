@@ -1,0 +1,854 @@
+/* 第 1 层扩展 · **9 套内置配色**（round85 起；round86 加 ① 的装饰色）—— 生成物，勿手改
+   ─────────────────────────────────────────────────────────────
+   来源：`tools/visual/candidates/round84.json` 的 9 个种子 → `tools/visual/lib/theme-tokens.mjs` 的
+   派生 + 自动调参 → **52 对** + 淡化带 4 条预检（不达标拒绝写文件）。
+   重跑：`node tools/visual/gen-palettes-85.mjs`；比对：`node tools/visual/gen-palettes-85.mjs --check`。
+
+   每套写什么：
+   · 33 个颜色 token（第 1 层 28 个 + 第 2 层里跟着配色走的 5 个：on-warn / on-accent / medal /
+     now-line / dim-band）；
+   · 装饰色 `--accent-deco`（round86 · ①；**只有种子给了 `accentDeco` 的配色写** —— 它染
+     非交互的底色/装饰：块三态 / 层条 / 今天列 / 头部细线；其余配色走 tokens.css 的
+     `--accent-deco: var(--accent)` 默认值）；
+   · 圆角档（只有直角候选写：--radius-sm / --radius / --radius-lg = 0px）；
+   · 底纹层（--surface-image / --surface-size；铺在 body 与 .day-body，整点格线仍在最上层）；
+   · 展示字（round86 · ⑤；round87 加四款自带字）：值在 `decor-86.json` 的 `display` 段）：--font-display（samigirian / mono /
+     serif / poiret / jost / archivo / marcellus 七枚举）/ --display-transform(-title) / --display-scale / --display-tracking /
+     --display-weight / --display-variant —— 只写这一套装了的键，没装的走 `tokens.css` 的现值。
+
+   老 3 套（暖砂 / 冷白 / 素灰绿）仍在 `tokens.css` 里逐字节未动 —— 这里只加新 9 套。
+   小样数据（设置面板）在同一次生成里产出：`src/lib/utils/palette-preview.gen.ts`。 */
+
+/* 谷地黄（endfield）· 工程黄黑 · 直角 · 细网格 / 45° 斜条纹 · 黄色只做小面积 · 直角 · 展示字 · 装饰 */
+:root[data-palette="endfield"] {
+  --bg: #ecebe4;
+  --card: #f7f6f1;
+  --text-primary: #14150f;
+  --text-secondary: #595953;
+  --text-tertiary: #70706a;
+  --accent: #8a7d00;
+  --warn: #a5440c;
+  --warn-solid: #c2410c;
+  --block-fill-planned: #d0cca4;
+  --block-ink-planned: #14150f;
+  --block-line-planned: #c0ba7d;
+  --block-fill-done: #d0cca4;
+  --block-ink-done: #14150f;
+  --block-line-done: #8a7d00;
+  --block-fill-missed: #dddcd5;
+  --block-ink-missed: #60605a;
+  --block-line-missed: #74756e;
+  --block-line-ghost: #74756f;
+  --layer-required-bar: #716700;
+  --layer-elastic-bar: #706f69;
+  --cat-1: #1875a9;
+  --cat-2: #177e61;
+  --cat-3: #8f6915;
+  --cat-4: #955f7b;
+  --cat-5: #af5716;
+  --cat-6: #447590;
+  --cat-7: #777130;
+  --cat-8: #6f6f6d;
+  --on-warn: #ffffff;
+  --on-accent: #000000;
+  --medal: #ac7d0b;
+  --now-line: #a5440c;
+  --dim-band: rgba(0, 0, 0, 0.08);
+
+  --surface-image: repeating-linear-gradient(0deg, rgb(138 125 0 / 0.06) 0 1px, transparent 1px 24px),
+    repeating-linear-gradient(90deg, rgb(138 125 0 / 0.06) 0 1px, transparent 1px 24px),
+    repeating-radial-gradient(circle at 18% 8%, rgb(138 125 0 / 0.05) 0 1px, transparent 1px 30px),
+    repeating-radial-gradient(circle at 82% 74%, rgb(138 125 0 / 0.05) 0 1px, transparent 1px 36px);
+  --surface-size: auto, auto;
+  --surface-image-cols: repeating-linear-gradient(0deg, rgb(138 125 0 / 0.06) 0 1px, transparent 1px 24px),
+    repeating-linear-gradient(90deg, rgb(138 125 0 / 0.06) 0 1px, transparent 1px 24px),
+    repeating-radial-gradient(circle at 18% 8%, rgb(138 125 0 / 0.05) 0 1px, transparent 1px 30px),
+    repeating-radial-gradient(circle at 82% 74%, rgb(138 125 0 / 0.05) 0 1px, transparent 1px 36px);
+  --surface-size-cols: auto, auto;
+
+  --radius-sm: 0px;
+  --radius: 0px;
+  --radius-lg: 0px;
+  --font-display: var(--font-mono);
+  --display-transform: uppercase;
+  --display-tracking: 0.1em;
+  --deco-block-clip: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 0 100%);
+  --deco-corner-mark: linear-gradient(135deg, var(--accent-deco) 0 42%, transparent 50%);
+  --deco-corner-size: 9px;
+  --deco-corner-inset: 0 0 auto auto;
+  --deco-timeline-head-shadow: inset 3px 0 0 var(--accent-deco);
+  --deco-backlog-head-shadow: inset 3px 0 0 var(--accent-deco);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-palette="endfield"] {
+    --bg: #101110;
+    --card: #1a1b18;
+    --text-primary: #f5f5f0;
+    --text-secondary: #959592;
+    --text-tertiary: #848481;
+    --accent: #f5e500;
+    --warn: #ff8a5c;
+    --warn-solid: #b8471f;
+    --block-fill-planned: #504c0c;
+    --block-ink-planned: #fdf9c7;
+    --block-line-planned: #837b08;
+    --block-fill-done: #6c660a;
+    --block-ink-done: #fdf9c7;
+    --block-line-done: #f5e500;
+    --block-fill-missed: #2b2c2b;
+    --block-ink-missed: #959592;
+    --block-line-missed: #777875;
+    --block-line-ghost: #8e8e8b;
+    --layer-required-bar: #f5e500;
+    --layer-elastic-bar: #bbbbb9;
+    --cat-1: #96c1d8;
+    --cat-2: #7fc9b4;
+    --cat-3: #e2b44d;
+    --cat-4: #daaec6;
+    --cat-5: #e3b188;
+    --cat-6: #86c2e4;
+    --cat-7: #ded33e;
+    --cat-8: #bbbbbb;
+    --on-warn: #ffffff;
+    --on-accent: #1a1b18;
+    --medal: #d4a63c;
+    --now-line: #ffa480;
+    --dim-band: rgba(255, 255, 255, 0.05);
+
+    --surface-image: repeating-linear-gradient(45deg, rgb(245 229 0 / 0.05) 0 2px, transparent 2px 14px);
+    --surface-size: auto;
+    --surface-image-cols: repeating-linear-gradient(45deg, rgb(245 229 0 / 0.05) 0 2px, transparent 2px 14px);
+    --surface-size-cols: auto;
+  }
+}
+
+/* 终端（terminal）· 黑 / 深灰 + 终端绿 / 琥珀 · 扫描线 · 等宽数字 · 高密度 · 直角 · 展示字 · 装饰 */
+:root[data-palette="terminal"] {
+  --bg: #f5f4ee;
+  --card: #fffef8;
+  --text-primary: #1b241c;
+  --text-secondary: #585e57;
+  --text-tertiary: #71766f;
+  --accent: #0f7a45;
+  --warn: #b45309;
+  --warn-solid: #8a3f07;
+  --block-fill-planned: #bcd6c4;
+  --block-ink-planned: #1b241c;
+  --block-line-planned: #8ebda2;
+  --block-fill-done: #bbd6c3;
+  --block-ink-done: #1b241c;
+  --block-line-done: #0f7a45;
+  --block-fill-missed: #e6e5df;
+  --block-ink-missed: #616760;
+  --block-line-missed: #757973;
+  --block-line-ghost: #757972;
+  --layer-required-bar: #0c6439;
+  --layer-elastic-bar: #6f746d;
+  --cat-1: #1979af;
+  --cat-2: #198164;
+  --cat-3: #916d19;
+  --cat-4: #97637f;
+  --cat-5: #b25b19;
+  --cat-6: #467993;
+  --cat-7: #797533;
+  --cat-8: #727371;
+  --on-warn: #ffffff;
+  --on-accent: #fffef8;
+  --medal: #b4830b;
+  --now-line: #b45309;
+  --dim-band: rgba(0, 0, 0, 0.08);
+
+  --surface-image: repeating-linear-gradient(0deg, rgb(27 36 28 / 0.05) 0 1px, transparent 1px 3px);
+  --surface-size: auto;
+  --surface-image-cols: repeating-linear-gradient(0deg, rgb(27 36 28 / 0.05) 0 1px, transparent 1px 3px);
+  --surface-size-cols: auto;
+
+  --radius-sm: 0px;
+  --radius: 0px;
+  --radius-lg: 0px;
+  --font-display: var(--font-mono);
+  --display-tracking: 0.14em;
+  --deco-block-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-deco) 45%, transparent), 0 0 12px color-mix(in srgb, var(--accent-deco) 16%, transparent);
+  --deco-corner-inset: auto -1px -1px auto;
+  --deco-hud-size: 7px;
+  --deco-hud-edge: 1px;
+  --deco-hud-color: var(--accent-deco);
+  --deco-timeline-head-shadow: inset 0 -1px 0 color-mix(in srgb, var(--accent-deco) 55%, transparent);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-palette="terminal"] {
+    --bg: #0b0e0c;
+    --card: #121713;
+    --text-primary: #d5e0d5;
+    --text-secondary: #848d85;
+    --text-tertiary: #7b827b;
+    --accent: #3fd07a;
+    --warn: #ffb000;
+    --warn-solid: #a86f00;
+    --block-fill-planned: #1a442b;
+    --block-ink-planned: #d5f5e2;
+    --block-line-planned: #256f43;
+    --block-fill-done: #205c38;
+    --block-ink-done: #d5f5e2;
+    --block-line-done: #3fd07a;
+    --block-fill-missed: #232724;
+    --block-ink-missed: #879088;
+    --block-line-missed: #696f69;
+    --block-line-ghost: #7a827b;
+    --layer-required-bar: #3fd07a;
+    --layer-elastic-bar: #9da39d;
+    --cat-1: #6da9c9;
+    --cat-2: #4bb296;
+    --cat-3: #d59505;
+    --cat-4: #cc8fb1;
+    --cat-5: #d89157;
+    --cat-6: #55aad8;
+    --cat-7: #ded33e;
+    --cat-8: #a1a1a1;
+    --on-warn: #000000;
+    --on-accent: #121713;
+    --medal: #d4a63c;
+    --now-line: #ffb000;
+    --dim-band: rgba(255, 255, 255, 0.05);
+
+    --surface-image: repeating-linear-gradient(0deg, rgb(63 208 122 / 0.06) 0 1px, transparent 1px 3px);
+    --surface-size: auto;
+    --surface-image-cols: repeating-linear-gradient(0deg, rgb(63 208 122 / 0.06) 0 1px, transparent 1px 3px);
+    --surface-size-cols: auto;
+  }
+}
+
+/* 深海冷光（deepsea）· 深蓝黑 + 生物光青 · 冷光渐变 · 低饱和高对比 · 展示字 · 装饰 */
+:root[data-palette="deepsea"] {
+  --bg: #eef4f5;
+  --card: #ffffff;
+  --text-primary: #0d1a20;
+  --text-secondary: #576166;
+  --text-tertiary: #6d777b;
+  --accent: #0d7f8c;
+  --warn: #a34a22;
+  --warn-solid: #7e3517;
+  --block-fill-planned: #bbdadd;
+  --block-ink-planned: #0d1a20;
+  --block-line-planned: #89bfc6;
+  --block-fill-done: #b8d8dc;
+  --block-ink-done: #0d1a20;
+  --block-line-done: #0d7f8c;
+  --block-fill-missed: #dee5e6;
+  --block-ink-missed: #5c666b;
+  --block-line-missed: #737d81;
+  --block-line-ghost: #737d81;
+  --layer-required-bar: #0b6873;
+  --layer-elastic-bar: #6c767a;
+  --cat-1: #187bb4;
+  --cat-2: #168469;
+  --cat-3: #936f1a;
+  --cat-4: #9a6484;
+  --cat-5: #b65c1a;
+  --cat-6: #457a99;
+  --cat-7: #7b7735;
+  --cat-8: #727577;
+  --on-warn: #ffffff;
+  --on-accent: #ffffff;
+  --medal: #b3830c;
+  --now-line: #a34a22;
+  --dim-band: rgba(0, 0, 0, 0.08);
+
+  --surface-image: radial-gradient(120% 90% at 18% 0%, rgb(102 224 234 / 0.13999999999999999) 0%, transparent 62%);
+  --surface-size: 100% 100%;
+
+  --font-display: "Samigirian", var(--font-ui);
+  --display-transform: lowercase;
+  --display-transform-title: lowercase;
+  --display-tracking: 0.06em;
+  --deco-block-radius: 10px;
+  --deco-block-shadow: 0 0 16px color-mix(in srgb, var(--accent-deco) 18%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--accent-deco) 22%, transparent);
+  --deco-page-overlay: radial-gradient(90% 60% at 18% 0%, color-mix(in srgb, var(--accent-deco) 10%, transparent), transparent 70%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-palette="deepsea"] {
+    --bg: #050f16;
+    --card: #0b1a24;
+    --text-primary: #d8e8ea;
+    --text-secondary: #8c9b9e;
+    --text-tertiary: #778589;
+    --accent: #46d5e2;
+    --warn: #ff8a5c;
+    --warn-solid: #b8471f;
+    --block-fill-planned: #17464f;
+    --block-ink-planned: #d6f6f9;
+    --block-line-planned: #26727c;
+    --block-fill-done: #1f5e68;
+    --block-ink-done: #d6f6f9;
+    --block-line-done: #46d5e2;
+    --block-fill-missed: #1e292f;
+    --block-ink-missed: #839295;
+    --block-line-missed: #6f7c7f;
+    --block-line-ghost: #79868b;
+    --layer-required-bar: #46d5e2;
+    --layer-elastic-bar: #a0a9ac;
+    --cat-1: #77afcd;
+    --cat-2: #57b89e;
+    --cat-3: #d89d18;
+    --cat-4: #ce98b6;
+    --cat-5: #da9a65;
+    --cat-6: #61b0dc;
+    --cat-7: #ddd33e;
+    --cat-8: #a7a8a8;
+    --on-warn: #ffffff;
+    --on-accent: #0b1a24;
+    --medal: #d4a63c;
+    --now-line: #ff8a5c;
+    --dim-band: rgba(255, 255, 255, 0.05);
+
+    --surface-image: radial-gradient(120% 90% at 18% 0%, rgb(102 224 234 / 0.16799999999999998) 0%, transparent 62%);
+    --surface-size: 100% 100%;
+  }
+}
+
+/* 包豪斯（bauhaus）· 红黄蓝三原色 + 黑白灰 · 直角 · 点阵 · 块面秩序 · 直角 · 展示字 · 装饰 */
+:root[data-palette="bauhaus"] {
+  --bg: #f4f2ea;
+  --card: #ffffff;
+  --text-primary: #111111;
+  --text-secondary: #5e5e5b;
+  --text-tertiary: #767572;
+  --accent: #d21f26;
+  --warn: #b45309;
+  --warn-solid: #8a3f07;
+  --block-fill-planned: #edc9c4;
+  --block-ink-planned: #111111;
+  --block-line-planned: #e59392;
+  --block-fill-done: #ecbfbb;
+  --block-ink-done: #111111;
+  --block-line-done: #d21f26;
+  --block-fill-missed: #e4e2db;
+  --block-ink-missed: #646361;
+  --block-line-missed: #7a7975;
+  --block-line-ghost: #7a7976;
+  --layer-required-bar: #ac191f;
+  --layer-elastic-bar: #6f6f6b;
+  --cat-1: #1775aa;
+  --cat-2: #177d61;
+  --cat-3: #8e6816;
+  --cat-4: #935e7b;
+  --cat-5: #ad5716;
+  --cat-6: #447490;
+  --cat-7: #757031;
+  --cat-8: #6e6e6e;
+  --on-warn: #ffffff;
+  --on-accent: #ffffff;
+  --medal: #b3820b;
+  --now-line: #b35309;
+  --dim-band: rgba(0, 0, 0, 0.08);
+
+  --surface-image: radial-gradient(circle at 50% 50%, rgb(242 194 0 / 0.12) 0 1.4px, transparent 1.4px);
+  --surface-size: 14px 14px;
+  --surface-image-cols: radial-gradient(circle at 50% 50%, rgb(242 194 0 / 0.12) 0 1.4px, transparent 1.4px);
+  --surface-size-cols: 14px 14px;
+
+  --radius-sm: 0px;
+  --radius: 0px;
+  --radius-lg: 0px;
+  --font-display: "Jost", var(--font-ui);
+  --display-tracking: 0.02em;
+  --display-weight: 700;
+  --deco-block-border-width: 2px;
+  --deco-timeline-head-shadow: inset 0 -3px 0 var(--accent-deco);
+  --deco-backlog-head-shadow: inset 0 -3px 0 var(--cat-3);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-palette="bauhaus"] {
+    --bg: #16151a;
+    --card: #201f26;
+    --text-primary: #f4f2ea;
+    --text-secondary: #979593;
+    --text-tertiary: #8a8886;
+    --accent: #e8484f;
+    --warn: #ffb340;
+    --warn-solid: #b06f00;
+    --block-fill-planned: #512329;
+    --block-ink-planned: #fad7d8;
+    --block-line-planned: #7f2f35;
+    --block-fill-done: #6a292f;
+    --block-ink-done: #fad7d8;
+    --block-line-done: #e8484f;
+    --block-fill-missed: #313033;
+    --block-ink-missed: #9b9996;
+    --block-line-missed: #7a7878;
+    --block-line-ghost: #908f8c;
+    --layer-required-bar: #ea585e;
+    --layer-elastic-bar: #908f8c;
+    --cat-1: #4791bb;
+    --cat-2: #169c78;
+    --cat-3: #d59402;
+    --cat-4: #bd729c;
+    --cat-5: #cd7228;
+    --cat-6: #51a7d8;
+    --cat-7: #dfd33f;
+    --cat-8: #8f8e8f;
+    --on-warn: #111111;
+    --on-accent: #111111;
+    --medal: #d4a63c;
+    --now-line: #ffb340;
+    --dim-band: rgba(0, 0, 0, 0.3);
+
+    --surface-image: radial-gradient(circle at 50% 50%, rgb(242 194 0 / 0.12) 0 1.4px, transparent 1.4px);
+    --surface-size: 14px 14px;
+    --surface-image-cols: radial-gradient(circle at 50% 50%, rgb(242 194 0 / 0.12) 0 1.4px, transparent 1.4px);
+    --surface-size-cols: 14px 14px;
+  }
+}
+
+/* 装饰艺术（artdeco）· 黑 / 金 / 象牙 / 深翡翠 · 金线放射 · 对称（衬线标题留 3.3） · 直角 · 展示字 · 装饰 */
+:root[data-palette="artdeco"] {
+  --bg: #f4efe3;
+  --card: #fbf8ef;
+  --text-primary: #191a1e;
+  --text-secondary: #5b5b5a;
+  --text-tertiary: #72716f;
+  --accent: #8a6d1f;
+  --warn: #8c3b2e;
+  --warn-solid: #6d2a20;
+  --block-fill-planned: #d7ccaf;
+  --block-ink-planned: #191a1e;
+  --block-line-planned: #c4b58b;
+  --block-fill-done: #d8ccae;
+  --block-ink-done: #191a1e;
+  --block-line-done: #8a6d1f;
+  --block-fill-missed: #e5e0d5;
+  --block-ink-missed: #646261;
+  --block-line-missed: #777673;
+  --block-line-ghost: #777673;
+  --layer-required-bar: #715919;
+  --layer-elastic-bar: #72706e;
+  --cat-1: #1877ac;
+  --cat-2: #187f63;
+  --cat-3: #906a18;
+  --cat-4: #97607e;
+  --cat-5: #b15818;
+  --cat-6: #467692;
+  --cat-7: #777332;
+  --cat-8: #717071;
+  --on-warn: #ffffff;
+  --on-accent: #fbf8ef;
+  --medal: #b0800c;
+  --now-line: #8c3b2e;
+  --dim-band: rgba(0, 0, 0, 0.08);
+
+  --surface-image: repeating-conic-gradient(from 0deg at 50% 0%, rgb(201 162 39 / 0.12) 0deg 1.2000000000000002deg, transparent 1.2000000000000002deg 9deg);
+  --surface-size: auto;
+
+  --radius-sm: 0px;
+  --radius: 0px;
+  --radius-lg: 0px;
+  --font-display: "Poiret One", var(--font-ui);
+  --display-tracking: 0.18em;
+  --display-variant: small-caps;
+  --deco-block-shadow: 0 0 0 1px color-mix(in srgb, var(--medal) 80%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--medal) 26%, transparent);
+  --deco-head-rule: linear-gradient(90deg, color-mix(in srgb, var(--medal) 70%, transparent), transparent);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-palette="artdeco"] {
+    --bg: #0d0d10;
+    --card: #16161b;
+    --text-primary: #f2ead8;
+    --text-secondary: #989389;
+    --text-tertiary: #858078;
+    --accent: #c9a227;
+    --warn: #d98b62;
+    --warn-solid: #a05a34;
+    --block-fill-planned: #423716;
+    --block-ink-planned: #f3ebcf;
+    --block-line-planned: #6b581c;
+    --block-fill-done: #584919;
+    --block-ink-done: #f3ebcf;
+    --block-line-done: #c9a227;
+    --block-fill-missed: #282828;
+    --block-ink-missed: #958f86;
+    --block-line-missed: #78756f;
+    --block-line-ghost: #8b877e;
+    --layer-required-bar: #c9a227;
+    --layer-elastic-bar: #9c9890;
+    --cat-1: #60a0c5;
+    --cat-2: #38aa8b;
+    --cat-3: #d59301;
+    --cat-4: #c685a9;
+    --cat-5: #d48648;
+    --cat-6: #50a7d8;
+    --cat-7: #ded33e;
+    --cat-8: #999999;
+    --on-warn: #ffffff;
+    --on-accent: #16161b;
+    --medal: #d4a63c;
+    --now-line: #d98b62;
+    --dim-band: rgba(255, 255, 255, 0.05);
+
+    --surface-image: repeating-conic-gradient(from 0deg at 50% 0%, rgb(212 175 55 / 0.12) 0deg 1.2000000000000002deg, transparent 1.2000000000000002deg 9deg);
+    --surface-size: auto;
+  }
+}
+
+/* 卡带未来（cassette）· 米色 / 芥末黄 / 焦糖 + 琥珀光 · CRT 扫描线 / 半调点阵（打字机体留 3.3） · 展示字 · 装饰 */
+:root[data-palette="cassette"] {
+  --bg: #e7dec7;
+  --card: #f1ead6;
+  --text-primary: #2b241b;
+  --text-secondary: #554d41;
+  --text-tertiary: #6f685a;
+  --accent: #a85c1e;
+  --warn: #b3402a;
+  --warn-solid: #8a2f1e;
+  --block-fill-planned: #d3b592;
+  --block-ink-planned: #2b241b;
+  --block-line-planned: #cba47b;
+  --block-fill-done: #d3b591;
+  --block-ink-done: #2b241b;
+  --block-line-done: #a85c1e;
+  --block-fill-missed: #dad1bb;
+  --block-ink-missed: #60584c;
+  --block-line-missed: #6f675a;
+  --block-line-ghost: #6f6759;
+  --layer-required-bar: #8a4b19;
+  --layer-elastic-bar: #6a6254;
+  --cat-1: #1b6a92;
+  --cat-2: #1e7055;
+  --cat-3: #7f5e16;
+  --cat-4: #84566a;
+  --cat-5: #9a4f16;
+  --cat-6: #42687b;
+  --cat-7: #6b642c;
+  --cat-8: #67635e;
+  --on-warn: #ffffff;
+  --on-accent: #ffffff;
+  --medal: #a1760e;
+  --now-line: #ad3f29;
+  --dim-band: rgba(0, 0, 0, 0.08);
+
+  --surface-image: repeating-linear-gradient(0deg, rgb(43 36 27 / 0.07) 0 1px, transparent 1px 4px);
+  --surface-size: auto;
+  --surface-image-cols: repeating-linear-gradient(0deg, rgb(43 36 27 / 0.07) 0 1px, transparent 1px 4px);
+  --surface-size-cols: auto;
+
+  --font-display: var(--font-mono);
+  --display-tracking: 0.06em;
+  --deco-block-radius: 6px;
+  --deco-block-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent-deco) 32%, transparent), 0 1px 0 rgb(0 0 0 / 0.2);
+  --deco-page-overlay: radial-gradient(120% 90% at 50% 45%, transparent 58%, rgb(0 0 0 / 0.22));
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-palette="cassette"] {
+    --bg: #221d15;
+    --card: #2c261c;
+    --text-primary: #eee2cb;
+    --text-secondary: #9b9181;
+    --text-tertiary: #978e7d;
+    --accent: #ffb000;
+    --warn: #ff8a5c;
+    --warn-solid: #b8471f;
+    --block-fill-planned: #60460f;
+    --block-ink-planned: #ffeec7;
+    --block-line-planned: #91670b;
+    --block-fill-done: #7a580d;
+    --block-ink-done: #ffeec7;
+    --block-line-done: #ffb000;
+    --block-fill-missed: #3a352b;
+    --block-ink-missed: #a79e8d;
+    --block-line-missed: #7e7667;
+    --block-line-ghost: #928979;
+    --layer-required-bar: #ffb000;
+    --layer-elastic-bar: #b7b2a7;
+    --cat-1: #88b9d3;
+    --cat-2: #6ec2aa;
+    --cat-3: #deaa33;
+    --cat-4: #d5a4be;
+    --cat-5: #e0a676;
+    --cat-6: #77bae0;
+    --cat-7: #e0d43e;
+    --cat-8: #b2b2b1;
+    --on-warn: #ffffff;
+    --on-accent: #2c261c;
+    --medal: #d4a63c;
+    --now-line: #ff976d;
+    --dim-band: rgba(0, 0, 0, 0.2);
+
+    --surface-image: repeating-linear-gradient(0deg, rgb(255 176 0 / 0.08) 0 1px, transparent 1px 4px);
+    --surface-size: auto;
+    --surface-image-cols: repeating-linear-gradient(0deg, rgb(255 176 0 / 0.08) 0 1px, transparent 1px 4px);
+    --surface-size-cols: auto;
+  }
+}
+
+/* 北境极夜（north）· 冷灰 + 极夜暗蓝 + 木色暖点 · 弱装饰 · 展示字 · 装饰 */
+:root[data-palette="north"] {
+  --bg: #e9ebec;
+  --card: #f7f8f8;
+  --text-primary: #1a2028;
+  --text-secondary: #4a4f56;
+  --text-tertiary: #6d7176;
+  --accent: #3f5d99;
+  --warn: #a33b2a;
+  --warn-solid: #7e2c1f;
+  --block-fill-planned: #d4d0c8;
+  --block-ink-planned: #1a2028;
+  --block-line-planned: #b0a08b;
+  --block-fill-done: #c4b9ab;
+  --block-ink-done: #1a2028;
+  --block-line-done: #6b4415;
+  --block-fill-missed: #dbddde;
+  --block-ink-missed: #5c6166;
+  --block-line-missed: #65696f;
+  --block-line-ghost: #65696f;
+  --layer-required-bar: #583811;
+  --layer-elastic-bar: #60646a;
+  --cat-1: #186999;
+  --cat-2: #18705c;
+  --cat-3: #7d5f1d;
+  --cat-4: #815772;
+  --cat-5: #99511d;
+  --cat-6: #3e6983;
+  --cat-7: #696633;
+  --cat-8: #626467;
+  --on-warn: #ffffff;
+  --on-accent: #f7f8f8;
+  --medal: #ab7e0d;
+  --now-line: #a33b2a;
+  --dim-band: rgba(0, 0, 0, 0.08);
+  --accent-deco: #6b4415;
+
+  --surface-image: radial-gradient(circle at 50% 50%, rgb(26 32 40 / 0.12) 0 0.8px, transparent 0.8px);
+  --surface-size: 18px 18px;
+  --surface-image-cols: radial-gradient(circle at 50% 50%, rgb(26 32 40 / 0.12) 0 0.8px, transparent 0.8px);
+  --surface-size-cols: 18px 18px;
+
+  --font-display: "Samigirian", var(--font-ui);
+  --display-transform: uppercase;
+  --display-tracking: 0.06em;
+  --deco-block-radius: 8px;
+  --deco-timeline-head-shadow: inset 0 -1px 0 color-mix(in srgb, var(--accent-deco) 45%, transparent);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-palette="north"] {
+    --bg: #101723;
+    --card: #182132;
+    --text-primary: #dfe5ec;
+    --text-secondary: #888e98;
+    --text-tertiary: #848a93;
+    --accent: #9bb8ff;
+    --warn: #e07a5f;
+    --warn-solid: #a04f38;
+    --block-fill-planned: #41372e;
+    --block-ink-planned: #f1e5d7;
+    --block-line-planned: #685137;
+    --block-fill-done: #564533;
+    --block-ink-done: #f1e5d7;
+    --block-line-done: #c08a4a;
+    --block-fill-missed: #29303b;
+    --block-ink-missed: #9399a2;
+    --block-line-missed: #6d747d;
+    --block-line-ghost: #828892;
+    --layer-required-bar: #c08b4b;
+    --layer-elastic-bar: #90969e;
+    --cat-1: #599dc3;
+    --cat-2: #31a889;
+    --cat-3: #d59403;
+    --cat-4: #c481a7;
+    --cat-5: #d38242;
+    --cat-6: #50a7d9;
+    --cat-7: #ded440;
+    --cat-8: #959696;
+    --on-warn: #ffffff;
+    --on-accent: #182132;
+    --medal: #d4a63c;
+    --now-line: #e07a5f;
+    --dim-band: rgba(0, 0, 0, 0.24);
+    --accent-deco: #c08a4a;
+
+    --surface-image: radial-gradient(circle at 50% 50%, rgb(192 138 74 / 0.1) 0 0.8px, transparent 0.8px);
+    --surface-size: 18px 18px;
+    --surface-image-cols: radial-gradient(circle at 50% 50%, rgb(192 138 74 / 0.1) 0 0.8px, transparent 0.8px);
+    --surface-size-cols: 18px 18px;
+  }
+}
+
+/* 野兽派（brutal）· 高对比黑白 + 单个高饱和强调 · 直角（粗边框 / 巨型字留 3.3） · 直角 · 展示字 · 装饰 */
+:root[data-palette="brutal"] {
+  --bg: #ffffff;
+  --card: #ffffff;
+  --text-primary: #0a0a0a;
+  --text-secondary: #696969;
+  --text-tertiary: #757575;
+  --accent: #ff2d20;
+  --warn: #b45309;
+  --warn-solid: #8a3f07;
+  --block-fill-planned: #ffdbd9;
+  --block-ink-planned: #0a0a0a;
+  --block-line-planned: #ffa19b;
+  --block-fill-done: #ffcdc9;
+  --block-ink-done: #0a0a0a;
+  --block-line-done: #ff2d20;
+  --block-fill-missed: #eeeeee;
+  --block-ink-missed: #6b6b6b;
+  --block-line-missed: #858585;
+  --block-line-ghost: #858585;
+  --layer-required-bar: #d1251a;
+  --layer-elastic-bar: #797979;
+  --cat-1: #1a80ba;
+  --cat-2: #18896b;
+  --cat-3: #9c7218;
+  --cat-4: #a26788;
+  --cat-5: #be5f19;
+  --cat-6: #4a7f9f;
+  --cat-7: #827b35;
+  --cat-8: #797979;
+  --on-warn: #ffffff;
+  --on-accent: #0a0a0a;
+  --medal: #b8860b;
+  --now-line: #b45309;
+  --dim-band: rgba(0, 0, 0, 0.08);
+
+  --radius-sm: 0px;
+  --radius: 0px;
+  --radius-lg: 0px;
+  --font-display: "Archivo Black", var(--font-ui);
+  --display-tracking: 0;
+  --display-weight: 800;
+  --deco-block-border-width: 2px;
+  --deco-block-shadow: 0 0 0 2px var(--text-primary), 3px 3px 0 color-mix(in srgb, var(--text-primary) 85%, transparent);
+  --deco-timeline-head-shadow: inset 0 -3px 0 var(--text-primary);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-palette="brutal"] {
+    --bg: #0a0a0a;
+    --card: #141414;
+    --text-primary: #f5f5f5;
+    --text-secondary: #929292;
+    --text-tertiary: #7f7f7f;
+    --accent: #ff5b4d;
+    --warn: #ffb340;
+    --warn-solid: #b06f00;
+    --block-fill-planned: #4f211d;
+    --block-ink-planned: #ffdbd8;
+    --block-line-planned: #85332c;
+    --block-fill-done: #6c2a25;
+    --block-ink-done: #ffdbd8;
+    --block-line-done: #ff5b4d;
+    --block-fill-missed: #262626;
+    --block-ink-missed: #929292;
+    --block-line-missed: #747474;
+    --block-line-ghost: #8b8b8b;
+    --layer-required-bar: #ff5b4d;
+    --layer-elastic-bar: #8b8b8b;
+    --cat-1: #4892bc;
+    --cat-2: #199d79;
+    --cat-3: #d49301;
+    --cat-4: #be739c;
+    --cat-5: #ce732b;
+    --cat-6: #50a6d7;
+    --cat-7: #ded33e;
+    --cat-8: #8e8e8e;
+    --on-warn: #111111;
+    --on-accent: #141414;
+    --medal: #d4a63c;
+    --now-line: #ffb340;
+    --dim-band: rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* 白瓷（porcelain）· 白瓷与墨线 · 单色细线 · 科幻实验室（借开源复刻的设计语言，MIT；块面不叠纹理/渐变） · 直角 · 展示字 · 装饰 */
+:root[data-palette="porcelain"] {
+  --bg: #f2f1ed;
+  --card: #ffffff;
+  --text-primary: #0a0a0a;
+  --text-secondary: #616160;
+  --text-tertiary: #757573;
+  --accent: #0f6f66;
+  --warn: #a33b2a;
+  --warn-solid: #7e2c1f;
+  --block-fill-planned: #cadad5;
+  --block-ink-planned: #0a0a0a;
+  --block-line-planned: #8cb7b0;
+  --block-fill-done: #bcd2cd;
+  --block-ink-done: #0a0a0a;
+  --block-line-done: #0f6f66;
+  --block-fill-missed: #e2e1dd;
+  --block-ink-missed: #636362;
+  --block-line-missed: #7d7d7b;
+  --block-line-ghost: #7d7d7c;
+  --layer-required-bar: #0c5b54;
+  --layer-elastic-bar: #71716f;
+  --cat-1: #1777ad;
+  --cat-2: #168063;
+  --cat-3: #916b16;
+  --cat-4: #97607e;
+  --cat-5: #b25816;
+  --cat-6: #447794;
+  --cat-7: #797331;
+  --cat-8: #717171;
+  --on-warn: #ffffff;
+  --on-accent: #ffffff;
+  --medal: #b2810b;
+  --now-line: #a33b2a;
+  --dim-band: rgba(0, 0, 0, 0.08);
+
+  --radius-sm: 0px;
+  --radius: 0px;
+  --radius-lg: 0px;
+  --font-display: "Marcellus", var(--font-ui);
+  --display-transform: uppercase;
+  --display-tracking: 0.18em;
+  --deco-block-shadow: inset 3px 0 0 color-mix(in srgb, var(--accent-deco) 85%, transparent);
+  --deco-timeline-head-shadow: inset 0 -1px 0 color-mix(in srgb, var(--text-primary) 35%, transparent);
+  --deco-backlog-head-shadow: inset 0 -1px 0 color-mix(in srgb, var(--text-primary) 28%, transparent);
+  --deco-day-head-rule: linear-gradient(color-mix(in srgb, var(--text-primary) 28%, transparent), color-mix(in srgb, var(--text-primary) 28%, transparent));
+  --deco-item-line: color-mix(in srgb, var(--text-primary) 8%, transparent);
+  --deco-panel-border: 1px solid color-mix(in srgb, var(--text-primary) 16%, transparent);
+  --deco-panel-shadow: 0 18px 60px rgb(0 0 0 / 0.12);
+  --layer-bar-width: 3px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-palette="porcelain"] {
+    --bg: #0e1012;
+    --card: #16181b;
+    --text-primary: #f2f3f5;
+    --text-secondary: #929496;
+    --text-tertiary: #808284;
+    --accent: #7fd4c6;
+    --warn: #ff8a6b;
+    --warn-solid: #b8471f;
+    --block-fill-planned: #2e4744;
+    --block-ink-planned: #e3f6f2;
+    --block-line-planned: #47726c;
+    --block-fill-done: #3b5e5a;
+    --block-ink-done: #e3f6f2;
+    --block-line-done: #7fd4c6;
+    --block-fill-missed: #292b2d;
+    --block-ink-missed: #929496;
+    --block-line-missed: #757678;
+    --block-line-ghost: #8b8d8f;
+    --layer-required-bar: #7fd4c6;
+    --layer-elastic-bar: #a8aaab;
+    --cat-1: #7bb1cf;
+    --cat-2: #5cbaa0;
+    --cat-3: #daa01c;
+    --cat-4: #d09ab8;
+    --cat-5: #dc9c68;
+    --cat-6: #67b2dd;
+    --cat-7: #ded33e;
+    --cat-8: #aaaaaa;
+    --on-warn: #ffffff;
+    --on-accent: #16181b;
+    --medal: #d4a63c;
+    --now-line: #ff8a6b;
+    --dim-band: rgba(255, 255, 255, 0.05);
+  }
+}

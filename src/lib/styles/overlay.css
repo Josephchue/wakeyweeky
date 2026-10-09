@@ -1,0 +1,71 @@
+/**
+ * round78（3.1b₂ · `栈-03`/`栈-04`/`栈-05`）：**覆盖面板的统一外壳**。
+ *
+ * 为什么放全局（而不是各组件各写一遍）：round72 的 L04 就是「各自为政」——
+ * 复盘 `min(780px,92vw)` / 统计 560 / 成就 620 / 说明 640·94vw / 数据位置 680 + 垂直居中；
+ * 而且都是 `left: 50% + translateX(-50%)`（居中）→ **左缘随宽度漂**（实测 x≈310…487），
+ * 连着开两个面板时画面会跳。
+ *
+ * 统一口径（你 2026-10-06 拍板，见 `docs/visual/round78-PassA-子题地图.md` §栈-04）：
+ * - **固定左缘**（`--overlay-left`，宽窗 12vw、窄窗 16px）—— 换面板时左缘不动；
+ * - **两个宽度档**：`.narrow`（560）给内容少的（统计 / 数据位置），`.wide`（780）给长内容的
+ *   （总览 / 说明 / 成就）；两者都夹在 `calc(100vw - 2 * 左缘)` 之内；
+ * - 垂直统一 `top: 4vh` + `max-height: 88vh`（数据位置不再单独垂直居中）；
+ * - `≤760px` 整屏化（`calc(100vw - 32px)`）；
+ * - `overscroll-behavior: contain`（滚到头不把背景一起滚，`栈-05`）。
+ *
+ * 遮罩：`.overlay-backdrop`（`tabindex="-1"` 由组件给 —— round77 已定「遮罩不进 Tab 顺序」）。
+ */
+
+:root {
+  /* 覆盖面板的左缘（宽窗按视口比例；窄窗在媒体查询里改成固定 16px） */
+  --overlay-left: 12vw;
+}
+
+.overlay-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  border: none;
+  background: var(--scrim);
+  cursor: pointer;
+}
+
+.overlay-panel {
+  position: fixed;
+  top: 4vh;
+  left: var(--overlay-left);
+  width: var(--overlay-w);
+  max-height: 88vh;
+  overflow: hidden; /* 内部滚动容器自己滚；这里只保证圆角不被内容顶破 */
+  overscroll-behavior: contain;
+  z-index: 41;
+}
+
+.overlay-panel.narrow {
+  --overlay-w: min(560px, calc(100vw - 2 * var(--overlay-left)));
+}
+
+/* round78（3.1b₂ · 设-01）：中间档 640 —— 设置面板（内容多、又不需要总览那么宽）。
+   580 会窄得像旧弹层，780 会空得难看（样张 §A5 你已过目）。 */
+.overlay-panel.mid {
+  --overlay-w: min(640px, calc(100vw - 2 * var(--overlay-left)));
+}
+
+.overlay-panel.wide {
+  --overlay-w: min(780px, calc(100vw - 2 * var(--overlay-left)));
+}
+
+@media (max-width: 760px) {
+  :root {
+    --overlay-left: 16px;
+  }
+
+  .overlay-panel.narrow,
+  .overlay-panel.mid,
+  .overlay-panel.wide {
+    --overlay-w: calc(100vw - 32px);
+    max-height: 92vh;
+    top: 4vh;
+  }
+}

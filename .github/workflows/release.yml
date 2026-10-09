@@ -1,0 +1,57 @@
+name: Release
+
+# 出安装包并建一个 **草稿** Release（你确认后才对外可见）。
+#
+# 本批（1.0.2 首发）为什么是手动触发而不是 tag 触发：
+#   首发用的是本机已经构建好、已经验收过的那个 MSI（不重编包）→ 由人手在 Releases 页面
+#   建草稿并上传。等下一次真的要用 CI 出包时，把下面这段：
+#       on:
+#         workflow_dispatch:
+#           inputs:
+#             tag: …
+#   换成 `on: { push: { tags: ["v*"] } }`，**并把 with 里的 `tagName` / `releaseName`
+#   从 `${{ inputs.tag }}` 改成 `${{ github.ref_name }}`** —— 两处要一起改，
+#   只改 `on:` 会让 tagName 变成空值（步骤说明见 docs/开源发布手册.md §7）。
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "要发布的 tag（例如 v1.0.3；应当与 src-tauri/tauri.conf.json 的 version 一致）"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - name: 安装前端依赖
+        run: npm ci
+
+      - name: 构建 + 建草稿 Release
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: ${{ inputs.tag }}
+          releaseName: "WakeyWeeky ${{ inputs.tag }}"
+          releaseBody: |
+            见 CHANGELOG.md 的对应版本段。安装包未签名：Windows 可能提示「未知发布者」，
+            点「更多信息 → 仍要运行」即可。系统要求：Windows 10/11 + WebView2。
+          releaseDraft: true
+          prerelease: false
+          args: --bundles msi

@@ -1,0 +1,63 @@
+[package]
+name = "wakeyweeky"
+version = "1.0.2"
+description = "WakeyWeeky — Windows 本地部署的周任务时间安排与待办工具（MVP）"
+authors = ["you"]
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+# The `_lib` suffix may seem redundant but it is necessary
+# to make the lib name unique and wouldn't conflict with the bin name.
+# This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
+name = "wakeyweeky_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+# round73（3.0b₁）：build.rs 解析 messages/zh.json（与前端同一份）生成常量表。
+# 只进构建期，不进二进制（不进 MSI、不影响体积）。
+serde_json = "1"
+
+[dependencies]
+tauri = { version = "2", features = ["tray-icon"] }
+tauri-plugin-notification = "2"
+# round62（C14）：备份的「另存为 / 打开 / 确认」用**系统对话框**（你拍板：备份要能放外盘 / 云盘）
+tauri-plugin-dialog = "2"
+# 用它的「带按钮 + 常驻」能力发必填层提醒（用户拍板 R10）。
+# 它本来就在依赖树里（上面的插件依赖它），版本保持与之一致，不引入新包。
+# 之所以不用插件本身：插件在桌面端显式忽略 action 字段，拿不到按钮也拿不到点击回调。
+notify-rust = "4.18"
+# 单实例（用户拍板 R14）：计划任务到点时应用可能已在运行 → 拦住新实例，
+# 并在已有窗口上执行回调（带 --scheduled 只唤醒提醒线程，普通启动把窗口带到前面）。
+tauri-plugin-single-instance = "2"
+# round66（C12）：全局快捷键（Win+Shift+W 打开主窗口）—— 用户 2026-10-05 批准新增依赖。
+# 只在 Rust 侧注册（`Builder` + `global_shortcut()`），前端不加包、capabilities 不动；
+# Windows 上走系统热键（RegisterHotKey），冲突时 register 返回 Err → 退化到 Ctrl+Alt+W。
+tauri-plugin-global-shortcut = "2"
+rusqlite = { version = "0.40", features = ["bundled"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+chrono = "0.4"
+uuid = { version = "1", features = ["v4"] }
+tauri-plugin-window-state = "2.5.0"
+# round81（3.1c₁ · 深-03/时-09）：语言「跟随系统」与时间「跟随系统」都要在 **Rust 启动那一刻**
+# 就知道系统语言（托盘菜单 / 通知先于前端）。`sys-locale` 只做这一件事：读系统 locale。
+# 用户 2026-10-06 批准（比整包 `tauri-plugin-os` 面更小）。
+sys-locale = "0.3"
+
+[dev-dependencies]
+# round64（C11）：只在测试里用 —— 拿独立解析器给导出的 .ics 做 round-trip 校验。
+# **不进 MSI**（dev-dependency）；导出本身是手写的（它的 generator 强制 TZID、不发 VTIMEZONE，不采用）。
+# 等导入半场（你给样本后）再考虑它做运行时依赖。
+ical = { version = "0.11", default-features = false, features = ["ical"] }
+
+
+# Read the optimization guideline for more details: https://tauri.app/concept/size/#cargo-configuration
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = 3
+panic = "abort"
+strip = true

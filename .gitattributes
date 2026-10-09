@@ -1,0 +1,8 @@
+# 统一换行符：仓库里一律 LF（Windows 检出时不再刷 CRLF 警告）
+* text=auto eol=lf
+
+# 二进制资源不做行尾处理
+*.png binary
+*.ico binary
+*.icns binary
+*.sqlite binary

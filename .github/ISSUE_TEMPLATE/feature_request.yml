@@ -1,0 +1,35 @@
+name: 功能建议
+description: 想让它多做一件什么事
+title: "[建议] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        先看两眼 README 的「刻意不做」（云同步、账号、遥测…）—— 那些是设计取舍，不是遗漏。
+  - type: textarea
+    id: problem
+    attributes:
+      label: 你想解决什么问题
+      description: 先说场景（在什么时候、遇到什么麻烦），再说你想要的功能 —— 场景比功能更能帮到判断
+      placeholder: |
+        场景：……
+        我希望：……
+    validations:
+      required: true
+  - type: textarea
+    id: workaround
+    attributes:
+      label: 现在你怎么绕过去的
+      description: 例如用模板、导出 .ics、手动改时长 —— 有的话写一下
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 你考虑过的别的做法
+      description: 别的应用怎么做的 / 你想到的备选；没有就空着
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: 参与
+      options:
+        - label: 我愿意自己动手提 PR（会先按 CONTRIBUTING 跑一遍闸门）

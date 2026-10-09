@@ -1,0 +1,522 @@
+/* WakeyWeeky 视觉底座（round76 / 3.1a：三层 token）
+   ─────────────────────────────────────────────────────────────
+   组件里不允许硬编码颜色、间距、字号 —— 一律引用这里的变量。
+
+   **三层**（改哪一层就动哪一层，别串）：
+   · 第 1 层 原始值：3 套配色（warm / cool / sage）× 亮/暗 = **6 个块**；只放颜色，
+     每个语义名在每个块里只出现一次。取色唯一来源 = `docs/visual/3.1配色对照图.html`（45 对 × 6 组全达标）。
+   · 第 2 层 语义：**跨 token 的关系**（网格线 = 正文色 8%、今天列微高光 = 强调色 6%、中性层条、
+     两个「只管颜色」开关的覆盖）—— 只写在这里，组件读到的永远是语义名字。
+   · 第 3 层 组件：尺寸与字号（间距六档 / 字号四档 / 行高 / 格高 / 控件高 / 列宽 / 半径）。
+     密度三档（`<html data-density>`）只覆盖这一层。
+
+   **深浅色**：不落 `data-theme` —— 走 `prefers-color-scheme`（Rust 侧 `appearance::apply_window_theme`
+   把窗口主题设成 亮/暗/跟随系统，wry 会改 WebView2 的 `PreferredColorScheme`），
+   所以一条 CSS 路径就吃满「跟随系统 / 亮 / 暗」三档，前端不需要自己解析系统。
+   **配色**：`<html data-palette="warm|cool|sage">`（缺省 = warm）。
+
+   时间轴的「格数 / 每格分钟数 / 起始小时」属于日期计算，定义在 src/lib/utils/week.ts；
+   格高（`--slot-height`）在这里，且**必须**与 `src/lib/utils/timeline.ts` 的运行时值一致
+   （预览断言逐档核对，见 tools/preview/checks.js 的 round76 组）。 */
+
+/* ============================================================
+   第 1 层 · 原始值：A 暖砂 · 清晰绿（warm，默认）
+   ============================================================ */
+:root,
+:root[data-palette="warm"] {
+  --bg: #f6f3ef;
+  --card: #ffffff;
+  --text-primary: #211d18;
+  --text-secondary: #5d574e;
+  --text-tertiary: #767065;
+  --accent: #0e6b52;
+  --warn: #a5440c;
+  --warn-solid: #c2410c;
+  /* 块三态：fill（底）/ ink（字）/ line（描边、虚线） */
+  --block-fill-planned: #dff2ea;
+  --block-ink-planned: #173a30;
+  --block-line-planned: #9dd0bc;
+  --block-fill-done: #cfe6db;
+  --block-ink-done: #173a30;
+  --block-line-done: #0e6b52;
+  --block-fill-missed: #eceae6;
+  --block-ink-missed: #5d574e;
+  --block-line-missed: #8a8378;
+  /* 漂流残影（子块）的虚线 */
+  --block-line-ghost: #8e877c;
+  /* 层条：必填 = 同色系深一档实心 / 弹性 = 虚线（形状由组件决定，颜色只在这） */
+  --layer-required-bar: #0b6047;
+  --layer-elastic-bar: #5f6b73;
+  /* 类别底边条（Okabe-Ito 工作变体；亮色主题按需加深，8 色循环） */
+  --cat-1: #0072b2;
+  --cat-2: #008e68;
+  --cat-3: #a67200;
+  --cat-4: #a55f86;
+  --cat-5: #c95500;
+  --cat-6: #3a7a9e;
+  --cat-7: #827b24;
+  --cat-8: #7d7d7d;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root,
+  :root[data-palette="warm"] {
+    --bg: #1a1917;
+    --card: #242320;
+    --text-primary: #eae7e1;
+    --text-secondary: #b5afa5;
+    --text-tertiary: #948e84;
+    --accent: #4ec39b;
+    --warn: #ff9d6e;
+    --warn-solid: #c2410c;
+    --block-fill-planned: #1e3b32;
+    --block-ink-planned: #d9efe6;
+    --block-line-planned: #2f5c4c;
+    --block-fill-done: #25443a;
+    --block-ink-done: #d9efe6;
+    --block-line-done: #4ec39b;
+    --block-fill-missed: #2b2a27;
+    --block-ink-missed: #b5afa5;
+    --block-line-missed: #6a655c;
+    --block-line-ghost: #6a655c;
+    --layer-required-bar: #4ec39b;
+    --layer-elastic-bar: #a8b2ba;
+    --cat-1: #3891c3;
+    --cat-2: #009e73;
+    --cat-3: #e69f00;
+    --cat-4: #cc79a7;
+    --cat-5: #d86b14;
+    --cat-6: #56b4e9;
+    --cat-7: #f0e442;
+    --cat-8: #999999;
+  }
+}
+
+/* ============================================================
+   第 1 层 · 原始值：B 冷白 · 深翠（cool）
+   ============================================================ */
+:root[data-palette="cool"] {
+  --bg: #f4f6f6;
+  --card: #ffffff;
+  --text-primary: #141a1c;
+  --text-secondary: #52605f;
+  --text-tertiary: #697675;
+  --accent: #0b6b58;
+  --warn: #9e3d0e;
+  --warn-solid: #b8450f;
+  --block-fill-planned: #dcefeb;
+  --block-ink-planned: #123330;
+  --block-line-planned: #9bcfc4;
+  --block-fill-done: #c9e2df;
+  --block-ink-done: #123330;
+  --block-line-done: #0b6b58;
+  --block-fill-missed: #ebeeed;
+  --block-ink-missed: #52605f;
+  --block-line-missed: #7c8988;
+  --block-line-ghost: #7c8988;
+  --layer-required-bar: #0a5f4e;
+  --layer-elastic-bar: #5b6a70;
+  --cat-1: #0072b2;
+  --cat-2: #008e68;
+  --cat-3: #a67200;
+  --cat-4: #a55f86;
+  --cat-5: #c95500;
+  --cat-6: #3a7a9e;
+  --cat-7: #827b24;
+  --cat-8: #7d7d7d;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-palette="cool"] {
+    --bg: #15191a;
+    --card: #1f2425;
+    --text-primary: #e6eceb;
+    --text-secondary: #aeb9b8;
+    --text-tertiary: #8b9695;
+    --accent: #4fd0b4;
+    --warn: #ff9f6b;
+    --warn-solid: #b8450f;
+    --block-fill-planned: #173732;
+    --block-ink-planned: #d3efea;
+    --block-line-planned: #2b5a51;
+    --block-fill-done: #1e403b;
+    --block-ink-done: #d3efea;
+    --block-line-done: #4fd0b4;
+    --block-fill-missed: #262b2b;
+    --block-ink-missed: #aeb9b8;
+    --block-line-missed: #5f6a69;
+    --block-line-ghost: #5f6a69;
+    --layer-required-bar: #4fd0b4;
+    --layer-elastic-bar: #9fb0b6;
+    --cat-1: #3891c3;
+    --cat-2: #009e73;
+    --cat-3: #e69f00;
+    --cat-4: #cc79a7;
+    --cat-5: #d86b14;
+    --cat-6: #56b4e9;
+    --cat-7: #f0e442;
+    --cat-8: #999999;
+  }
+}
+
+/* ============================================================
+   第 1 层 · 原始值：C 素灰绿 · 静默（sage）
+   ============================================================ */
+:root[data-palette="sage"] {
+  --bg: #f5f5f1;
+  --card: #ffffff;
+  --text-primary: #1e201d;
+  --text-secondary: #5c635c;
+  --text-tertiary: #6e756e;
+  --accent: #4a6b5f;
+  --warn: #96512f;
+  --warn-solid: #a85a33;
+  --block-fill-planned: #e4ece7;
+  --block-ink-planned: #22332c;
+  --block-line-planned: #b3c8bf;
+  --block-fill-done: #d6e1da;
+  --block-ink-done: #22332c;
+  --block-line-done: #4a6b5f;
+  --block-fill-missed: #ecebe6;
+  --block-ink-missed: #5c635c;
+  --block-line-missed: #83908a;
+  --block-line-ghost: #83908a;
+  --layer-required-bar: #3f6055;
+  --layer-elastic-bar: #6b7370;
+  --cat-1: #0072b2;
+  --cat-2: #008e68;
+  --cat-3: #a67200;
+  --cat-4: #a55f86;
+  --cat-5: #c95500;
+  --cat-6: #3a7a9e;
+  --cat-7: #827b24;
+  --cat-8: #7d7d7d;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-palette="sage"] {
+    --bg: #191a18;
+    --card: #222420;
+    --text-primary: #e8e9e4;
+    --text-secondary: #b2b6ae;
+    --text-tertiary: #8f948c;
+    --accent: #8fbfae;
+    --warn: #e0a37f;
+    --warn-solid: #a85a33;
+    --block-fill-planned: #21302a;
+    --block-ink-planned: #dcebe4;
+    --block-line-planned: #3b524a;
+    --block-fill-done: #2a3a33;
+    --block-ink-done: #dcebe4;
+    --block-line-done: #8fbfae;
+    --block-fill-missed: #282a26;
+    --block-ink-missed: #b2b6ae;
+    --block-line-missed: #6b706a;
+    --block-line-ghost: #6b706a;
+    --layer-required-bar: #8fbfae;
+    --layer-elastic-bar: #a3aaa6;
+    --cat-1: #3891c3;
+    --cat-2: #009e73;
+    --cat-3: #e69f00;
+    --cat-4: #cc79a7;
+    --cat-5: #d86b14;
+    --cat-6: #56b4e9;
+    --cat-7: #f0e442;
+    --cat-8: #999999;
+  }
+}
+
+/* ============================================================
+   第 2 层 · 语义：跨 token 的关系 + 两个「只管颜色」开关的覆盖
+   ============================================================ */
+:root {
+  /* 原生控件（滚动条 / 下拉 / 输入框光标）跟随主题 */
+  color-scheme: light;
+
+  /* round24：整点淡格线（时间轴一天 48 格，每 2 格 = 1 小时一条）—— 正文色的 8%（≈ 现状的观感，配-03） */
+  --grid-line: color-mix(in srgb, var(--text-primary) 8%, transparent);
+  /* round86（0.32.0 · ①）：**装饰/底色色** —— 与 `--accent`（选中 / 焦点 / 控件）拆开：
+     它只染「非交互」的东西（块三态 / 层条 / 今天列 / 头部细线）。默认 = `--accent`
+     （老 3 套与其余 8 套**零变化**）；只有北境极夜在 `palettes.css` 里把它写成木色，
+     而 `--accent` = 极夜蓝（你 2026-10-08 拍：时间轴底色暖 / 系统控件冷）。 */
+  --accent-deco: var(--accent);
+  /* 今天那一列的微高光（现在线的配角）—— 直接算成**实色**（叠在页底上，不抢内容）。
+     round86：跟着 `--accent-deco`（暖色配色今天是暖的 —— 对老 11 套逐像素不变，因为 deco = accent）。 */
+  --today-tint: color-mix(in srgb, var(--accent-deco) 6%, var(--bg));
+  /* 「现在线」= 警示色（与 Google / Outlook 惯例一致，配-07）。
+     用**文字档**的警示色而不是实心底档：6b 复核算出实心底档在暗色块上只有 2.1–2.8:1（<3）——
+     文字档亮暗两套都在三种块底上 ≥3（见 `tools/visual/contrast.mjs` 的 4 对 now-line 检查）。 */
+  --now-line: var(--warn);
+  /* round82（3.1c₂ · 淡-08）：夜间淡化带 —— 只盖非工作时段（定位见 `Timeline.svelte` 的 `.dim-band`）。
+     亮 8% 黑 / 暗 20% 黑（对比度实测：ΔL* 6.7–7.0 / 2.3–2.5，带/底 1.19 / 1.05）；
+     **z 序不靠 z-index**：带是 `.day-body` 的第一个子元素 —— 网格是背景（永远最底），
+     后续兄弟（落点线 / 块 / 现在线）天然压在上面（`淡-09` 有断言）。
+     3.2 主题包要改淡化观感只覆盖这一个 token。 */
+  --dim-band: rgb(0 0 0 / 8%);
+  /* 警示底上的字（45 对表里已验：白字 / 警示底 ≥4.5） */
+  --on-warn: #ffffff;
+
+  /* 层条上色**关掉**时：那条**看不见**（颜色融入块底，实心/虚线都不画）——
+     你 2026-10-05 验收澄清的语义：开关只管「颜色能不能被识别」，**与功能无关**
+     （点左边缘照样切层、必填提醒照旧、tooltip 里的层文字仍在）。
+     round77：中性灰那条（`--layer-neutral-bar`）已删 —— 它没有读者了。 */
+  --danger: var(--warn);
+  /* 旧名保留：`--muted` 一直是「最淡的那档字」，落到三级文字（≥4.5，修掉 2.35） */
+  --muted: var(--text-tertiary);
+
+  /* 块色条下的分类条宽度（B2：底边 2px，不占高度） */
+  --cat-bar-width: 2px;
+  /* 强调色底上的字（对比度已由 accent/卡 那一对保证） */
+  --on-accent: var(--card);
+
+  /* 成就的 ★ 等级记号（金色 —— 不属于任何一套配色的强调色） */
+  --medal: #b8860b;
+  /* 覆盖式面板背后的遮罩 */
+  --scrim: rgb(26 29 33 / 45%);
+  --scrim-soft: rgb(26 29 33 / 25%); /* 大面板（数据位置切换）用浅一档 */
+  /* 浮层阴影三档：小提示 / 下拉卡 / 大面板（深色下靠不透明度找回来） */
+  --shadow-pop: 0 2px 8px rgb(0 0 0 / 10%);
+  --shadow-drop: 0 4px 12px rgb(0 0 0 / 12%);
+  --shadow-menu: 0 8px 32px rgb(0 0 0 / 18%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --medal: #d4a63c;
+    --scrim: rgb(0 0 0 / 55%);
+    --scrim-soft: rgb(0 0 0 / 35%);
+    --shadow-pop: 0 2px 8px rgb(0 0 0 / 35%);
+    --shadow-drop: 0 4px 12px rgb(0 0 0 / 40%);
+    --shadow-menu: 0 8px 32px rgb(0 0 0 / 45%);
+    /* round82（淡-08）：暗色下 8% 黑看不出（ΔL* ≈1.0）→ 20% 黑（实测 ΔL* 2.3–2.5） */
+    --dim-band: rgb(0 0 0 / 20%);
+  }
+}
+
+/* 「层条上色」开关（默认开）：关掉 = **条不可见**（颜色融入块底），功能一律不动 ——
+   round77 按你 2026-10-05 的验收澄清改（原文是「换成中性色」，那是错的）。 */
+:root[data-layer-color="off"] {
+  --layer-required-bar: transparent;
+  --layer-elastic-bar: transparent;
+}
+
+/* ============================================================
+   展示字（round85 / 0.31.0）· Samigirian Serif（SIL OFL 1.1，许可文本随包）
+   ------------------------------------------------------------
+   只有两套配色用它（在 `palettes.css` 里覆盖 `--font-display` 与两个 transform）：
+   **北境极夜 = 萨米（大写）/ 深海冷光 = 阿戈尔（小写）** —— 依据字体 README：
+   「本字型使用大寫字母呈現薩米文字、小寫字母呈現阿戈爾文字」。
+   字体只覆盖拉丁 / 数字 / Latin-1（实测 316 个码位，**没有 CJK**）→ 中文一律回落系统字体栈。
+   ============================================================ */
+@font-face {
+  font-family: "Samigirian";
+  src: url("../assets/SamigirianSerif-Regular.woff2") format("woff2");
+  font-display: swap;
+}
+
+/* ============================================================
+   展示字（round87 / 1.0.0）· 四款自带展示字（都是 SIL OFL 1.1 的官方 latin 子集，许可文本随包）
+   ------------------------------------------------------------
+   各归一套（你 2026-10-08 拍）：Poiret One → 装饰艺术 · Jost → 包豪斯 ·
+   Archivo Black → 野兽派 · Marcellus → 白瓷。只用 `--font-display`（`--font-ui` 不动）。
+   四款均无 CJK（7.6–18.2KB）→ 中文一律回落系统字体栈（与 Samigirian 同纪律）。
+   ============================================================ */
+@font-face {
+  font-family: "Poiret One";
+  src: url("../assets/PoiretOne-Regular.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Jost";
+  src: url("../assets/Jost-Regular.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Archivo Black";
+  src: url("../assets/ArchivoBlack-Regular.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Marcellus";
+  src: url("../assets/Marcellus-Regular.woff2") format("woff2");
+  font-display: swap;
+}
+
+/* ============================================================
+   第 3 层 · 组件：尺寸与字号（密度三档只覆盖这一层）
+   ============================================================ */
+:root {
+  /* 间距六档（视觉规范；密度无关 —— 排版调研 §2.5） */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  /* 圆角阶梯（round77 3.1b · Fluent 2《Shapes》：矩形默认 4px；<32px 的小件 2px；浮层 / 面板 8px）
+     —— 以前只有一个 `--radius: 2px`，于是连 380px 宽的设置面板也是 2px（比系统自己的浮窗方得多）。 */
+  --radius-sm: 2px; /* 小件：块 / 键帽 / 小徐标（<32px 的块状件） */
+  --radius: 4px; /* 控件与卡片：按钮 / 输入框 / 下拉 / Toast / 卡片 */
+  --radius-lg: 8px; /* 浮层与面板：覆盖面板 / 下拉菜单 / 漂 流卡 / 首启卡片 / 设置面板 */
+
+  /* 图标尺寸（round77）：块上 14px、列表与面板 16px（空态 24–32 留给 round78）；
+     命中区由**按钮**负责（块上动作 32×32），不靠图标撑 */
+  --icon-size-block: 14px;
+  --icon-size-ui: 16px;
+  --block-action-size: 32px; /* 块上动作按钮的命中区（旧值 ≈8×12） */
+  --block-action-size-narrow: 24px; /* round82（11.2）：并排块（2/3+ 列）浮层的按钮 —— WCAG 2.5.8 命中区下限；常规块仍 32 */
+
+  /* 统一焦点环（round77 3.1b · WCAG 2.4.7 / 2.4.11）——
+     用 `:where()` 零特异性：全局给一个默认，组件自己的焦点样式（如块的**内圈选中环**）总能盖过它。 */
+  --focus-ring: 2px solid var(--accent);
+  --focus-ring-offset: 2px;
+
+  /* 字体栈（字体调研 §3）：界面走系统字体，不打包；
+     Segoe UI Variable Text（Win11，带 optical size）→ Segoe UI → 微软官方指定的中文界面字体 */
+  --font-ui: "Segoe UI Variable Text", "Segoe UI", "Microsoft YaHei UI", "Microsoft YaHei",
+    "PingFang SC", sans-serif;
+  /* 等宽数字场景（时间 / 刻度 / 统计）：Cascadia Mono / Consolas 都是 Windows 自带 */
+  --font-mono: "Cascadia Mono", Consolas, "JetBrains Mono", monospace;
+  /* round85（0.31.0）：**展示字**（默认 = 今天的观感：界面字体 + 不变形）。
+     只有北境极夜 / 深海冷光在 `palettes.css` 里覆盖它；`--display-transform-title` 是
+     Backlog 标题专用（它本来就带 `text-transform: uppercase` —— 用单独的 token 免得被全局改成 none）。
+     round86（0.32.0 · ⑤）：展示字另有**四个量**（`--display-scale` 字号倍率 / `--display-tracking` 字距 /
+     `--display-weight` 字重 / `--display-variant` small-caps）—— 它们**故意不在这里给默认值**：
+     三处展示字（日头 / Backlog 标题 / 面板标题）各自的回退值不同（600/700、`normal`/`--label-tracking`），
+     由用例里的 `var(--display-*, <现值>)` 承担（写在组件里，各在自家旁边）。 */
+  --font-display: var(--font-ui);
+  --display-transform: none;
+  --display-transform-title: uppercase;
+
+  /* 标签式小标题的字距（原三口径 0.06/0.08/0.12em 合成一个，字-06） */
+  --label-tracking: 0.06em;
+  /* 行高两档（排版调研 §3.4 #5：正文 1.5；紧凑件 1.2–1.3；纯字形行保留 1） */
+  --line-body: 1.5;
+  --line-compact: 1.25;
+
+  /* 版面 */
+  --backlog-width: 260px;
+  --backlog-rail-width: 40px; /* round67：Backlog 收起成细轨时的宽度 */
+  --layer-bar-width: 4px; /* 层条视觉宽度（配-04：3 → 4px） */
+  --layer-bar-hit: 10px; /* 色条按钮的命中区宽度（4px 太窄点不中） */
+  /* round81（3.1c₁ · 时-09）：时间轴左侧刻度栏宽 —— 12 小时制标签更宽，由 `data-time12` 覆盖 */
+  --gutter-width: 44px;
+
+  /* ---- 密度档（你 2026-10-05 拍板：默认「舒适」）----
+     紧凑 26/28/24/128 · 舒适 30/32/28/136 · 宽松 34/36/32/148 */
+  --text-meta: 12px; /* 刻度 / 时间 / 角标 */
+  --text-body: 13px; /* 正文（Backlog 行 / 设置行 / 面板正文） */
+  --text-title: 14px; /* 标题（日头 / 分区标题） */
+  --text-label: 12px; /* 标签式小标题（配 --label-tracking） */
+  --row-height: 32px; /* 列表行高（Backlog / 设置 / 面板） */
+  --slot-height: 30px; /* 时间轴 30 分钟格 */
+  --control-height: 28px; /* 输入框 / 按钮 */
+  --timeline-col-width: 136px; /* 时间轴一天一列 */
+  /* round77 收尾：头部那条**固定槽**的最小高度（提示条 / 键位提示 / 多选动作条共用）
+     —— 槽高恒定，条与提示的出现/消失就不推时间轴（手势中途变一次 = 落点偏一格，`round26#4`） */
+  --strip-height: 28px;
+  /* 天列列头高度：与 `src/lib/utils/timeline.ts` 的 DAY_HEAD_PX 必须一致 */
+  /* round77（3.1b）：日头 24 → 28px（你拍）—— 它是「开总览并聚焦这天」的整块按钮，
+     24px 低于命中区目标；行高 26 = 28 − 上下各 1px 边线（排版调研 §3.4 #5 允许固定高控件用 px）。 */
+  --day-head-height: 28px;
+}
+
+:root[data-density="compact"] {
+  --text-meta: 12px;
+  --text-body: 12px;
+  --text-title: 13px;
+  --text-label: 12px;
+  --row-height: 28px;
+  --slot-height: 26px;
+  --control-height: 24px;
+  --timeline-col-width: 128px;
+  /* round77 收尾（6b P2）：提示条的关闭钮是**固定 24×24**（可访问性命中区下限）+ 上下 padding/border 4px
+     → 条天然高就是 28px；槽是下限，不能比它低（否则条一出现就把头部顶高 2px） */
+  --strip-height: 28px;
+}
+
+:root[data-density="loose"] {
+  --text-meta: 13px;
+  --text-body: 14px;
+  --text-title: 15px;
+  --text-label: 13px;
+  --row-height: 36px;
+  --slot-height: 34px;
+  --control-height: 32px;
+  --timeline-col-width: 148px;
+  --strip-height: 30px;
+}
+
+/* round81（3.1c₁ · 时-09）：12 小时制下刻度标签（`8:00 AM`）比 24 小时制宽 → 刻度栏加宽 */
+:root[data-time12="on"] {
+  --gutter-width: 72px;
+}
+
+/* round87（3.3 字体方案）：**界面字体族**五档（`<html data-font>`）—— 只覆盖 `--font-ui`。
+   口径（`体-02`）：**拉丁永远先走 Segoe**（前两个族每档都保留），只把 CJK 交给所选族；
+   缺字逐级回退（生僻字 / emoji / 日文假名由系统栈接管）。默认档不写 = 上面 `:root` 的现值，逐字节不变。
+   展示字（`--font-display`）不在这一层改：它由配色决定（`体-06`），只有没装展示字的配色回落到本档。 */
+:root[data-font="song"] {
+  --font-ui: "Segoe UI Variable Text", "Segoe UI", SimSun, "宋体", serif;
+}
+:root[data-font="kai"] {
+  --font-ui: "Segoe UI Variable Text", "Segoe UI", KaiTi, "楷体", serif;
+}
+:root[data-font="deng"] {
+  --font-ui: "Segoe UI Variable Text", "Segoe UI", "DengXian", "等线", sans-serif;
+}
+:root[data-font="mono"] {
+  --font-ui: "Cascadia Mono", Consolas, "Microsoft YaHei UI", "Microsoft YaHei", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background: var(--bg);
+  /* round85（0.31.0）：主题**底纹层**（页面外围）—— 只有新 9 套定义了这两个 token，
+     老 3 套回落到 `none` / `auto`（逐字节零变化）。列底那层见 `Timeline.svelte` 的 `.day-body`。 */
+  background-image: var(--surface-image, none);
+  background-size: var(--surface-size, auto);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  font-size: var(--text-body);
+}
+
+#app {
+  height: 100%;
+}
+
+/* ============================================================
+   round77（3.1b）· 全局基础：**统一的焦点环**
+   ------------------------------------------------------------
+   你 2026-10-05 手批 U1/U12：「标⚠的两项（Tab 顺序 / 焦点环）一定要落实」。
+   以前全仓只有「块」与「分隔条」有可见焦点，其余控件靠浏览器默认（5 处输入框还写了
+   `outline: none` 且没有替代）—— 键盘用户看不出自己在哪。
+
+   `:where()` 的**特异性为 0** ⇒ 任何组件的焦点样式都能盖过它：
+   - 块：保留「内圈深色选中环」（`.block:focus-visible`，那是选中语义）；
+   - 输入框：组件自己换成「边框变色 + 光晕」（更贴合输入态）。
+   ============================================================ */
+:where(a, button, [role="button"], input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* ============================================================
+   round84（用户实测）· 原生下拉弹层：选项自带底色与字色
+   ------------------------------------------------------------
+   Chromium/WebView2 的 <select> 弹层跟着**系统/浏览器**主题走，不跟页面的 prefers-color-scheme：
+   暗色页面 + 浅色系统 → 白底 + 浅字（字看不见，用户截图实测）。
+   给 option 显式带上我们自己的底色/字色即可（不动 select 本体；option:checked 的系统高亮仍由浏览器画）。
+   ============================================================ */
+select option {
+  background-color: var(--card);
+  color: var(--text-primary);
+}

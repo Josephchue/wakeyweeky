@@ -1,0 +1,67 @@
+name: Bug 报告
+description: 有东西不对、坏了、或者跟说明里写的不一样
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        谢谢！**填得越全，来回越少**。如果这里能看到复现步骤，我就能直接在假数据上把它跑成红的。
+  - type: input
+    id: version
+    attributes:
+      label: 版本
+      description: 安装包文件名里的版本号，或设置 → 关于那里显示的
+      placeholder: 例如 1.0.2
+    validations:
+      required: true
+  - type: dropdown
+    id: install
+    attributes:
+      label: 怎么装的
+      options:
+        - MSI 安装版
+        - 便携版 ZIP
+        - 自己从源码构建（npm run tauri build）
+    validations:
+      required: true
+  - type: input
+    id: system
+    attributes:
+      label: 系统
+      description: Windows 版本（`winver` 里能看到），以及是不是自己装的 WebView2
+      placeholder: 例如 Windows 11 24H2 / WebView2 系统自带
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      description: 从「打开应用」开始，一步一步写（做一步、看到什么）
+      placeholder: |
+        1. 打开应用
+        2. 任务池添加「测试任务」
+        3. 把它拖到周三 14:00
+        4. 看到……（不对的地方）
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望看到什么
+      description: 与「实际看到什么」分开写，方便我判断是哪一侧不对
+    validations:
+      required: true
+  - type: textarea
+    id: data
+    attributes:
+      label: 有没有动过数据
+      description: 备份恢复 / 导入 .ics / 便携模式切换 / 手动改过数据库 —— 有就写一下
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: 提交前确认
+      options:
+        - label: 截图 / 日志里**没有**我的私人任务名、真实路径等隐私信息（或已打码）
+          required: true
+        - label: 我在 Issues 里搜过，没有重复的报告

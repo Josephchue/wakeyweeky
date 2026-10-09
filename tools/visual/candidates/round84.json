@@ -1,0 +1,340 @@
+{
+  "note": "round84 Step 2 · 首批主题候选种子（种子只给「主色」；块三态 / 层条 / 类目色由 tools/visual/lib/theme-tokens.mjs 派生 + 52 对预检）。浅色档 accent 是「压深版」（图标/文字用），accentFill 是原味亮色（填充用）。｜round86（0.32.0 · ①）：本表是 9 套内置配色的**唯一来源**（gen-palettes-85.mjs --check 盯它）；北境极夜新增 accentDeco（木色）= 只染非交互的底色/装饰（块三态 / 层条 / 今天列 / 头部细线），accent = 极夜蓝（控件 / 选中 / 焦点）。注意：round84 的样张页（docs/视觉/round84-主题候选样张.html）是**历史产物**，不随本表重跑（要复现历史用 git tag round84-base 的种子）。",
+  "candidates": [
+    {
+      "id": "endfield",
+      "name": "谷地黄",
+      "brief": "工程黄黑 · 直角 · 细网格 / 45° 斜条纹 · 黄色只做小面积",
+      "radius": 0,
+      "iconSet": "bootstrap",
+      "light": {
+        "bg": "#ecebe4",
+        "card": "#f7f6f1",
+        "text": "#14150f",
+        "accent": "#8a7d00",
+        "accentFill": "#fff500",
+        "warn": "#a5440c",
+        "warnSolid": "#c2410c",
+        "surface": [
+          {
+            "kind": "grid",
+            "period": 24,
+            "width": 1,
+            "color": "--accent",
+            "opacity": 0.06
+          },
+          {
+            "kind": "contour",
+            "period": 30,
+            "width": 1,
+            "color": "--accent",
+            "opacity": 0.05
+          }
+        ]
+      },
+      "dark": {
+        "bg": "#101110",
+        "card": "#1a1b18",
+        "text": "#f5f5f0",
+        "accent": "#f5e500",
+        "accentFill": "#fff500",
+        "warn": "#ff8a5c",
+        "warnSolid": "#b8471f",
+        "surface": {
+          "kind": "stripes",
+          "angle": 45,
+          "period": 14,
+          "width": 2,
+          "color": "--accent",
+          "opacity": 0.05
+        }
+      }
+    },
+    {
+      "id": "terminal",
+      "name": "终端",
+      "brief": "黑 / 深灰 + 终端绿 / 琥珀 · 扫描线 · 等宽数字 · 高密度",
+      "radius": 0,
+      "iconSet": "tabler",
+      "light": {
+        "bg": "#f5f4ee",
+        "card": "#fffef8",
+        "text": "#1b241c",
+        "accent": "#0f7a45",
+        "accentFill": "#33ff66",
+        "warn": "#b45309",
+        "warnSolid": "#8a3f07",
+        "surface": {
+          "kind": "scanline",
+          "period": 3,
+          "width": 1,
+          "color": "--text-primary",
+          "opacity": 0.05
+        }
+      },
+      "dark": {
+        "bg": "#0b0e0c",
+        "card": "#121713",
+        "text": "#d5e0d5",
+        "accent": "#3fd07a",
+        "accentFill": "#33ff66",
+        "warn": "#ffb000",
+        "warnSolid": "#a86f00",
+        "surface": {
+          "kind": "scanline",
+          "period": 3,
+          "width": 1,
+          "color": "--accent",
+          "opacity": 0.06
+        }
+      }
+    },
+    {
+      "id": "deepsea",
+      "name": "深海冷光",
+      "brief": "深蓝黑 + 生物光青 · 冷光渐变 · 低饱和高对比",
+      "radius": 4,
+      "iconSet": "lucide",
+      "light": {
+        "bg": "#eef4f5",
+        "card": "#ffffff",
+        "text": "#0d1a20",
+        "accent": "#0d7f8c",
+        "accentFill": "#66e0ea",
+        "warn": "#a34a22",
+        "warnSolid": "#7e3517",
+        "surface": {
+          "kind": "glow",
+          "color": "--accent-fill",
+          "opacity": 0.1
+        }
+      },
+      "dark": {
+        "bg": "#050f16",
+        "card": "#0b1a24",
+        "text": "#d8e8ea",
+        "accent": "#46d5e2",
+        "accentFill": "#66e0ea",
+        "warn": "#ff8a5c",
+        "warnSolid": "#b8471f",
+        "surface": {
+          "kind": "glow",
+          "color": "--accent-fill",
+          "opacity": 0.12
+        }
+      }
+    },
+    {
+      "id": "bauhaus",
+      "name": "包豪斯",
+      "brief": "红黄蓝三原色 + 黑白灰 · 直角 · 点阵 · 块面秩序",
+      "radius": 0,
+      "iconSet": "bootstrap",
+      "light": {
+        "bg": "#f4f2ea",
+        "card": "#ffffff",
+        "text": "#111111",
+        "accent": "#d21f26",
+        "accentFill": "#f2c200",
+        "warn": "#b45309",
+        "warnSolid": "#8a3f07",
+        "surface": {
+          "kind": "dots",
+          "period": 14,
+          "radius": 1.4,
+          "color": "--accent-fill",
+          "opacity": 0.12
+        }
+      },
+      "dark": {
+        "bg": "#16151a",
+        "card": "#201f26",
+        "text": "#f4f2ea",
+        "accent": "#e8484f",
+        "accentFill": "#f2c200",
+        "warn": "#ffb340",
+        "warnSolid": "#b06f00",
+        "surface": {
+          "kind": "dots",
+          "period": 14,
+          "radius": 1.4,
+          "color": "--accent-fill",
+          "opacity": 0.12
+        }
+      }
+    },
+    {
+      "id": "artdeco",
+      "name": "装饰艺术",
+      "brief": "黑 / 金 / 象牙 / 深翡翠 · 金线放射 · 对称（衬线标题留 3.3）",
+      "radius": 0,
+      "iconSet": "lucide",
+      "light": {
+        "bg": "#f4efe3",
+        "card": "#fbf8ef",
+        "text": "#191a1e",
+        "accent": "#8a6d1f",
+        "accentFill": "#c9a227",
+        "warn": "#8c3b2e",
+        "warnSolid": "#6d2a20",
+        "surface": {
+          "kind": "rays",
+          "period": 9,
+          "width": 1.5,
+          "color": "--accent-fill",
+          "opacity": 0.12
+        }
+      },
+      "dark": {
+        "bg": "#0d0d10",
+        "card": "#16161b",
+        "text": "#f2ead8",
+        "accent": "#c9a227",
+        "accentFill": "#d4af37",
+        "warn": "#d98b62",
+        "warnSolid": "#a05a34",
+        "surface": {
+          "kind": "rays",
+          "period": 9,
+          "width": 1.5,
+          "color": "--accent-fill",
+          "opacity": 0.12
+        }
+      }
+    },
+    {
+      "id": "cassette",
+      "name": "卡带未来",
+      "brief": "米色 / 芥末黄 / 焦糖 + 琥珀光 · CRT 扫描线 / 半调点阵（打字机体留 3.3）",
+      "radius": 2,
+      "iconSet": "tabler",
+      "light": {
+        "bg": "#e7dec7",
+        "card": "#f1ead6",
+        "text": "#2b241b",
+        "accent": "#a85c1e",
+        "accentFill": "#ffb000",
+        "warn": "#b3402a",
+        "warnSolid": "#8a2f1e",
+        "surface": {
+          "kind": "scanline",
+          "period": 4,
+          "width": 1,
+          "color": "--text-primary",
+          "opacity": 0.07
+        }
+      },
+      "dark": {
+        "bg": "#221d15",
+        "card": "#2c261c",
+        "text": "#eee2cb",
+        "accent": "#ffb000",
+        "accentFill": "#ffb000",
+        "warn": "#ff8a5c",
+        "warnSolid": "#b8471f",
+        "surface": {
+          "kind": "scanline",
+          "period": 4,
+          "width": 1,
+          "color": "--accent",
+          "opacity": 0.08
+        }
+      }
+    },
+    {
+      "id": "north",
+      "name": "北境极夜",
+      "brief": "冷灰 + 极夜暗蓝 + 木色暖点 · 弱装饰",
+      "radius": 4,
+      "iconSet": "lucide",
+      "light": {
+        "bg": "#e9ebec",
+        "card": "#f7f8f8",
+        "text": "#1a2028",
+        "accent": "#3f5d99",
+        "accentDeco": "#6b4415",
+        "accentFill": "#a8763e",
+        "warn": "#a33b2a",
+        "warnSolid": "#7e2c1f",
+        "surface": {
+          "kind": "dots",
+          "period": 18,
+          "radius": 0.8,
+          "color": "--text-primary",
+          "opacity": 0.12
+        }
+      },
+      "dark": {
+        "bg": "#101723",
+        "card": "#182132",
+        "text": "#dfe5ec",
+        "accent": "#9bb8ff",
+        "accentDeco": "#c08a4a",
+        "accentFill": "#d8a560",
+        "warn": "#e07a5f",
+        "warnSolid": "#a04f38",
+        "surface": {
+          "kind": "dots",
+          "period": 18,
+          "radius": 0.8,
+          "color": "--accent-deco",
+          "opacity": 0.1
+        }
+      }
+    },
+    {
+      "id": "brutal",
+      "name": "野兽派",
+      "brief": "高对比黑白 + 单个高饱和强调 · 直角（粗边框 / 巨型字留 3.3）",
+      "radius": 0,
+      "iconSet": "bootstrap",
+      "light": {
+        "bg": "#ffffff",
+        "card": "#ffffff",
+        "text": "#0a0a0a",
+        "accent": "#ff2d20",
+        "accentFill": "#ff2d20",
+        "warn": "#b45309",
+        "warnSolid": "#8a3f07",
+        "surface": null
+      },
+      "dark": {
+        "bg": "#0a0a0a",
+        "card": "#141414",
+        "text": "#f5f5f5",
+        "accent": "#ff5b4d",
+        "accentFill": "#ff5b4d",
+        "warn": "#ffb340",
+        "warnSolid": "#b06f00",
+        "surface": null
+      }
+    },
+    {
+      "id": "porcelain",
+      "name": "白瓷",
+      "brief": "白瓷与墨线 · 单色细线 · 科幻实验室（借开源复刻的设计语言，MIT；块面不叠纹理/渐变）",
+      "radius": 0,
+      "iconSet": "phosphor",
+      "light": {
+        "bg": "#f2f1ed",
+        "card": "#ffffff",
+        "text": "#0a0a0a",
+        "accent": "#0f6f66",
+        "accentFill": "#3f9b7d",
+        "warn": "#a33b2a",
+        "warnSolid": "#7e2c1f",
+        "surface": null
+      },
+      "dark": {
+        "bg": "#0e1012",
+        "card": "#16181b",
+        "text": "#f2f3f5",
+        "accent": "#7fd4c6",
+        "accentFill": "#7fd4c6",
+        "warn": "#ff8a6b",
+        "warnSolid": "#b8471f",
+        "surface": null
+      }
+    }
+  ]
+}

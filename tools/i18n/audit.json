@@ -1,0 +1,982 @@
+{
+  "changed:ui.review_panel.72": {
+    "from": "按类别",
+    "to": "按分类",
+    "rule": "A1"
+  },
+  "changed:ui.review_panel.51": {
+    "from": "类别投入",
+    "to": "分类投入",
+    "rule": "A1"
+  },
+  "changed:ui.review_panel.52": {
+    "from": "类别投入",
+    "to": "分类投入",
+    "rule": "A1"
+  },
+  "changed:ui.backlog.17": {
+    "from": "展开任务栏（{length} 个任务）",
+    "to": "展开 Backlog（{length} 个任务）",
+    "rule": "A2"
+  },
+  "changed:ui.backlog.18": {
+    "from": "展开任务栏（{length} 个任务）",
+    "to": "展开 Backlog（{length} 个任务）",
+    "rule": "A2"
+  },
+  "changed:ui.backlog.20": {
+    "from": "收起任务栏（收成细轨；点窄条整条展开）",
+    "to": "收起 Backlog（收成细轨；点窄条整条展开）",
+    "rule": "A2"
+  },
+  "changed:ui.backlog.21": {
+    "from": "收起任务栏",
+    "to": "收起 Backlog",
+    "rule": "A2"
+  },
+  "changed:msg.keyboard_help.39": {
+    "from": "Backlog（任务栏）",
+    "to": "Backlog",
+    "rule": "A3"
+  },
+  "changed:ui.stats_panel.12": {
+    "from": "从 Backlog 拖入 / 双击空白格建临时块（漂移内部建的不算）",
+    "to": "从 Backlog 拖入 / 双击空白格建临时块（漂流内部建的不算）",
+    "rule": "A5"
+  },
+  "changed:ui.stats_panel.19": {
+    "from": "漂移",
+    "to": "漂流",
+    "rule": "A5"
+  },
+  "changed:ui.stats_panel.24": {
+    "from": "序列 / 漂移把后面的环连带挪走",
+    "to": "序列 / 漂流把后面的块连带挪走",
+    "rule": "A5"
+  },
+  "changed:ui.stats_panel.27": {
+    "from": "一次删多个（含漂移后续）算在一起",
+    "to": "一次删多个（含漂流后续）算在一起",
+    "rule": "A5"
+  },
+  "changed:ui.stats_panel.63": {
+    "from": "漂移",
+    "to": "漂流",
+    "rule": "A5"
+  },
+  "changed:ui.template_picker.17": {
+    "from": "铺到本周",
+    "to": "铺到这一周",
+    "rule": "A6"
+  },
+  "changed:msg.templates.02": {
+    "from": "已铺 {created} 块到本周（Ctrl+Z 可撤销）",
+    "to": "已铺 {created} 块到这一周（Ctrl+Z 可撤销）",
+    "rule": "A6"
+  },
+  "changed:msg.selection.06": {
+    "from": "{missing} 块不在本周，没跟上",
+    "to": "{missing} 块不在这一周，没跟上",
+    "rule": "A7"
+  },
+  "changed:msg.week.01": {
+    "from": "{minutes} 分钟",
+    "to": "{minutes} 分",
+    "rule": "A8"
+  },
+  "changed:msg.blocks.25": {
+    "from": "这块在序列里，所以不自动融合（环位不能动）",
+    "to": "这块在序列里，所以不自动融合（序列里的位置不能动）",
+    "rule": "A9"
+  },
+  "changed:msg.blocks.10": {
+    "from": "顺延 {cascaded} 个后续链节",
+    "to": "顺延后面的 {cascaded} 块",
+    "rule": "A10"
+  },
+  "changed:msg.blocks.27": {
+    "from": "已顺延 {cascaded} 个后续链节（其中 {history_moved} 个已完成/未完成的历史也被挪了）",
+    "to": "后面的 {cascaded} 块跟着挪了（含 {history_moved} 块已标记的）",
+    "rule": "A10"
+  },
+  "changed:msg.blocks.28": {
+    "from": "已顺延 {cascaded} 个后续链节",
+    "to": "后面的 {cascaded} 块跟着挪了",
+    "rule": "A10"
+  },
+  "changed:msg.drift.03": {
+    "from": "已顺延 {cascaded} 个后续链节（其中 {history_moved} 个已完成/未完成的历史也被挪了）",
+    "to": "后面的 {cascaded} 块跟着挪了（含 {history_moved} 块已标记的）",
+    "rule": "A10"
+  },
+  "changed:msg.drift.04": {
+    "from": "已顺延 {cascaded} 个后续链节（它们原本排在这个时段之前）",
+    "to": "后面的 {cascaded} 块跟着挪了（它们原本排在这个时段之前）",
+    "rule": "A10"
+  },
+  "changed:msg.sequences.03": {
+    "from": "已接在它后面（顺带了 {cascaded} 个后续链节，其中 {history_moved} 个历史也被挪了）",
+    "to": "已接在它后面（后面的 {cascaded} 块跟着挪了，含 {history_moved} 块已标记的）",
+    "rule": "A10"
+  },
+  "changed:msg.sequences.04": {
+    "from": "已接在它后面（顺带顺延了 {cascaded} 个后续链节）",
+    "to": "已接在它后面（后面的 {cascaded} 块跟着挪了）",
+    "rule": "A10"
+  },
+  "changed:err.db.80": {
+    "from": "准备查询后续链节失败：{e}",
+    "to": "准备查询后续块失败：{e}",
+    "rule": "A10"
+  },
+  "changed:err.db.81": {
+    "from": "查询后续链节失败：{e}",
+    "to": "查询后续块失败：{e}",
+    "rule": "A10"
+  },
+  "changed:err.db.82": {
+    "from": "读取后续链节失败：{e}",
+    "to": "读取后续块失败：{e}",
+    "rule": "A10"
+  },
+  "changed:err.db.83": {
+    "from": "顺延后续链节失败：{e}",
+    "to": "顺延后续块失败：{e}",
+    "rule": "A10"
+  },
+  "changed:err.db.117": {
+    "from": "插入链节失败：{e}",
+    "to": "插入块失败：{e}",
+    "rule": "A10"
+  },
+  "changed:ui.task_block.07": {
+    "from": "拖动改时长（15 分钟步进；拖到**下一列**就续到次日）",
+    "to": "拖动改时长（15 分钟步进；拖到下一列就续到次日）",
+    "rule": "B1"
+  },
+  "changed:ui.backlog.31": {
+    "from": "不计入理智：这条任务的所有块都不算进每天的占用（再点一下恢复）",
+    "to": "不计入精力：这条任务的所有块都不算进每天的占用（再点一下恢复）",
+    "rule": "round84（用户报：「理智」黑话 → 「精力」）"
+  },
+  "changed:ui.sanity_settings.65": {
+    "from": "只在选中块之后出现；不想看就选「不显示」（键盘操作不受影响）。",
+    "to": "一直显示在底部；不想看就选「不显示」（键盘操作不受影响）。",
+    "rule": "B2"
+  },
+  "changed:ui.sanity_settings.21": {
+    "from": "设置（提醒 / 理智值 / 数据 / 键位说明）",
+    "to": "设置（主题与颜色 / 字号与密度 / 时间轴 / 提醒与控制 / 更多）",
+    "rule": "B3/round78"
+  },
+  "changed:msg.hints.02": {
+    "from": "总览是一周的复盘：马赛克看状态、点往期的周可以回看；「比上周」也在这儿。",
+    "to": "总览是一周的复盘：马赛克看状态、点往期的周可以回看；「对比」也在这儿。",
+    "rule": "B4"
+  },
+  "changed:err.cmd_settings.07": {
+    "from": "到点时的动作只认 open / hint / off",
+    "to": "这个设置只接受三个值（打开总览 / 只提醒 / 什么都不做）",
+    "rule": "C1"
+  },
+  "changed:err.cmd_settings.08": {
+    "from": "提醒时刻得写成「sun 20:00」或「mon 09:00」",
+    "to": "提醒时刻需要写成「周日 20:00」或「周一 09:00」",
+    "rule": "C2/H1"
+  },
+  "changed:err.cmd_settings.14": {
+    "from": "筛选得写成 {\"kind\":\"all\"|\"uncat\"|\"cat\",\"name\"}",
+    "to": "筛选条件不合法（内部格式，升级后请重启一次）",
+    "rule": "C3"
+  },
+  "changed:err.cmd_settings.17": {
+    "from": "任务栏形态只认 open / rail",
+    "to": "Backlog 形态只认「展开 / 细轨」",
+    "rule": "C4"
+  },
+  "changed:err.cmd_settings.18": {
+    "from": "键位提示栏只认 always / hidden",
+    "to": "键位提示栏只认「常显 / 不显示」",
+    "rule": "C5"
+  },
+  "changed:err.cmd_settings.19": {
+    "from": "模板建议得写成 {\"enabled\":true,\"days\":1..365,\"done\":0..1000}",
+    "to": "模板建议的设置不合法（门限请重新填一次）",
+    "rule": "C6"
+  },
+  "changed:err.cmd_settings.02": {
+    "from": "这个开关只认 0 或 1",
+    "to": "这个开关只接受「开」或「关」",
+    "rule": "C7"
+  },
+  "changed:err.cmd_settings.04": {
+    "from": "这个开关只认 0 或 1",
+    "to": "这个开关只接受「开」或「关」",
+    "rule": "C7"
+  },
+  "changed:err.cmd_settings.06": {
+    "from": "这个开关只认 0 或 1",
+    "to": "这个开关只接受「开」或「关」",
+    "rule": "C7"
+  },
+  "changed:err.cmd_settings.15": {
+    "from": "这个开关只认 0 或 1",
+    "to": "这个开关只接受「开」或「关」",
+    "rule": "C7"
+  },
+  "changed:err.db.158": {
+    "from": "状态不合法：只支持 done / missed",
+    "to": "只能标成「完成」或「未完成」",
+    "rule": "C8"
+  },
+  "changed:err.db.161": {
+    "from": "层级不合法：只支持 required / elastic",
+    "to": "层只能设成「必填」或「弹性」",
+    "rule": "C9"
+  },
+  "changed:err.db.204": {
+    "from": "层级不合法：只支持 required / elastic",
+    "to": "层只能设成「必填」或「弹性」",
+    "rule": "C9"
+  },
+  "changed:err.repeats.13": {
+    "from": "层级不合法：只支持 required / elastic",
+    "to": "层只能设成「必填」或「弹性」",
+    "rule": "C9"
+  },
+  "changed:err.repeats.17": {
+    "from": "周几不合法（0 = 周一 … 6 = 周日）",
+    "to": "周几要在「周一…周日」之间",
+    "rule": "C10"
+  },
+  "changed:err.cmd_portable.07": {
+    "from": "不认识的选择：{pick}",
+    "to": "这个选项不认识（请重新选一次）",
+    "rule": "C10"
+  },
+  "changed:err.db.26": {
+    "from": "时间超出合理范围",
+    "to": "时间超出可排范围（最早 1970、最晚 2099，单块最多 3 天）",
+    "rule": "D1"
+  },
+  "changed:err.db.121": {
+    "from": "顺延后时段超出合理范围",
+    "to": "顺延后时段超出可排范围（最早 1970、最晚 2099，单块最多 3 天）",
+    "rule": "D1"
+  },
+  "changed:err.db.185": {
+    "from": "新时段超出合理范围",
+    "to": "新时段超出可排范围（最早 1970、最晚 2099，单块最多 3 天）",
+    "rule": "D1"
+  },
+  "changed:err.db.194": {
+    "from": "顺延后时段超出合理范围",
+    "to": "顺延后时段超出可排范围（最早 1970、最晚 2099，单块最多 3 天）",
+    "rule": "D1"
+  },
+  "changed:err.db.199": {
+    "from": "新时段超出合理范围",
+    "to": "新时段超出可排范围（最早 1970、最晚 2099，单块最多 3 天）",
+    "rule": "D1"
+  },
+  "changed:err.db.200": {
+    "from": "新时段超出合理范围",
+    "to": "新时段超出可排范围（最早 1970、最晚 2099，单块最多 3 天）",
+    "rule": "D1"
+  },
+  "changed:err.db.19": {
+    "from": "任务块不存在",
+    "to": "这个块已经不在了（可能刚被删掉）",
+    "rule": "D2"
+  },
+  "changed:err.db.20": {
+    "from": "任务块不存在",
+    "to": "这个块已经不在了（可能刚被删掉）",
+    "rule": "D2"
+  },
+  "changed:err.db.84": {
+    "from": "任务块不存在",
+    "to": "这个块已经不在了（可能刚被删掉）",
+    "rule": "D2"
+  },
+  "changed:err.db.99": {
+    "from": "任务块不存在",
+    "to": "这个块已经不在了（可能刚被删掉）",
+    "rule": "D2"
+  },
+  "changed:err.db.155": {
+    "from": "任务块不存在",
+    "to": "这个块已经不在了（可能刚被删掉）",
+    "rule": "D2"
+  },
+  "changed:err.db.157": {
+    "from": "任务块不存在",
+    "to": "这个块已经不在了（可能刚被删掉）",
+    "rule": "D2"
+  },
+  "changed:err.db.162": {
+    "from": "任务块不存在",
+    "to": "这个块已经不在了（可能刚被删掉）",
+    "rule": "D2"
+  },
+  "changed:err.db.164": {
+    "from": "任务块不存在",
+    "to": "这个块已经不在了（可能刚被删掉）",
+    "rule": "D2"
+  },
+  "changed:err.db.166": {
+    "from": "任务块不存在",
+    "to": "这个块已经不在了（可能刚被删掉）",
+    "rule": "D2"
+  },
+  "changed:err.db.184": {
+    "from": "任务块不存在",
+    "to": "这个块已经不在了（可能刚被删掉）",
+    "rule": "D2"
+  },
+  "changed:err.db.105": {
+    "from": "一条漂流链只能占同一个链位：不能把它的一段放到别的位置（中间夹别的块也不行）",
+    "to": "一条漂流链只能占同一个位置。要放到别处，先把它取出来。",
+    "rule": "D3"
+  },
+  "changed:err.db.189": {
+    "from": "不能把它漂到链上前一环之前 —— 那会让顺序立刻乱掉；要调整请先挪前一环，或解除链接",
+    "to": "不能漂到前一环之前（顺序会乱）。要么先挪前一环，要么先解除链接。",
+    "rule": "D4"
+  },
+  "changed:err.db.201": {
+    "from": "不能把它排到链上前一环之前 —— 那会让顺序立刻乱掉；要调整请先挪前一环，或解除链接",
+    "to": "不能排到前一环之前（顺序会乱）。要么先挪前一环，要么先解除链接。",
+    "rule": "D4"
+  },
+  "changed:err.backup.06": {
+    "from": "这个路径不是文件",
+    "to": "这里不是一个文件 —— 选一个具体位置（比如桌面上的某个文件）",
+    "rule": "D5"
+  },
+  "changed:err.db.208": {
+    "from": "漂流链过长或存在环（超过 {MAX_CHAIN_DEPTH} 级），疑似数据异常",
+    "to": "这条漂流链异常（超过 {MAX_CHAIN_DEPTH} 级或绕回自己）—— 已按安全方式处理；反复出现的话请反馈",
+    "rule": "D6"
+  },
+  "changed:msg.blocks.26": {
+    "from": "两块合起来会超过 3 天，超过时长上限 —— 所以没融合",
+    "to": "两块拼起来会超过 3 天上限 —— 所以没融合",
+    "rule": "E3"
+  },
+  "changed:ui.data_switch.04": {
+    "from": "将用「{label}」这份作为接下来的数据，应用会立即重启。\n另一边现有的数据会先留一份副本（wakeyweeky.sqlite.before-switch），不会删除。",
+    "to": "将用「{label}」这份作为接下来的数据，应用会立即重启。\n另一边现有的数据会先留一份副本（副本叫 before-switch，和数据放在同一个文件夹里），不会删除。",
+    "rule": "E4"
+  },
+  "changed:msg.features.26": {
+    "from": "块上的键盘操作与键位栏不生效；Esc 与 Ctrl+Z 仍可用（工具栏也有按钮）",
+    "to": "块上的键盘操作与键位栏不生效；Esc 与 Ctrl+Z 仍可用（顶部也有撤销按钮）",
+    "rule": "E5"
+  },
+  "changed:msg.features.54": {
+    "from": "不再注册全局快捷键（组合键交还给系统 / 别的程序）；已经打开的功能不受影响",
+    "to": "不再注册全局快捷键（组合键交还给系统 / 别的程序）；窗口照常用，只是别的程序里按组合键不会叫出它",
+    "rule": "E6"
+  },
+  "changed:msg.notify.03": {
+    "from": " · 在通知上点 ✓/✗，或回应用窗口标记",
+    "to": " · 在通知上点 ✓/✗，或回到应用窗口标记",
+    "rule": "F1"
+  },
+  "changed:sys.notify.02": {
+    "from": "点下面的按钮就能标记；也可以回应用窗口处理",
+    "to": "点下面的按钮就能标记；也可以回到应用窗口处理",
+    "rule": "F1"
+  },
+  "changed:sys.notify.04": {
+    "from": "「{p1}」快开始了 · 回应用窗口看时间轴",
+    "to": "「{p1}」快开始了 · 回到应用窗口看时间轴",
+    "rule": "F1"
+  },
+  "changed:sys.notify.05": {
+    "from": "「{p1}」该开始了 · 回应用窗口看时间轴",
+    "to": "「{p1}」该开始了 · 回到应用窗口看时间轴",
+    "rule": "F1"
+  },
+  "changed:sys.notify.08": {
+    "from": "「{p1}」到点了 · 回应用窗口点 ✓/✗ 标记",
+    "to": "「{p1}」到点了 · 回到应用窗口点 ✓/✗ 标记",
+    "rule": "F1"
+  },
+  "changed:sys.notify.20": {
+    "from": "「{p1}」等 {p2} 个块到点了 · {list} · 回应用窗口点 ✓/✗ 标记",
+    "to": "「{p1}」等 {p2} 个块到点了 · {list} · 回到应用窗口点 ✓/✗ 标记",
+    "rule": "F1"
+  },
+  "changed:ui.app.06": {
+    "from": "主键 Win+Shift+W 被别的程序占用了，全局快捷键已改用 {active}",
+    "to": "首选 Win+Shift+W 被别的程序占用了，全局快捷键已改用 {active}",
+    "rule": "F2"
+  },
+  "changed:ui.app.03": {
+    "from": "便携模式已启用：原有数据已复制一份到 exe 旁的 data\\（原位置保留）",
+    "to": "便携模式已启用：原有数据已复制一份到应用文件夹里的 data 文件夹（原位置保留）",
+    "rule": "F3"
+  },
+  "changed:ui.sanity_settings.06": {
+    "from": "便携（exe\\data\\）",
+    "to": "便携（应用文件夹里的 data\\）",
+    "rule": "F3/N3"
+  },
+  "changed:ui.data_switch.22": {
+    "from": "当前：便携（exe\\data\\）",
+    "to": "当前：便携（应用文件夹里的 data\\）",
+    "rule": "F3/N3"
+  },
+  "changed:help.help_panel.47": {
+    "from": "：打开后数据（库 / 恢复前副本 / 待恢复文件）写到 exe 旁的",
+    "to": "：打开后数据（库 / 恢复前副本 / 待恢复文件）写到应用文件夹里的",
+    "rule": "F3/N3"
+  },
+  "changed:ui.sanity_settings.83": {
+    "from": "：打开后数据写到 exe 旁的",
+    "to": "：打开后数据写到应用文件夹里的",
+    "rule": "F3/N3"
+  },
+  "changed:err.cmd_portable.01": {
+    "from": "便携（exe\\data\\）",
+    "to": "便携（应用文件夹里的 data\\）",
+    "rule": "F3/N3"
+  },
+  "changed:err.cmd_portable.04": {
+    "from": "便携（exe\\data\\）",
+    "to": "便携（应用文件夹里的 data\\）",
+    "rule": "F3/N3"
+  },
+  "changed:err.cmd_portable.06": {
+    "from": "这个位置不能开便携（exe 所在目录不可写）—— 把应用整个文件夹拷到一个你能写的位置再开",
+    "to": "这个位置不能开便携（应用文件夹不可写）—— 把应用整个文件夹拷到一个你能写的位置再开",
+    "rule": "F3/N3"
+  },
+  "changed:ui.sanity_settings.57": {
+    "from": "超了就变红。日头下那根小条一直显示；关掉后三处都不再出现。",
+    "to": "超了就变红。日头下那根小条一直显示；关掉后时间轴的日头小条、顶部那句提醒、托盘的细红环都不再出现。",
+    "rule": "F4"
+  },
+  "changed:ui.timeline.31": {
+    "from": "键盘暂不支持序列操作：接链点两个块的 ⛓、解链点右键（键盘先不搬块）",
+    "to": "键盘暂不支持序列操作：接链点两个块的 ⛓、解链点右键（键盘暂不搬块）",
+    "rule": "F5"
+  },
+  "changed:ui.sanity_settings.08": {
+    "from": "自定义的暂停时刻得是将来的时间",
+    "to": "自定义的暂停时刻需要晚于现在",
+    "rule": "H1"
+  },
+  "changed:err.cmd_settings.03": {
+    "from": "每日预算得是个整数（分钟）",
+    "to": "每日预算需要是整数（分钟）",
+    "rule": "H1"
+  },
+  "changed:err.cmd_settings.09": {
+    "from": "栏宽得是个整数（像素）",
+    "to": "栏宽需要是整数（像素）",
+    "rule": "H1"
+  },
+  "changed:err.cmd_settings.10": {
+    "from": "免打扰截止时刻得是整数（Unix 秒）",
+    "to": "免打扰截止时刻需要是整数",
+    "rule": "H1"
+  },
+  "changed:err.cmd_settings.12": {
+    "from": "「明早」的时刻得写成 HH:MM（比如 08:00）",
+    "to": "「明早」的时刻需要写成 HH:MM（比如 08:00）",
+    "rule": "H1"
+  },
+  "changed:err.cmd_settings.13": {
+    "from": "提前分钟数得是整数",
+    "to": "提前分钟数需要是整数",
+    "rule": "H1"
+  },
+  "changed:err.cmd_settings.16": {
+    "from": "收起的分类得是 JSON 字符串数组",
+    "to": "收起的分类需要是字符串数组",
+    "rule": "H1"
+  },
+  "changed:ui.backlog.24": {
+    "from": "展开这一堆",
+    "to": "展开这一组",
+    "rule": "H2"
+  },
+  "changed:ui.backlog.25": {
+    "from": "收起这一堆",
+    "to": "收起这一组",
+    "rule": "H2"
+  },
+  "changed:ui.category_picker.01": {
+    "from": "点这儿打字，或选一个",
+    "to": "打字新建，或选一个",
+    "rule": "H3"
+  },
+  "changed:ui.stats_panel.30": {
+    "from": "相邻的同一任务块自动合并（每次吃掉 1 块）",
+    "to": "相邻的同一任务的块自动合并（每次吃掉 1 块）",
+    "rule": "N/严过2"
+  },
+  "changed:msg.features.05": {
+    "from": "不再把相接/重叠的同一任务块合成一块（含启动时的整理）；已经合过的块保持原样",
+    "to": "不再把相接/重叠的同一任务的块合成一块（含启动时的整理）；已经合过的块保持原样",
+    "rule": "N/严过2"
+  },
+  "changed:err.db.51": {
+    "from": "查询任务块失败：{e}",
+    "to": "查询块失败：{e}",
+    "rule": "N3"
+  },
+  "changed:err.db.52": {
+    "from": "查询任务块失败：{e}",
+    "to": "查询块失败：{e}",
+    "rule": "N3"
+  },
+  "changed:err.db.53": {
+    "from": "读取任务块失败：{e}",
+    "to": "读取块失败：{e}",
+    "rule": "N3"
+  },
+  "changed:err.db.65": {
+    "from": "创建任务块失败：{e}",
+    "to": "创建块失败：{e}",
+    "rule": "N3"
+  },
+  "changed:err.db.67": {
+    "from": "删除任务块失败：{e}",
+    "to": "删除块失败：{e}",
+    "rule": "N3"
+  },
+  "changed:err.db.156": {
+    "from": "更新任务块状态失败：{e}",
+    "to": "更新块状态失败：{e}",
+    "rule": "N3"
+  },
+  "changed:err.db.163": {
+    "from": "更新任务块层级失败：{e}",
+    "to": "更新块层级失败：{e}",
+    "rule": "N3"
+  },
+  "changed:ui.mosaic.08": {
+    "from": "本周",
+    "to": "这一周",
+    "rule": "N/严过2"
+  },
+  "changed:ui.review_panel.14": {
+    "from": "本周占用 {minutes}（预算 {budgetText}）· {blocks} 块",
+    "to": "这一周占用 {minutes}（预算 {budgetText}）· {blocks} 块",
+    "rule": "N/严过2"
+  },
+  "changed:ui.review_panel.17": {
+    "from": "本周{kind} {count} 次",
+    "to": "这一周{kind} {count} 次",
+    "rule": "N/严过2"
+  },
+  "changed:ui.review_panel.23": {
+    "from": "对比基线：每天两排方块（基线淡 / 本周实）+ 同一刻度的柱 + 差值徽标",
+    "to": "对比基线：每天两排方块（基线淡 / 这一周实）+ 同一刻度的柱 + 差值徽标",
+    "rule": "N/严过2"
+  },
+  "changed:ui.review_panel.32": {
+    "from": "本周 {cur}",
+    "to": "这一周 {cur}",
+    "rule": "N/严过2"
+  },
+  "changed:ui.review_panel.34": {
+    "from": "本周比{base}：{text}",
+    "to": "这一周比{base}：{text}",
+    "rule": "N/严过2"
+  },
+  "changed:ui.review_panel.44": {
+    "from": "（同一刻度、同一预算线；实心 = 本周，淡 = {base}）",
+    "to": "（同一刻度、同一预算线；实心 = 这一周，淡 = {base}）",
+    "rule": "N/严过2"
+  },
+  "changed:ui.review_panel.53": {
+    "from": "（只算已完成；实心 = 本周，淡 = {base}）",
+    "to": "（只算已完成；实心 = 这一周，淡 = {base}）",
+    "rule": "N/严过2"
+  },
+  "changed:ui.review_panel.54": {
+    "from": "本周完成 {cur}",
+    "to": "这一周完成 {cur}",
+    "rule": "N/严过2"
+  },
+  "changed:ui.review_panel.56": {
+    "from": "本周比{base}：{deltaText}",
+    "to": "这一周比{base}：{deltaText}",
+    "rule": "N/严过2"
+  },
+  "changed:ui.review_panel.65": {
+    "from": "本周未完成",
+    "to": "这一周未完成",
+    "rule": "N/严过2"
+  },
+  "changed:ui.review_panel.66": {
+    "from": "本周未完成（{length}）",
+    "to": "这一周未完成（{length}）",
+    "rule": "N/严过2"
+  },
+  "changed:msg.keyboard_help.29": {
+    "from": "全选本周",
+    "to": "全选这一周",
+    "rule": "N/严过2"
+  },
+  "changed:err.cmd_blocks.02": {
+    "from": "已合并 {merged} 处重复的同任务块",
+    "to": "已合并 {merged} 处重复的同一任务的块",
+    "rule": "N/严过2"
+  },
+  "changed:err.db.188": {
+    "from": "任务块不存在",
+    "to": "这个块已经不在了（可能刚被删掉）",
+    "rule": "N/严过2"
+  },
+  "changed:err.db.195": {
+    "from": "任务块不存在",
+    "to": "这个块已经不在了（可能刚被删掉）",
+    "rule": "N/严过2"
+  },
+  "changed:err.db.198": {
+    "from": "任务块不存在",
+    "to": "这个块已经不在了（可能刚被删掉）",
+    "rule": "N/严过2"
+  },
+  "changed:err.db.207": {
+    "from": "查询任务块失败：{e}",
+    "to": "查询块失败：{e}",
+    "rule": "N/严过2"
+  },
+  "changed:help.help_panel.10": {
+    "from": "块开始时提醒",
+    "to": "**块开始时提醒**：到了块的开始时刻说一句；可以提前 {join} 分钟（设置里选，默认「到点」）。",
+    "rule": "round74片段整句化"
+  },
+  "changed:help.help_panel.12": {
+    "from": "块结束时提醒",
+    "to": "**块结束时提醒**：到结束时刻问「完成还是未完成？」——必填层用带按钮的通知，可以直接答。",
+    "rule": "round74片段整句化"
+  },
+  "changed:help.help_panel.14": {
+    "from": "复盘",
+    "to": "**复盘**：现在是 {reviewAt} {reviewActionLabel}（默认什么都不做）；也可以选「直接打开总览」（只在回到应用时打开，不在干活中途抢屏）。（在设置里改）",
+    "rule": "round74片段整句化"
+  },
+  "changed:help.help_panel.16": {
+    "from": "暂停提醒",
+    "to": "**暂停提醒**：{QUIET_PRESET_MINUTES} 分钟 / {QUIET_PRESET_MINUTES2} 小时 / 到「明早」（时刻可改）。静音期间提醒**不发、只静默记账**；解静音后不会补发一串。",
+    "rule": "round74片段整句化"
+  },
+  "changed:help.help_panel.20": {
+    "from": "关闭应用后仍按时唤醒",
+    "to": "**关闭应用后仍按时唤醒**：默认关 —— 只有你显式打开，才会在 Windows 任务计划程序里注册一条任务（不偷偷在后台跑）。",
+    "rule": "round74片段整句化"
+  },
+  "changed:help.help_panel.23": {
+    "from": "看的是",
+    "to": "看的是**时间**：一天里各块占用的时间相加，**重叠 / 并排的只算一次**。",
+    "rule": "round74片段整句化"
+  },
+  "changed:help.help_panel.36": {
+    "from": "导出备份",
+    "to": "**导出备份**：把整个数据库存成一份一致副本（任务 / 块 / 序列 / 设置都在里面），放外盘或云盘随你。",
+    "rule": "round74片段整句化"
+  },
+  "changed:help.help_panel.38": {
+    "from": "从备份恢复",
+    "to": "**从备份恢复**：用备份覆盖当前数据并**自动重启**；重启前自动留一份「恢复前副本」，不对还能换回来。",
+    "rule": "round74片段整句化"
+  },
+  "changed:help.help_panel.42": {
+    "from": "导出日历 (.ics)",
+    "to": "**导出日历 (.ics)**：把全部排程导成日历文件（含已完成与未完成），时间是 UTC —— 在手机 / 系统日历里导入后，显示的是**同一时刻**；重复导入同一个文件不会重复生成。",
+    "rule": "round74片段整句化"
+  },
+  "changed:help.help_panel.46": {
+    "from": "便携模式（默认关）",
+    "to": "**便携模式（默认关）**：打开后数据（库 / 恢复前副本 / 待恢复文件）写到应用文件夹里的 `data\\`，整个文件夹拷到 U 盘就能带走（导出备份 / .ics 走系统「另存为」，存哪由你选）。 切换时会把两份数据**并排摆出来**（位置 / 最后修改 / 大小 / 任务·块数），你选哪份就用哪份；**需要被覆盖的那一边**会先留一份副本（`before-switch`），另一边原地保留、不会删。 便携模式下「提醒计划」不可用。",
+    "rule": "round74片段整句化"
+  },
+  "changed:help.help_panel.55": {
+    "from": "模板 = 某一周的骨架",
+    "to": "**模板 = 某一周的骨架**：层 / 时段 / 时长 + **任务名与分类**；铺开时同名任务直接复用（没有才新建），没有名字的行才铺成临时安排块。",
+    "rule": "round74片段整句化"
+  },
+  "changed:help.help_panel.59": {
+    "from": "入口在时间轴顶部",
+    "to": "入口在时间轴顶部 **模板**：上面是「套用」（铺到正在看的那一周），下面是「保存这一周为模板」（可以先删几行）。",
+    "rule": "round74片段整句化 + round77图标化"
+  },
+  "changed:help.help_panel.62": {
+    "from": "建议",
+    "to": "**建议**：用满 {days} 天、完成过 {done} 次、且刚过去的那一周至少有 3 块时，会在顶部问一句「要不要把上周存成模板？」——**只问一次、不偷偷建**。",
+    "rule": "round74片段整句化"
+  },
+  "changed:help.help_panel.66": {
+    "from": "每周重复",
+    "to": "**每周重复**：在 Backlog 任务的 ⚙ 里加一条规则（周几 + 时刻）—— 打开某一周时自动排上（块上有**重复小标**）； 时长照任务的**预估**（没填 = 30 分钟）；删掉生成的那一块 = 这周不再生成，规则还在。",
+    "rule": "round74片段整句化 + round77图标化"
+  },
+  "changed:ui.sanity_settings.49": {
+    "from": "便携模式下不可用",
+    "to": "**便携模式下不可用**：不往系统里注册计划任务（也不会在别的机器上留下指向 U 盘的任务）。",
+    "rule": "round74片段整句化"
+  },
+  "changed:ui.sanity_settings.51": {
+    "from": "默认关",
+    "to": "**默认关**：没有你的确认，不往系统里注册后台任务（详细说明在「说明」里）。",
+    "rule": "round74片段整句化 + round77图标化"
+  },
+  "changed:ui.sanity_settings.80": {
+    "from": "当前：",
+    "to": "当前：**{mode}**。便携模式**默认关**：打开后数据写到应用文件夹里的 `data\\`（整个文件夹拷到 U 盘就能带走；装在 Program Files 这种只读位置开不了）。",
+    "rule": "round74片段整句化"
+  },
+  "changed:help.help_panel.28": {
+    "from": "跟可调的",
+    "to": "跟可调的**每日预算**（当前 {budgetHours} 小时，在上面改）比：超了那天小条变红 + 顶部说一句 + 托盘加细红环。",
+    "rule": "round74片段整句化"
+  },
+  "changed:help.help_panel.31": {
+    "from": "标了",
+    "to": "标了**⊘（不计入）**的任务不算进来 —— 它在 Backlog 那一行（临时块在块上）。",
+    "rule": "round74片段整句化"
+  },
+  "changed:help.help_panel.73": {
+    "from": "第一次打开空库",
+    "to": "**第一次打开空库**时左下会出现一张卡片（三步）：① 写下今天要做的一两件事 ② 把它们拖到今天的位置 ③ 做完点 ✓（到点会有提醒）。",
+    "rule": "round74片段整句化"
+  },
+  "changed:help.help_panel.75": {
+    "from": "顶部偶尔会出现一条一次性提示：",
+    "to": "顶部偶尔会出现一条一次性提示：**首次用到某个功能时才提示一次**，一次只出一条，不挡操作。",
+    "rule": "round74片段整句化"
+  },
+  "changed:help.help_panel.79": {
+    "from": "教程都能从 设置 → 引导与教程 找回来",
+    "to": "**教程都能从 设置 → 引导与教程 找回来**：说明页 / 重看新手卡片 / 渐进提示开关。",
+    "rule": "round74片段整句化"
+  },
+  "changed:help.help_panel.81": {
+    "from": "键位表在设置面板里",
+    "to": "**键位表在「?」打开的「键位」面板里**（设置 → 提醒与控制 →「键位…」也有入口）—— 这里不重复一份。",
+    "rule": "round74片段变化/round78/round83（§8.2 入口合并）"
+  },
+  "changed:help.help_panel.83": {
+    "from": "想快速加任务：在时间轴里按",
+    "to": "想快速加任务：在时间轴里按 **C** —— Backlog 自动展开、光标落进「添加任务…」（输入框里按 c 不劫持）。",
+    "rule": "round74片段整句化"
+  },
+  "changed:help.help_panel.86": {
+    "from": "二期新增的功能都能在设置里收起来；",
+    "to": "二期新增的功能都能在设置里收起来；**关掉只收界面与行为，不会删数据**（已合并的块、已接的序列、已存的模板都保持原样），再打开原样回来。",
+    "rule": "round74片段整句化"
+  },
+  "changed:ui.achievements_panel.03": {
+    "from": "🏅 暗章",
+    "to": "暗章",
+    "rule": "round77图标化（符号改由 <Icon> 画）"
+  },
+  "changed:ui.category_menu.09": {
+    "from": "✎ 管理工作…",
+    "to": "管理工作…",
+    "rule": "round77图标化（符号改由 <Icon> 画）"
+  },
+  "changed:ui.category_menu.15": {
+    "from": "‹ 返回",
+    "to": "返回",
+    "rule": "round77图标化（符号改由 <Icon> 画）"
+  },
+  "changed:ui.drift_card.07": {
+    "from": "✎ 自己安排",
+    "to": "自己安排",
+    "rule": "round77图标化（符号改由 <Icon> 画）"
+  },
+  "changed:ui.sanity_settings.100": {
+    "from": "ⓘ 说明",
+    "to": "说明",
+    "rule": "round77图标化（符号改由 <Icon> 画）"
+  },
+  "changed:ui.template_picker.16": {
+    "from": "▥ 模板",
+    "to": "模板",
+    "rule": "round77图标化（符号改由 <Icon> 画）"
+  },
+  "changed:ui.timeline.51": {
+    "from": "▦ 总览",
+    "to": "总览",
+    "rule": "round77图标化（符号改由 <Icon> 画）"
+  },
+  "changed:ui.timeline.52": {
+    "from": "▤ 统计",
+    "to": "统计",
+    "rule": "round77图标化（符号改由 <Icon> 画）"
+  },
+  "changed:ui.bulk_bar.17": {
+    "from": "✓ 完成",
+    "to": "完成",
+    "rule": "round77图标化（符号改由 <Icon> 画）"
+  },
+  "changed:ui.bulk_bar.18": {
+    "from": "✗ 未完成",
+    "to": "未完成",
+    "rule": "round77图标化（符号改由 <Icon> 画）"
+  },
+  "changed:ui.sanity_bar.08": {
+    "from": "⚠ {day_start}偏重：占用 {minutes}（预算 {budget}）· {blocks} 块",
+    "to": "{day_start}偏重：占用 {minutes}（预算 {budget}）· {blocks} 块",
+    "rule": "round77图标化（符号改由 <Icon> 画）"
+  },
+  "changed:ui.sanity_bar.10": {
+    "from": "⚠ {join}（预算 {budget}）",
+    "to": "{join}（预算 {budget}）",
+    "rule": "round77图标化（符号改由 <Icon> 画）"
+  },
+  "changed:msg.keyboard_help.41": {
+    "from": "⠿ 上按 ↑↓",
+    "to": "拖动把手上按 ↑↓",
+    "rule": "round77图标化（符号改由 <Icon> 画）"
+  },
+  "changed:ui.backlog.51": {
+    "from": "已归档（{length}）{archivedOpen}",
+    "to": "已归档（{length}）",
+    "rule": "round77图标化（折叠符改由 <Icon> 画）"
+  },
+  "changed:ui.timeline.39": {
+    "from": "（原值见迁移记录 map-*）",
+    "to": "周六、周日已隐藏（设置 → 时间轴 里可改）；点一下恢复显示",
+    "rule": "round78文案漂移（设置 IA 重排后指路要改）"
+  },
+  "changed:msg.keyboard_help.45": {
+    "from": "（原值见迁移记录 map-*）",
+    "to": "打开主窗口（被占用时依次退到 Ctrl+Alt+W / Ctrl+Alt+Shift+W；实际生效的看设置 → 更多 → 功能开关）",
+    "rule": "round78文案漂移（设置 IA 重排后指路要改）"
+  },
+  "changed:ui.hint_bar.02": {
+    "from": "（原值见迁移记录 map-*）",
+    "to": "以后都不再提示（设置 → 更多 → 功能开关里可再开）",
+    "rule": "round78文案漂移（设置 IA 重排后指路要改）"
+  },
+  "changed:ui.hint_bar.05": {
+    "from": "（原值见迁移记录 map-*）",
+    "to": "关掉模板建议（设置 → 更多 → 功能开关里可再开）",
+    "rule": "round78文案漂移（设置 IA 重排后指路要改）"
+  },
+  "changed:help.help_panel.71": {
+    "from": "（原值见迁移记录 map-*）",
+    "to": "门限可以在设置 → 更多 → 功能开关 → 模板建议里改；「不再提」就是把它关掉。",
+    "rule": "round78文案漂移（设置 IA 重排后指路要改）"
+  },
+  "changed:ui.sanity_settings.53": {
+    "from": "理智值",
+    "to": "精力",
+    "rule": "round84（用户报：「理智」黑话 → 「精力」）"
+  },
+  "changed:ui.sanity_settings.56": {
+    "from": "显示理智值预警",
+    "to": "显示精力预警",
+    "rule": "round84（用户报：「理智」黑话 → 「精力」）"
+  },
+  "changed:help.help_panel.22": {
+    "from": "理智值",
+    "to": "精力",
+    "rule": "round84（用户报：「理智」黑话 → 「精力」）"
+  },
+  "changed:help.help_panel.92": {
+    "from": "理智值",
+    "to": "精力",
+    "rule": "round84（用户报：「理智」黑话 → 「精力」）"
+  },
+  "changed:ui.backlog.30": {
+    "from": "重新计入理智：这条任务（它的所有块）不再被排除",
+    "to": "重新计入精力：这条任务（它的所有块）不再被排除",
+    "rule": "round84（用户报：「理智」黑话 → 「精力」）"
+  },
+  "changed:ui.mosaic.03": {
+    "from": "不计入理智",
+    "to": "不计入精力",
+    "rule": "round84（用户报：「理智」黑话 → 「精力」）"
+  },
+  "changed:ui.review_panel.63": {
+    "from": "现在不计入理智值（点一下恢复）",
+    "to": "现在不计入精力（点一下恢复）",
+    "rule": "round84（用户报：「理智」黑话 → 「精力」）"
+  },
+  "changed:ui.review_panel.64": {
+    "from": "点一下：这块不计入理智值",
+    "to": "点一下：这块不计入精力",
+    "rule": "round84（用户报：「理智」黑话 → 「精力」）"
+  },
+  "changed:ui.task_block.15": {
+    "from": "不计入理智值（这条任务整体不算；开关在 Backlog 那一行）",
+    "to": "不计入精力（这条任务整体不算；开关在 Backlog 那一行）",
+    "rule": "round84（用户报：「理智」黑话 → 「精力」）"
+  },
+  "changed:ui.task_block.20": {
+    "from": "重新计入理智：这一块现在不算进每天的占用",
+    "to": "重新计入精力：这一块现在不算进每天的占用",
+    "rule": "round84（用户报：「理智」黑话 → 「精力」）"
+  },
+  "changed:ui.task_block.21": {
+    "from": "不计入理智：这一块不算进每天的占用（再点一下恢复）",
+    "to": "不计入精力：这一块不算进每天的占用（再点一下恢复）",
+    "rule": "round84（用户报：「理智」黑话 → 「精力」）"
+  },
+  "changed:ach.sanity_exempt.desc": {
+    "from": "第一次给任务标「不计入理智值」。",
+    "to": "第一次给任务标「不计入精力」。",
+    "rule": "round84（用户报：「理智」黑话 → 「精力」）"
+  },
+  "changed:ach.overload_first.desc": {
+    "from": "第一次看到理智值超载。",
+    "to": "第一次看到精力超载。",
+    "rule": "round84（用户报：「理智」黑话 → 「精力」）"
+  },
+  "changed:err.cmd_blocks.05": {
+    "from": "不计入理智",
+    "to": "不计入精力",
+    "rule": "round84（用户报：「理智」黑话 → 「精力」）"
+  },
+  "changed:err.cmd_blocks.06": {
+    "from": "计入理智",
+    "to": "计入精力",
+    "rule": "round84（用户报：「理智」黑话 → 「精力」）"
+  },
+  "changed:err.cmd_tasks.04": {
+    "from": "不计入理智",
+    "to": "不计入精力",
+    "rule": "round84（用户报：「理智」黑话 → 「精力」）"
+  },
+  "changed:err.cmd_tasks.05": {
+    "from": "计入理智",
+    "to": "计入精力",
+    "rule": "round84（用户报：「理智」黑话 → 「精力」）"
+  },
+  "changed:err.db.15": {
+    "from": "更新「不计入理智」失败：{e}",
+    "to": "更新「不计入精力」失败：{e}",
+    "rule": "round84（用户报：「理智」黑话 → 「精力」）"
+  },
+  "changed:err.db.18": {
+    "from": "更新「不计入理智」失败：{e}",
+    "to": "更新「不计入精力」失败：{e}",
+    "rule": "round84（用户报：「理智」黑话 → 「精力」）"
+  },
+  "changed:ui.sanity_settings.31": {
+    "from": "块开始时提醒",
+    "to": "块开始时提醒我",
+    "rule": "round84（用户报：「提前 [到点]」→「[0 分钟]」/ 提醒行成句）"
+  },
+  "changed:ui.sanity_settings.33": {
+    "from": "块结束时提醒",
+    "to": "块结束时提醒我",
+    "rule": "round84（用户报：「提前 [到点]」→「[0 分钟]」/ 提醒行成句）"
+  },
+  "changed:ui.sanity_settings.109": {
+    "from": "到点",
+    "to": "0 分钟",
+    "rule": "round84（用户报：「提前 [到点]」→「[0 分钟]」/ 提醒行成句）"
+  }
+}

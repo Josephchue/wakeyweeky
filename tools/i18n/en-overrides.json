@@ -1,0 +1,123 @@
+{
+  "msg.blocks.09": {
+    "one": "Moved {changed} block",
+    "other": "Moved {changed} blocks"
+  },
+  "msg.blocks.10": {
+    "one": "Shifted the {cascaded} block after it",
+    "other": "Shifted the {cascaded} blocks after it"
+  },
+  "msg.blocks.12": {
+    "one": "{failed} block couldn't be moved",
+    "other": "{failed} blocks couldn't be moved"
+  },
+  "msg.blocks.13": {
+    "one": "{skipped} block is marked and won't move",
+    "other": "{skipped} blocks are marked and won't move"
+  },
+  "msg.blocks.16": {
+    "one": "Copied {created} block ({merged} merged in place)",
+    "other": "Copied {created} blocks ({merged} merged in place)"
+  },
+  "msg.blocks.21": {
+    "one": "Set {changed} block to {label}",
+    "other": "Set {changed} blocks to {label}"
+  },
+  "msg.blocks.27": {
+    "one": "Shifted the {cascaded} block after it (including {history_moved} marked)",
+    "other": "Shifted the {cascaded} blocks after it (including {history_moved} marked)"
+  },
+  "msg.blocks.28": {
+    "one": "Shifted the {cascaded} block after it",
+    "other": "Shifted the {cascaded} blocks after it"
+  },
+  "msg.drag.01": {
+    "one": "{length} block",
+    "other": "{length} blocks"
+  },
+  "msg.drift.03": {
+    "one": "Shifted the {cascaded} block after it (including {history_moved} marked)",
+    "other": "Shifted the {cascaded} blocks after it (including {history_moved} marked)"
+  },
+  "msg.drift.04": {
+    "one": "Shifted the {cascaded} block after it (it was scheduled before this slot)",
+    "other": "Shifted the {cascaded} blocks after it (they were scheduled before this slot)"
+  },
+  "msg.selection.04": {
+    "one": "{marked} block is marked and won't move with the rest",
+    "other": "{marked} blocks are marked and won't move with the rest"
+  },
+  "msg.selection.06": {
+    "one": "{missing} block isn't in this week and didn't follow",
+    "other": "{missing} blocks aren't in this week and didn't follow"
+  },
+  "msg.review.09": {
+    "one": "{weeks} week ago",
+    "other": "{weeks} weeks ago"
+  },
+  "ui.bulk_bar.03": {
+    "one": "{count} block selected",
+    "other": "{count} blocks selected"
+  },
+  "ui.bulk_bar.09": {
+    "one": "Marked blocks won't move ({skipped} block will be skipped)",
+    "other": "Marked blocks won't move ({skipped} blocks will be skipped)"
+  },
+  "ui.bulk_bar.11": {
+    "one": "Marked blocks won't move ({skipped} block will be skipped); Shift+←→ moves a week",
+    "other": "Marked blocks won't move ({skipped} blocks will be skipped); Shift+←→ moves a week"
+  },
+  "ui.timeline.01": {
+    "one": "{rearranged} block rescheduled",
+    "other": "{rearranged} blocks rescheduled"
+  },
+  "ui.timeline.02": {
+    "one": "{skipped} block not finished",
+    "other": "{skipped} blocks not finished"
+  },
+  "ui.timeline.33": {
+    "one": "+{over} day {endAt}",
+    "other": "+{over} days {endAt}"
+  },
+  "ui.stats_panel.26": {
+    "one": "{deleted} block",
+    "other": "{deleted} blocks"
+  },
+  "ui.stats_panel.29": {
+    "one": "{merged} block",
+    "other": "{merged} blocks"
+  },
+  "ui.stats_panel.44": {
+    "one": "{active_days} day",
+    "other": "{active_days} days"
+  },
+  "ui.stats_panel.46": {
+    "one": "{total_events} event",
+    "other": "{total_events} events"
+  },
+  "ui.category_picker.04": {
+    "one": "{count} task uses this",
+    "other": "{count} tasks use this"
+  },
+  "ui.template_picker.05": {
+    "one": "{block_count} block",
+    "other": "{block_count} blocks"
+  },
+  "err.cmd_blocks.13": "Create block",
+  "err.cmd_blocks.14": "Delete block",
+  "err.cmd_blocks.17": "Delete block",
+  "err.cmd_history.02": "Delete block",
+  "err.cmd_sequences.02": "Link into sequence",
+  "err.cmd_tasks.02": "Rename task",
+  "err.cmd_blocks.05": "Exclude from energy",
+  "err.cmd_tasks.04": "Exclude from energy",
+  "ui.task_block.22": "Delete block",
+  "ui.stats_panel.88": {
+    "one": "{count} completion",
+    "other": "{count} completions"
+  },
+  "ui.stats_panel.90": {
+    "one": "{days} day",
+    "other": "{days} days"
+  }
+}

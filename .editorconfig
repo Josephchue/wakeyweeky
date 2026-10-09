@@ -1,0 +1,22 @@
+# 项目风格约定（编辑器与工具都读这份）
+# 背景：本仓库没有 Prettier/Biome 之类的格式化器；曾出现工具按兜底风格把缩进改成 1 空格的情况，
+#       故用这份文件把「2 空格 / LF / UTF-8 / 末尾换行」定死，并配合 .pi-lens.json 关闭自动格式化。
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.md]
+# Markdown 里行尾两个空格是有意义换行，不裁掉
+trim_trailing_whitespace = false
+
+[*.{rs,toml}]
+indent_size = 4
+
+[*.{png,ico,icns,sqlite}]
+insert_final_newline = false

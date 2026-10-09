@@ -1,0 +1,6314 @@
+[
+ {
+  "key": "ui.category_picker.01",
+  "file": "src/lib/components/CategoryPicker.svelte",
+  "line": 187,
+  "kind": "svelte-attr",
+  "raw": "点这儿打字，或选一个",
+  "value": "点这儿打字，或选一个"
+ },
+ {
+  "key": "ui.category_picker.02",
+  "file": "src/lib/components/CategoryPicker.svelte",
+  "line": 191,
+  "kind": "svelte-attr",
+  "raw": "分类",
+  "value": "分类"
+ },
+ {
+  "key": "ui.category_picker.03",
+  "file": "src/lib/components/CategoryPicker.svelte",
+  "line": 233,
+  "kind": "svelte-text",
+  "raw": "（不设分类）",
+  "value": "（不设分类）"
+ },
+ {
+  "key": "ui.category_picker.04",
+  "file": "src/lib/components/CategoryPicker.svelte",
+  "line": 251,
+  "kind": "svelte-attr",
+  "raw": "{c.count} 个任务在用",
+  "value": "{count} 个任务在用"
+ },
+ {
+  "key": "ui.category_picker.05",
+  "file": "src/lib/components/CategoryPicker.svelte",
+  "line": 266,
+  "kind": "svelte-text",
+  "raw": "＋ 新建「{q}」",
+  "value": "＋ 新建「{q}」"
+ },
+ {
+  "key": "ui.app.01",
+  "file": "src/App.svelte",
+  "line": 104,
+  "kind": "js-template",
+  "raw": "你不在时有 ${undefined} 个块到点了（可在时间轴上自行标记）",
+  "value": "你不在时有 {missed} 个块到点了（可在时间轴上自行标记）"
+ },
+ {
+  "key": "ui.app.02",
+  "file": "src/App.svelte",
+  "line": 116,
+  "kind": "js-template",
+  "raw": "🏅 暗章点亮：${undefined}",
+  "value": "🏅 暗章点亮：{name}"
+ },
+ {
+  "key": "ui.app.03",
+  "file": "src/App.svelte",
+  "line": 162,
+  "kind": "js-literal",
+  "raw": "便携模式已启用：原有数据已复制一份到 exe 旁的 data\\（原位置保留）",
+  "value": "便携模式已启用：原有数据已复制一份到 exe 旁的 data\\（原位置保留）"
+ },
+ {
+  "key": "ui.app.04",
+  "file": "src/App.svelte",
+  "line": 164,
+  "kind": "js-template",
+  "raw": "便携模式没生效：${undefined}",
+  "value": "便携模式没生效：{note}"
+ },
+ {
+  "key": "ui.app.05",
+  "file": "src/App.svelte",
+  "line": 178,
+  "kind": "js-template",
+  "raw": "全局快捷键没能注册：${undefined}",
+  "value": "全局快捷键没能注册：{error}"
+ },
+ {
+  "key": "ui.app.06",
+  "file": "src/App.svelte",
+  "line": 182,
+  "kind": "js-template",
+  "raw": "主键 Win+Shift+W 被别的程序占用了，全局快捷键已改用 ${undefined}",
+  "value": "主键 Win+Shift+W 被别的程序占用了，全局快捷键已改用 {active}"
+ },
+ {
+  "key": "ui.app.07",
+  "file": "src/App.svelte",
+  "line": 216,
+  "kind": "js-literal",
+  "raw": "测试错误：这是一条调试消息",
+  "value": "测试错误：这是一条调试消息"
+ },
+ {
+  "key": "ui.app.08",
+  "file": "src/App.svelte",
+  "line": 272,
+  "kind": "svelte-attr",
+  "raw": "拖动调整 Backlog 栏宽（双击复位，键盘 ←/→ 也可）",
+  "value": "拖动调整 Backlog 栏宽（双击复位，键盘 ←/→ 也可）"
+ },
+ {
+  "key": "ui.app.09",
+  "file": "src/App.svelte",
+  "line": 277,
+  "kind": "svelte-attr",
+  "raw": "拖动调整宽度；双击复位",
+  "value": "拖动调整宽度；双击复位"
+ },
+ {
+  "key": "ui.achievements_panel.01",
+  "file": "src/lib/components/AchievementsPanel.svelte",
+  "line": 47,
+  "kind": "svelte-attr",
+  "raw": "关闭暗章面板",
+  "value": "关闭暗章面板"
+ },
+ {
+  "key": "ui.achievements_panel.02",
+  "file": "src/lib/components/AchievementsPanel.svelte",
+  "line": 50,
+  "kind": "svelte-attr",
+  "raw": "暗章",
+  "value": "暗章"
+ },
+ {
+  "key": "ui.achievements_panel.03",
+  "file": "src/lib/components/AchievementsPanel.svelte",
+  "line": 52,
+  "kind": "svelte-text",
+  "raw": "🏅 暗章",
+  "value": "🏅 暗章"
+ },
+ {
+  "key": "ui.achievements_panel.04",
+  "file": "src/lib/components/AchievementsPanel.svelte",
+  "line": 53,
+  "kind": "svelte-text",
+  "raw": "已点亮 {achievements.data?.unlocked ?? 0} / 共 {achievements.data?.total ?? 0}",
+  "value": "已点亮 {unlocked} / 共 {total}"
+ },
+ {
+  "key": "ui.achievements_panel.05",
+  "file": "src/lib/components/AchievementsPanel.svelte",
+  "line": 54,
+  "kind": "svelte-attr",
+  "raw": "关闭（Esc）",
+  "value": "关闭（Esc）"
+ },
+ {
+  "key": "ui.achievements_panel.06",
+  "file": "src/lib/components/AchievementsPanel.svelte",
+  "line": 59,
+  "kind": "svelte-text",
+  "raw": "正在读取…",
+  "value": "正在读取…"
+ },
+ {
+  "key": "ui.achievements_panel.07",
+  "file": "src/lib/components/AchievementsPanel.svelte",
+  "line": 61,
+  "kind": "svelte-text",
+  "raw": "读不到暗章列表 —— 关掉再开一次试试。",
+  "value": "读不到暗章列表 —— 关掉再开一次试试。"
+ },
+ {
+  "key": "ui.achievements_panel.08",
+  "file": "src/lib/components/AchievementsPanel.svelte",
+  "line": 63,
+  "kind": "svelte-text",
+  "raw": "还没有点亮的暗章 —— 用着用着就会碰到。",
+  "value": "还没有点亮的暗章 —— 用着用着就会碰到。"
+ },
+ {
+  "key": "ui.achievements_panel.09",
+  "file": "src/lib/components/AchievementsPanel.svelte",
+  "line": 76,
+  "kind": "js-literal",
+  "raw": "传说",
+  "value": "传说"
+ },
+ {
+  "key": "ui.achievements_panel.10",
+  "file": "src/lib/components/AchievementsPanel.svelte",
+  "line": 76,
+  "kind": "js-literal",
+  "raw": "稀有",
+  "value": "稀有"
+ },
+ {
+  "key": "ui.achievements_panel.11",
+  "file": "src/lib/components/AchievementsPanel.svelte",
+  "line": 100,
+  "kind": "svelte-text",
+  "raw": "点亮于 {dateText(row.unlocked_at)}",
+  "value": "点亮于 {unlocked_at}"
+ },
+ {
+  "key": "ui.backlog.01",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 134,
+  "kind": "js-template",
+  "raw": "已恢复「${undefined}」",
+  "value": "已恢复「{title}」"
+ },
+ {
+  "key": "ui.backlog.02",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 183,
+  "kind": "js-template",
+  "raw": "已清空「${undefined}」（${undefined} 个任务回到「未分类」）",
+  "value": "已清空「{from}」（{changed} 个任务回到「未分类」）"
+ },
+ {
+  "key": "ui.backlog.03",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 185,
+  "kind": "js-template",
+  "raw": "已把「${undefined}」合并进「${undefined}」（共 ${undefined} 个任务）",
+  "value": "已把「{from}」合并进「{target}」（共 {targetCount} 个任务）"
+ },
+ {
+  "key": "ui.backlog.04",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 186,
+  "kind": "js-template",
+  "raw": "「${undefined}」已改名「${undefined}」（${undefined} 个任务）",
+  "value": "「{from}」已改名「{target}」（{changed} 个任务）"
+ },
+ {
+  "key": "ui.backlog.05",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 194,
+  "kind": "js-literal",
+  "raw": "已加入「未分类」（在列表最后）",
+  "value": "已加入「未分类」（在列表最后）"
+ },
+ {
+  "key": "ui.backlog.06",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 211,
+  "kind": "js-literal",
+  "raw": "周一",
+  "value": "周一"
+ },
+ {
+  "key": "ui.backlog.07",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 211,
+  "kind": "js-literal",
+  "raw": "周二",
+  "value": "周二"
+ },
+ {
+  "key": "ui.backlog.08",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 211,
+  "kind": "js-literal",
+  "raw": "周三",
+  "value": "周三"
+ },
+ {
+  "key": "ui.backlog.09",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 211,
+  "kind": "js-literal",
+  "raw": "周四",
+  "value": "周四"
+ },
+ {
+  "key": "ui.backlog.10",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 211,
+  "kind": "js-literal",
+  "raw": "周五",
+  "value": "周五"
+ },
+ {
+  "key": "ui.backlog.11",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 211,
+  "kind": "js-literal",
+  "raw": "周六",
+  "value": "周六"
+ },
+ {
+  "key": "ui.backlog.12",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 211,
+  "kind": "js-literal",
+  "raw": "周日",
+  "value": "周日"
+ },
+ {
+  "key": "ui.backlog.13",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 241,
+  "kind": "js-template",
+  "raw": "已加：每${undefined} ${undefined}",
+  "value": "已加：每{repeatWeekday} {repeatStartMin}"
+ },
+ {
+  "key": "ui.backlog.14",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 251,
+  "kind": "js-template",
+  "raw": "已归档「${undefined}」",
+  "value": "已归档「{title}」"
+ },
+ {
+  "key": "ui.backlog.15",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 429,
+  "kind": "js-template",
+  "raw": "已删除「${undefined}」（含 ${undefined} 个块）",
+  "value": "已删除「{title}」（含 {blocks} 个块）"
+ },
+ {
+  "key": "ui.backlog.16",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 430,
+  "kind": "js-template",
+  "raw": "已删除「${undefined}」",
+  "value": "已删除「{title}」"
+ },
+ {
+  "key": "ui.backlog.17",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 446,
+  "kind": "svelte-attr",
+  "raw": "展开任务栏（{visibleTasks.length} 个任务）",
+  "value": "展开任务栏（{length} 个任务）"
+ },
+ {
+  "key": "ui.backlog.18",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 447,
+  "kind": "svelte-attr",
+  "raw": "展开任务栏（{visibleTasks.length} 个任务）",
+  "value": "展开任务栏（{length} 个任务）"
+ },
+ {
+  "key": "ui.backlog.19",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 471,
+  "kind": "svelte-attr",
+  "raw": "按分类分堆（「未分类」永远在最后）",
+  "value": "按分类分堆（「未分类」永远在最后）"
+ },
+ {
+  "key": "ui.backlog.20",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 477,
+  "kind": "svelte-attr",
+  "raw": "收起任务栏（收成细轨；点窄条整条展开）",
+  "value": "收起任务栏（收成细轨；点窄条整条展开）"
+ },
+ {
+  "key": "ui.backlog.21",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 478,
+  "kind": "svelte-attr",
+  "raw": "收起任务栏",
+  "value": "收起任务栏"
+ },
+ {
+  "key": "ui.backlog.22",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 486,
+  "kind": "svelte-text",
+  "raw": "只看：{categoryLabel(effFilter)}",
+  "value": "只看：{effFilter}"
+ },
+ {
+  "key": "ui.backlog.23",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 487,
+  "kind": "svelte-attr",
+  "raw": "看全部任务",
+  "value": "看全部任务"
+ },
+ {
+  "key": "ui.backlog.24",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 502,
+  "kind": "js-literal",
+  "raw": "展开这一堆",
+  "value": "展开这一堆"
+ },
+ {
+  "key": "ui.backlog.25",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 502,
+  "kind": "js-literal",
+  "raw": "收起这一堆",
+  "value": "收起这一堆"
+ },
+ {
+  "key": "ui.backlog.26",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 526,
+  "kind": "svelte-attr",
+  "raw": "拖动排序（也可以按 ↑↓）",
+  "value": "拖动排序（也可以按 ↑↓）"
+ },
+ {
+  "key": "ui.backlog.27",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 527,
+  "kind": "svelte-attr",
+  "raw": "拖动排序",
+  "value": "拖动排序"
+ },
+ {
+  "key": "ui.backlog.28",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 538,
+  "kind": "svelte-attr",
+  "raw": "任务名",
+  "value": "任务名"
+ },
+ {
+  "key": "ui.backlog.29",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 555,
+  "kind": "svelte-attr",
+  "raw": "双击改名（或按 F2）",
+  "value": "双击改名（或按 F2）"
+ },
+ {
+  "key": "ui.backlog.30",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 574,
+  "kind": "js-literal",
+  "raw": "重新计入理智：这条任务（它的所有块）不再被排除",
+  "value": "重新计入理智：这条任务（它的所有块）不再被排除"
+ },
+ {
+  "key": "ui.backlog.31",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 575,
+  "kind": "js-literal",
+  "raw": "不计入理智：这条任务的**所有块**都不算进每天的占用（再点一下恢复）",
+  "value": "不计入理智：这条任务的**所有块**都不算进每天的占用（再点一下恢复）"
+ },
+ {
+  "key": "ui.backlog.32",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 585,
+  "kind": "svelte-attr",
+  "raw": "任务属性（预估时长 / 分类 / 归档）",
+  "value": "任务属性（预估时长 / 分类 / 归档）"
+ },
+ {
+  "key": "ui.backlog.33",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 591,
+  "kind": "svelte-attr",
+  "raw": "删除任务",
+  "value": "删除任务"
+ },
+ {
+  "key": "ui.backlog.34",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 601,
+  "kind": "svelte-text",
+  "raw": "预估",
+  "value": "预估"
+ },
+ {
+  "key": "ui.backlog.35",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 607,
+  "kind": "svelte-attr",
+  "raw": "分钟",
+  "value": "分钟"
+ },
+ {
+  "key": "ui.backlog.36",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 617,
+  "kind": "svelte-text",
+  "raw": "分钟",
+  "value": "分钟"
+ },
+ {
+  "key": "ui.backlog.37",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 620,
+  "kind": "svelte-text",
+  "raw": "分类",
+  "value": "分类"
+ },
+ {
+  "key": "ui.backlog.38",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 631,
+  "kind": "svelte-attr",
+  "raw": "清空分类",
+  "value": "清空分类"
+ },
+ {
+  "key": "ui.backlog.39",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 639,
+  "kind": "svelte-text",
+  "raw": "重复",
+  "value": "重复"
+ },
+ {
+  "key": "ui.backlog.40",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 640,
+  "kind": "svelte-text",
+  "raw": "时长照「预估」：{estMinutes(task)} 分钟",
+  "value": "时长照「预估」：{task} 分钟"
+ },
+ {
+  "key": "ui.backlog.41",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 643,
+  "kind": "svelte-attr",
+  "raw": "周几",
+  "value": "周几"
+ },
+ {
+  "key": "ui.backlog.42",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 648,
+  "kind": "svelte-attr",
+  "raw": "时刻",
+  "value": "时刻"
+ },
+ {
+  "key": "ui.backlog.43",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 653,
+  "kind": "svelte-attr",
+  "raw": "点击切换：弹性 ⇄ 必填",
+  "value": "点击切换：弹性 ⇄ 必填"
+ },
+ {
+  "key": "ui.backlog.44",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 661,
+  "kind": "svelte-attr",
+  "raw": "加一条每周重复（生成时长照任务的预估）",
+  "value": "加一条每周重复（生成时长照任务的预估）"
+ },
+ {
+  "key": "ui.backlog.45",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 668,
+  "kind": "svelte-text",
+  "raw": "每{WEEK_CN[r.weekday]} {fmtMin(r.start_min)}",
+  "value": "每{weekday} {start_min}"
+ },
+ {
+  "key": "ui.backlog.46",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 675,
+  "kind": "js-literal",
+  "raw": "暂停这条重复（规则留着，随时再开；已排的块不动）",
+  "value": "暂停这条重复（规则留着，随时再开；已排的块不动）"
+ },
+ {
+  "key": "ui.backlog.47",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 676,
+  "kind": "js-literal",
+  "raw": "重新启用这条重复",
+  "value": "重新启用这条重复"
+ },
+ {
+  "key": "ui.backlog.48",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 683,
+  "kind": "svelte-attr",
+  "raw": "删除这条重复（Ctrl+Z 可撤销）",
+  "value": "删除这条重复（Ctrl+Z 可撤销）"
+ },
+ {
+  "key": "ui.backlog.49",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 692,
+  "kind": "svelte-text",
+  "raw": "归档",
+  "value": "归档"
+ },
+ {
+  "key": "ui.backlog.50",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 711,
+  "kind": "svelte-attr",
+  "raw": "看看归档过什么（存档保留数据，不是删除）",
+  "value": "看看归档过什么（存档保留数据，不是删除）"
+ },
+ {
+  "key": "ui.backlog.51",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 713,
+  "kind": "svelte-text",
+  "raw": "已归档（{effArchFilter === null\n            ? archivedTasks.length\n            : `${archShown.length} / ${archivedTasks.length}`}）{taskPanel.archivedOpen\n            ? \"▾\"\n            : \"▸\"}",
+  "value": "已归档（{length}）{archivedOpen}"
+ },
+ {
+  "key": "ui.backlog.52",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 740,
+  "kind": "svelte-attr",
+  "raw": "恢复这个任务（回到 Backlog；数据一直都在）",
+  "value": "恢复这个任务（回到 Backlog；数据一直都在）"
+ },
+ {
+  "key": "ui.bulk_bar.01",
+  "file": "src/lib/components/BulkBar.svelte",
+  "line": 47,
+  "kind": "js-literal",
+  "raw": "这些块在别的周（拿起中）—— 先 Enter 落地，或 Esc 放弃拿起",
+  "value": "这些块在别的周（拿起中）—— 先 Enter 落地，或 Esc 放弃拿起"
+ },
+ {
+  "key": "ui.bulk_bar.02",
+  "file": "src/lib/components/BulkBar.svelte",
+  "line": 51,
+  "kind": "svelte-attr",
+  "raw": "多选操作",
+  "value": "多选操作"
+ },
+ {
+  "key": "ui.bulk_bar.03",
+  "file": "src/lib/components/BulkBar.svelte",
+  "line": 53,
+  "kind": "svelte-text",
+  "raw": "已选 {count} 块",
+  "value": "已选 {count} 块"
+ },
+ {
+  "key": "ui.bulk_bar.04",
+  "file": "src/lib/components/BulkBar.svelte",
+  "line": 53,
+  "kind": "svelte-text",
+  "raw": "（{plannedCount} 块计划中，已标记的不动）",
+  "value": "（{plannedCount} 块计划中，已标记的不动）"
+ },
+ {
+  "key": "ui.bulk_bar.05",
+  "file": "src/lib/components/BulkBar.svelte",
+  "line": 58,
+  "kind": "js-literal",
+  "raw": "把选中的计划中块全部标记完成",
+  "value": "把选中的计划中块全部标记完成"
+ },
+ {
+  "key": "ui.bulk_bar.06",
+  "file": "src/lib/components/BulkBar.svelte",
+  "line": 64,
+  "kind": "js-literal",
+  "raw": "把选中的计划中块全部标记未完成（不弹漂流卡）",
+  "value": "把选中的计划中块全部标记未完成（不弹漂流卡）"
+ },
+ {
+  "key": "ui.bulk_bar.07",
+  "file": "src/lib/components/BulkBar.svelte",
+  "line": 70,
+  "kind": "js-literal",
+  "raw": "整批设为必填层",
+  "value": "整批设为必填层"
+ },
+ {
+  "key": "ui.bulk_bar.08",
+  "file": "src/lib/components/BulkBar.svelte",
+  "line": 76,
+  "kind": "js-literal",
+  "raw": "整批设为弹性层",
+  "value": "整批设为弹性层"
+ },
+ {
+  "key": "ui.bulk_bar.09",
+  "file": "src/lib/components/BulkBar.svelte",
+  "line": 85,
+  "kind": "js-template",
+  "raw": "已标记的块不参与移动（会跳过 ${undefined} 块）",
+  "value": "已标记的块不参与移动（会跳过 {skipped} 块）"
+ },
+ {
+  "key": "ui.bulk_bar.10",
+  "file": "src/lib/components/BulkBar.svelte",
+  "line": 86,
+  "kind": "js-literal",
+  "raw": "往前挪一天（←）",
+  "value": "往前挪一天（←）"
+ },
+ {
+  "key": "ui.bulk_bar.11",
+  "file": "src/lib/components/BulkBar.svelte",
+  "line": 95,
+  "kind": "js-template",
+  "raw": "已标记的块不参与移动（会跳过 ${undefined} 块）；Shift+←→ 挪一周",
+  "value": "已标记的块不参与移动（会跳过 {skipped} 块）；Shift+←→ 挪一周"
+ },
+ {
+  "key": "ui.bulk_bar.12",
+  "file": "src/lib/components/BulkBar.svelte",
+  "line": 96,
+  "kind": "js-literal",
+  "raw": "往后挪一天（→）；Shift+←→ 挪一周",
+  "value": "往后挪一天（→）；Shift+←→ 挪一周"
+ },
+ {
+  "key": "ui.bulk_bar.13",
+  "file": "src/lib/components/BulkBar.svelte",
+  "line": 99,
+  "kind": "svelte-attr",
+  "raw": "删除选中的块（Del，可 Ctrl+Z 撤销）",
+  "value": "删除选中的块（Del，可 Ctrl+Z 撤销）"
+ },
+ {
+  "key": "ui.bulk_bar.14",
+  "file": "src/lib/components/BulkBar.svelte",
+  "line": 100,
+  "kind": "svelte-text",
+  "raw": "Del 删除",
+  "value": "Del 删除"
+ },
+ {
+  "key": "ui.bulk_bar.15",
+  "file": "src/lib/components/BulkBar.svelte",
+  "line": 102,
+  "kind": "svelte-attr",
+  "raw": "退出多选（Esc）",
+  "value": "退出多选（Esc）"
+ },
+ {
+  "key": "ui.bulk_bar.16",
+  "file": "src/lib/components/BulkBar.svelte",
+  "line": 102,
+  "kind": "svelte-attr",
+  "raw": "退出多选",
+  "value": "退出多选"
+ },
+ {
+  "key": "ui.category_menu.01",
+  "file": "src/lib/components/CategoryMenu.svelte",
+  "line": 74,
+  "kind": "js-literal",
+  "raw": "名字没变（保存 = 什么都不做）",
+  "value": "名字没变（保存 = 什么都不做）"
+ },
+ {
+  "key": "ui.category_menu.02",
+  "file": "src/lib/components/CategoryMenu.svelte",
+  "line": 75,
+  "kind": "js-template",
+  "raw": "清空 = 这 ${undefined} 个任务回到「未分类」",
+  "value": "清空 = 这 {src} 个任务回到「未分类」"
+ },
+ {
+  "key": "ui.category_menu.03",
+  "file": "src/lib/components/CategoryMenu.svelte",
+  "line": 77,
+  "kind": "js-template",
+  "raw": "「${undefined}」已存在 → 保存即合并（共 ${undefined} 个任务）",
+  "value": "「{to}」已存在 → 保存即合并（共 {count} 个任务）"
+ },
+ {
+  "key": "ui.category_menu.04",
+  "file": "src/lib/components/CategoryMenu.svelte",
+  "line": 78,
+  "kind": "js-template",
+  "raw": "保存后 ${undefined} 个任务跟着改（含已归档）",
+  "value": "保存后 {src} 个任务跟着改（含已归档）"
+ },
+ {
+  "key": "ui.category_menu.05",
+  "file": "src/lib/components/CategoryMenu.svelte",
+  "line": 203,
+  "kind": "js-literal",
+  "raw": "按分类筛选（也可以在这儿给分类改名 / 合并 / 清空）",
+  "value": "按分类筛选（也可以在这儿给分类改名 / 合并 / 清空）"
+ },
+ {
+  "key": "ui.category_menu.06",
+  "file": "src/lib/components/CategoryMenu.svelte",
+  "line": 204,
+  "kind": "js-literal",
+  "raw": "按分类筛选",
+  "value": "按分类筛选"
+ },
+ {
+  "key": "ui.category_menu.07",
+  "file": "src/lib/components/CategoryMenu.svelte",
+  "line": 218,
+  "kind": "svelte-attr",
+  "raw": "按分类筛选",
+  "value": "按分类筛选"
+ },
+ {
+  "key": "ui.category_menu.08",
+  "file": "src/lib/components/CategoryMenu.svelte",
+  "line": 233,
+  "kind": "svelte-attr",
+  "raw": "这一档现在有 {countFor(o.value)} 条",
+  "value": "这一档现在有 {value} 条"
+ },
+ {
+  "key": "ui.category_menu.09",
+  "file": "src/lib/components/CategoryMenu.svelte",
+  "line": 249,
+  "kind": "svelte-text",
+  "raw": "✎ 管理工作…",
+  "value": "✎ 管理工作…"
+ },
+ {
+  "key": "ui.category_menu.10",
+  "file": "src/lib/components/CategoryMenu.svelte",
+  "line": 263,
+  "kind": "svelte-text",
+  "raw": "分类管理",
+  "value": "分类管理"
+ },
+ {
+  "key": "ui.category_menu.11",
+  "file": "src/lib/components/CategoryMenu.svelte",
+  "line": 274,
+  "kind": "svelte-attr",
+  "raw": "给「{c.name}」改名（改成已有名字 = 合并；清空 = 回到未分类）",
+  "value": "给「{name}」改名（改成已有名字 = 合并；清空 = 回到未分类）"
+ },
+ {
+  "key": "ui.category_menu.12",
+  "file": "src/lib/components/CategoryMenu.svelte",
+  "line": 287,
+  "kind": "svelte-attr",
+  "raw": "改名（改成已有名字 = 合并）",
+  "value": "改名（改成已有名字 = 合并）"
+ },
+ {
+  "key": "ui.category_menu.13",
+  "file": "src/lib/components/CategoryMenu.svelte",
+  "line": 301,
+  "kind": "svelte-text",
+  "raw": "数字含已归档的任务。保存后右下角有「撤销」（或 Ctrl+Z）。",
+  "value": "数字含已归档的任务。保存后右下角有「撤销」（或 Ctrl+Z）。"
+ },
+ {
+  "key": "ui.data_switch.01",
+  "file": "src/lib/components/DataSwitch.svelte",
+  "line": 57,
+  "kind": "js-literal",
+  "raw": "还没有数据",
+  "value": "还没有数据"
+ },
+ {
+  "key": "ui.data_switch.02",
+  "file": "src/lib/components/DataSwitch.svelte",
+  "line": 59,
+  "kind": "js-template",
+  "raw": "最后修改 ${undefined}",
+  "value": "最后修改 {modified}"
+ },
+ {
+  "key": "ui.data_switch.03",
+  "file": "src/lib/components/DataSwitch.svelte",
+  "line": 61,
+  "kind": "js-template",
+  "raw": "任务 ${undefined} · 块 ${undefined}",
+  "value": "任务 {tasks} · 块 {blocks}"
+ },
+ {
+  "key": "ui.data_switch.04",
+  "file": "src/lib/components/DataSwitch.svelte",
+  "line": 71,
+  "kind": "js-template",
+  "raw": "将用「${undefined}」这份作为接下来的数据，应用会立即重启。\n另一边现有的数据会先留一份副本（wakeyweeky.sqlite.before-switch），不会删除。",
+  "value": "将用「{label}」这份作为接下来的数据，应用会立即重启。\n另一边现有的数据会先留一份副本（wakeyweeky.sqlite.before-switch），不会删除。"
+ },
+ {
+  "key": "ui.data_switch.05",
+  "file": "src/lib/components/DataSwitch.svelte",
+  "line": 72,
+  "kind": "js-template",
+  "raw": "接下来改用「${undefined}」这份数据，应用会立即重启。\n正在用的这份会原地保留（不删）。",
+  "value": "接下来改用「{label}」这份数据，应用会立即重启。\n正在用的这份会原地保留（不删）。"
+ },
+ {
+  "key": "ui.data_switch.06",
+  "file": "src/lib/components/DataSwitch.svelte",
+  "line": 74,
+  "kind": "js-literal",
+  "raw": "切换数据位置",
+  "value": "切换数据位置"
+ },
+ {
+  "key": "ui.data_switch.07",
+  "file": "src/lib/components/DataSwitch.svelte",
+  "line": 76,
+  "kind": "js-literal",
+  "raw": "切换并重启",
+  "value": "切换并重启"
+ },
+ {
+  "key": "ui.data_switch.08",
+  "file": "src/lib/components/DataSwitch.svelte",
+  "line": 77,
+  "kind": "js-literal",
+  "raw": "取消",
+  "value": "取消"
+ },
+ {
+  "key": "ui.data_switch.09",
+  "file": "src/lib/components/DataSwitch.svelte",
+  "line": 93,
+  "kind": "svelte-attr",
+  "raw": "关闭数据位置切换",
+  "value": "关闭数据位置切换"
+ },
+ {
+  "key": "ui.data_switch.10",
+  "file": "src/lib/components/DataSwitch.svelte",
+  "line": 98,
+  "kind": "svelte-attr",
+  "raw": "数据位置切换",
+  "value": "数据位置切换"
+ },
+ {
+  "key": "ui.data_switch.11",
+  "file": "src/lib/components/DataSwitch.svelte",
+  "line": 103,
+  "kind": "svelte-text",
+  "raw": "数据位置切换",
+  "value": "数据位置切换"
+ },
+ {
+  "key": "ui.data_switch.12",
+  "file": "src/lib/components/DataSwitch.svelte",
+  "line": 109,
+  "kind": "svelte-text",
+  "raw": "正在读取两份数据…",
+  "value": "正在读取两份数据…"
+ },
+ {
+  "key": "ui.data_switch.13",
+  "file": "src/lib/components/DataSwitch.svelte",
+  "line": 115,
+  "kind": "svelte-text",
+  "raw": "两边是两份独立的数据。选一份作为接下来的数据 ——",
+  "value": "两边是两份独立的数据。选一份作为接下来的数据 ——"
+ },
+ {
+  "key": "ui.data_switch.14",
+  "file": "src/lib/components/DataSwitch.svelte",
+  "line": 116,
+  "kind": "svelte-text",
+  "raw": "需要被覆盖的那一侧会先留一份副本、不会删除",
+  "value": "需要被覆盖的那一侧会先留一份副本、不会删除"
+ },
+ {
+  "key": "ui.data_switch.15",
+  "file": "src/lib/components/DataSwitch.svelte",
+  "line": 116,
+  "kind": "svelte-text",
+  "raw": "；另一边原地保留。\n        「提醒计划」在便携模式下不可用。",
+  "value": "；另一边原地保留。 「提醒计划」在便携模式下不可用。"
+ },
+ {
+  "key": "ui.data_switch.16",
+  "file": "src/lib/components/DataSwitch.svelte",
+  "line": 124,
+  "kind": "svelte-text",
+  "raw": "正在用",
+  "value": "正在用"
+ },
+ {
+  "key": "ui.data_switch.17",
+  "file": "src/lib/components/DataSwitch.svelte",
+  "line": 125,
+  "kind": "svelte-text",
+  "raw": "较新",
+  "value": "较新"
+ },
+ {
+  "key": "ui.data_switch.18",
+  "file": "src/lib/components/DataSwitch.svelte",
+  "line": 134,
+  "kind": "svelte-text",
+  "raw": "用这份（复制到另一边）",
+  "value": "用这份（复制到另一边）"
+ },
+ {
+  "key": "ui.data_switch.19",
+  "file": "src/lib/components/DataSwitch.svelte",
+  "line": 141,
+  "kind": "svelte-text",
+  "raw": "较新",
+  "value": "较新"
+ },
+ {
+  "key": "ui.data_switch.20",
+  "file": "src/lib/components/DataSwitch.svelte",
+  "line": 146,
+  "kind": "svelte-text",
+  "raw": "这份打不开：{info.other.reason ?? \"原因不明\"}",
+  "value": "这份打不开：{reason}"
+ },
+ {
+  "key": "ui.data_switch.21",
+  "file": "src/lib/components/DataSwitch.svelte",
+  "line": 159,
+  "kind": "svelte-text",
+  "raw": "切换后会重启；正在用的那份永远先被读完，不会被写坏。",
+  "value": "切换后会重启；正在用的那份永远先被读完，不会被写坏。"
+ },
+ {
+  "key": "ui.drift_card.01",
+  "file": "src/lib/components/DriftCard.svelte",
+  "line": 23,
+  "kind": "js-template",
+  "raw": "已排到：${undefined}",
+  "value": "已排到：{label}"
+ },
+ {
+  "key": "ui.drift_card.02",
+  "file": "src/lib/components/DriftCard.svelte",
+  "line": 33,
+  "kind": "svelte-text",
+  "raw": "漂流",
+  "value": "漂流"
+ },
+ {
+  "key": "ui.drift_card.03",
+  "file": "src/lib/components/DriftCard.svelte",
+  "line": 36,
+  "kind": "svelte-text",
+  "raw": "「{drift.value.taskTitle}」已排到 {labelFor(drift.value.existingStartAt)}，换到哪一段？",
+  "value": "「{taskTitle}」已排到 {existingStartAt}，换到哪一段？"
+ },
+ {
+  "key": "ui.drift_card.04",
+  "file": "src/lib/components/DriftCard.svelte",
+  "line": 39,
+  "kind": "svelte-text",
+  "raw": "「{drift.value.taskTitle}」没做成，改到哪一段？",
+  "value": "「{taskTitle}」没做成，改到哪一段？"
+ },
+ {
+  "key": "ui.drift_card.05",
+  "file": "src/lib/components/DriftCard.svelte",
+  "line": 50,
+  "kind": "svelte-text",
+  "raw": "这段时间轴上已经排满了",
+  "value": "这段时间轴上已经排满了"
+ },
+ {
+  "key": "ui.drift_card.06",
+  "file": "src/lib/components/DriftCard.svelte",
+  "line": 59,
+  "kind": "svelte-attr",
+  "raw": "预览块跟着鼠标走：在时间轴上左键点一下放下，Esc 取消",
+  "value": "预览块跟着鼠标走：在时间轴上左键点一下放下，Esc 取消"
+ },
+ {
+  "key": "ui.first_run.01",
+  "file": "src/lib/components/FirstRun.svelte",
+  "line": 37,
+  "kind": "svelte-attr",
+  "raw": "第一次使用",
+  "value": "第一次使用"
+ },
+ {
+  "key": "ui.first_run.02",
+  "file": "src/lib/components/FirstRun.svelte",
+  "line": 38,
+  "kind": "svelte-text",
+  "raw": "先只安排今天就好",
+  "value": "先只安排今天就好"
+ },
+ {
+  "key": "ui.first_run.03",
+  "file": "src/lib/components/FirstRun.svelte",
+  "line": 40,
+  "kind": "svelte-text",
+  "raw": "在左边写下今天要做的一两件事",
+  "value": "在左边写下今天要做的一两件事"
+ },
+ {
+  "key": "ui.first_run.04",
+  "file": "src/lib/components/FirstRun.svelte",
+  "line": 41,
+  "kind": "svelte-text",
+  "raw": "把它们拖到右边今天的位置",
+  "value": "把它们拖到右边今天的位置"
+ },
+ {
+  "key": "ui.first_run.05",
+  "file": "src/lib/components/FirstRun.svelte",
+  "line": 42,
+  "kind": "svelte-text",
+  "raw": "做完时点一下 ✓ —— 到点会有提醒",
+  "value": "做完时点一下 ✓ —— 到点会有提醒"
+ },
+ {
+  "key": "ui.first_run.06",
+  "file": "src/lib/components/FirstRun.svelte",
+  "line": 44,
+  "kind": "svelte-text",
+  "raw": "不用把整周排满；下周要铺的骨架，等用了一周再说。",
+  "value": "不用把整周排满；下周要铺的骨架，等用了一周再说。"
+ },
+ {
+  "key": "help.help_panel.01",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 28,
+  "kind": "js-literal",
+  "raw": "直接打开总览",
+  "value": "直接打开总览"
+ },
+ {
+  "key": "help.help_panel.02",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 30,
+  "kind": "js-literal",
+  "raw": "只提醒我",
+  "value": "只提醒我"
+ },
+ {
+  "key": "help.help_panel.03",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 31,
+  "kind": "js-literal",
+  "raw": "什么都不做",
+  "value": "什么都不做"
+ },
+ {
+  "key": "help.help_panel.04",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 60,
+  "kind": "svelte-attr",
+  "raw": "关闭说明",
+  "value": "关闭说明"
+ },
+ {
+  "key": "help.help_panel.05",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 63,
+  "kind": "svelte-attr",
+  "raw": "说明",
+  "value": "说明"
+ },
+ {
+  "key": "help.help_panel.06",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 65,
+  "kind": "svelte-text",
+  "raw": "说明",
+  "value": "说明"
+ },
+ {
+  "key": "help.help_panel.07",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 66,
+  "kind": "svelte-text",
+  "raw": "所有「怎么运作 / 为什么」都在这",
+  "value": "所有「怎么运作 / 为什么」都在这"
+ },
+ {
+  "key": "help.help_panel.08",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 70,
+  "kind": "svelte-attr",
+  "raw": "目录",
+  "value": "目录"
+ },
+ {
+  "key": "help.help_panel.09",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 81,
+  "kind": "svelte-text",
+  "raw": "提醒",
+  "value": "提醒"
+ },
+ {
+  "key": "help.help_panel.10",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 83,
+  "kind": "svelte-text",
+  "raw": "块开始时提醒",
+  "value": "块开始时提醒"
+ },
+ {
+  "key": "help.help_panel.11",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 83,
+  "kind": "svelte-text",
+  "raw": "：到了块的开始时刻说一句；可以提前 {REMIND_LEAD_CHOICES.filter((m) => m > 0).join(\" / \")} 分钟（设置里选，默认「到点」）。",
+  "value": "：到了块的开始时刻说一句；可以提前 {join} 分钟（设置里选，默认「到点」）。"
+ },
+ {
+  "key": "help.help_panel.12",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 84,
+  "kind": "svelte-text",
+  "raw": "块结束时提醒",
+  "value": "块结束时提醒"
+ },
+ {
+  "key": "help.help_panel.13",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 84,
+  "kind": "svelte-text",
+  "raw": "：到结束时刻问「完成还是未完成？」——必填层用带按钮的通知，可以直接答。",
+  "value": "：到结束时刻问「完成还是未完成？」——必填层用带按钮的通知，可以直接答。"
+ },
+ {
+  "key": "help.help_panel.14",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 85,
+  "kind": "svelte-text",
+  "raw": "复盘",
+  "value": "复盘"
+ },
+ {
+  "key": "help.help_panel.15",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 85,
+  "kind": "svelte-text",
+  "raw": "：现在是 {reviewAt} {reviewActionLabel}（默认什么都不做）；也可以选「直接打开总览」（只在回到应用时打开，不在干活中途抢屏）。（在设置里改）",
+  "value": "：现在是 {reviewAt} {reviewActionLabel}（默认什么都不做）；也可以选「直接打开总览」（只在回到应用时打开，不在干活中途抢屏）。（在设置里改）"
+ },
+ {
+  "key": "help.help_panel.16",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 86,
+  "kind": "svelte-text",
+  "raw": "暂停提醒",
+  "value": "暂停提醒"
+ },
+ {
+  "key": "help.help_panel.17",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 86,
+  "kind": "svelte-text",
+  "raw": "：{QUIET_PRESET_MINUTES[0]} 分钟 / {QUIET_PRESET_MINUTES[1] / 60} 小时 / 到「明早」（时刻可改）。静音期间提醒",
+  "value": "：{QUIET_PRESET_MINUTES} 分钟 / {QUIET_PRESET_MINUTES2} 小时 / 到「明早」（时刻可改）。静音期间提醒"
+ },
+ {
+  "key": "help.help_panel.18",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 86,
+  "kind": "svelte-text",
+  "raw": "不发、只静默记账",
+  "value": "不发、只静默记账"
+ },
+ {
+  "key": "help.help_panel.19",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 86,
+  "kind": "svelte-text",
+  "raw": "；解静音后不会补发一串。",
+  "value": "；解静音后不会补发一串。"
+ },
+ {
+  "key": "help.help_panel.20",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 87,
+  "kind": "svelte-text",
+  "raw": "关闭应用后仍按时唤醒",
+  "value": "关闭应用后仍按时唤醒"
+ },
+ {
+  "key": "help.help_panel.21",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 87,
+  "kind": "svelte-text",
+  "raw": "：默认关 —— 只有你显式打开，才会在 Windows 任务计划程序里注册一条任务（不偷偷在后台跑）。",
+  "value": "：默认关 —— 只有你显式打开，才会在 Windows 任务计划程序里注册一条任务（不偷偷在后台跑）。"
+ },
+ {
+  "key": "help.help_panel.22",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 92,
+  "kind": "svelte-text",
+  "raw": "理智值",
+  "value": "理智值"
+ },
+ {
+  "key": "help.help_panel.23",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 94,
+  "kind": "svelte-text",
+  "raw": "看的是",
+  "value": "看的是"
+ },
+ {
+  "key": "help.help_panel.24",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 94,
+  "kind": "svelte-text",
+  "raw": "时间",
+  "value": "时间"
+ },
+ {
+  "key": "help.help_panel.25",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 94,
+  "kind": "svelte-text",
+  "raw": "：一天里各块占用的时间相加，",
+  "value": "：一天里各块占用的时间相加，"
+ },
+ {
+  "key": "help.help_panel.26",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 94,
+  "kind": "svelte-text",
+  "raw": "重叠 / 并排的只算一次",
+  "value": "重叠 / 并排的只算一次"
+ },
+ {
+  "key": "help.help_panel.27",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 94,
+  "kind": "svelte-text",
+  "raw": "。",
+  "value": "。"
+ },
+ {
+  "key": "help.help_panel.28",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 95,
+  "kind": "svelte-text",
+  "raw": "跟可调的",
+  "value": "跟可调的"
+ },
+ {
+  "key": "help.help_panel.29",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 95,
+  "kind": "svelte-text",
+  "raw": "每日预算",
+  "value": "每日预算"
+ },
+ {
+  "key": "help.help_panel.30",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 95,
+  "kind": "svelte-text",
+  "raw": "（当前 {budgetHours} 小时，在上面改）比：超了那天小条变红 + 顶部说一句 + 托盘加细红环。",
+  "value": "（当前 {budgetHours} 小时，在上面改）比：超了那天小条变红 + 顶部说一句 + 托盘加细红环。"
+ },
+ {
+  "key": "help.help_panel.31",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 96,
+  "kind": "svelte-text",
+  "raw": "标了",
+  "value": "标了"
+ },
+ {
+  "key": "help.help_panel.32",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 96,
+  "kind": "svelte-text",
+  "raw": "⊘（不计入）",
+  "value": "⊘（不计入）"
+ },
+ {
+  "key": "help.help_panel.33",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 96,
+  "kind": "svelte-text",
+  "raw": "的任务不算进来 —— 它在 Backlog 那一行（临时块在块上）。",
+  "value": "的任务不算进来 —— 它在 Backlog 那一行（临时块在块上）。"
+ },
+ {
+  "key": "help.help_panel.34",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 97,
+  "kind": "svelte-text",
+  "raw": "数字就是时间轴上那些块占掉的时间，可以自己对着核。",
+  "value": "数字就是时间轴上那些块占掉的时间，可以自己对着核。"
+ },
+ {
+  "key": "help.help_panel.35",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 102,
+  "kind": "svelte-text",
+  "raw": "数据",
+  "value": "数据"
+ },
+ {
+  "key": "help.help_panel.36",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 104,
+  "kind": "svelte-text",
+  "raw": "导出备份",
+  "value": "导出备份"
+ },
+ {
+  "key": "help.help_panel.37",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 104,
+  "kind": "svelte-text",
+  "raw": "：把整个数据库存成一份一致副本（任务 / 块 / 序列 / 设置都在里面），放外盘或云盘随你。",
+  "value": "：把整个数据库存成一份一致副本（任务 / 块 / 序列 / 设置都在里面），放外盘或云盘随你。"
+ },
+ {
+  "key": "help.help_panel.38",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 105,
+  "kind": "svelte-text",
+  "raw": "从备份恢复",
+  "value": "从备份恢复"
+ },
+ {
+  "key": "help.help_panel.39",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 105,
+  "kind": "svelte-text",
+  "raw": "：用备份覆盖当前数据并",
+  "value": "：用备份覆盖当前数据并"
+ },
+ {
+  "key": "help.help_panel.40",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 105,
+  "kind": "svelte-text",
+  "raw": "自动重启",
+  "value": "自动重启"
+ },
+ {
+  "key": "help.help_panel.41",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 105,
+  "kind": "svelte-text",
+  "raw": "；重启前自动留一份「恢复前副本」，不对还能换回来。",
+  "value": "；重启前自动留一份「恢复前副本」，不对还能换回来。"
+ },
+ {
+  "key": "help.help_panel.42",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 106,
+  "kind": "svelte-text",
+  "raw": "导出日历 (.ics)",
+  "value": "导出日历 (.ics)"
+ },
+ {
+  "key": "help.help_panel.43",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 106,
+  "kind": "svelte-text",
+  "raw": "：把全部排程导成日历文件（含已完成与未完成），时间是 UTC —— 在手机 / 系统日历里导入后，显示的是",
+  "value": "：把全部排程导成日历文件（含已完成与未完成），时间是 UTC —— 在手机 / 系统日历里导入后，显示的是"
+ },
+ {
+  "key": "help.help_panel.44",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 106,
+  "kind": "svelte-text",
+  "raw": "同一时刻",
+  "value": "同一时刻"
+ },
+ {
+  "key": "help.help_panel.45",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 106,
+  "kind": "svelte-text",
+  "raw": "；重复导入同一个文件不会重复生成。",
+  "value": "；重复导入同一个文件不会重复生成。"
+ },
+ {
+  "key": "help.help_panel.46",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 108,
+  "kind": "svelte-text",
+  "raw": "便携模式（默认关）",
+  "value": "便携模式（默认关）"
+ },
+ {
+  "key": "help.help_panel.47",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 108,
+  "kind": "svelte-text",
+  "raw": "：打开后数据（库 / 恢复前副本 / 待恢复文件）写到 exe 旁的",
+  "value": "：打开后数据（库 / 恢复前副本 / 待恢复文件）写到 exe 旁的"
+ },
+ {
+  "key": "help.help_panel.48",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 109,
+  "kind": "svelte-text",
+  "raw": "，整个文件夹拷到 U 盘就能带走（导出备份 / .ics 走系统「另存为」，存哪由你选）。\n            切换时会把两份数据",
+  "value": "，整个文件夹拷到 U 盘就能带走（导出备份 / .ics 走系统「另存为」，存哪由你选）。 切换时会把两份数据"
+ },
+ {
+  "key": "help.help_panel.49",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 110,
+  "kind": "svelte-text",
+  "raw": "并排摆出来",
+  "value": "并排摆出来"
+ },
+ {
+  "key": "help.help_panel.50",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 110,
+  "kind": "svelte-text",
+  "raw": "（位置 / 最后修改 / 大小 / 任务·块数），你选哪份就用哪份；",
+  "value": "（位置 / 最后修改 / 大小 / 任务·块数），你选哪份就用哪份；"
+ },
+ {
+  "key": "help.help_panel.51",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 111,
+  "kind": "svelte-text",
+  "raw": "需要被覆盖的那一边",
+  "value": "需要被覆盖的那一边"
+ },
+ {
+  "key": "help.help_panel.52",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 111,
+  "kind": "svelte-text",
+  "raw": "会先留一份副本（",
+  "value": "会先留一份副本（"
+ },
+ {
+  "key": "help.help_panel.53",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 111,
+  "kind": "svelte-text",
+  "raw": "），另一边原地保留、不会删。\n            便携模式下「提醒计划」不可用。",
+  "value": "），另一边原地保留、不会删。 便携模式下「提醒计划」不可用。"
+ },
+ {
+  "key": "help.help_panel.54",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 118,
+  "kind": "svelte-text",
+  "raw": "模板与建议",
+  "value": "模板与建议"
+ },
+ {
+  "key": "help.help_panel.55",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 120,
+  "kind": "svelte-text",
+  "raw": "模板 = 某一周的骨架",
+  "value": "模板 = 某一周的骨架"
+ },
+ {
+  "key": "help.help_panel.56",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 120,
+  "kind": "svelte-text",
+  "raw": "：层 / 时段 / 时长 +",
+  "value": "：层 / 时段 / 时长 +"
+ },
+ {
+  "key": "help.help_panel.57",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 120,
+  "kind": "svelte-text",
+  "raw": "任务名与分类",
+  "value": "任务名与分类"
+ },
+ {
+  "key": "help.help_panel.58",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 120,
+  "kind": "svelte-text",
+  "raw": "；铺开时同名任务直接复用（没有才新建），没有名字的行才铺成临时安排块。",
+  "value": "；铺开时同名任务直接复用（没有才新建），没有名字的行才铺成临时安排块。"
+ },
+ {
+  "key": "help.help_panel.59",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 121,
+  "kind": "svelte-text",
+  "raw": "入口在时间轴顶部",
+  "value": "入口在时间轴顶部"
+ },
+ {
+  "key": "help.help_panel.60",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 121,
+  "kind": "svelte-text",
+  "raw": "▥ 模板",
+  "value": "▥ 模板"
+ },
+ {
+  "key": "help.help_panel.61",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 121,
+  "kind": "svelte-text",
+  "raw": "：上面是「套用」（铺到正在看的那一周），下面是「保存这一周为模板」（可以先删几行）。",
+  "value": "：上面是「套用」（铺到正在看的那一周），下面是「保存这一周为模板」（可以先删几行）。"
+ },
+ {
+  "key": "help.help_panel.62",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 122,
+  "kind": "svelte-text",
+  "raw": "建议",
+  "value": "建议"
+ },
+ {
+  "key": "help.help_panel.63",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 122,
+  "kind": "svelte-text",
+  "raw": "：用满 {TEMPLATE_SUGGEST_DEFAULT.days} 天、完成过 {TEMPLATE_SUGGEST_DEFAULT.done} 次、且刚过去的那一周至少有 3 块时，会在顶部问一句「要不要把上周存成模板？」——",
+  "value": "：用满 {days} 天、完成过 {done} 次、且刚过去的那一周至少有 3 块时，会在顶部问一句「要不要把上周存成模板？」——"
+ },
+ {
+  "key": "help.help_panel.64",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 122,
+  "kind": "svelte-text",
+  "raw": "只问一次、不偷偷建",
+  "value": "只问一次、不偷偷建"
+ },
+ {
+  "key": "help.help_panel.65",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 122,
+  "kind": "svelte-text",
+  "raw": "。",
+  "value": "。"
+ },
+ {
+  "key": "help.help_panel.66",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 123,
+  "kind": "svelte-text",
+  "raw": "每周重复",
+  "value": "每周重复"
+ },
+ {
+  "key": "help.help_panel.67",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 123,
+  "kind": "svelte-text",
+  "raw": "：在 Backlog 任务的 ⚙ 里加一条规则（周几 + 时刻）—— 打开某一周时自动排上（块上有",
+  "value": "：在 Backlog 任务的 ⚙ 里加一条规则（周几 + 时刻）—— 打开某一周时自动排上（块上有"
+ },
+ {
+  "key": "help.help_panel.68",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 123,
+  "kind": "svelte-text",
+  "raw": "）；\n            时长照任务的",
+  "value": "）； 时长照任务的"
+ },
+ {
+  "key": "help.help_panel.69",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 124,
+  "kind": "svelte-text",
+  "raw": "预估",
+  "value": "预估"
+ },
+ {
+  "key": "help.help_panel.70",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 124,
+  "kind": "svelte-text",
+  "raw": "（没填 = 30 分钟）；删掉生成的那一块 = 这周不再生成，规则还在。",
+  "value": "（没填 = 30 分钟）；删掉生成的那一块 = 这周不再生成，规则还在。"
+ },
+ {
+  "key": "help.help_panel.71",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 125,
+  "kind": "svelte-text",
+  "raw": "门限可以在设置 → 功能开关 → 模板建议里改；「不再提」就是把它关掉。",
+  "value": "门限可以在设置 → 功能开关 → 模板建议里改；「不再提」就是把它关掉。"
+ },
+ {
+  "key": "help.help_panel.72",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 130,
+  "kind": "svelte-text",
+  "raw": "提示与教学",
+  "value": "提示与教学"
+ },
+ {
+  "key": "help.help_panel.73",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 133,
+  "kind": "svelte-text",
+  "raw": "第一次打开空库",
+  "value": "第一次打开空库"
+ },
+ {
+  "key": "help.help_panel.74",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 133,
+  "kind": "svelte-text",
+  "raw": "时左下会出现一张卡片（三步）：① 写下今天要做的一两件事\n            ② 把它们拖到今天的位置 ③ 做完点 ✓（到点会有提醒）。",
+  "value": "时左下会出现一张卡片（三步）：① 写下今天要做的一两件事 ② 把它们拖到今天的位置 ③ 做完点 ✓（到点会有提醒）。"
+ },
+ {
+  "key": "help.help_panel.75",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 136,
+  "kind": "svelte-text",
+  "raw": "顶部偶尔会出现一条一次性提示：",
+  "value": "顶部偶尔会出现一条一次性提示："
+ },
+ {
+  "key": "help.help_panel.76",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 136,
+  "kind": "svelte-text",
+  "raw": "首次用到某个功能时才提示一次",
+  "value": "首次用到某个功能时才提示一次"
+ },
+ {
+  "key": "help.help_panel.77",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 136,
+  "kind": "svelte-text",
+  "raw": "，一次只出一条，不挡操作。",
+  "value": "，一次只出一条，不挡操作。"
+ },
+ {
+  "key": "help.help_panel.78",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 137,
+  "kind": "svelte-text",
+  "raw": "「全部关掉」= 关掉渐进提示；想再打开：设置 → 引导与教程 →「重新打开渐进提示」。",
+  "value": "「全部关掉」= 关掉渐进提示；想再打开：设置 → 引导与教程 →「重新打开渐进提示」。"
+ },
+ {
+  "key": "help.help_panel.79",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 138,
+  "kind": "svelte-text",
+  "raw": "教程都能从 设置 → 引导与教程 找回来",
+  "value": "教程都能从 设置 → 引导与教程 找回来"
+ },
+ {
+  "key": "help.help_panel.80",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 138,
+  "kind": "svelte-text",
+  "raw": "：说明页 / 重看新手卡片 / 渐进提示开关。",
+  "value": "：说明页 / 重看新手卡片 / 渐进提示开关。"
+ },
+ {
+  "key": "help.help_panel.81",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 139,
+  "kind": "svelte-text",
+  "raw": "键位表在设置面板里",
+  "value": "键位表在设置面板里"
+ },
+ {
+  "key": "help.help_panel.82",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 139,
+  "kind": "svelte-text",
+  "raw": "（「键位说明」那一段）—— 这里不重复一份。",
+  "value": "（「键位说明」那一段）—— 这里不重复一份。"
+ },
+ {
+  "key": "help.help_panel.83",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 140,
+  "kind": "svelte-text",
+  "raw": "想快速加任务：在时间轴里按",
+  "value": "想快速加任务：在时间轴里按"
+ },
+ {
+  "key": "help.help_panel.84",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 140,
+  "kind": "svelte-text",
+  "raw": "—— Backlog 自动展开、光标落进「添加任务…」（输入框里按 c 不劫持）。",
+  "value": "—— Backlog 自动展开、光标落进「添加任务…」（输入框里按 c 不劫持）。"
+ },
+ {
+  "key": "help.help_panel.85",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 145,
+  "kind": "svelte-text",
+  "raw": "功能开关（默认全开）",
+  "value": "功能开关（默认全开）"
+ },
+ {
+  "key": "help.help_panel.86",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 147,
+  "kind": "svelte-text",
+  "raw": "二期新增的功能都能在设置里收起来；",
+  "value": "二期新增的功能都能在设置里收起来；"
+ },
+ {
+  "key": "help.help_panel.87",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 147,
+  "kind": "svelte-text",
+  "raw": "关掉只收界面与行为，不会删数据",
+  "value": "关掉只收界面与行为，不会删数据"
+ },
+ {
+  "key": "help.help_panel.88",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 147,
+  "kind": "svelte-text",
+  "raw": "（已合并的块、已接的序列、已存的模板都保持原样），再打开原样回来。",
+  "value": "（已合并的块、已接的序列、已存的模板都保持原样），再打开原样回来。"
+ },
+ {
+  "key": "ui.hint_bar.01",
+  "file": "src/lib/components/HintBar.svelte",
+  "line": 20,
+  "kind": "svelte-attr",
+  "raw": "这一条看过了",
+  "value": "这一条看过了"
+ },
+ {
+  "key": "ui.hint_bar.02",
+  "file": "src/lib/components/HintBar.svelte",
+  "line": 24,
+  "kind": "svelte-attr",
+  "raw": "以后都不再提示（设置 → 功能开关里可再开）",
+  "value": "以后都不再提示（设置 → 功能开关里可再开）"
+ },
+ {
+  "key": "ui.hint_bar.03",
+  "file": "src/lib/components/HintBar.svelte",
+  "line": 30,
+  "kind": "svelte-text",
+  "raw": "要不要把上周存成模板？",
+  "value": "要不要把上周存成模板？"
+ },
+ {
+  "key": "ui.hint_bar.04",
+  "file": "src/lib/components/HintBar.svelte",
+  "line": 34,
+  "kind": "svelte-attr",
+  "raw": "打开模板面板并停在上周（可以先删几行再存）",
+  "value": "打开模板面板并停在上周（可以先删几行再存）"
+ },
+ {
+  "key": "ui.hint_bar.05",
+  "file": "src/lib/components/HintBar.svelte",
+  "line": 40,
+  "kind": "svelte-attr",
+  "raw": "关掉模板建议（设置 → 功能开关里可再开）",
+  "value": "关掉模板建议（设置 → 功能开关里可再开）"
+ },
+ {
+  "key": "ui.mosaic.01",
+  "file": "src/lib/components/Mosaic.svelte",
+  "line": 60,
+  "kind": "js-literal",
+  "raw": "时间已过，既没做也没标记",
+  "value": "时间已过，既没做也没标记"
+ },
+ {
+  "key": "ui.mosaic.02",
+  "file": "src/lib/components/Mosaic.svelte",
+  "line": 61,
+  "kind": "js-literal",
+  "raw": "还没到",
+  "value": "还没到"
+ },
+ {
+  "key": "ui.mosaic.03",
+  "file": "src/lib/components/Mosaic.svelte",
+  "line": 62,
+  "kind": "js-literal",
+  "raw": "不计入理智",
+  "value": "不计入理智"
+ },
+ {
+  "key": "ui.mosaic.04",
+  "file": "src/lib/components/Mosaic.svelte",
+  "line": 63,
+  "kind": "js-template",
+  "raw": "挪过 ${undefined} 次",
+  "value": "挪过 {rearranged} 次"
+ },
+ {
+  "key": "ui.mosaic.05",
+  "file": "src/lib/components/Mosaic.svelte",
+  "line": 64,
+  "kind": "js-literal",
+  "raw": "没做完",
+  "value": "没做完"
+ },
+ {
+  "key": "ui.mosaic.06",
+  "file": "src/lib/components/Mosaic.svelte",
+  "line": 65,
+  "kind": "js-literal",
+  "raw": "必填",
+  "value": "必填"
+ },
+ {
+  "key": "ui.mosaic.07",
+  "file": "src/lib/components/Mosaic.svelte",
+  "line": 100,
+  "kind": "svelte-text",
+  "raw": "上周",
+  "value": "上周"
+ },
+ {
+  "key": "ui.mosaic.08",
+  "file": "src/lib/components/Mosaic.svelte",
+  "line": 101,
+  "kind": "svelte-text",
+  "raw": "本周",
+  "value": "本周"
+ },
+ {
+  "key": "ui.mosaic.09",
+  "file": "src/lib/components/Mosaic.svelte",
+  "line": 113,
+  "kind": "svelte-attr",
+  "raw": "点一下看这一天的块",
+  "value": "点一下看这一天的块"
+ },
+ {
+  "key": "ui.new_task_input.01",
+  "file": "src/lib/components/NewTaskInput.svelte",
+  "line": 40,
+  "kind": "svelte-attr",
+  "raw": "添加任务…",
+  "value": "添加任务…"
+ },
+ {
+  "key": "ui.new_task_input.02",
+  "file": "src/lib/components/NewTaskInput.svelte",
+  "line": 41,
+  "kind": "svelte-attr",
+  "raw": "新任务标题",
+  "value": "新任务标题"
+ },
+ {
+  "key": "ui.new_task_input.03",
+  "file": "src/lib/components/NewTaskInput.svelte",
+  "line": 44,
+  "kind": "svelte-attr",
+  "raw": "添加任务",
+  "value": "添加任务"
+ },
+ {
+  "key": "ui.review_nudge.01",
+  "file": "src/lib/components/ReviewNudge.svelte",
+  "line": 17,
+  "kind": "svelte-attr",
+  "raw": "打开这一周的总览",
+  "value": "打开这一周的总览"
+ },
+ {
+  "key": "ui.review_nudge.02",
+  "file": "src/lib/components/ReviewNudge.svelte",
+  "line": 20,
+  "kind": "svelte-text",
+  "raw": "◷ 这周的复盘可以看了 · 打开总览",
+  "value": "◷ 这周的复盘可以看了 · 打开总览"
+ },
+ {
+  "key": "ui.review_nudge.03",
+  "file": "src/lib/components/ReviewNudge.svelte",
+  "line": 22,
+  "kind": "svelte-attr",
+  "raw": "这一周不再提醒",
+  "value": "这一周不再提醒"
+ },
+ {
+  "key": "ui.review_panel.01",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 57,
+  "kind": "js-literal",
+  "raw": "周一",
+  "value": "周一"
+ },
+ {
+  "key": "ui.review_panel.02",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 57,
+  "kind": "js-literal",
+  "raw": "周二",
+  "value": "周二"
+ },
+ {
+  "key": "ui.review_panel.03",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 57,
+  "kind": "js-literal",
+  "raw": "周三",
+  "value": "周三"
+ },
+ {
+  "key": "ui.review_panel.04",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 57,
+  "kind": "js-literal",
+  "raw": "周四",
+  "value": "周四"
+ },
+ {
+  "key": "ui.review_panel.05",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 57,
+  "kind": "js-literal",
+  "raw": "周五",
+  "value": "周五"
+ },
+ {
+  "key": "ui.review_panel.06",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 57,
+  "kind": "js-literal",
+  "raw": "周六",
+  "value": "周六"
+ },
+ {
+  "key": "ui.review_panel.07",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 57,
+  "kind": "js-literal",
+  "raw": "周日",
+  "value": "周日"
+ },
+ {
+  "key": "ui.review_panel.08",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 175,
+  "kind": "js-template",
+  "raw": "${undefined} 那周",
+  "value": "{dd} 那周"
+ },
+ {
+  "key": "ui.review_panel.09",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 201,
+  "kind": "js-template",
+  "raw": "完成 ${undefined} · 未完成 ${undefined} · 未执行 ${undefined} · 计划中 ${undefined}",
+  "value": "完成 {done} · 未完成 {missed} · 未执行 {unused} · 计划中 {planned}"
+ },
+ {
+  "key": "ui.review_panel.10",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 220,
+  "kind": "js-literal",
+  "raw": "＝ 0",
+  "value": "＝ 0"
+ },
+ {
+  "key": "ui.review_panel.11",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 227,
+  "kind": "js-literal",
+  "raw": "＝ 0",
+  "value": "＝ 0"
+ },
+ {
+  "key": "ui.review_panel.12",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 235,
+  "kind": "js-literal",
+  "raw": "挪过",
+  "value": "挪过"
+ },
+ {
+  "key": "ui.review_panel.13",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 235,
+  "kind": "js-literal",
+  "raw": "没做完",
+  "value": "没做完"
+ },
+ {
+  "key": "ui.review_panel.14",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 250,
+  "kind": "js-template",
+  "raw": "本周占用 ${undefined}（预算 ${undefined}）· ${undefined} 块",
+  "value": "本周占用 {minutes}（预算 {budgetText}）· {blocks} 块"
+ },
+ {
+  "key": "ui.review_panel.15",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 251,
+  "kind": "js-template",
+  "raw": "；${undefined}同一天 ${undefined}",
+  "value": "；{base}同一天 {i}"
+ },
+ {
+  "key": "ui.review_panel.16",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 253,
+  "kind": "js-template",
+  "raw": "${undefined}占用 ${undefined}（预算 ${undefined}）",
+  "value": "{base}占用 {i}（预算 {budgetText}）"
+ },
+ {
+  "key": "ui.review_panel.17",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 255,
+  "kind": "js-template",
+  "raw": "本周${undefined} ${undefined} 次",
+  "value": "本周{kind} {kind} 次"
+ },
+ {
+  "key": "ui.review_panel.18",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 256,
+  "kind": "js-template",
+  "raw": "；${undefined}同一天 ${undefined} 次",
+  "value": "；{base}同一天 {kind} 次"
+ },
+ {
+  "key": "ui.review_panel.19",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 257,
+  "kind": "js-template",
+  "raw": "${undefined}${undefined} ${undefined} 次",
+  "value": "{base}{kind} {kind} 次"
+ },
+ {
+  "key": "ui.review_panel.20",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 332,
+  "kind": "svelte-attr",
+  "raw": "关闭复盘",
+  "value": "关闭复盘"
+ },
+ {
+  "key": "ui.review_panel.21",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 333,
+  "kind": "svelte-attr",
+  "raw": "一周总览",
+  "value": "一周总览"
+ },
+ {
+  "key": "ui.review_panel.22",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 336,
+  "kind": "svelte-attr",
+  "raw": "马赛克的读法",
+  "value": "马赛克的读法"
+ },
+ {
+  "key": "ui.review_panel.23",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 353,
+  "kind": "svelte-attr",
+  "raw": "对比基线：每天两排方块（基线淡 / 本周实）+ 同一刻度的柱 + 差值徽标",
+  "value": "对比基线：每天两排方块（基线淡 / 本周实）+ 同一刻度的柱 + 差值徽标"
+ },
+ {
+  "key": "ui.review_panel.24",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 356,
+  "kind": "svelte-text",
+  "raw": "对比",
+  "value": "对比"
+ },
+ {
+  "key": "ui.review_panel.25",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 360,
+  "kind": "svelte-attr",
+  "raw": "再往前一周",
+  "value": "再往前一周"
+ },
+ {
+  "key": "ui.review_panel.26",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 371,
+  "kind": "svelte-attr",
+  "raw": "再往近一周（最少「上周」）",
+  "value": "再往近一周（最少「上周」）"
+ },
+ {
+  "key": "ui.review_panel.27",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 378,
+  "kind": "svelte-attr",
+  "raw": "关掉对比",
+  "value": "关掉对比"
+ },
+ {
+  "key": "ui.review_panel.28",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 385,
+  "kind": "svelte-attr",
+  "raw": "和某一周比（选了之后可以用 ‹ › 逐周调）",
+  "value": "和某一周比（选了之后可以用 ‹ › 逐周调）"
+ },
+ {
+  "key": "ui.review_panel.29",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 390,
+  "kind": "svelte-attr",
+  "raw": "关闭（Esc）",
+  "value": "关闭（Esc）"
+ },
+ {
+  "key": "ui.review_panel.30",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 398,
+  "kind": "svelte-attr",
+  "raw": "这一周的结局",
+  "value": "这一周的结局"
+ },
+ {
+  "key": "ui.review_panel.31",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 401,
+  "kind": "svelte-text",
+  "raw": "占用",
+  "value": "占用"
+ },
+ {
+  "key": "ui.review_panel.32",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 403,
+  "kind": "svelte-text",
+  "raw": "本周 {formatDuration(totals.cur * 60)}",
+  "value": "本周 {cur}"
+ },
+ {
+  "key": "ui.review_panel.33",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 403,
+  "kind": "svelte-text",
+  "raw": "（预算 {formatDuration(\n                  budget * 60,\n                )}）",
+  "value": "（预算 {budget}）"
+ },
+ {
+  "key": "ui.review_panel.34",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 411,
+  "kind": "svelte-attr",
+  "raw": "本周比{base}：{totalDelta.text}",
+  "value": "本周比{base}：{text}"
+ },
+ {
+  "key": "ui.review_panel.35",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 416,
+  "kind": "svelte-text",
+  "raw": "结局",
+  "value": "结局"
+ },
+ {
+  "key": "ui.review_panel.36",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 418,
+  "kind": "svelte-attr",
+  "raw": "完成率 = 完成 ÷ 已到点的块（还没到的不算分母）",
+  "value": "完成率 = 完成 ÷ 已到点的块（还没到的不算分母）"
+ },
+ {
+  "key": "ui.review_panel.37",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 419,
+  "kind": "svelte-text",
+  "raw": "完成率 {formatRate(rate)}",
+  "value": "完成率 {rate}"
+ },
+ {
+  "key": "ui.review_panel.38",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 424,
+  "kind": "svelte-text",
+  "raw": "序列",
+  "value": "序列"
+ },
+ {
+  "key": "ui.review_panel.39",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 426,
+  "kind": "svelte-text",
+  "raw": "这一周没有序列",
+  "value": "这一周没有序列"
+ },
+ {
+  "key": "ui.review_panel.40",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 434,
+  "kind": "svelte-text",
+  "raw": "正在读这一周…",
+  "value": "正在读这一周…"
+ },
+ {
+  "key": "ui.review_panel.41",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 436,
+  "kind": "svelte-text",
+  "raw": "这一周没有安排",
+  "value": "这一周没有安排"
+ },
+ {
+  "key": "ui.review_panel.42",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 455,
+  "kind": "svelte-attr",
+  "raw": "每天占用（分钟）",
+  "value": "每天占用（分钟）"
+ },
+ {
+  "key": "ui.review_panel.43",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 457,
+  "kind": "svelte-text",
+  "raw": "占用",
+  "value": "占用"
+ },
+ {
+  "key": "ui.review_panel.44",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 457,
+  "kind": "svelte-text",
+  "raw": "（同一刻度、同一预算线；实心 = 本周，淡 = {base}）",
+  "value": "（同一刻度、同一预算线；实心 = 本周，淡 = {base}）"
+ },
+ {
+  "key": "ui.review_panel.45",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 475,
+  "kind": "svelte-attr",
+  "raw": "{dayLabel(d.day_start)}：{barTitle(d, i)}",
+  "value": "{day_start}：{i}"
+ },
+ {
+  "key": "ui.review_panel.46",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 484,
+  "kind": "svelte-attr",
+  "raw": "预算 {budgetText}",
+  "value": "预算 {budgetText}"
+ },
+ {
+  "key": "ui.review_panel.47",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 496,
+  "kind": "svelte-attr",
+  "raw": "比{base}同一天：{dl.text}",
+  "value": "比{base}同一天：{text}"
+ },
+ {
+  "key": "ui.review_panel.48",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 505,
+  "kind": "svelte-attr",
+  "raw": "事实计数（挪过 / 没做完）",
+  "value": "事实计数（挪过 / 没做完）"
+ },
+ {
+  "key": "ui.review_panel.49",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 528,
+  "kind": "svelte-attr",
+  "raw": "{dayLabel(d.day_start)}：{pfactTitle(i, kind)}",
+  "value": "{day_start}：{kind}"
+ },
+ {
+  "key": "ui.review_panel.50",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 535,
+  "kind": "svelte-attr",
+  "raw": "{dayLabel(d.day_start)}：{factTitle(d, i, kind)}",
+  "value": "{day_start}：{kind}"
+ },
+ {
+  "key": "ui.review_panel.51",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 550,
+  "kind": "svelte-attr",
+  "raw": "类别投入",
+  "value": "类别投入"
+ },
+ {
+  "key": "ui.review_panel.52",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 551,
+  "kind": "svelte-text",
+  "raw": "类别投入",
+  "value": "类别投入"
+ },
+ {
+  "key": "ui.review_panel.53",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 551,
+  "kind": "svelte-text",
+  "raw": "（只算已完成；实心 = 本周，淡 = {base}）",
+  "value": "（只算已完成；实心 = 本周，淡 = {base}）"
+ },
+ {
+  "key": "ui.review_panel.54",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 556,
+  "kind": "svelte-attr",
+  "raw": "本周完成 {formatDuration(row.cur * 60)}",
+  "value": "本周完成 {cur}"
+ },
+ {
+  "key": "ui.review_panel.55",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 562,
+  "kind": "svelte-attr",
+  "raw": "{base}完成 {formatDuration(row.prev * 60)}",
+  "value": "{base}完成 {prev}"
+ },
+ {
+  "key": "ui.review_panel.56",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 568,
+  "kind": "svelte-attr",
+  "raw": "本周比{base}：{row.deltaText}",
+  "value": "本周比{base}：{deltaText}"
+ },
+ {
+  "key": "ui.review_panel.57",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 579,
+  "kind": "svelte-attr",
+  "raw": "当天的块",
+  "value": "当天的块"
+ },
+ {
+  "key": "ui.review_panel.58",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 581,
+  "kind": "svelte-text",
+  "raw": "{dayLabel(today)} 的块",
+  "value": "{today} 的块"
+ },
+ {
+  "key": "ui.review_panel.59",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 581,
+  "kind": "svelte-text",
+  "raw": "（今天）",
+  "value": "（今天）"
+ },
+ {
+  "key": "ui.review_panel.60",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 584,
+  "kind": "svelte-text",
+  "raw": "这天没有安排",
+  "value": "这天没有安排"
+ },
+ {
+  "key": "ui.review_panel.61",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 598,
+  "kind": "svelte-text",
+  "raw": "挪过 {b.rearranged} 次",
+  "value": "挪过 {rearranged} 次"
+ },
+ {
+  "key": "ui.review_panel.62",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 599,
+  "kind": "svelte-text",
+  "raw": "没做完",
+  "value": "没做完"
+ },
+ {
+  "key": "ui.review_panel.63",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 604,
+  "kind": "js-literal",
+  "raw": "现在不计入理智值（点一下恢复）",
+  "value": "现在不计入理智值（点一下恢复）"
+ },
+ {
+  "key": "ui.review_panel.64",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 604,
+  "kind": "js-literal",
+  "raw": "点一下：这块不计入理智值",
+  "value": "点一下：这块不计入理智值"
+ },
+ {
+  "key": "ui.review_panel.65",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 613,
+  "kind": "svelte-attr",
+  "raw": "本周未完成",
+  "value": "本周未完成"
+ },
+ {
+  "key": "ui.review_panel.66",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 614,
+  "kind": "svelte-text",
+  "raw": "本周未完成（{missed.length}）",
+  "value": "本周未完成（{length}）"
+ },
+ {
+  "key": "ui.review_panel.67",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 626,
+  "kind": "svelte-attr",
+  "raw": "重新安排（打开漂流卡）",
+  "value": "重新安排（打开漂流卡）"
+ },
+ {
+  "key": "ui.review_panel.68",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 637,
+  "kind": "svelte-attr",
+  "raw": "往期",
+  "value": "往期"
+ },
+ {
+  "key": "ui.review_panel.69",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 638,
+  "kind": "svelte-text",
+  "raw": "往期",
+  "value": "往期"
+ },
+ {
+  "key": "ui.review_panel.70",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 645,
+  "kind": "svelte-attr",
+  "raw": "点开看这一周",
+  "value": "点开看这一周"
+ },
+ {
+  "key": "ui.sanity_bar.01",
+  "file": "src/lib/components/SanityBar.svelte",
+  "line": 17,
+  "kind": "js-literal",
+  "raw": "周一",
+  "value": "周一"
+ },
+ {
+  "key": "ui.sanity_bar.02",
+  "file": "src/lib/components/SanityBar.svelte",
+  "line": 17,
+  "kind": "js-literal",
+  "raw": "周二",
+  "value": "周二"
+ },
+ {
+  "key": "ui.sanity_bar.03",
+  "file": "src/lib/components/SanityBar.svelte",
+  "line": 17,
+  "kind": "js-literal",
+  "raw": "周三",
+  "value": "周三"
+ },
+ {
+  "key": "ui.sanity_bar.04",
+  "file": "src/lib/components/SanityBar.svelte",
+  "line": 17,
+  "kind": "js-literal",
+  "raw": "周四",
+  "value": "周四"
+ },
+ {
+  "key": "ui.sanity_bar.05",
+  "file": "src/lib/components/SanityBar.svelte",
+  "line": 17,
+  "kind": "js-literal",
+  "raw": "周五",
+  "value": "周五"
+ },
+ {
+  "key": "ui.sanity_bar.06",
+  "file": "src/lib/components/SanityBar.svelte",
+  "line": 17,
+  "kind": "js-literal",
+  "raw": "周六",
+  "value": "周六"
+ },
+ {
+  "key": "ui.sanity_bar.07",
+  "file": "src/lib/components/SanityBar.svelte",
+  "line": 17,
+  "kind": "js-literal",
+  "raw": "周日",
+  "value": "周日"
+ },
+ {
+  "key": "ui.sanity_bar.08",
+  "file": "src/lib/components/SanityBar.svelte",
+  "line": 27,
+  "kind": "js-template",
+  "raw": "⚠ ${undefined}偏重：占用 ${undefined}（预算 ${undefined}）· ${undefined} 块",
+  "value": "⚠ {day_start}偏重：占用 {minutes}（预算 {budget}）· {blocks} 块"
+ },
+ {
+  "key": "ui.sanity_bar.09",
+  "file": "src/lib/components/SanityBar.svelte",
+  "line": 29,
+  "kind": "js-template",
+  "raw": "${undefined} 占用 ${undefined}",
+  "value": "{day_start} 占用 {minutes}"
+ },
+ {
+  "key": "ui.sanity_bar.10",
+  "file": "src/lib/components/SanityBar.svelte",
+  "line": 30,
+  "kind": "js-template",
+  "raw": "⚠ ${undefined}（预算 ${undefined}）",
+  "value": "⚠ {join}（预算 {budget}）"
+ },
+ {
+  "key": "ui.sanity_bar.11",
+  "file": "src/lib/components/SanityBar.svelte",
+  "line": 44,
+  "kind": "svelte-attr",
+  "raw": "{text}（点一下看这几天都有哪些块）",
+  "value": "{text}（点一下看这几天都有哪些块）"
+ },
+ {
+  "key": "ui.sanity_settings.01",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 103,
+  "kind": "js-literal",
+  "raw": "正在读快捷键状态…",
+  "value": "正在读快捷键状态…"
+ },
+ {
+  "key": "ui.sanity_settings.02",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 104,
+  "kind": "js-template",
+  "raw": "当前：${undefined}（在别的程序里也管用）",
+  "value": "当前：{active}（在别的程序里也管用）"
+ },
+ {
+  "key": "ui.sanity_settings.03",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 105,
+  "kind": "js-template",
+  "raw": "没能注册上：${undefined}",
+  "value": "没能注册上：{error}"
+ },
+ {
+  "key": "ui.sanity_settings.04",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 124,
+  "kind": "js-literal",
+  "raw": "读取中…",
+  "value": "读取中…"
+ },
+ {
+  "key": "ui.sanity_settings.05",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 125,
+  "kind": "js-literal",
+  "raw": "便携请求失败（正在用默认位置）",
+  "value": "便携请求失败（正在用默认位置）"
+ },
+ {
+  "key": "ui.sanity_settings.06",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 126,
+  "kind": "js-literal",
+  "raw": "便携（exe\\data\\）",
+  "value": "便携（exe\\data\\）"
+ },
+ {
+  "key": "ui.sanity_settings.07",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 126,
+  "kind": "js-literal",
+  "raw": "默认位置（便携模式：关）",
+  "value": "默认位置（便携模式：关）"
+ },
+ {
+  "key": "ui.sanity_settings.08",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 179,
+  "kind": "js-literal",
+  "raw": "自定义的暂停时刻得是将来的时间",
+  "value": "自定义的暂停时刻得是将来的时间"
+ },
+ {
+  "key": "ui.sanity_settings.09",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 229,
+  "kind": "js-literal",
+  "raw": "导出 WakeyWeeky 备份",
+  "value": "导出 WakeyWeeky 备份"
+ },
+ {
+  "key": "ui.sanity_settings.10",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 231,
+  "kind": "js-literal",
+  "raw": "WakeyWeeky 备份",
+  "value": "WakeyWeeky 备份"
+ },
+ {
+  "key": "ui.sanity_settings.11",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 236,
+  "kind": "js-template",
+  "raw": "已导出备份（${undefined}）：${undefined}",
+  "value": "已导出备份（{bytes}）：{path}"
+ },
+ {
+  "key": "ui.sanity_settings.12",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 245,
+  "kind": "js-literal",
+  "raw": "导出日历",
+  "value": "导出日历"
+ },
+ {
+  "key": "ui.sanity_settings.13",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 247,
+  "kind": "js-literal",
+  "raw": "日历文件",
+  "value": "日历文件"
+ },
+ {
+  "key": "ui.sanity_settings.14",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 252,
+  "kind": "js-template",
+  "raw": "已导出 ${undefined} 项排程（${undefined}）：${undefined}",
+  "value": "已导出 {events} 项排程（{bytes}）：{path}"
+ },
+ {
+  "key": "ui.sanity_settings.15",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 262,
+  "kind": "js-literal",
+  "raw": "选择要恢复的备份",
+  "value": "选择要恢复的备份"
+ },
+ {
+  "key": "ui.sanity_settings.16",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 265,
+  "kind": "js-literal",
+  "raw": "WakeyWeeky 备份",
+  "value": "WakeyWeeky 备份"
+ },
+ {
+  "key": "ui.sanity_settings.17",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 269,
+  "kind": "js-literal",
+  "raw": "将用所选备份覆盖当前数据（任务 / 块 / 序列 / 设置），应用会立即重启。\n恢复前会自动留一份副本，万一不对还能换回来。",
+  "value": "将用所选备份覆盖当前数据（任务 / 块 / 序列 / 设置），应用会立即重启。\n恢复前会自动留一份副本，万一不对还能换回来。"
+ },
+ {
+  "key": "ui.sanity_settings.18",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 271,
+  "kind": "js-literal",
+  "raw": "从备份恢复",
+  "value": "从备份恢复"
+ },
+ {
+  "key": "ui.sanity_settings.19",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 273,
+  "kind": "js-literal",
+  "raw": "恢复并重启",
+  "value": "恢复并重启"
+ },
+ {
+  "key": "ui.sanity_settings.20",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 274,
+  "kind": "js-literal",
+  "raw": "取消",
+  "value": "取消"
+ },
+ {
+  "key": "ui.sanity_settings.21",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 369,
+  "kind": "svelte-attr",
+  "raw": "设置（提醒 / 理智值 / 数据 / 键位说明）",
+  "value": "设置（提醒 / 理智值 / 数据 / 键位说明）"
+ },
+ {
+  "key": "ui.sanity_settings.22",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 375,
+  "kind": "svelte-attr",
+  "raw": "设置",
+  "value": "设置"
+ },
+ {
+  "key": "ui.sanity_settings.23",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 380,
+  "kind": "svelte-attr",
+  "raw": "所有解释都在这：怎么运作 / 关掉会怎样",
+  "value": "所有解释都在这：怎么运作 / 关掉会怎样"
+ },
+ {
+  "key": "ui.sanity_settings.24",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 384,
+  "kind": "svelte-text",
+  "raw": "引导与教程",
+  "value": "引导与教程"
+ },
+ {
+  "key": "ui.sanity_settings.25",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 386,
+  "kind": "svelte-attr",
+  "raw": "所有解释都在这里",
+  "value": "所有解释都在这里"
+ },
+ {
+  "key": "ui.sanity_settings.26",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 387,
+  "kind": "svelte-text",
+  "raw": "打开说明页",
+  "value": "打开说明页"
+ },
+ {
+  "key": "ui.sanity_settings.27",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 392,
+  "kind": "svelte-attr",
+  "raw": "把左下角那张「先只安排今天就好」再显示一次",
+  "value": "把左下角那张「先只安排今天就好」再显示一次"
+ },
+ {
+  "key": "ui.sanity_settings.28",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 400,
+  "kind": "js-literal",
+  "raw": "渐进提示开着（要关去下面的「功能开关」）",
+  "value": "渐进提示开着（要关去下面的「功能开关」）"
+ },
+ {
+  "key": "ui.sanity_settings.29",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 401,
+  "kind": "js-literal",
+  "raw": "之前关掉了渐进提示；点一下重新打开",
+  "value": "之前关掉了渐进提示；点一下重新打开"
+ },
+ {
+  "key": "ui.sanity_settings.30",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 407,
+  "kind": "svelte-text",
+  "raw": "提醒",
+  "value": "提醒"
+ },
+ {
+  "key": "ui.sanity_settings.31",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 414,
+  "kind": "svelte-text",
+  "raw": "块开始时提醒",
+  "value": "块开始时提醒"
+ },
+ {
+  "key": "ui.sanity_settings.32",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 415,
+  "kind": "svelte-text",
+  "raw": "提前",
+  "value": "提前"
+ },
+ {
+  "key": "ui.sanity_settings.33",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 428,
+  "kind": "svelte-text",
+  "raw": "块结束时提醒",
+  "value": "块结束时提醒"
+ },
+ {
+  "key": "ui.sanity_settings.34",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 432,
+  "kind": "svelte-text",
+  "raw": "复盘",
+  "value": "复盘"
+ },
+ {
+  "key": "ui.sanity_settings.35",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 444,
+  "kind": "svelte-text",
+  "raw": "周日",
+  "value": "周日"
+ },
+ {
+  "key": "ui.sanity_settings.36",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 445,
+  "kind": "svelte-text",
+  "raw": "周一",
+  "value": "周一"
+ },
+ {
+  "key": "ui.sanity_settings.37",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 459,
+  "kind": "svelte-text",
+  "raw": "到点时",
+  "value": "到点时"
+ },
+ {
+  "key": "ui.sanity_settings.38",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 475,
+  "kind": "svelte-text",
+  "raw": "只提醒我",
+  "value": "只提醒我"
+ },
+ {
+  "key": "ui.sanity_settings.39",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 476,
+  "kind": "svelte-text",
+  "raw": "直接打开总览",
+  "value": "直接打开总览"
+ },
+ {
+  "key": "ui.sanity_settings.40",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 477,
+  "kind": "svelte-text",
+  "raw": "什么都不做",
+  "value": "什么都不做"
+ },
+ {
+  "key": "ui.sanity_settings.41",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 482,
+  "kind": "svelte-text",
+  "raw": "暂停提醒",
+  "value": "暂停提醒"
+ },
+ {
+  "key": "ui.sanity_settings.42",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 484,
+  "kind": "svelte-text",
+  "raw": "{QUIET_PRESET_MINUTES[0]} 分钟",
+  "value": "{QUIET_PRESET_MINUTES} 分钟"
+ },
+ {
+  "key": "ui.sanity_settings.43",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 487,
+  "kind": "svelte-text",
+  "raw": "{QUIET_PRESET_MINUTES[1] / 60} 小时",
+  "value": "{QUIET_PRESET_MINUTES} 小时"
+ },
+ {
+  "key": "ui.sanity_settings.44",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 490,
+  "kind": "svelte-text",
+  "raw": "到明早 {prefs.quietMorning}",
+  "value": "到明早 {quietMorning}"
+ },
+ {
+  "key": "ui.sanity_settings.45",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 502,
+  "kind": "svelte-text",
+  "raw": "已暂停提醒，至 {formatQuietUntil(prefs.quietUntil * 1000)}",
+  "value": "已暂停提醒，至 {quietUntil}"
+ },
+ {
+  "key": "ui.sanity_settings.46",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 507,
+  "kind": "svelte-text",
+  "raw": "「到明早」=",
+  "value": "「到明早」="
+ },
+ {
+  "key": "ui.sanity_settings.47",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 514,
+  "kind": "svelte-text",
+  "raw": "（可改）",
+  "value": "（可改）"
+ },
+ {
+  "key": "ui.sanity_settings.48",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 525,
+  "kind": "svelte-text",
+  "raw": "关闭应用后仍按时唤醒",
+  "value": "关闭应用后仍按时唤醒"
+ },
+ {
+  "key": "ui.sanity_settings.49",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 529,
+  "kind": "svelte-text",
+  "raw": "便携模式下不可用",
+  "value": "便携模式下不可用"
+ },
+ {
+  "key": "ui.sanity_settings.50",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 529,
+  "kind": "svelte-text",
+  "raw": "：不往系统里注册计划任务（也不会在别的机器上留下指向 U 盘的任务）。",
+  "value": "：不往系统里注册计划任务（也不会在别的机器上留下指向 U 盘的任务）。"
+ },
+ {
+  "key": "ui.sanity_settings.51",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 532,
+  "kind": "svelte-text",
+  "raw": "默认关",
+  "value": "默认关"
+ },
+ {
+  "key": "ui.sanity_settings.52",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 532,
+  "kind": "svelte-text",
+  "raw": "：没有你的确认，不往系统里注册后台任务（详细说明在「ⓘ 说明」里）。",
+  "value": "：没有你的确认，不往系统里注册后台任务（详细说明在「ⓘ 说明」里）。"
+ },
+ {
+  "key": "ui.sanity_settings.53",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 537,
+  "kind": "svelte-text",
+  "raw": "理智值",
+  "value": "理智值"
+ },
+ {
+  "key": "ui.sanity_settings.54",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 539,
+  "kind": "svelte-text",
+  "raw": "每天预算",
+  "value": "每天预算"
+ },
+ {
+  "key": "ui.sanity_settings.55",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 549,
+  "kind": "svelte-text",
+  "raw": "小时",
+  "value": "小时"
+ },
+ {
+  "key": "ui.sanity_settings.56",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 557,
+  "kind": "svelte-text",
+  "raw": "显示理智值预警",
+  "value": "显示理智值预警"
+ },
+ {
+  "key": "ui.sanity_settings.57",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 559,
+  "kind": "svelte-text",
+  "raw": "超了就变红。日头下那根小条一直显示；关掉后三处都不再出现。",
+  "value": "超了就变红。日头下那根小条一直显示；关掉后三处都不再出现。"
+ },
+ {
+  "key": "ui.sanity_settings.58",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 563,
+  "kind": "svelte-text",
+  "raw": "外观 / 布局",
+  "value": "外观 / 布局"
+ },
+ {
+  "key": "ui.sanity_settings.59",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 564,
+  "kind": "svelte-text",
+  "raw": "点 Backlog 右上角的 « 收起成细轨（点窄条整条展开）。",
+  "value": "点 Backlog 右上角的 « 收起成细轨（点窄条整条展开）。"
+ },
+ {
+  "key": "ui.sanity_settings.60",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 571,
+  "kind": "svelte-text",
+  "raw": "显示周六、周日",
+  "value": "显示周六、周日"
+ },
+ {
+  "key": "ui.sanity_settings.61",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 573,
+  "kind": "svelte-text",
+  "raw": "关掉就只看周一…周五（5 列更宽）；藏在周末的块会在时间轴头部提示「还有 N 块」，点一下恢复。",
+  "value": "关掉就只看周一…周五（5 列更宽）；藏在周末的块会在时间轴头部提示「还有 N 块」，点一下恢复。"
+ },
+ {
+  "key": "ui.sanity_settings.62",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 575,
+  "kind": "svelte-text",
+  "raw": "键位提示",
+  "value": "键位提示"
+ },
+ {
+  "key": "ui.sanity_settings.63",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 581,
+  "kind": "svelte-text",
+  "raw": "常显",
+  "value": "常显"
+ },
+ {
+  "key": "ui.sanity_settings.64",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 582,
+  "kind": "svelte-text",
+  "raw": "不显示",
+  "value": "不显示"
+ },
+ {
+  "key": "ui.sanity_settings.65",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 585,
+  "kind": "svelte-text",
+  "raw": "只在选中块之后出现；不想看就选「不显示」（键盘操作不受影响）。",
+  "value": "只在选中块之后出现；不想看就选「不显示」（键盘操作不受影响）。"
+ },
+ {
+  "key": "ui.sanity_settings.66",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 590,
+  "kind": "svelte-text",
+  "raw": "成就（暗章）",
+  "value": "成就（暗章）"
+ },
+ {
+  "key": "ui.sanity_settings.67",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 592,
+  "kind": "svelte-text",
+  "raw": "启用成就",
+  "value": "启用成就"
+ },
+ {
+  "key": "ui.sanity_settings.68",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 601,
+  "kind": "svelte-text",
+  "raw": "已点亮 {achievements.data?.unlocked ?? 0} / 共 {achievements.data?.total ?? 0} 枚",
+  "value": "已点亮 {unlocked} / 共 {total} 枚"
+ },
+ {
+  "key": "ui.sanity_settings.69",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 603,
+  "kind": "svelte-text",
+  "raw": "查看暗章",
+  "value": "查看暗章"
+ },
+ {
+  "key": "ui.sanity_settings.70",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 607,
+  "kind": "svelte-text",
+  "raw": "点亮时弹提示",
+  "value": "点亮时弹提示"
+ },
+ {
+  "key": "ui.sanity_settings.71",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 614,
+  "kind": "svelte-text",
+  "raw": "未点亮的暗章会以「??? + 条件 + 进度」列出来；藏起来的那些等你自己撞见。",
+  "value": "未点亮的暗章会以「??? + 条件 + 进度」列出来；藏起来的那些等你自己撞见。"
+ },
+ {
+  "key": "ui.sanity_settings.72",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 620,
+  "kind": "svelte-text",
+  "raw": "数据",
+  "value": "数据"
+ },
+ {
+  "key": "ui.sanity_settings.73",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 623,
+  "kind": "svelte-text",
+  "raw": "导出备份…",
+  "value": "导出备份…"
+ },
+ {
+  "key": "ui.sanity_settings.74",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 626,
+  "kind": "svelte-text",
+  "raw": "从备份恢复…",
+  "value": "从备份恢复…"
+ },
+ {
+  "key": "ui.sanity_settings.75",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 631,
+  "kind": "svelte-text",
+  "raw": "导出日历 (.ics)…",
+  "value": "导出日历 (.ics)…"
+ },
+ {
+  "key": "ui.sanity_settings.76",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 634,
+  "kind": "svelte-text",
+  "raw": "恢复会覆盖当前数据并",
+  "value": "恢复会覆盖当前数据并"
+ },
+ {
+  "key": "ui.sanity_settings.77",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 634,
+  "kind": "svelte-text",
+  "raw": "自动重启",
+  "value": "自动重启"
+ },
+ {
+  "key": "ui.sanity_settings.78",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 634,
+  "kind": "svelte-text",
+  "raw": "；重启前自动留一份副本。",
+  "value": "；重启前自动留一份副本。"
+ },
+ {
+  "key": "ui.sanity_settings.79",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 637,
+  "kind": "svelte-text",
+  "raw": "便携模式 / 数据位置…",
+  "value": "便携模式 / 数据位置…"
+ },
+ {
+  "key": "ui.sanity_settings.80",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 641,
+  "kind": "svelte-text",
+  "raw": "当前：",
+  "value": "当前："
+ },
+ {
+  "key": "ui.sanity_settings.81",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 641,
+  "kind": "svelte-text",
+  "raw": "。便携模式",
+  "value": "。便携模式"
+ },
+ {
+  "key": "ui.sanity_settings.82",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 641,
+  "kind": "svelte-text",
+  "raw": "默认关",
+  "value": "默认关"
+ },
+ {
+  "key": "ui.sanity_settings.83",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 641,
+  "kind": "svelte-text",
+  "raw": "：打开后数据写到 exe 旁的",
+  "value": "：打开后数据写到 exe 旁的"
+ },
+ {
+  "key": "ui.sanity_settings.84",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 642,
+  "kind": "svelte-text",
+  "raw": "（整个文件夹拷到 U 盘就能带走；装在 Program Files 这种只读位置开不了）。",
+  "value": "（整个文件夹拷到 U 盘就能带走；装在 Program Files 这种只读位置开不了）。"
+ },
+ {
+  "key": "ui.sanity_settings.85",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 650,
+  "kind": "svelte-text",
+  "raw": "功能开关（默认全开）",
+  "value": "功能开关（默认全开）"
+ },
+ {
+  "key": "ui.sanity_settings.86",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 656,
+  "kind": "svelte-attr",
+  "raw": "二期功能都能在这里收起来；关掉只收界面与行为，不会删数据",
+  "value": "二期功能都能在这里收起来；关掉只收界面与行为，不会删数据"
+ },
+ {
+  "key": "ui.sanity_settings.87",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 683,
+  "kind": "svelte-text",
+  "raw": "满",
+  "value": "满"
+ },
+ {
+  "key": "ui.sanity_settings.88",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 693,
+  "kind": "svelte-text",
+  "raw": "天 · 完成 ≥",
+  "value": "天 · 完成 ≥"
+ },
+ {
+  "key": "ui.sanity_settings.89",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 703,
+  "kind": "svelte-text",
+  "raw": "次",
+  "value": "次"
+ },
+ {
+  "key": "ui.sanity_settings.90",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 707,
+  "kind": "svelte-text",
+  "raw": "关掉只收起界面与行为，",
+  "value": "关掉只收起界面与行为，"
+ },
+ {
+  "key": "ui.sanity_settings.91",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 707,
+  "kind": "svelte-text",
+  "raw": "不会删数据",
+  "value": "不会删数据"
+ },
+ {
+  "key": "ui.sanity_settings.92",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 707,
+  "kind": "svelte-text",
+  "raw": "；再打开原样回来。",
+  "value": "；再打开原样回来。"
+ },
+ {
+  "key": "ui.sanity_settings.94",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 718,
+  "kind": "svelte-attr",
+  "raw": "键盘能做的全部事情",
+  "value": "键盘能做的全部事情"
+ },
+ {
+  "key": "ui.stats_panel.01",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 50,
+  "kind": "js-literal",
+  "raw": "完成",
+  "value": "完成"
+ },
+ {
+  "key": "ui.stats_panel.02",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 52,
+  "kind": "js-literal",
+  "raw": "标为完成",
+  "value": "标为完成"
+ },
+ {
+  "key": "ui.stats_panel.03",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 52,
+  "kind": "js-template",
+  "raw": "${undefined} 次",
+  "value": "{complete} 次"
+ },
+ {
+  "key": "ui.stats_panel.04",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 53,
+  "kind": "js-literal",
+  "raw": "标为未完成",
+  "value": "标为未完成"
+ },
+ {
+  "key": "ui.stats_panel.05",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 53,
+  "kind": "js-template",
+  "raw": "${undefined} 次",
+  "value": "{skip} 次"
+ },
+ {
+  "key": "ui.stats_panel.06",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 55,
+  "kind": "js-literal",
+  "raw": "完成率",
+  "value": "完成率"
+ },
+ {
+  "key": "ui.stats_panel.07",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 57,
+  "kind": "js-literal",
+  "raw": "完成 ÷（完成 + 未完成）—— 分母就是上面那两个数字",
+  "value": "完成 ÷（完成 + 未完成）—— 分母就是上面那两个数字"
+ },
+ {
+  "key": "ui.stats_panel.08",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 62,
+  "kind": "js-literal",
+  "raw": "排程",
+  "value": "排程"
+ },
+ {
+  "key": "ui.stats_panel.09",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 65,
+  "kind": "js-literal",
+  "raw": "新建块",
+  "value": "新建块"
+ },
+ {
+  "key": "ui.stats_panel.10",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 66,
+  "kind": "js-template",
+  "raw": "${undefined} 次",
+  "value": "{created} 次"
+ },
+ {
+  "key": "ui.stats_panel.11",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 67,
+  "kind": "js-template",
+  "raw": "含临时 ${undefined}",
+  "value": "含临时 {created_temp}"
+ },
+ {
+  "key": "ui.stats_panel.12",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 68,
+  "kind": "js-literal",
+  "raw": "从 Backlog 拖入 / 双击空白格建临时块（漂移内部建的不算）",
+  "value": "从 Backlog 拖入 / 双击空白格建临时块（漂移内部建的不算）"
+ },
+ {
+  "key": "ui.stats_panel.13",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 71,
+  "kind": "js-literal",
+  "raw": "移动位置",
+  "value": "移动位置"
+ },
+ {
+  "key": "ui.stats_panel.14",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 72,
+  "kind": "js-template",
+  "raw": "${undefined} 次",
+  "value": "{moved} 次"
+ },
+ {
+  "key": "ui.stats_panel.15",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 73,
+  "kind": "js-literal",
+  "raw": "拖动 / 键盘 / 从 Backlog 放入导致起点变化",
+  "value": "拖动 / 键盘 / 从 Backlog 放入导致起点变化"
+ },
+ {
+  "key": "ui.stats_panel.16",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 75,
+  "kind": "js-literal",
+  "raw": "调整时长",
+  "value": "调整时长"
+ },
+ {
+  "key": "ui.stats_panel.17",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 75,
+  "kind": "js-template",
+  "raw": "${undefined} 次",
+  "value": "{stretched} 次"
+ },
+ {
+  "key": "ui.stats_panel.18",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 75,
+  "kind": "js-literal",
+  "raw": "拉伸或键盘改时长",
+  "value": "拉伸或键盘改时长"
+ },
+ {
+  "key": "ui.stats_panel.19",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 76,
+  "kind": "js-literal",
+  "raw": "漂移",
+  "value": "漂移"
+ },
+ {
+  "key": "ui.stats_panel.20",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 76,
+  "kind": "js-template",
+  "raw": "${undefined} 次",
+  "value": "{postponed} 次"
+ },
+ {
+  "key": "ui.stats_panel.21",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 76,
+  "kind": "js-literal",
+  "raw": "自己点的「漂」（不含自动顺延）",
+  "value": "自己点的「漂」（不含自动顺延）"
+ },
+ {
+  "key": "ui.stats_panel.22",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 78,
+  "kind": "js-literal",
+  "raw": "自动顺延",
+  "value": "自动顺延"
+ },
+ {
+  "key": "ui.stats_panel.23",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 79,
+  "kind": "js-template",
+  "raw": "${undefined} 次",
+  "value": "{cascaded} 次"
+ },
+ {
+  "key": "ui.stats_panel.24",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 80,
+  "kind": "js-literal",
+  "raw": "序列 / 漂移把后面的环连带挪走",
+  "value": "序列 / 漂移把后面的环连带挪走"
+ },
+ {
+  "key": "ui.stats_panel.25",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 83,
+  "kind": "js-literal",
+  "raw": "删除块",
+  "value": "删除块"
+ },
+ {
+  "key": "ui.stats_panel.26",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 84,
+  "kind": "js-template",
+  "raw": "${undefined} 块",
+  "value": "{deleted} 块"
+ },
+ {
+  "key": "ui.stats_panel.27",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 85,
+  "kind": "js-literal",
+  "raw": "一次删多个（含漂移后续）算在一起",
+  "value": "一次删多个（含漂移后续）算在一起"
+ },
+ {
+  "key": "ui.stats_panel.28",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 87,
+  "kind": "js-literal",
+  "raw": "融合",
+  "value": "融合"
+ },
+ {
+  "key": "ui.stats_panel.29",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 87,
+  "kind": "js-template",
+  "raw": "${undefined} 块",
+  "value": "{merged} 块"
+ },
+ {
+  "key": "ui.stats_panel.30",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 87,
+  "kind": "js-literal",
+  "raw": "相邻同任务块自动合并（每次吃掉 1 块）",
+  "value": "相邻同任务块自动合并（每次吃掉 1 块）"
+ },
+ {
+  "key": "ui.stats_panel.31",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 91,
+  "kind": "js-literal",
+  "raw": "序列",
+  "value": "序列"
+ },
+ {
+  "key": "ui.stats_panel.32",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 93,
+  "kind": "js-literal",
+  "raw": "接进序列",
+  "value": "接进序列"
+ },
+ {
+  "key": "ui.stats_panel.33",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 93,
+  "kind": "js-template",
+  "raw": "${undefined} 次",
+  "value": "{linked} 次"
+ },
+ {
+  "key": "ui.stats_panel.34",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 94,
+  "kind": "js-literal",
+  "raw": "从序列取出",
+  "value": "从序列取出"
+ },
+ {
+  "key": "ui.stats_panel.35",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 94,
+  "kind": "js-template",
+  "raw": "${undefined} 次",
+  "value": "{unlinked} 次"
+ },
+ {
+  "key": "ui.stats_panel.36",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 98,
+  "kind": "js-literal",
+  "raw": "时间",
+  "value": "时间"
+ },
+ {
+  "key": "ui.stats_panel.37",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 101,
+  "kind": "js-literal",
+  "raw": "完成时长",
+  "value": "完成时长"
+ },
+ {
+  "key": "ui.stats_panel.38",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 105,
+  "kind": "js-template",
+  "raw": "${undefined} 次完成都还没有时长记录",
+  "value": "{complete} 次完成都还没有时长记录"
+ },
+ {
+  "key": "ui.stats_panel.39",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 106,
+  "kind": "js-template",
+  "raw": "按计划时段累加 · ${undefined}/${undefined} 次有记录",
+  "value": "按计划时段累加 · {done_timed}/{complete} 次有记录"
+ },
+ {
+  "key": "ui.stats_panel.40",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 107,
+  "kind": "js-literal",
+  "raw": "按每块自己的计划时段累加（不是计时器）",
+  "value": "按每块自己的计划时段累加（不是计时器）"
+ },
+ {
+  "key": "ui.stats_panel.41",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 112,
+  "kind": "js-literal",
+  "raw": "记录",
+  "value": "记录"
+ },
+ {
+  "key": "ui.stats_panel.42",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 114,
+  "kind": "js-literal",
+  "raw": "记录始于",
+  "value": "记录始于"
+ },
+ {
+  "key": "ui.stats_panel.43",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 115,
+  "kind": "js-literal",
+  "raw": "用过的天数",
+  "value": "用过的天数"
+ },
+ {
+  "key": "ui.stats_panel.44",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 115,
+  "kind": "js-template",
+  "raw": "${undefined} 天",
+  "value": "{active_days} 天"
+ },
+ {
+  "key": "ui.stats_panel.45",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 117,
+  "kind": "js-literal",
+  "raw": "事件总数",
+  "value": "事件总数"
+ },
+ {
+  "key": "ui.stats_panel.46",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 118,
+  "kind": "js-template",
+  "raw": "${undefined} 条",
+  "value": "{total_events} 条"
+ },
+ {
+  "key": "ui.stats_panel.47",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 119,
+  "kind": "js-literal",
+  "raw": "库里存着的所有行为事件（含本页没有展开的类型）",
+  "value": "库里存着的所有行为事件（含本页没有展开的类型）"
+ },
+ {
+  "key": "ui.stats_panel.48",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 140,
+  "kind": "svelte-attr",
+  "raw": "关闭统计",
+  "value": "关闭统计"
+ },
+ {
+  "key": "ui.stats_panel.49",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 141,
+  "kind": "svelte-attr",
+  "raw": "数据统计",
+  "value": "数据统计"
+ },
+ {
+  "key": "ui.stats_panel.50",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 143,
+  "kind": "svelte-text",
+  "raw": "统计",
+  "value": "统计"
+ },
+ {
+  "key": "ui.stats_panel.51",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 144,
+  "kind": "svelte-text",
+  "raw": "全部累计",
+  "value": "全部累计"
+ },
+ {
+  "key": "ui.stats_panel.52",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 145,
+  "kind": "svelte-attr",
+  "raw": "关闭（Esc）",
+  "value": "关闭（Esc）"
+ },
+ {
+  "key": "ui.stats_panel.53",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 150,
+  "kind": "svelte-text",
+  "raw": "读不到统计（稍后再试）",
+  "value": "读不到统计（稍后再试）"
+ },
+ {
+  "key": "ui.stats_panel.54",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 152,
+  "kind": "svelte-text",
+  "raw": "加载中…",
+  "value": "加载中…"
+ },
+ {
+  "key": "ui.stats_panel.55",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 156,
+  "kind": "svelte-text",
+  "raw": "还没有记录 —— 用一会儿再来",
+  "value": "还没有记录 —— 用一会儿再来"
+ },
+ {
+  "key": "ui.stats_panel.56",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 167,
+  "kind": "svelte-text",
+  "raw": "（{row.detail}）",
+  "value": "（{detail}）"
+ },
+ {
+  "key": "ui.stats_panel.57",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 174,
+  "kind": "svelte-attr",
+  "raw": "近 12 周",
+  "value": "近 12 周"
+ },
+ {
+  "key": "ui.stats_panel.58",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 175,
+  "kind": "svelte-text",
+  "raw": "近 12 周",
+  "value": "近 12 周"
+ },
+ {
+  "key": "ui.stats_panel.59",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 177,
+  "kind": "svelte-text",
+  "raw": "最近 12 周还没有记录",
+  "value": "最近 12 周还没有记录"
+ },
+ {
+  "key": "ui.stats_panel.60",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 181,
+  "kind": "svelte-text",
+  "raw": "周",
+  "value": "周"
+ },
+ {
+  "key": "ui.stats_panel.61",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 181,
+  "kind": "svelte-text",
+  "raw": "完成",
+  "value": "完成"
+ },
+ {
+  "key": "ui.stats_panel.62",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 181,
+  "kind": "svelte-text",
+  "raw": "未完成",
+  "value": "未完成"
+ },
+ {
+  "key": "ui.stats_panel.63",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 181,
+  "kind": "svelte-text",
+  "raw": "漂移",
+  "value": "漂移"
+ },
+ {
+  "key": "ui.stats_panel.64",
+  "file": "src/lib/components/StatsPanel.svelte",
+  "line": 198,
+  "kind": "svelte-text",
+  "raw": "数字会跟着 Ctrl+Z 撤销一起回退 —— 它记的就是你真做过的操作。",
+  "value": "数字会跟着 Ctrl+Z 撤销一起回退 —— 它记的就是你真做过的操作。"
+ },
+ {
+  "key": "ui.task_block.01",
+  "file": "src/lib/components/TaskBlock.svelte",
+  "line": 66,
+  "kind": "js-literal",
+  "raw": "必填层",
+  "value": "必填层"
+ },
+ {
+  "key": "ui.task_block.02",
+  "file": "src/lib/components/TaskBlock.svelte",
+  "line": 67,
+  "kind": "js-literal",
+  "raw": "弹性层",
+  "value": "弹性层"
+ },
+ {
+  "key": "ui.task_block.03",
+  "file": "src/lib/components/TaskBlock.svelte",
+  "line": 92,
+  "kind": "js-template",
+  "raw": "已切换为：${undefined}",
+  "value": "已切换为：{next}"
+ },
+ {
+  "key": "ui.task_block.04",
+  "file": "src/lib/components/TaskBlock.svelte",
+  "line": 160,
+  "kind": "js-literal",
+  "raw": "临时安排",
+  "value": "临时安排"
+ },
+ {
+  "key": "ui.task_block.05",
+  "file": "src/lib/components/TaskBlock.svelte",
+  "line": 446,
+  "kind": "js-template",
+  "raw": "整段 ${undefined}",
+  "value": "整段 {shownEnd}"
+ },
+ {
+  "key": "ui.task_block.06",
+  "file": "src/lib/components/TaskBlock.svelte",
+  "line": 460,
+  "kind": "svelte-attr",
+  "raw": "拖动改开始时间（15 分钟步进）",
+  "value": "拖动改开始时间（15 分钟步进）"
+ },
+ {
+  "key": "ui.task_block.07",
+  "file": "src/lib/components/TaskBlock.svelte",
+  "line": 468,
+  "kind": "svelte-attr",
+  "raw": "拖动改时长（15 分钟步进；拖到**下一列**就续到次日）",
+  "value": "拖动改时长（15 分钟步进；拖到**下一列**就续到次日）"
+ },
+ {
+  "key": "ui.task_block.08",
+  "file": "src/lib/components/TaskBlock.svelte",
+  "line": 478,
+  "kind": "svelte-attr",
+  "raw": "点击切换层级（当前：{currentLayerLabel()}）",
+  "value": "点击切换层级（当前：{currentLayerLabel}）"
+ },
+ {
+  "key": "ui.task_block.09",
+  "file": "src/lib/components/TaskBlock.svelte",
+  "line": 489,
+  "kind": "svelte-attr",
+  "raw": "这条序列里的第 {sequenceIndex(block.id)} 块",
+  "value": "这条序列里的第 {id} 块"
+ },
+ {
+  "key": "ui.task_block.10",
+  "file": "src/lib/components/TaskBlock.svelte",
+  "line": 497,
+  "kind": "svelte-attr",
+  "raw": "这是整块的第 {segIndex} 段，共 {segCount} 段",
+  "value": "这是整块的第 {segIndex} 段，共 {segCount} 段"
+ },
+ {
+  "key": "ui.task_block.11",
+  "file": "src/lib/components/TaskBlock.svelte",
+  "line": 507,
+  "kind": "svelte-attr",
+  "raw": "来自每周重复：{block.repeat_note}（删掉这一块 = 这周不再生成；规则在 Backlog 的 ⚙ 里）",
+  "value": "来自每周重复：{repeat_note}（删掉这一块 = 这周不再生成；规则在 Backlog 的 ⚙ 里）"
+ },
+ {
+  "key": "ui.task_block.12",
+  "file": "src/lib/components/TaskBlock.svelte",
+  "line": 519,
+  "kind": "svelte-attr",
+  "raw": "临时安排",
+  "value": "临时安排"
+ },
+ {
+  "key": "ui.task_block.13",
+  "file": "src/lib/components/TaskBlock.svelte",
+  "line": 521,
+  "kind": "svelte-attr",
+  "raw": "临时安排的名字",
+  "value": "临时安排的名字"
+ },
+ {
+  "key": "ui.task_block.14",
+  "file": "src/lib/components/TaskBlock.svelte",
+  "line": 542,
+  "kind": "js-literal",
+  "raw": "选中后再点一下这里 = 改名（双击整块 = 标记完成）",
+  "value": "选中后再点一下这里 = 改名（双击整块 = 标记完成）"
+ },
+ {
+  "key": "ui.task_block.15",
+  "file": "src/lib/components/TaskBlock.svelte",
+  "line": 546,
+  "kind": "svelte-attr",
+  "raw": "不计入理智值（这条任务整体不算；开关在 Backlog 那一行）",
+  "value": "不计入理智值（这条任务整体不算；开关在 Backlog 那一行）"
+ },
+ {
+  "key": "ui.task_block.16",
+  "file": "src/lib/components/TaskBlock.svelte",
+  "line": 560,
+  "kind": "svelte-attr",
+  "raw": "标记完成",
+  "value": "标记完成"
+ },
+ {
+  "key": "ui.task_block.17",
+  "file": "src/lib/components/TaskBlock.svelte",
+  "line": 561,
+  "kind": "svelte-attr",
+  "raw": "标记未完成",
+  "value": "标记未完成"
+ },
+ {
+  "key": "ui.task_block.18",
+  "file": "src/lib/components/TaskBlock.svelte",
+  "line": 566,
+  "kind": "svelte-attr",
+  "raw": "重新安排",
+  "value": "重新安排"
+ },
+ {
+  "key": "ui.task_block.19",
+  "file": "src/lib/components/TaskBlock.svelte",
+  "line": 575,
+  "kind": "svelte-attr",
+  "raw": "点=拿起线头（再点另一个块接进序列）；右键=从序列里取出",
+  "value": "点=拿起线头（再点另一个块接进序列）；右键=从序列里取出"
+ },
+ {
+  "key": "ui.task_block.20",
+  "file": "src/lib/components/TaskBlock.svelte",
+  "line": 594,
+  "kind": "js-literal",
+  "raw": "重新计入理智：这一块现在不算进每天的占用",
+  "value": "重新计入理智：这一块现在不算进每天的占用"
+ },
+ {
+  "key": "ui.task_block.21",
+  "file": "src/lib/components/TaskBlock.svelte",
+  "line": 595,
+  "kind": "js-literal",
+  "raw": "不计入理智：这一块不算进每天的占用（再点一下恢复）",
+  "value": "不计入理智：这一块不算进每天的占用（再点一下恢复）"
+ },
+ {
+  "key": "ui.task_block.22",
+  "file": "src/lib/components/TaskBlock.svelte",
+  "line": 602,
+  "kind": "svelte-attr",
+  "raw": "删除块",
+  "value": "删除块"
+ },
+ {
+  "key": "ui.template_picker.01",
+  "file": "src/lib/components/TemplatePicker.svelte",
+  "line": 60,
+  "kind": "svelte-attr",
+  "raw": "模板：把某一周的骨架存下来，下次一键铺开",
+  "value": "模板：把某一周的骨架存下来，下次一键铺开"
+ },
+ {
+  "key": "ui.template_picker.02",
+  "file": "src/lib/components/TemplatePicker.svelte",
+  "line": 65,
+  "kind": "svelte-attr",
+  "raw": "模板",
+  "value": "模板"
+ },
+ {
+  "key": "ui.template_picker.03",
+  "file": "src/lib/components/TemplatePicker.svelte",
+  "line": 66,
+  "kind": "svelte-text",
+  "raw": "套用模板",
+  "value": "套用模板"
+ },
+ {
+  "key": "ui.template_picker.04",
+  "file": "src/lib/components/TemplatePicker.svelte",
+  "line": 68,
+  "kind": "svelte-text",
+  "raw": "还没有模板 —— 在下面把某一周存成模板",
+  "value": "还没有模板 —— 在下面把某一周存成模板"
+ },
+ {
+  "key": "ui.template_picker.05",
+  "file": "src/lib/components/TemplatePicker.svelte",
+  "line": 73,
+  "kind": "svelte-text",
+  "raw": "{t.block_count} 块",
+  "value": "{block_count} 块"
+ },
+ {
+  "key": "ui.template_picker.06",
+  "file": "src/lib/components/TemplatePicker.svelte",
+  "line": 77,
+  "kind": "svelte-attr",
+  "raw": "把骨架铺到正在看的那一周（Ctrl+Z 可撤销）",
+  "value": "把骨架铺到正在看的那一周（Ctrl+Z 可撤销）"
+ },
+ {
+  "key": "ui.template_picker.07",
+  "file": "src/lib/components/TemplatePicker.svelte",
+  "line": 83,
+  "kind": "svelte-attr",
+  "raw": "删除模板（Ctrl+Z 可撤销）",
+  "value": "删除模板（Ctrl+Z 可撤销）"
+ },
+ {
+  "key": "ui.template_picker.08",
+  "file": "src/lib/components/TemplatePicker.svelte",
+  "line": 84,
+  "kind": "svelte-attr",
+  "raw": "删除模板",
+  "value": "删除模板"
+ },
+ {
+  "key": "ui.template_picker.09",
+  "file": "src/lib/components/TemplatePicker.svelte",
+  "line": 92,
+  "kind": "svelte-text",
+  "raw": "保存这一周为模板",
+  "value": "保存这一周为模板"
+ },
+ {
+  "key": "ui.template_picker.10",
+  "file": "src/lib/components/TemplatePicker.svelte",
+  "line": 94,
+  "kind": "svelte-attr",
+  "raw": "上一周",
+  "value": "上一周"
+ },
+ {
+  "key": "ui.template_picker.11",
+  "file": "src/lib/components/TemplatePicker.svelte",
+  "line": 98,
+  "kind": "svelte-attr",
+  "raw": "下一周",
+  "value": "下一周"
+ },
+ {
+  "key": "ui.template_picker.12",
+  "file": "src/lib/components/TemplatePicker.svelte",
+  "line": 102,
+  "kind": "svelte-text",
+  "raw": "这一周没有可保存的块（残影不算）",
+  "value": "这一周没有可保存的块（残影不算）"
+ },
+ {
+  "key": "ui.template_picker.13",
+  "file": "src/lib/components/TemplatePicker.svelte",
+  "line": 114,
+  "kind": "svelte-attr",
+  "raw": "从模板里去掉这一块",
+  "value": "从模板里去掉这一块"
+ },
+ {
+  "key": "ui.template_picker.14",
+  "file": "src/lib/components/TemplatePicker.svelte",
+  "line": 115,
+  "kind": "svelte-attr",
+  "raw": "从模板里去掉这一块",
+  "value": "从模板里去掉这一块"
+ },
+ {
+  "key": "ui.template_picker.15",
+  "file": "src/lib/components/TemplatePicker.svelte",
+  "line": 125,
+  "kind": "svelte-attr",
+  "raw": "模板名字（比如：常规工作日）",
+  "value": "模板名字（比如：常规工作日）"
+ },
+ {
+  "key": "ui.timeline.01",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 111,
+  "kind": "js-template",
+  "raw": "${undefined} 块挪过",
+  "value": "{rearranged} 块挪过"
+ },
+ {
+  "key": "ui.timeline.02",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 112,
+  "kind": "js-template",
+  "raw": "${undefined} 块没做完",
+  "value": "{skipped} 块没做完"
+ },
+ {
+  "key": "ui.timeline.03",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 113,
+  "kind": "js-template",
+  "raw": "，其中 ${undefined}",
+  "value": "，其中 {join}"
+ },
+ {
+  "key": "ui.timeline.04",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 114,
+  "kind": "js-template",
+  "raw": "${undefined} · 占用 ${undefined}（预算 ${undefined}）· ${undefined} 块${undefined}",
+  "value": "{dayLabel} · 占用 {minutes}（预算 {budget}）· {blocks} 块{facts}"
+ },
+ {
+  "key": "ui.timeline.05",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 174,
+  "kind": "js-template",
+  "raw": "周末还有 ${undefined} 块",
+  "value": "周末还有 {weekendBlockCount} 块"
+ },
+ {
+  "key": "ui.timeline.06",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 175,
+  "kind": "js-literal",
+  "raw": "预览落在周末",
+  "value": "预览落在周末"
+ },
+ {
+  "key": "ui.timeline.07",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 272,
+  "kind": "js-template",
+  "raw": "正在调整 ${undefined} · ${undefined}",
+  "value": "正在调整 {end} · {start}"
+ },
+ {
+  "key": "ui.timeline.08",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 280,
+  "kind": "js-template",
+  "raw": "复制中：${undefined} · 左键放下 / Esc 取消",
+  "value": "复制中：{range} · 左键放下 / Esc 取消"
+ },
+ {
+  "key": "ui.timeline.09",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 282,
+  "kind": "js-template",
+  "raw": "搬移中：${undefined} · 左键放下 / Esc 取消",
+  "value": "搬移中：{range} · 左键放下 / Esc 取消"
+ },
+ {
+  "key": "ui.timeline.10",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 283,
+  "kind": "js-template",
+  "raw": "拿起中：${undefined}",
+  "value": "拿起中：{range}"
+ },
+ {
+  "key": "ui.timeline.11",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 290,
+  "kind": "js-template",
+  "raw": "落点 ${undefined} · ${undefined}",
+  "value": "落点 {span} · {span}"
+ },
+ {
+  "key": "ui.timeline.12",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 316,
+  "kind": "js-literal",
+  "raw": "移 15 分钟",
+  "value": "移 15 分钟"
+ },
+ {
+  "key": "ui.timeline.13",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 317,
+  "kind": "js-literal",
+  "raw": "移 1 小时",
+  "value": "移 1 小时"
+ },
+ {
+  "key": "ui.timeline.14",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 318,
+  "kind": "js-literal",
+  "raw": "挪一天",
+  "value": "挪一天"
+ },
+ {
+  "key": "ui.timeline.15",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 319,
+  "kind": "js-literal",
+  "raw": "挪一周",
+  "value": "挪一周"
+ },
+ {
+  "key": "ui.timeline.16",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 320,
+  "kind": "js-literal",
+  "raw": "落地",
+  "value": "落地"
+ },
+ {
+  "key": "ui.timeline.17",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 321,
+  "kind": "js-literal",
+  "raw": "放弃拿起",
+  "value": "放弃拿起"
+ },
+ {
+  "key": "ui.timeline.18",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 325,
+  "kind": "js-literal",
+  "raw": "拿起（可移动）",
+  "value": "拿起（可移动）"
+ },
+ {
+  "key": "ui.timeline.19",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 326,
+  "kind": "js-literal",
+  "raw": "完成/未完成",
+  "value": "完成/未完成"
+ },
+ {
+  "key": "ui.timeline.20",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 327,
+  "kind": "js-literal",
+  "raw": "删除",
+  "value": "删除"
+ },
+ {
+  "key": "ui.timeline.21",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 328,
+  "kind": "js-literal",
+  "raw": "退出多选",
+  "value": "退出多选"
+ },
+ {
+  "key": "ui.timeline.22",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 333,
+  "kind": "js-literal",
+  "raw": "移动",
+  "value": "移动"
+ },
+ {
+  "key": "ui.timeline.23",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 334,
+  "kind": "js-literal",
+  "raw": "Shift+方向键",
+  "value": "Shift+方向键"
+ },
+ {
+  "key": "ui.timeline.24",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 334,
+  "kind": "js-literal",
+  "raw": "快移",
+  "value": "快移"
+ },
+ {
+  "key": "ui.timeline.25",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 335,
+  "kind": "js-literal",
+  "raw": "拿起/放下",
+  "value": "拿起/放下"
+ },
+ {
+  "key": "ui.timeline.26",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 336,
+  "kind": "js-literal",
+  "raw": "放弃拿起",
+  "value": "放弃拿起"
+ },
+ {
+  "key": "ui.timeline.27",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 340,
+  "kind": "js-literal",
+  "raw": "改开始时间",
+  "value": "改开始时间"
+ },
+ {
+  "key": "ui.timeline.28",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 341,
+  "kind": "js-literal",
+  "raw": "改结束时间",
+  "value": "改结束时间"
+ },
+ {
+  "key": "ui.timeline.29",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 343,
+  "kind": "js-literal",
+  "raw": "拿起/放下（←→/↑↓ 移动）",
+  "value": "拿起/放下（←→/↑↓ 移动）"
+ },
+ {
+  "key": "ui.timeline.30",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 344,
+  "kind": "js-literal",
+  "raw": "取消选中",
+  "value": "取消选中"
+ },
+ {
+  "key": "ui.timeline.31",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 477,
+  "kind": "js-literal",
+  "raw": "键盘暂不支持序列操作：接链点两个块的 ⛓、解链点右键（键盘先不搬块）",
+  "value": "键盘暂不支持序列操作：接链点两个块的 ⛓、解链点右键（键盘先不搬块）"
+ },
+ {
+  "key": "ui.timeline.32",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 625,
+  "kind": "js-template",
+  "raw": "次日 ${undefined}",
+  "value": "次日 {endAt}"
+ },
+ {
+  "key": "ui.timeline.33",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 626,
+  "kind": "js-template",
+  "raw": "+${undefined} 天 ${undefined}",
+  "value": "+{over} 天 {endAt}"
+ },
+ {
+  "key": "ui.timeline.34",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 1092,
+  "kind": "svelte-attr",
+  "raw": "上一周（←）",
+  "value": "上一周（←）"
+ },
+ {
+  "key": "ui.timeline.35",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 1093,
+  "kind": "svelte-attr",
+  "raw": "下一周（→）",
+  "value": "下一周（→）"
+ },
+ {
+  "key": "ui.timeline.36",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 1095,
+  "kind": "svelte-attr",
+  "raw": "回到本周",
+  "value": "回到本周"
+ },
+ {
+  "key": "ui.timeline.37",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 1098,
+  "kind": "svelte-attr",
+  "raw": "撤销（Ctrl+Z）",
+  "value": "撤销（Ctrl+Z）"
+ },
+ {
+  "key": "ui.timeline.38",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 1099,
+  "kind": "svelte-attr",
+  "raw": "重做（Ctrl+Shift+Z / Ctrl+Y）",
+  "value": "重做（Ctrl+Shift+Z / Ctrl+Y）"
+ },
+ {
+  "key": "ui.timeline.39",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 1106,
+  "kind": "svelte-attr",
+  "raw": "周六、周日已隐藏（设置 → 外观 / 布局 里可改）；点一下恢复显示",
+  "value": "周六、周日已隐藏（设置 → 外观 / 布局 里可改）；点一下恢复显示"
+ },
+ {
+  "key": "ui.timeline.40",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 1111,
+  "kind": "svelte-text",
+  "raw": "{weekendNoteText} · 显示",
+  "value": "{weekendNoteText} · 显示"
+ },
+ {
+  "key": "ui.timeline.41",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 1121,
+  "kind": "svelte-attr",
+  "raw": "一周总览（马赛克 / 占用 / 当天明细）",
+  "value": "一周总览（马赛克 / 占用 / 当天明细）"
+ },
+ {
+  "key": "ui.timeline.42",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 1130,
+  "kind": "svelte-attr",
+  "raw": "数据统计（全部累计 · 近 12 周）",
+  "value": "数据统计（全部累计 · 近 12 周）"
+ },
+ {
+  "key": "ui.timeline.43",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 1161,
+  "kind": "svelte-text",
+  "raw": "拿好了：点另一个块的 ⛓ 接上 · ←/→ 可跳周 · 点空白或 Esc 取消",
+  "value": "拿好了：点另一个块的 ⛓ 接上 · ←/→ 可跳周 · 点空白或 Esc 取消"
+ },
+ {
+  "key": "ui.timeline.44",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 1225,
+  "kind": "svelte-text",
+  "raw": "次日",
+  "value": "次日"
+ },
+ {
+  "key": "ui.timeline.45",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 1240,
+  "kind": "svelte-attr",
+  "raw": "点一下看这一天的复盘明细",
+  "value": "点一下看这一天的复盘明细"
+ },
+ {
+  "key": "ui.timeline.46",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 1254,
+  "kind": "svelte-attr",
+  "raw": "这一天的排程强度",
+  "value": "这一天的排程强度"
+ },
+ {
+  "key": "ui.timeline.47",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 1291,
+  "kind": "svelte-attr",
+  "raw": "这是前一天那个块延下来的",
+  "value": "这是前一天那个块延下来的"
+ },
+ {
+  "key": "ui.timeline.48",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 1291,
+  "kind": "svelte-text",
+  "raw": "上接",
+  "value": "上接"
+ },
+ {
+  "key": "ui.timeline.49",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 1294,
+  "kind": "svelte-text",
+  "raw": "续到{overflowHint(shownEnd, end)}",
+  "value": "续到{end}"
+ },
+ {
+  "key": "msg.notify.01",
+  "file": "src/lib/ipc/notify.ts",
+  "line": 17,
+  "kind": "js-literal",
+  "raw": "【必填】",
+  "value": "【必填】"
+ },
+ {
+  "key": "msg.notify.02",
+  "file": "src/lib/ipc/notify.ts",
+  "line": 18,
+  "kind": "js-literal",
+  "raw": "【弹性】",
+  "value": "【弹性】"
+ },
+ {
+  "key": "msg.notify.03",
+  "file": "src/lib/ipc/notify.ts",
+  "line": 23,
+  "kind": "js-literal",
+  "raw": " · 在通知上点 ✓/✗，或回应用窗口标记",
+  "value": " · 在通知上点 ✓/✗，或回应用窗口标记"
+ },
+ {
+  "key": "msg.notify.04",
+  "file": "src/lib/ipc/notify.ts",
+  "line": 24,
+  "kind": "js-literal",
+  "raw": " · 有空记一下",
+  "value": " · 有空记一下"
+ },
+ {
+  "key": "msg.notify.05",
+  "file": "src/lib/ipc/notify.ts",
+  "line": 38,
+  "kind": "js-literal",
+  "raw": "该开始了",
+  "value": "该开始了"
+ },
+ {
+  "key": "msg.notify.06",
+  "file": "src/lib/ipc/notify.ts",
+  "line": 38,
+  "kind": "js-literal",
+  "raw": "到点了",
+  "value": "到点了"
+ },
+ {
+  "key": "msg.notify.07",
+  "file": "src/lib/ipc/notify.ts",
+  "line": 39,
+  "kind": "js-template",
+  "raw": "${undefined}「${undefined}」${undefined}${undefined}",
+  "value": "{mark}「{task_title}」{what}{hint}"
+ },
+ {
+  "key": "msg.blocks.04",
+  "file": "src/lib/stores/blocks.svelte.ts",
+  "line": 116,
+  "kind": "js-literal",
+  "raw": "已合并两块",
+  "value": "已合并两块"
+ },
+ {
+  "key": "msg.blocks.05",
+  "file": "src/lib/stores/blocks.svelte.ts",
+  "line": 224,
+  "kind": "js-template",
+  "raw": "已删除 ${undefined} 个块",
+  "value": "已删除 {deleted} 个块"
+ },
+ {
+  "key": "msg.blocks.06",
+  "file": "src/lib/stores/blocks.svelte.ts",
+  "line": 224,
+  "kind": "js-literal",
+  "raw": "已删除这个块",
+  "value": "已删除这个块"
+ },
+ {
+  "key": "msg.blocks.07",
+  "file": "src/lib/stores/blocks.svelte.ts",
+  "line": 243,
+  "kind": "js-template",
+  "raw": "已删除 ${undefined} 个块",
+  "value": "已删除 {deleted} 个块"
+ },
+ {
+  "key": "msg.blocks.08",
+  "file": "src/lib/stores/blocks.svelte.ts",
+  "line": 243,
+  "kind": "js-literal",
+  "raw": "已删除这个块",
+  "value": "已删除这个块"
+ },
+ {
+  "key": "msg.blocks.09",
+  "file": "src/lib/stores/blocks.svelte.ts",
+  "line": 256,
+  "kind": "js-template",
+  "raw": "已移动 ${undefined} 块",
+  "value": "已移动 {changed} 块"
+ },
+ {
+  "key": "msg.blocks.10",
+  "file": "src/lib/stores/blocks.svelte.ts",
+  "line": 257,
+  "kind": "js-template",
+  "raw": "顺延 ${undefined} 个后续链节",
+  "value": "顺延 {cascaded} 个后续链节"
+ },
+ {
+  "key": "msg.blocks.11",
+  "file": "src/lib/stores/blocks.svelte.ts",
+  "line": 258,
+  "kind": "js-literal",
+  "raw": "已合并重复块",
+  "value": "已合并重复块"
+ },
+ {
+  "key": "msg.blocks.12",
+  "file": "src/lib/stores/blocks.svelte.ts",
+  "line": 259,
+  "kind": "js-template",
+  "raw": "${undefined} 块没动成",
+  "value": "{failed} 块没动成"
+ },
+ {
+  "key": "msg.blocks.13",
+  "file": "src/lib/stores/blocks.svelte.ts",
+  "line": 260,
+  "kind": "js-template",
+  "raw": "${undefined} 块已标记，不跟着动",
+  "value": "{skipped} 块已标记，不跟着动"
+ },
+ {
+  "key": "msg.blocks.14",
+  "file": "src/lib/stores/blocks.svelte.ts",
+  "line": 261,
+  "kind": "js-literal",
+  "raw": "，",
+  "value": "，"
+ },
+ {
+  "key": "msg.blocks.15",
+  "file": "src/lib/stores/blocks.svelte.ts",
+  "line": 275,
+  "kind": "js-literal",
+  "raw": "已就地融合（没有多出副本）",
+  "value": "已就地融合（没有多出副本）"
+ },
+ {
+  "key": "msg.blocks.16",
+  "file": "src/lib/stores/blocks.svelte.ts",
+  "line": 277,
+  "kind": "js-template",
+  "raw": "已复制 ${undefined} 块，${undefined} 块就地融合",
+  "value": "已复制 {created} 块，{merged} 块就地融合"
+ },
+ {
+  "key": "msg.blocks.17",
+  "file": "src/lib/stores/blocks.svelte.ts",
+  "line": 279,
+  "kind": "js-template",
+  "raw": "已复制 ${undefined} 块",
+  "value": "已复制 {created} 块"
+ },
+ {
+  "key": "msg.blocks.18",
+  "file": "src/lib/stores/blocks.svelte.ts",
+  "line": 279,
+  "kind": "js-literal",
+  "raw": "已复制这个块",
+  "value": "已复制这个块"
+ },
+ {
+  "key": "msg.blocks.19",
+  "file": "src/lib/stores/blocks.svelte.ts",
+  "line": 288,
+  "kind": "js-literal",
+  "raw": "必填",
+  "value": "必填"
+ },
+ {
+  "key": "msg.blocks.20",
+  "file": "src/lib/stores/blocks.svelte.ts",
+  "line": 288,
+  "kind": "js-literal",
+  "raw": "弹性",
+  "value": "弹性"
+ },
+ {
+  "key": "msg.blocks.21",
+  "file": "src/lib/stores/blocks.svelte.ts",
+  "line": 290,
+  "kind": "js-template",
+  "raw": "已把 ${undefined} 块设为${undefined}",
+  "value": "已把 {changed} 块设为{label}"
+ },
+ {
+  "key": "msg.blocks.22",
+  "file": "src/lib/stores/blocks.svelte.ts",
+  "line": 291,
+  "kind": "js-literal",
+  "raw": "已合并重复块",
+  "value": "已合并重复块"
+ },
+ {
+  "key": "msg.blocks.23",
+  "file": "src/lib/stores/blocks.svelte.ts",
+  "line": 292,
+  "kind": "js-literal",
+  "raw": "，",
+  "value": "，"
+ },
+ {
+  "key": "msg.blocks.24",
+  "file": "src/lib/stores/blocks.svelte.ts",
+  "line": 480,
+  "kind": "js-literal",
+  "raw": "这块在漂流链上，所以不自动融合（合了就把漂流的来历吃掉了）",
+  "value": "这块在漂流链上，所以不自动融合（合了就把漂流的来历吃掉了）"
+ },
+ {
+  "key": "msg.blocks.25",
+  "file": "src/lib/stores/blocks.svelte.ts",
+  "line": 481,
+  "kind": "js-literal",
+  "raw": "这块在序列里，所以不自动融合（环位不能动）",
+  "value": "这块在序列里，所以不自动融合（环位不能动）"
+ },
+ {
+  "key": "msg.blocks.26",
+  "file": "src/lib/stores/blocks.svelte.ts",
+  "line": 482,
+  "kind": "js-literal",
+  "raw": "两块合起来会超过 3 天，超过时长上限 —— 所以没融合",
+  "value": "两块合起来会超过 3 天，超过时长上限 —— 所以没融合"
+ },
+ {
+  "key": "msg.blocks.27",
+  "file": "src/lib/stores/blocks.svelte.ts",
+  "line": 496,
+  "kind": "js-template",
+  "raw": "已顺延 ${undefined} 个后续链节（其中 ${undefined} 个已完成/未完成的历史也被挪了）",
+  "value": "已顺延 {cascaded} 个后续链节（其中 {history_moved} 个已完成/未完成的历史也被挪了）"
+ },
+ {
+  "key": "msg.blocks.28",
+  "file": "src/lib/stores/blocks.svelte.ts",
+  "line": 499,
+  "kind": "js-template",
+  "raw": "已顺延 ${undefined} 个后续链节",
+  "value": "已顺延 {cascaded} 个后续链节"
+ },
+ {
+  "key": "msg.blocks.29",
+  "file": "src/lib/stores/blocks.svelte.ts",
+  "line": 502,
+  "kind": "js-literal",
+  "raw": "这次没有自动融合",
+  "value": "这次没有自动融合"
+ },
+ {
+  "key": "msg.drag.01",
+  "file": "src/lib/stores/drag.svelte.ts",
+  "line": 385,
+  "kind": "js-template",
+  "raw": "${undefined} 块",
+  "value": "{length} 块"
+ },
+ {
+  "key": "msg.drift.01",
+  "file": "src/lib/stores/drift.svelte.ts",
+  "line": 68,
+  "kind": "js-literal",
+  "raw": "这个任务",
+  "value": "这个任务"
+ },
+ {
+  "key": "msg.drift.02",
+  "file": "src/lib/stores/drift.svelte.ts",
+  "line": 107,
+  "kind": "js-template",
+  "raw": "已排到：${undefined}",
+  "value": "已排到：{label}"
+ },
+ {
+  "key": "msg.drift.03",
+  "file": "src/lib/stores/drift.svelte.ts",
+  "line": 132,
+  "kind": "js-template",
+  "raw": "已顺延 ${undefined} 个后续链节（其中 ${undefined} 个已完成/未完成的历史也被挪了）",
+  "value": "已顺延 {cascaded} 个后续链节（其中 {history_moved} 个已完成/未完成的历史也被挪了）"
+ },
+ {
+  "key": "msg.drift.04",
+  "file": "src/lib/stores/drift.svelte.ts",
+  "line": 135,
+  "kind": "js-template",
+  "raw": "已顺延 ${undefined} 个后续链节（它们原本排在这个时段之前）",
+  "value": "已顺延 {cascaded} 个后续链节（它们原本排在这个时段之前）"
+ },
+ {
+  "key": "msg.history.01",
+  "file": "src/lib/stores/history.svelte.ts",
+  "line": 38,
+  "kind": "js-template",
+  "raw": "${undefined}：${undefined}",
+  "value": "{verb}：{label}"
+ },
+ {
+  "key": "msg.history.02",
+  "file": "src/lib/stores/history.svelte.ts",
+  "line": 44,
+  "kind": "js-literal",
+  "raw": "已撤销",
+  "value": "已撤销"
+ },
+ {
+  "key": "msg.history.03",
+  "file": "src/lib/stores/history.svelte.ts",
+  "line": 53,
+  "kind": "js-literal",
+  "raw": "已重做",
+  "value": "已重做"
+ },
+ {
+  "key": "msg.review.01",
+  "file": "src/lib/stores/review.svelte.ts",
+  "line": 31,
+  "kind": "js-literal",
+  "raw": "按时完成",
+  "value": "按时完成"
+ },
+ {
+  "key": "msg.review.02",
+  "file": "src/lib/stores/review.svelte.ts",
+  "line": 32,
+  "kind": "js-literal",
+  "raw": "超时完成",
+  "value": "超时完成"
+ },
+ {
+  "key": "msg.review.03",
+  "file": "src/lib/stores/review.svelte.ts",
+  "line": 33,
+  "kind": "js-literal",
+  "raw": "提前完成",
+  "value": "提前完成"
+ },
+ {
+  "key": "msg.review.04",
+  "file": "src/lib/stores/review.svelte.ts",
+  "line": 34,
+  "kind": "js-literal",
+  "raw": "未完成",
+  "value": "未完成"
+ },
+ {
+  "key": "msg.review.05",
+  "file": "src/lib/stores/review.svelte.ts",
+  "line": 35,
+  "kind": "js-literal",
+  "raw": "未执行",
+  "value": "未执行"
+ },
+ {
+  "key": "msg.review.06",
+  "file": "src/lib/stores/review.svelte.ts",
+  "line": 36,
+  "kind": "js-literal",
+  "raw": "计划中",
+  "value": "计划中"
+ },
+ {
+  "key": "msg.review.07",
+  "file": "src/lib/stores/review.svelte.ts",
+  "line": 86,
+  "kind": "js-literal",
+  "raw": "上周",
+  "value": "上周"
+ },
+ {
+  "key": "msg.review.08",
+  "file": "src/lib/stores/review.svelte.ts",
+  "line": 88,
+  "kind": "js-literal",
+  "raw": "上上周",
+  "value": "上上周"
+ },
+ {
+  "key": "msg.review.09",
+  "file": "src/lib/stores/review.svelte.ts",
+  "line": 90,
+  "kind": "js-template",
+  "raw": "${undefined} 周前",
+  "value": "{weeks} 周前"
+ },
+ {
+  "key": "msg.selection.01",
+  "file": "src/lib/stores/selection.svelte.ts",
+  "line": 543,
+  "kind": "js-literal",
+  "raw": "选中的块都已经标记过了",
+  "value": "选中的块都已经标记过了"
+ },
+ {
+  "key": "msg.selection.02",
+  "file": "src/lib/stores/selection.svelte.ts",
+  "line": 646,
+  "kind": "js-literal",
+  "raw": "选中的块都已经标记过了",
+  "value": "选中的块都已经标记过了"
+ },
+ {
+  "key": "msg.selection.03",
+  "file": "src/lib/stores/selection.svelte.ts",
+  "line": 646,
+  "kind": "js-literal",
+  "raw": "选中的块不在这一周",
+  "value": "选中的块不在这一周"
+ },
+ {
+  "key": "msg.selection.04",
+  "file": "src/lib/stores/selection.svelte.ts",
+  "line": 649,
+  "kind": "js-template",
+  "raw": "${undefined} 块已标记，不跟着搬",
+  "value": "{marked} 块已标记，不跟着搬"
+ },
+ {
+  "key": "msg.selection.05",
+  "file": "src/lib/stores/selection.svelte.ts",
+  "line": 653,
+  "kind": "js-literal",
+  "raw": "选中的块不在这一周，先翻到它们那一周",
+  "value": "选中的块不在这一周，先翻到它们那一周"
+ },
+ {
+  "key": "msg.selection.06",
+  "file": "src/lib/stores/selection.svelte.ts",
+  "line": 657,
+  "kind": "js-template",
+  "raw": "${undefined} 块不在本周，没跟上",
+  "value": "{missing} 块不在本周，没跟上"
+ },
+ {
+  "key": "msg.selection.07",
+  "file": "src/lib/stores/selection.svelte.ts",
+  "line": 757,
+  "kind": "js-literal",
+  "raw": "选中的块都已经标记过了",
+  "value": "选中的块都已经标记过了"
+ },
+ {
+  "key": "msg.selection.08",
+  "file": "src/lib/stores/selection.svelte.ts",
+  "line": 762,
+  "kind": "js-template",
+  "raw": "已标记 ${undefined} 块完成",
+  "value": "已标记 {n} 块完成"
+ },
+ {
+  "key": "msg.selection.09",
+  "file": "src/lib/stores/selection.svelte.ts",
+  "line": 762,
+  "kind": "js-template",
+  "raw": "已标记 ${undefined} 块未完成",
+  "value": "已标记 {n} 块未完成"
+ },
+ {
+  "key": "msg.selection.10",
+  "file": "src/lib/stores/selection.svelte.ts",
+  "line": 776,
+  "kind": "js-literal",
+  "raw": "选中的块都已经标记过了",
+  "value": "选中的块都已经标记过了"
+ },
+ {
+  "key": "msg.sequences.01",
+  "file": "src/lib/stores/sequences.svelte.ts",
+  "line": 31,
+  "kind": "js-literal",
+  "raw": "这个块",
+  "value": "这个块"
+ },
+ {
+  "key": "msg.sequences.02",
+  "file": "src/lib/stores/sequences.svelte.ts",
+  "line": 69,
+  "kind": "js-literal",
+  "raw": "已取消",
+  "value": "已取消"
+ },
+ {
+  "key": "msg.sequences.03",
+  "file": "src/lib/stores/sequences.svelte.ts",
+  "line": 81,
+  "kind": "js-template",
+  "raw": "已接在它后面（顺带了 ${undefined} 个后续链节，其中 ${undefined} 个历史也被挪了）",
+  "value": "已接在它后面（顺带了 {cascaded} 个后续链节，其中 {history_moved} 个历史也被挪了）"
+ },
+ {
+  "key": "msg.sequences.04",
+  "file": "src/lib/stores/sequences.svelte.ts",
+  "line": 84,
+  "kind": "js-template",
+  "raw": "已接在它后面（顺带顺延了 ${undefined} 个后续链节）",
+  "value": "已接在它后面（顺带顺延了 {cascaded} 个后续链节）"
+ },
+ {
+  "key": "msg.sequences.05",
+  "file": "src/lib/stores/sequences.svelte.ts",
+  "line": 86,
+  "kind": "js-literal",
+  "raw": "已接在它后面",
+  "value": "已接在它后面"
+ },
+ {
+  "key": "msg.sequences.06",
+  "file": "src/lib/stores/sequences.svelte.ts",
+  "line": 110,
+  "kind": "js-template",
+  "raw": "已从序列里取出「${undefined}」",
+  "value": "已从序列里取出「{pending}」"
+ },
+ {
+  "key": "msg.sequences.07",
+  "file": "src/lib/stores/sequences.svelte.ts",
+  "line": 123,
+  "kind": "js-literal",
+  "raw": "这个块不在任何序列里",
+  "value": "这个块不在任何序列里"
+ },
+ {
+  "key": "msg.sequences.08",
+  "file": "src/lib/stores/sequences.svelte.ts",
+  "line": 129,
+  "kind": "js-template",
+  "raw": "已把「${undefined}」从序列里取出",
+  "value": "已把「{blockId}」从序列里取出"
+ },
+ {
+  "key": "msg.templates.01",
+  "file": "src/lib/stores/templates.svelte.ts",
+  "line": 88,
+  "kind": "js-template",
+  "raw": "已保存模板「${undefined}」（${undefined} 块）",
+  "value": "已保存模板「{name}」（{block_count} 块）"
+ },
+ {
+  "key": "msg.templates.02",
+  "file": "src/lib/stores/templates.svelte.ts",
+  "line": 99,
+  "kind": "js-template",
+  "raw": "已铺 ${undefined} 块到本周（Ctrl+Z 可撤销）",
+  "value": "已铺 {created} 块到本周（Ctrl+Z 可撤销）"
+ },
+ {
+  "key": "msg.templates.03",
+  "file": "src/lib/stores/templates.svelte.ts",
+  "line": 110,
+  "kind": "js-literal",
+  "raw": "模板已删除",
+  "value": "模板已删除"
+ },
+ {
+  "key": "msg.ui.01",
+  "file": "src/lib/stores/ui.svelte.ts",
+  "line": 127,
+  "kind": "js-literal",
+  "raw": "撤销",
+  "value": "撤销"
+ },
+ {
+  "key": "msg.category.01",
+  "file": "src/lib/utils/category.ts",
+  "line": 78,
+  "kind": "js-literal",
+  "raw": "未分类",
+  "value": "未分类"
+ },
+ {
+  "key": "msg.category.02",
+  "file": "src/lib/utils/category.ts",
+  "line": 91,
+  "kind": "js-literal",
+  "raw": "全部",
+  "value": "全部"
+ },
+ {
+  "key": "msg.category.03",
+  "file": "src/lib/utils/category.ts",
+  "line": 94,
+  "kind": "js-literal",
+  "raw": "未分类",
+  "value": "未分类"
+ },
+ {
+  "key": "msg.drift.05",
+  "file": "src/lib/utils/drift.ts",
+  "line": 89,
+  "kind": "js-template",
+  "raw": "今天 ${undefined}",
+  "value": "今天 {time}"
+ },
+ {
+  "key": "msg.drift.06",
+  "file": "src/lib/utils/drift.ts",
+  "line": 93,
+  "kind": "js-template",
+  "raw": "明天 ${undefined}",
+  "value": "明天 {time}"
+ },
+ {
+  "key": "msg.features.01",
+  "file": "src/lib/utils/features.ts",
+  "line": 8,
+  "kind": "js-literal",
+  "raw": "会打扰",
+  "value": "会打扰"
+ },
+ {
+  "key": "msg.features.02",
+  "file": "src/lib/utils/features.ts",
+  "line": 8,
+  "kind": "js-literal",
+  "raw": "会改数据",
+  "value": "会改数据"
+ },
+ {
+  "key": "msg.features.03",
+  "file": "src/lib/utils/features.ts",
+  "line": 8,
+  "kind": "js-literal",
+  "raw": "纯外观",
+  "value": "纯外观"
+ },
+ {
+  "key": "msg.features.04",
+  "file": "src/lib/utils/features.ts",
+  "line": 27,
+  "kind": "js-literal",
+  "raw": "自动融合",
+  "value": "自动融合"
+ },
+ {
+  "key": "msg.features.05",
+  "file": "src/lib/utils/features.ts",
+  "line": 28,
+  "kind": "js-literal",
+  "raw": "不再把相接/重叠的同任务块合成一块（含启动时的整理）；已经合过的块保持原样",
+  "value": "不再把相接/重叠的同任务块合成一块（含启动时的整理）；已经合过的块保持原样"
+ },
+ {
+  "key": "msg.features.07",
+  "file": "src/lib/utils/features.ts",
+  "line": 34,
+  "kind": "js-literal",
+  "raw": "拉伸改时间",
+  "value": "拉伸改时间"
+ },
+ {
+  "key": "msg.features.08",
+  "file": "src/lib/utils/features.ts",
+  "line": 35,
+  "kind": "js-literal",
+  "raw": "块边缘的把手不出现、拖不动；鼠标拖动移动与键盘仍可用",
+  "value": "块边缘的把手不出现、拖不动；鼠标拖动移动与键盘仍可用"
+ },
+ {
+  "key": "msg.features.10",
+  "file": "src/lib/utils/features.ts",
+  "line": 41,
+  "kind": "js-literal",
+  "raw": "临时安排块",
+  "value": "临时安排块"
+ },
+ {
+  "key": "msg.features.11",
+  "file": "src/lib/utils/features.ts",
+  "line": 42,
+  "kind": "js-literal",
+  "raw": "双击时间轴空白格不再建块；已有的临时块照常显示",
+  "value": "双击时间轴空白格不再建块；已有的临时块照常显示"
+ },
+ {
+  "key": "msg.features.13",
+  "file": "src/lib/utils/features.ts",
+  "line": 48,
+  "kind": "js-literal",
+  "raw": "残影",
+  "value": "残影"
+ },
+ {
+  "key": "msg.features.14",
+  "file": "src/lib/utils/features.ts",
+  "line": 49,
+  "kind": "js-literal",
+  "raw": "时间轴不再画「未完成」的灰色残影；总览里的痕迹仍在",
+  "value": "时间轴不再画「未完成」的灰色残影；总览里的痕迹仍在"
+ },
+ {
+  "key": "msg.features.16",
+  "file": "src/lib/utils/features.ts",
+  "line": 55,
+  "kind": "js-literal",
+  "raw": "漂流",
+  "value": "漂流"
+ },
+ {
+  "key": "msg.features.17",
+  "file": "src/lib/utils/features.ts",
+  "line": 56,
+  "kind": "js-literal",
+  "raw": "不再弹漂流卡；之前漂出来的子块会从时间轴隐藏（不删数据），再打开原样回来",
+  "value": "不再弹漂流卡；之前漂出来的子块会从时间轴隐藏（不删数据），再打开原样回来"
+ },
+ {
+  "key": "msg.features.19",
+  "file": "src/lib/utils/features.ts",
+  "line": 62,
+  "kind": "js-literal",
+  "raw": "序列",
+  "value": "序列"
+ },
+ {
+  "key": "msg.features.20",
+  "file": "src/lib/utils/features.ts",
+  "line": 63,
+  "kind": "js-literal",
+  "raw": "块上的 ⛓ 与细线不出现、接链不可用；已有链接的数据保留",
+  "value": "块上的 ⛓ 与细线不出现、接链不可用；已有链接的数据保留"
+ },
+ {
+  "key": "msg.features.22",
+  "file": "src/lib/utils/features.ts",
+  "line": 69,
+  "kind": "js-literal",
+  "raw": "多选与批量",
+  "value": "多选与批量"
+ },
+ {
+  "key": "msg.features.23",
+  "file": "src/lib/utils/features.ts",
+  "line": 70,
+  "kind": "js-literal",
+  "raw": "只允许单选；Ctrl/Shift/框选/Ctrl+A 不生效、顶部动作条不出现",
+  "value": "只允许单选；Ctrl/Shift/框选/Ctrl+A 不生效、顶部动作条不出现"
+ },
+ {
+  "key": "msg.features.25",
+  "file": "src/lib/utils/features.ts",
+  "line": 76,
+  "kind": "js-literal",
+  "raw": "键盘操作",
+  "value": "键盘操作"
+ },
+ {
+  "key": "msg.features.26",
+  "file": "src/lib/utils/features.ts",
+  "line": 77,
+  "kind": "js-literal",
+  "raw": "块上的键盘操作与键位栏不生效；Esc 与 Ctrl+Z 仍可用（工具栏也有按钮）",
+  "value": "块上的键盘操作与键位栏不生效；Esc 与 Ctrl+Z 仍可用（工具栏也有按钮）"
+ },
+ {
+  "key": "msg.features.28",
+  "file": "src/lib/utils/features.ts",
+  "line": 83,
+  "kind": "js-literal",
+  "raw": "模板",
+  "value": "模板"
+ },
+ {
+  "key": "msg.features.29",
+  "file": "src/lib/utils/features.ts",
+  "line": 84,
+  "kind": "js-literal",
+  "raw": "时间轴的「模板」入口不出现、模板建议不触发；已存的模板保留",
+  "value": "时间轴的「模板」入口不出现、模板建议不触发；已存的模板保留"
+ },
+ {
+  "key": "msg.features.31",
+  "file": "src/lib/utils/features.ts",
+  "line": 90,
+  "kind": "js-literal",
+  "raw": "模板建议",
+  "value": "模板建议"
+ },
+ {
+  "key": "msg.features.32",
+  "file": "src/lib/utils/features.ts",
+  "line": 91,
+  "kind": "js-literal",
+  "raw": "顶部那条「要不要把上周存成模板？」不再出现（模板仍可手动存/铺）",
+  "value": "顶部那条「要不要把上周存成模板？」不再出现（模板仍可手动存/铺）"
+ },
+ {
+  "key": "msg.features.34",
+  "file": "src/lib/utils/features.ts",
+  "line": 97,
+  "kind": "js-literal",
+  "raw": "每周重复",
+  "value": "每周重复"
+ },
+ {
+  "key": "msg.features.35",
+  "file": "src/lib/utils/features.ts",
+  "line": 98,
+  "kind": "js-literal",
+  "raw": "不再自动排入重复块（Backlog 的重复表单也收起来）；已存的规则与已排的块保留",
+  "value": "不再自动排入重复块（Backlog 的重复表单也收起来）；已存的规则与已排的块保留"
+ },
+ {
+  "key": "msg.features.37",
+  "file": "src/lib/utils/features.ts",
+  "line": 104,
+  "kind": "js-literal",
+  "raw": "一周总览",
+  "value": "一周总览"
+ },
+ {
+  "key": "msg.features.38",
+  "file": "src/lib/utils/features.ts",
+  "line": 105,
+  "kind": "js-literal",
+  "raw": "「总览」入口与复盘提醒都不出现；总览的数据仍在",
+  "value": "「总览」入口与复盘提醒都不出现；总览的数据仍在"
+ },
+ {
+  "key": "msg.features.41",
+  "file": "src/lib/utils/features.ts",
+  "line": 111,
+  "kind": "js-literal",
+  "raw": "数据统计",
+  "value": "数据统计"
+ },
+ {
+  "key": "msg.features.42",
+  "file": "src/lib/utils/features.ts",
+  "line": 112,
+  "kind": "js-literal",
+  "raw": "「统计」入口不出现（累计数据仍在记）",
+  "value": "「统计」入口不出现（累计数据仍在记）"
+ },
+ {
+  "key": "msg.features.44",
+  "file": "src/lib/utils/features.ts",
+  "line": 118,
+  "kind": "js-literal",
+  "raw": "渐进提示",
+  "value": "渐进提示"
+ },
+ {
+  "key": "msg.features.45",
+  "file": "src/lib/utils/features.ts",
+  "line": 119,
+  "kind": "js-literal",
+  "raw": "首次用到某功能时的那条一次性提示不再出现（不记「已看过」）",
+  "value": "首次用到某功能时的那条一次性提示不再出现（不记「已看过」）"
+ },
+ {
+  "key": "msg.features.47",
+  "file": "src/lib/utils/features.ts",
+  "line": 125,
+  "kind": "js-literal",
+  "raw": "托盘状态",
+  "value": "托盘状态"
+ },
+ {
+  "key": "msg.features.48",
+  "file": "src/lib/utils/features.ts",
+  "line": 126,
+  "kind": "js-literal",
+  "raw": "托盘图标不再变色/闪烁/加红环；通知与菜单不受影响",
+  "value": "托盘图标不再变色/闪烁/加红环；通知与菜单不受影响"
+ },
+ {
+  "key": "msg.features.50",
+  "file": "src/lib/utils/features.ts",
+  "line": 132,
+  "kind": "js-literal",
+  "raw": "当前任务提示",
+  "value": "当前任务提示"
+ },
+ {
+  "key": "msg.features.51",
+  "file": "src/lib/utils/features.ts",
+  "line": 133,
+  "kind": "js-literal",
+  "raw": "托盘悬停与窗口标题回到默认文案",
+  "value": "托盘悬停与窗口标题回到默认文案"
+ },
+ {
+  "key": "msg.features.53",
+  "file": "src/lib/utils/features.ts",
+  "line": 139,
+  "kind": "js-literal",
+  "raw": "全局快捷键",
+  "value": "全局快捷键"
+ },
+ {
+  "key": "msg.features.54",
+  "file": "src/lib/utils/features.ts",
+  "line": 140,
+  "kind": "js-literal",
+  "raw": "不再注册全局快捷键（组合键交还给系统 / 别的程序）；已经打开的功能不受影响",
+  "value": "不再注册全局快捷键（组合键交还给系统 / 别的程序）；已经打开的功能不受影响"
+ },
+ {
+  "key": "msg.keyboard_help.01",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 14,
+  "kind": "js-literal",
+  "raw": "浏览",
+  "value": "浏览"
+ },
+ {
+  "key": "msg.keyboard_help.02",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 16,
+  "kind": "js-literal",
+  "raw": "看上一周 / 下一周",
+  "value": "看上一周 / 下一周"
+ },
+ {
+  "key": "msg.keyboard_help.03",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 17,
+  "kind": "js-literal",
+  "raw": "点块",
+  "value": "点块"
+ },
+ {
+  "key": "msg.keyboard_help.04",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 17,
+  "kind": "js-literal",
+  "raw": "选中它",
+  "value": "选中它"
+ },
+ {
+  "key": "msg.keyboard_help.05",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 18,
+  "kind": "js-literal",
+  "raw": "取消选中 / 关面板 / 放弃线头（键盘版「点一下别处」）",
+  "value": "取消选中 / 关面板 / 放弃线头（键盘版「点一下别处」）"
+ },
+ {
+  "key": "msg.keyboard_help.06",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 22,
+  "kind": "js-literal",
+  "raw": "选中一块",
+  "value": "选中一块"
+ },
+ {
+  "key": "msg.keyboard_help.07",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 24,
+  "kind": "js-literal",
+  "raw": "改开始时间（15 分钟）",
+  "value": "改开始时间（15 分钟）"
+ },
+ {
+  "key": "msg.keyboard_help.08",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 25,
+  "kind": "js-literal",
+  "raw": "改结束时间（15 分钟）",
+  "value": "改结束时间（15 分钟）"
+ },
+ {
+  "key": "msg.keyboard_help.09",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 26,
+  "kind": "js-literal",
+  "raw": "拿起（可移动）",
+  "value": "拿起（可移动）"
+ },
+ {
+  "key": "msg.keyboard_help.10",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 27,
+  "kind": "js-literal",
+  "raw": "搬移：预览跟住鼠标，左键放下",
+  "value": "搬移：预览跟住鼠标，左键放下"
+ },
+ {
+  "key": "msg.keyboard_help.11",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 28,
+  "kind": "js-literal",
+  "raw": "复制：预览跟住鼠标，左键放下（原块留着）",
+  "value": "复制：预览跟住鼠标，左键放下（原块留着）"
+ },
+ {
+  "key": "msg.keyboard_help.12",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 29,
+  "kind": "js-literal",
+  "raw": "完成 / 未完成",
+  "value": "完成 / 未完成"
+ },
+ {
+  "key": "msg.keyboard_help.13",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 30,
+  "kind": "js-literal",
+  "raw": "删除",
+  "value": "删除"
+ },
+ {
+  "key": "msg.keyboard_help.14",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 31,
+  "kind": "js-literal",
+  "raw": "改临时安排块的名字",
+  "value": "改临时安排块的名字"
+ },
+ {
+  "key": "msg.keyboard_help.15",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 35,
+  "kind": "js-literal",
+  "raw": "拿起中",
+  "value": "拿起中"
+ },
+ {
+  "key": "msg.keyboard_help.16",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 37,
+  "kind": "js-literal",
+  "raw": "移 15 分钟",
+  "value": "移 15 分钟"
+ },
+ {
+  "key": "msg.keyboard_help.17",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 38,
+  "kind": "js-literal",
+  "raw": "移 1 小时",
+  "value": "移 1 小时"
+ },
+ {
+  "key": "msg.keyboard_help.18",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 39,
+  "kind": "js-literal",
+  "raw": "挪一天",
+  "value": "挪一天"
+ },
+ {
+  "key": "msg.keyboard_help.19",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 40,
+  "kind": "js-literal",
+  "raw": "挪一周",
+  "value": "挪一周"
+ },
+ {
+  "key": "msg.keyboard_help.20",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 41,
+  "kind": "js-literal",
+  "raw": "放下",
+  "value": "放下"
+ },
+ {
+  "key": "msg.keyboard_help.21",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 42,
+  "kind": "js-literal",
+  "raw": "放弃拿起",
+  "value": "放弃拿起"
+ },
+ {
+  "key": "msg.keyboard_help.22",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 46,
+  "kind": "js-literal",
+  "raw": "多选",
+  "value": "多选"
+ },
+ {
+  "key": "msg.keyboard_help.23",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 48,
+  "kind": "js-literal",
+  "raw": "Ctrl+左键",
+  "value": "Ctrl+左键"
+ },
+ {
+  "key": "msg.keyboard_help.24",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 48,
+  "kind": "js-literal",
+  "raw": "加选 / 取消这一块",
+  "value": "加选 / 取消这一块"
+ },
+ {
+  "key": "msg.keyboard_help.25",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 49,
+  "kind": "js-literal",
+  "raw": "Shift+左键",
+  "value": "Shift+左键"
+ },
+ {
+  "key": "msg.keyboard_help.26",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 49,
+  "kind": "js-literal",
+  "raw": "选一整段",
+  "value": "选一整段"
+ },
+ {
+  "key": "msg.keyboard_help.27",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 50,
+  "kind": "js-literal",
+  "raw": "空白处拖",
+  "value": "空白处拖"
+ },
+ {
+  "key": "msg.keyboard_help.28",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 50,
+  "kind": "js-literal",
+  "raw": "框选",
+  "value": "框选"
+ },
+ {
+  "key": "msg.keyboard_help.29",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 51,
+  "kind": "js-literal",
+  "raw": "全选本周",
+  "value": "全选本周"
+ },
+ {
+  "key": "msg.keyboard_help.30",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 52,
+  "kind": "js-literal",
+  "raw": "搬移 / 复制整组（跟鼠标，左键放下）",
+  "value": "搬移 / 复制整组（跟鼠标，左键放下）"
+ },
+ {
+  "key": "msg.keyboard_help.31",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 53,
+  "kind": "js-literal",
+  "raw": "拿起整组（再按放下）",
+  "value": "拿起整组（再按放下）"
+ },
+ {
+  "key": "msg.keyboard_help.32",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 54,
+  "kind": "js-literal",
+  "raw": "完成 / 未完成 / 删除",
+  "value": "完成 / 未完成 / 删除"
+ },
+ {
+  "key": "msg.keyboard_help.33",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 55,
+  "kind": "js-literal",
+  "raw": "退出多选",
+  "value": "退出多选"
+ },
+ {
+  "key": "msg.keyboard_help.34",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 59,
+  "kind": "js-literal",
+  "raw": "撤销",
+  "value": "撤销"
+ },
+ {
+  "key": "msg.keyboard_help.35",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 61,
+  "kind": "js-literal",
+  "raw": "撤销上一步",
+  "value": "撤销上一步"
+ },
+ {
+  "key": "msg.keyboard_help.36",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 62,
+  "kind": "js-literal",
+  "raw": "重做",
+  "value": "重做"
+ },
+ {
+  "key": "msg.keyboard_help.37",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 63,
+  "kind": "js-literal",
+  "raw": "（拿起中）Ctrl+Z",
+  "value": "（拿起中）Ctrl+Z"
+ },
+ {
+  "key": "msg.keyboard_help.38",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 63,
+  "kind": "js-literal",
+  "raw": "放弃拿起",
+  "value": "放弃拿起"
+ },
+ {
+  "key": "msg.keyboard_help.39",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 67,
+  "kind": "js-literal",
+  "raw": "Backlog（任务栏）",
+  "value": "Backlog（任务栏）"
+ },
+ {
+  "key": "msg.keyboard_help.40",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 69,
+  "kind": "js-literal",
+  "raw": "快速加任务：展开 Backlog + 光标进「添加任务…」",
+  "value": "快速加任务：展开 Backlog + 光标进「添加任务…」"
+ },
+ {
+  "key": "msg.keyboard_help.41",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 70,
+  "kind": "js-literal",
+  "raw": "⠿ 上按 ↑↓",
+  "value": "⠿ 上按 ↑↓"
+ },
+ {
+  "key": "msg.keyboard_help.42",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 70,
+  "kind": "js-literal",
+  "raw": "排序",
+  "value": "排序"
+ },
+ {
+  "key": "msg.keyboard_help.43",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 71,
+  "kind": "js-literal",
+  "raw": "改任务名",
+  "value": "改任务名"
+ },
+ {
+  "key": "msg.keyboard_help.44",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 75,
+  "kind": "js-literal",
+  "raw": "全局（在别的程序里也管用）",
+  "value": "全局（在别的程序里也管用）"
+ },
+ {
+  "key": "msg.keyboard_help.45",
+  "file": "src/lib/utils/keyboard-help.ts",
+  "line": 79,
+  "kind": "js-literal",
+  "raw": "打开主窗口（被占用时依次退到 Ctrl+Alt+W / Ctrl+Alt+Shift+W；实际生效的看设置 → 功能开关）",
+  "value": "打开主窗口（被占用时依次退到 Ctrl+Alt+W / Ctrl+Alt+Shift+W；实际生效的看设置 → 功能开关）"
+ },
+ {
+  "key": "msg.templates.04",
+  "file": "src/lib/utils/templates.ts",
+  "line": 7,
+  "kind": "js-literal",
+  "raw": "周一",
+  "value": "周一"
+ },
+ {
+  "key": "msg.templates.05",
+  "file": "src/lib/utils/templates.ts",
+  "line": 7,
+  "kind": "js-literal",
+  "raw": "周二",
+  "value": "周二"
+ },
+ {
+  "key": "msg.templates.06",
+  "file": "src/lib/utils/templates.ts",
+  "line": 7,
+  "kind": "js-literal",
+  "raw": "周三",
+  "value": "周三"
+ },
+ {
+  "key": "msg.templates.07",
+  "file": "src/lib/utils/templates.ts",
+  "line": 7,
+  "kind": "js-literal",
+  "raw": "周四",
+  "value": "周四"
+ },
+ {
+  "key": "msg.templates.08",
+  "file": "src/lib/utils/templates.ts",
+  "line": 7,
+  "kind": "js-literal",
+  "raw": "周五",
+  "value": "周五"
+ },
+ {
+  "key": "msg.templates.09",
+  "file": "src/lib/utils/templates.ts",
+  "line": 7,
+  "kind": "js-literal",
+  "raw": "周六",
+  "value": "周六"
+ },
+ {
+  "key": "msg.templates.10",
+  "file": "src/lib/utils/templates.ts",
+  "line": 7,
+  "kind": "js-literal",
+  "raw": "周日",
+  "value": "周日"
+ },
+ {
+  "key": "msg.templates.11",
+  "file": "src/lib/utils/templates.ts",
+  "line": 27,
+  "kind": "js-literal",
+  "raw": "必填",
+  "value": "必填"
+ },
+ {
+  "key": "msg.templates.12",
+  "file": "src/lib/utils/templates.ts",
+  "line": 27,
+  "kind": "js-literal",
+  "raw": "弹性",
+  "value": "弹性"
+ },
+ {
+  "key": "msg.week.01",
+  "file": "src/lib/utils/week.ts",
+  "line": 52,
+  "kind": "js-template",
+  "raw": "${undefined} 分钟",
+  "value": "{minutes} 分钟"
+ },
+ {
+  "key": "msg.week.02",
+  "file": "src/lib/utils/week.ts",
+  "line": 53,
+  "kind": "js-template",
+  "raw": "${undefined} 小时",
+  "value": "{hours} 小时"
+ },
+ {
+  "key": "msg.week.03",
+  "file": "src/lib/utils/week.ts",
+  "line": 54,
+  "kind": "js-template",
+  "raw": "${undefined} 小时 ${undefined} 分",
+  "value": "{hours} 小时 {minutes} 分"
+ },
+ {
+  "key": "ui.backlog.59",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 473,
+  "kind": "svelte-text",
+  "raw": "⊞ 分组",
+  "value": "⊞ 分组"
+ },
+ {
+  "key": "ui.backlog.60",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 663,
+  "kind": "svelte-text",
+  "raw": "＋ 添加",
+  "value": "＋ 添加"
+ },
+ {
+  "key": "ui.backlog.61",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 695,
+  "kind": "svelte-text",
+  "raw": "收起",
+  "value": "收起"
+ },
+ {
+  "key": "ui.backlog.62",
+  "file": "src/lib/components/Backlog.svelte",
+  "line": 742,
+  "kind": "svelte-text",
+  "raw": "恢复",
+  "value": "恢复"
+ },
+ {
+  "key": "ui.bulk_bar.17",
+  "file": "src/lib/components/BulkBar.svelte",
+  "line": 60,
+  "kind": "svelte-text",
+  "raw": "✓ 完成",
+  "value": "✓ 完成"
+ },
+ {
+  "key": "ui.bulk_bar.18",
+  "file": "src/lib/components/BulkBar.svelte",
+  "line": 66,
+  "kind": "svelte-text",
+  "raw": "✗ 未完成",
+  "value": "✗ 未完成"
+ },
+ {
+  "key": "ui.bulk_bar.19",
+  "file": "src/lib/components/BulkBar.svelte",
+  "line": 72,
+  "kind": "svelte-text",
+  "raw": "必填",
+  "value": "必填"
+ },
+ {
+  "key": "ui.bulk_bar.20",
+  "file": "src/lib/components/BulkBar.svelte",
+  "line": 78,
+  "kind": "svelte-text",
+  "raw": "弹性",
+  "value": "弹性"
+ },
+ {
+  "key": "ui.bulk_bar.21",
+  "file": "src/lib/components/BulkBar.svelte",
+  "line": 88,
+  "kind": "svelte-text",
+  "raw": "← 移一天",
+  "value": "← 移一天"
+ },
+ {
+  "key": "ui.bulk_bar.22",
+  "file": "src/lib/components/BulkBar.svelte",
+  "line": 98,
+  "kind": "svelte-text",
+  "raw": "移一天 →",
+  "value": "移一天 →"
+ },
+ {
+  "key": "ui.category_menu.15",
+  "file": "src/lib/components/CategoryMenu.svelte",
+  "line": 262,
+  "kind": "svelte-text",
+  "raw": "‹ 返回",
+  "value": "‹ 返回"
+ },
+ {
+  "key": "ui.data_switch.27",
+  "file": "src/lib/components/DataSwitch.svelte",
+  "line": 160,
+  "kind": "svelte-text",
+  "raw": "关闭",
+  "value": "关闭"
+ },
+ {
+  "key": "ui.drift_card.07",
+  "file": "src/lib/components/DriftCard.svelte",
+  "line": 61,
+  "kind": "svelte-text",
+  "raw": "✎ 自己安排",
+  "value": "✎ 自己安排"
+ },
+ {
+  "key": "ui.drift_card.08",
+  "file": "src/lib/components/DriftCard.svelte",
+  "line": 63,
+  "kind": "svelte-text",
+  "raw": "不用了",
+  "value": "不用了"
+ },
+ {
+  "key": "ui.first_run.07",
+  "file": "src/lib/components/FirstRun.svelte",
+  "line": 46,
+  "kind": "svelte-text",
+  "raw": "知道了",
+  "value": "知道了"
+ },
+ {
+  "key": "help.help_panel.91",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 72,
+  "kind": "svelte-text",
+  "raw": "提醒",
+  "value": "提醒"
+ },
+ {
+  "key": "help.help_panel.92",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 73,
+  "kind": "svelte-text",
+  "raw": "理智值",
+  "value": "理智值"
+ },
+ {
+  "key": "help.help_panel.93",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 74,
+  "kind": "svelte-text",
+  "raw": "数据",
+  "value": "数据"
+ },
+ {
+  "key": "help.help_panel.94",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 75,
+  "kind": "svelte-text",
+  "raw": "模板与建议",
+  "value": "模板与建议"
+ },
+ {
+  "key": "help.help_panel.95",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 76,
+  "kind": "svelte-text",
+  "raw": "提示与教学",
+  "value": "提示与教学"
+ },
+ {
+  "key": "help.help_panel.96",
+  "file": "src/lib/components/HelpPanel.svelte",
+  "line": 77,
+  "kind": "svelte-text",
+  "raw": "功能开关",
+  "value": "功能开关"
+ },
+ {
+  "key": "ui.hint_bar.06",
+  "file": "src/lib/components/HintBar.svelte",
+  "line": 21,
+  "kind": "svelte-text",
+  "raw": "知道了",
+  "value": "知道了"
+ },
+ {
+  "key": "ui.hint_bar.07",
+  "file": "src/lib/components/HintBar.svelte",
+  "line": 26,
+  "kind": "svelte-text",
+  "raw": "全部关掉",
+  "value": "全部关掉"
+ },
+ {
+  "key": "ui.hint_bar.08",
+  "file": "src/lib/components/HintBar.svelte",
+  "line": 36,
+  "kind": "svelte-text",
+  "raw": "存为模板…",
+  "value": "存为模板…"
+ },
+ {
+  "key": "ui.hint_bar.09",
+  "file": "src/lib/components/HintBar.svelte",
+  "line": 42,
+  "kind": "svelte-text",
+  "raw": "不再提",
+  "value": "不再提"
+ },
+ {
+  "key": "ui.review_panel.71",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 342,
+  "kind": "svelte-text",
+  "raw": "按状态",
+  "value": "按状态"
+ },
+ {
+  "key": "ui.review_panel.72",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 347,
+  "kind": "svelte-text",
+  "raw": "按类别",
+  "value": "按类别"
+ },
+ {
+  "key": "ui.review_panel.73",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 380,
+  "kind": "svelte-text",
+  "raw": "关闭",
+  "value": "关闭"
+ },
+ {
+  "key": "ui.review_panel.74",
+  "file": "src/lib/components/ReviewPanel.svelte",
+  "line": 387,
+  "kind": "svelte-text",
+  "raw": "对比…",
+  "value": "对比…"
+ },
+ {
+  "key": "ui.sanity_settings.100",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 382,
+  "kind": "svelte-text",
+  "raw": "ⓘ 说明",
+  "value": "ⓘ 说明"
+ },
+ {
+  "key": "ui.sanity_settings.101",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 394,
+  "kind": "svelte-text",
+  "raw": "重看新手卡片",
+  "value": "重看新手卡片"
+ },
+ {
+  "key": "ui.sanity_settings.102",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 493,
+  "kind": "svelte-text",
+  "raw": "自定义…",
+  "value": "自定义…"
+ },
+ {
+  "key": "ui.sanity_settings.103",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 498,
+  "kind": "svelte-text",
+  "raw": "确定",
+  "value": "确定"
+ },
+ {
+  "key": "ui.sanity_settings.104",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 504,
+  "kind": "svelte-text",
+  "raw": "恢复提醒",
+  "value": "恢复提醒"
+ },
+ {
+  "key": "ui.sanity_settings.105",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 678,
+  "kind": "svelte-text",
+  "raw": "重试",
+  "value": "重试"
+ },
+ {
+  "key": "ui.sanity_settings.106",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 720,
+  "kind": "svelte-text",
+  "raw": "⌨ {showKeys ? \"收起\" : \"展开\"}（方向键也能用 W/A/S/D）",
+  "value": "⌨ {showKeys}（方向键也能用 W/A/S/D）"
+ },
+ {
+  "key": "ui.sanity_settings.107",
+  "file": "src/lib/components/SanitySettings.svelte",
+  "line": 740,
+  "kind": "svelte-text",
+  "raw": "收起",
+  "value": "收起"
+ },
+ {
+  "key": "ui.template_picker.16",
+  "file": "src/lib/components/TemplatePicker.svelte",
+  "line": 62,
+  "kind": "svelte-text",
+  "raw": "▥ 模板",
+  "value": "▥ 模板"
+ },
+ {
+  "key": "ui.template_picker.17",
+  "file": "src/lib/components/TemplatePicker.svelte",
+  "line": 79,
+  "kind": "svelte-text",
+  "raw": "铺到本周",
+  "value": "铺到本周"
+ },
+ {
+  "key": "ui.template_picker.18",
+  "file": "src/lib/components/TemplatePicker.svelte",
+  "line": 136,
+  "kind": "svelte-text",
+  "raw": "保存模板",
+  "value": "保存模板"
+ },
+ {
+  "key": "ui.template_picker.19",
+  "file": "src/lib/components/TemplatePicker.svelte",
+  "line": 148,
+  "kind": "svelte-text",
+  "raw": "收起",
+  "value": "收起"
+ },
+ {
+  "key": "ui.timeline.50",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 1096,
+  "kind": "svelte-text",
+  "raw": "回到本周",
+  "value": "回到本周"
+ },
+ {
+  "key": "ui.timeline.51",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 1123,
+  "kind": "svelte-text",
+  "raw": "▦ 总览",
+  "value": "▦ 总览"
+ },
+ {
+  "key": "ui.timeline.52",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 1132,
+  "kind": "svelte-text",
+  "raw": "▤ 统计",
+  "value": "▤ 统计"
+ },
+ {
+  "key": "ui.timeline.54",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 643,
+  "kind": "js-template",
+  "raw": "+${days} 天",
+  "value": "+{days} 天"
+ },
+ {
+  "key": "ui.timeline.55",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 650,
+  "kind": "js-literal",
+  "raw": "前一日",
+  "value": "前一日"
+ },
+ {
+  "key": "ui.timeline.56",
+  "file": "src/lib/components/Timeline.svelte",
+  "line": 650,
+  "kind": "js-template",
+  "raw": "前 ${days} 天",
+  "value": "前 {days} 天"
+ }
+]

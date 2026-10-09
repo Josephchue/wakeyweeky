@@ -1,0 +1,76 @@
+{
+  "note": "round73（3.0b₁）术语禁用表 —— **唯一机器源**（人看的表：docs/visual/术语表.md；规格出处：docs/visual/文案审计.md §3 + docs/素材库/文案规范调研.md C1–C14）。⚠ 用例例外：`err.repeats.02-10` 是**展示文案**（周几 / 每周摘要），历史迁移落在 err. 域 —— 翻译/审查按展示串对待。 ⚠ `preferred` = 已登记但不入判据的用词（round79 加：「重试」）。",
+  "banned": [
+    {
+      "term": "类别",
+      "use": "分类",
+      "allow": [],
+      "allowKeys": []
+    },
+    {
+      "term": "任务栏",
+      "use": "Backlog",
+      "allow": [],
+      "allowKeys": []
+    },
+    {
+      "term": "漂移",
+      "use": "漂流",
+      "allow": [],
+      "allowKeys": []
+    },
+    {
+      "term": "链节",
+      "use": "块",
+      "allow": [],
+      "allowKeys": []
+    },
+    {
+      "term": "环位",
+      "use": "序列里的位置",
+      "allow": [],
+      "allowKeys": []
+    },
+    {
+      "term": "任务块",
+      "use": "块",
+      "allow": [],
+      "allowKeys": []
+    },
+    {
+      "term": "周报",
+      "use": "总览 / 复盘",
+      "allow": [],
+      "allowKeys": []
+    },
+    {
+      "term": "本周",
+      "use": "这一周",
+      "allow": [
+        "回到本周"
+      ],
+      "allowKeys": []
+    },
+    {
+      "term": "您",
+      "use": "你",
+      "allow": [],
+      "allowKeys": []
+    }
+  ],
+  "firstPerson": [
+    "我们",
+    "咱们"
+  ],
+  "firstPersonHint": [
+    "我"
+  ],
+  "preferred": [
+    {
+      "term": "重试",
+      "en": "Retry",
+      "note": "失败态的动作统一用这个词（别写「再试一次」「重载」）；round79 登记，check.mjs 暂不判（通用词）",
+      "allow": []
+    }
+  ]
+}

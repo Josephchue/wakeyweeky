@@ -1,0 +1,39 @@
+/**
+ * round79（78-01 / 78-10 / 78-11）：**危险操作**的统一写法（一套，三处共用）。
+ *
+ * 为什么单开一份（`施工方案` §3.5 的「大刀阔斧」第 1 条）：三处「重置/恢复」
+ * （重置统计 / 重置成就 / 恢复默认设置）本来是三个面板各写各的按钮样式与确认调用 ——
+ * 同一种东西写三遍，改一处就得找三处。这里只放**视觉**；确认的**流程**在
+ * `src/lib/utils/modal.ts` 的 `confirmDanger()`（同一套：**应用内 alertdialog**，round80 · 79-01）。
+ *
+ * 口径（写在验收文档与计划里）：**能撤销的不加确认，不能撤销的才用确认**（round40 定的）——
+ * 这两类**不叠加**；用了确认就不再给「撤销」提示。
+ *
+ * 组件里的用法：`class="danger-action <自己的钩子类>"`（钩子类只给断言/文档当锚点，不带样式）。
+ */
+
+.danger-action {
+  align-self: flex-start;
+  flex: none;
+  padding: 0 var(--space-2);
+  background: none;
+  border: 1px solid var(--danger);
+  border-radius: var(--radius);
+  color: var(--danger);
+  font: inherit;
+  font-size: var(--text-meta);
+  line-height: var(--line-body);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* 悬停：字色回到正文色（描边已经说了「这是危险档」） */
+.danger-action:hover {
+  color: var(--text-primary);
+  background: var(--bg);
+}
+
+.danger-action:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 1px;
+}

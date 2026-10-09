@@ -1,0 +1,66 @@
+name: CI
+
+# 每次 push / PR 跑一遍「本机那套闸门」—— 质量信号 + PR 第一关自动过滤。
+# 说明：界面断言套件（tools/preview）与打包不进 CI —— 它依赖真实浏览器与帧时序，
+# 在共享 runner 上会假红；那两条留在本机跑（见 CONTRIBUTING）。
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  gates:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: 安装前端依赖
+        run: npm ci
+
+      - name: 类型 / 组件检查（svelte-check）
+        run: npm run check
+
+      - name: 单元测试（vitest）
+        run: npm run test:unit
+
+      - name: 文案层检查（i18n）
+        run: node tools/i18n/check.mjs
+
+      - name: 间距 / 字号 / 密度契约
+        run: node tools/visual/spacing-audit.mjs --check
+
+      - name: 时间 / 日期格式唯一实现
+        run: node tools/visual/timefmt-scan.mjs
+
+      - name: 配色生成物与源一致
+        run: node tools/visual/gen-palettes-85.mjs --check
+
+      - name: 前端产物（cargo test 里的 tauri-build 需要 dist 存在）
+        run: npm run build
+
+      - name: 对比度实测（需要 Edge；runner 上跑不起来时只算提示，不拦）
+        continue-on-error: true
+        run: node tools/visual/contrast.mjs --quiet
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - name: Rust 单元测试
+        # 跳过 test_evaluate_is_not_pathologically_slow：它是**墙钟判据**
+        # （5 万条事件下 evaluate 一次要在 2 秒内），CI 机器负载不可控，会假红 ——
+        # 本机闸门仍然照跑它，这里只是不当门槛。
+        run: cargo test --manifest-path src-tauri/Cargo.toml -- --skip test_evaluate_is_not_pathologically_slow
+
+      - name: Clippy（warning 即失败）
+        run: cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets -- -D warnings
