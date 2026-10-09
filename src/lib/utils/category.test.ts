@@ -46,10 +46,19 @@ describe("filterByCategory（筛选）", () => {
   });
 });
 
+/** 按名字排的**期望**（用系统排序规则算）—— 断言「是排好的」，不写死方向：
+ *  中文名的 locale 序在 zh-CN（工作 < 学习）与 en-US（学习 < 工作）下相反 ——
+ *  CI 首跑就是栽在这里（GitHub runner 是 en-US）。 */
+const byName = (names: (string | null)[]) =>
+  [...names].sort((a, b) => (a ?? "").localeCompare(b ?? ""));
+
 describe("groupByCategory（分堆）", () => {
-  it("按名字排，未分类永远在最后（残渣堆）", () => {
+  it("按名字排（系统排序规则），未分类永远在最后（残渣堆）", () => {
     const groups = groupByCategory([T("a", "学习"), T("b", null), T("c", "工作")]);
-    expect(groups.map((g) => g.name)).toEqual(["工作", "学习", null]);
+    const names = groups.map((g) => g.name);
+    expect(new Set(names), "三堆都在").toEqual(new Set(["工作", "学习", null]));
+    expect(names.at(-1), "未分类最后").toBe(null);
+    expect(names.slice(0, -1), "其余按名字排").toEqual(byName(["工作", "学习"]));
   });
 
   it("空堆不出现", () => {
@@ -58,7 +67,8 @@ describe("groupByCategory（分堆）", () => {
 
   it("同一堆里的任务保持原顺序（新建/拖拽排出来的顺序不该被打乱）", () => {
     const groups = groupByCategory([T("a", "工作"), T("b", "学习"), T("c", "工作")]);
-    expect(groups[0].tasks.map((t) => t.id)).toEqual(["a", "c"]);
+    // 不假设「工作」排第几（排序方向随系统 locale 变）—— 按名字找到那一堆
+    expect(groups.find((g) => g.name === "工作")!.tasks.map((t) => t.id)).toEqual(["a", "c"]);
   });
 });
 
@@ -69,12 +79,12 @@ describe("categoryLabel / categoryOptions / hasUncategorized", () => {
   });
 
   it("选项顺序：全部 → 各分类（按名字）→ 未分类", () => {
-    expect(categoryOptions([T("a", "学习"), T("b", "工作"), T("c", null)])).toEqual([
-      { label: "全部", value: null },
-      { label: "工作", value: "工作" },
-      { label: "学习", value: "学习" },
-      { label: "未分类", value: "" },
-    ]);
+    const opts = categoryOptions([T("a", "学习"), T("b", "工作"), T("c", null)]);
+    expect(opts[0]).toEqual({ label: "全部", value: null });
+    expect(opts.at(-1)).toEqual({ label: "未分类", value: "" });
+    const middle = opts.slice(1, -1);
+    expect(new Set(middle.map((o) => o.value)), "两个分类都在").toEqual(new Set(["工作", "学习"]));
+    expect(middle.map((o) => o.label), "按名字排（不写死方向）").toEqual(byName(["工作", "学习"]));
   });
 
   it("没有没分类的任务时，「未分类」不给出来（每个选项都能筛出东西、不会点出一个空列表）", () => {

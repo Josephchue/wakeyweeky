@@ -171,7 +171,10 @@ describe("写设置：成对写、失败不动状态", () => {
   });
 
   // round74（3.0b₂）：语言 —— E3（写失败不撒谎）/ E10（旧库读回 zh）
+  // ⚠️ CI 首跑（2026-10-09）抓到：`navigator` 在现代 Node 里也**存在**，且值随**机器**变（
+  //    开发机 zh-CN / runner en-US）—— 所以这两条必须**显式钉住** navigator.language。
   it("saveUiLocale：写成功 → prefs 与 t() 用的 locale 一起换", async () => {
+    vi.stubGlobal("navigator", { language: "zh-CN" }); // 「跟随系统」那一档的解析源（不能靠机器）
     vi.mocked(ipc.setSetting).mockResolvedValue(undefined);
     expect(await saveUiLocale("en")).toBe(true);
     expect(ipc.setSetting).toHaveBeenCalledWith("ui_locale", "en");
@@ -181,10 +184,11 @@ describe("写设置：成对写、失败不动状态", () => {
     expect(getLocale()).toBe("zh");
     expect(await saveUiLocale("system")).toBe(true);
     expect(prefs.uiLocale).toBe("system");
-    expect(getLocale()).toBe("zh"); // 测试环境无 navigator → 解析成 zh
+    expect(getLocale()).toBe("zh"); // 系统档 = zh-CN → 解析成 zh（上面钉住的）
   });
 
   it("saveUiLocale：写失败 → 保持原语言（界面不撒谎）", async () => {
+    vi.stubGlobal("navigator", { language: "zh-CN" });
     vi.mocked(ipc.setSetting).mockRejectedValue(new Error("炸"));
     prefs.uiLocale = "zh";
     expect(await saveUiLocale("en")).toBe(false);

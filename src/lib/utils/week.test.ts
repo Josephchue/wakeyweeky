@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 import {
-  formatClockRange,
   formatDuration,
   getCurrentWeek,
   shiftWeek,
   weekendWindow,
   weekOf,
 } from "./week";
+import { formatClockRangeAt } from "./datetime.svelte";
 
 /** 2026-09-30 是周三（本周一 = 09-28） */
 const at = (y: number, m: number, d: number, h = 0, min = 0) =>
@@ -47,19 +47,22 @@ describe("shiftWeek（跳周）", () => {
 });
 
 describe("formatClockRange（块上的起止时间）", () => {
+  // CI 抓到的「假绿」（2026-10-09）：以前调隐式版的 `formatClockRange` —— 它读**活设置**
+  // （`time_format` 默认 system）与**系统时间标签** → 开发机 zh-CN/24h 绿、GitHub runner（en-US/12h）
+  // 算出 「9:15–9:45 AM」就红。改成显式给格式（与 `datetime.test.ts` 同口径：核心纯函数自报参数，不受机器影响）。
   it("整点与半点", () => {
-    expect(formatClockRange(at(2026, 9, 30, 9), at(2026, 9, 30, 10, 30))).toBe(
-      "09:00–10:30",
-    );
+    expect(
+      formatClockRangeAt(at(2026, 9, 30, 9), at(2026, 9, 30, 10, 30), "h24", "zh-CN", "zh"),
+    ).toBe("09:00–10:30");
   });
 
   it("15 分钟颗粒度也对（拉伸后的 :15/:45）", () => {
-    expect(formatClockRange(at(2026, 9, 30, 9, 15), at(2026, 9, 30, 9, 45))).toBe(
-      "09:15–09:45",
-    );
-    expect(formatClockRange(at(2026, 9, 30, 23, 45), at(2026, 10, 1, 0, 0))).toBe(
-      "23:45–00:00",
-    );
+    expect(
+      formatClockRangeAt(at(2026, 9, 30, 9, 15), at(2026, 9, 30, 9, 45), "h24", "zh-CN", "zh"),
+    ).toBe("09:15–09:45");
+    expect(
+      formatClockRangeAt(at(2026, 9, 30, 23, 45), at(2026, 10, 1, 0, 0), "h24", "zh-CN", "zh"),
+    ).toBe("23:45–00:00");
   });
 });
 

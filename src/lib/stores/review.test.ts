@@ -190,7 +190,13 @@ describe("C7 复盘 store", () => {
     const flat = groups.flatMap((g) => g.blocks.map((b) => b.id));
     expect(flat.length, "块数守恒（两种读法同一份数据）").toBe(review.week!.length);
     expect(new Set(flat).size).toBe(review.week!.length);
-    expect(groups.map((g) => g.name), "按名字序，未分类最后").toEqual(["工作", "学习", null]);
+    const names = groups.map((g) => g.name);
+    expect(new Set(names), "两个分类 + 未分类都在").toEqual(new Set(["工作", "学习", null]));
+    expect(names.at(-1), "未分类最后").toBe(null);
+    // 不写死排序方向：中文名的 locale 序在 zh-CN / en-US 下相反（CI 首跑抓到的假绿 · 2026-10-09）
+    expect(names.slice(0, -1), "其余按名字排").toEqual(
+      ["工作", "学习"].slice().sort((a, b) => a.localeCompare(b)),
+    );
     expect(groups.at(-1)!.blocks.map((b) => b.id), "临时块进未分类").toContain("b9");
   });
 
