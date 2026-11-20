@@ -14438,7 +14438,7 @@ function domChecks() {
       },
     ],
     [
-      "round85 ③ + round86 ②：底纹层 —— 细密型铺 body + 列底 / 大尺度型（rays / glow）只铺页面；老 3 套与野兽派/白瓷 = 无",
+      "round85 ③ + round86 ②：底纹层 —— 细密型铺页面 + 列底 / 大尺度型（rays / glow）只铺页面；老 3 套与野兽派/白瓷 = 无",
       async () => {
         await press("Escape");
         await press("Escape");
@@ -14493,8 +14493,21 @@ function domChecks() {
           const wantCols = WITH_COLS.includes(id);
           const hasCols = !!cols && cols !== "none";
           if (wantCols !== hasCols) bad.push(`${id}:--surface-image-cols=${cols.slice(0, 24) || "(空)"}`);
-          const bodyBg = getComputedStyle(document.body).backgroundImage;
-          if (want ? !bodyBg.includes("gradient") : bodyBg !== "none") bad.push(`${id}:body=${bodyBg.slice(0, 36)}`);
+          // round91（1.0.2 · DX-1）：页面底纹改铺 `body::before` 的**固定合成层**（同一个 `--surface-image`）——
+          // 判据不变（「声明了底纹的配色，页面才画」），但读的位置跟实现走，并把「固定层」本身钉住：
+          // 少了 `position: fixed` 就会退回 30fps（闸门探针实测 16.7 vs 33.4）。
+          const pageBg = getComputedStyle(document.body, "::before").backgroundImage;
+          if (want ? !pageBg.includes("gradient") : pageBg !== "none") bad.push(`${id}:page=${pageBg.slice(0, 36)}`);
+          const own = getComputedStyle(document.body).backgroundImage;
+          if (own !== "none") bad.push(`${id}:body 又画了一层=${own.slice(0, 30)}`);
+          // 6b P2（round91）：只钉 position 不够 —— 少了 `content` 伪元素不生成、少了 `inset` 盒子 0×0、
+          // `z-index` 改成正值会盖到内容上；这三种「看起来有声明、实际没画/画错层」都要拦。
+          const ps = getComputedStyle(document.body, "::before");
+          if (ps.position !== "fixed") bad.push(`${id}:page 层 position=${ps.position}`);
+          if (ps.pointerEvents !== "none") bad.push(`${id}:page 层吃指针=${ps.pointerEvents}`);
+          if (ps.content === "none" || ps.content === "normal") bad.push(`${id}:page 层 content=${ps.content}`);
+          if (ps.zIndex !== "-1") bad.push(`${id}:page 层 z-index=${ps.zIndex}`);
+          if (Math.round(parseFloat(ps.width) || 0) !== window.innerWidth) bad.push(`${id}:page 层宽=${ps.width}≠视口${window.innerWidth}`);
           const day = document.querySelector(".day-body");
           const dayBg = day ? getComputedStyle(day).backgroundImage : "";
           const n = layers(dayBg);
@@ -15687,6 +15700,190 @@ function domChecks() {
           `r87.2① 角标=${marks.length} 外沿块=${document.querySelectorAll('[data-block-id][data-overlay="above"],[data-block-id][data-overlay="below"]').length} 违规=${bad.length}${bad.length ? " " + bad.slice(0, 4).join(" | ") : ""}`,
         );
         return bad.length === 0;
+      },
+    ],
+    // ===== round91（1.0.2 · R2 DX-2）：二次审计登记的三条观测项，补齐「已修」的机器判据 =====
+    [
+      "round91 ①：漂流卡在左下 / Toast 在右下 —— 同屏时不相交、各占一侧、Toast 在上层（L8）",
+      async () => {
+        await press("Escape");
+        await press("Escape");
+        await backToThisWeek();
+        await settle(30);
+        // 自带靶子（不借别的断言的块）：先把本周块收进 stash，种两块自己的（照 seedRound78 的手法）
+        const ws = at(0, 0, 0), we = at(7, 0, 0);
+        const stash = [];
+        for (let i = FIX.blocks.length - 1; i >= 0; i--) {
+          const b = FIX.blocks[i];
+          if (b.end_at > ws && b.start_at < we) { stash.push({ i, b }); FIX.blocks.splice(i, 1); }
+        }
+        FIX.blocks.push(B("r91t", "t1", at(0, 10, 0), at(0, 11, 0), "elastic", "planned"));
+        FIX.blocks.push(B("r91d", "t2", at(0, 12, 0), at(0, 13, 0), "elastic", "planned"));
+        // 种子绕过写入路径 → 旧撤销快照会「撤回首种之前」，与本条无关但会污染后面（同 seedRound78 的纪律）
+        UNDO_SNAP = null;
+        REDO_SNAP = null;
+        await gotoWeek(1);
+        await gotoWeek(0);
+        const seeded = async (ms = 1500) => {
+          const t0 = Date.now();
+          while (Date.now() - t0 < ms) {
+            const ids = [...document.querySelectorAll(".timeline [data-block-id]")].map((n) => n.dataset.blockId);
+            if (ids.includes("r91t") && ids.includes("r91d") && ids.length === 2) return true;
+            await settle(20);
+          }
+          return false;
+        };
+        const up = await seeded();
+        // ① 带撤销的 Toast：删掉 r91t（真指针选中 → Delete 走命令层）
+        const selA = up ? await selectByClick("r91t") : false;
+        if (selA) await press("Delete");
+        await settle(30);
+        const undo = document.querySelector(".toast .act");
+        const toast = !!undo && /撤销/.test(undo.textContent ?? "");
+        // ② 漂流卡：先记「按 x 之前没有卡片」（防「上一条遗留卡片」冒充这一条），再按 x
+        const noCardBefore = !document.querySelector(".drift");
+        const selB = up && !!(document.querySelector('[data-block-id="r91d"]')) ? await selectByClick("r91d") : false;
+        if (selB) await press("x");
+        await settle(30);
+        const card = document.querySelector(".drift");
+        const layer = document.querySelector(".toast-layer");
+        const toastEl = document.querySelector(".toast");
+        const rb = card?.getBoundingClientRect();
+        const tb = toastEl?.getBoundingClientRect();
+        const overlaps =
+          !!rb && !!tb && !(rb.right <= tb.left || tb.right <= rb.left || rb.bottom <= tb.top || tb.bottom <= rb.top);
+        const driftLeft = !!rb && rb.left + rb.width / 2 < window.innerWidth / 2;
+        const toastRight = !!tb && tb.left + tb.width / 2 > window.innerWidth / 2;
+        const zCard = Number(getComputedStyle(card ?? document.body).zIndex);
+        const zToast = Number(getComputedStyle(layer ?? document.body).zIndex);
+        const zOk = Number.isFinite(zCard) && Number.isFinite(zToast) && zToast > zCard;
+        // 清理：收起卡片 / 还原本周块（否则收尾的底纹探针「块数不足」会拒判）
+        document.querySelector(".drift .dismiss")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(30);
+        for (const id of ["r91t", "r91d"]) {
+          const i = FIX.blocks.findIndex((b) => b.id === id);
+          if (i >= 0) FIX.blocks.splice(i, 1);
+        }
+        for (const { i, b } of stash.sort((a, c) => a.i - c.i)) FIX.blocks.splice(i, 0, b);
+        UNDO_SNAP = null;
+        REDO_SNAP = null;
+        await gotoWeek(1);
+        await gotoWeek(0);
+        await settle(40);
+        window.__DIAG.push(
+          `r91① 种子=${up} 删后提示=${toast} 按x前无卡=${noCardBefore} 选中=${selA}/${selB} 卡=[${rb ? Math.round(rb.left) + "," + Math.round(rb.top) + " " + Math.round(rb.width) + "x" + Math.round(rb.height) : "无"}] 提示框=[${tb ? Math.round(tb.left) + "," + Math.round(tb.top) + " " + Math.round(tb.width) + "x" + Math.round(tb.height) : "无"}] 相交=${overlaps} 卡靠左=${driftLeft} 提示靠右=${toastRight} z=${zCard}/${zToast} 还原块=${document.querySelectorAll(".timeline [data-block-id]").length}`,
+        );
+        return up && toast && noCardBefore && selA && selB && !!rb && !!tb && !overlaps && driftLeft && toastRight && zOk;
+      },
+    ],
+    [
+      "round91 ②：Toast「撤销」键 —— 命中区 ≥32、可聚焦、不吃 aria-hidden/inert、自己接指针（3.18）",
+      async () => {
+        await press("Escape");
+        await backToThisWeek();
+        await settle(20);
+        // 种一块只为本条服务（放到周日 23:00，躲开别的块）
+        FIX.blocks.push(B("r91z", "t1", at(6, 23, 0), at(6, 23, 30), "elastic", "planned"));
+        UNDO_SNAP = null;
+        REDO_SNAP = null;
+        await gotoWeek(1);
+        await gotoWeek(0);
+        await settle(40);
+        const ok = await selectByClick("r91z");
+        if (ok) await press("Delete");
+        await settle(30);
+        const btn = document.querySelector(".toast .act");
+        const r = btn?.getBoundingClientRect();
+        const cs = btn ? getComputedStyle(btn) : null;
+        let blocked = null;
+        for (let n = btn; n && n !== document.body; n = n.parentElement) {
+          const s = getComputedStyle(n);
+          if (n.getAttribute?.("aria-hidden") === "true" || n.hasAttribute?.("inert") || s.display === "none" || s.visibility === "hidden") {
+            blocked = n.className || n.tagName;
+            break;
+          }
+        }
+        const hOk = !!r && r.height >= 32 && r.width >= 32;
+        const focusOk = !!btn && btn.tabIndex >= 0 && !btn.disabled;
+        const peOk = !!cs && cs.pointerEvents === "auto";
+        // 真键盘：把焦点给按钮 → :focus-visible 路径要能落上（Esc 由全局键处理，这里只看能不能拿到焦点）
+        if (btn) {
+          btn.focus({ preventScroll: true });
+          await settle(4);
+        }
+        const gotFocus = document.activeElement === btn;
+        // 点撤销走真实路径，并**等它回来**（`blk` 回到非空才算撤销生效）
+        btn?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        for (let i = 0; i < 60 && !blk("r91z"); i++) await frames(1);
+        const restored = !!blk("r91z") && !!document.querySelector('[data-block-id="r91z"]');
+        const i = FIX.blocks.findIndex((b) => b.id === "r91z");
+        if (i >= 0) FIX.blocks.splice(i, 1);
+        UNDO_SNAP = null;
+        REDO_SNAP = null;
+        await gotoWeek(1);
+        await gotoWeek(0);
+        await settle(30);
+        window.__DIAG.push(
+          `r91② 提示按钮=[${r ? Math.round(r.width) + "x" + Math.round(r.height) : "无"}] tabIndex=${btn?.tabIndex} 阻断=${blocked ?? "无"} pe=${cs?.pointerEvents} 拿到焦点=${gotFocus} 撤销后块回来=${restored}`,
+        );
+        return ok && !!btn && hOk && focusOk && peOk && !blocked && gotFocus && restored;
+      },
+    ],
+    [
+      "round91 ④：属性面板分组有分隔线 —— 第二组起 border-top ≥1 且非透明（3.7）",
+      async () => {
+        await press("Escape");
+        await press("Escape");
+        await settle(20);
+        const toggle = document.querySelector(".backlog .item .props-toggle");
+        if (!toggle) return false;
+        toggle.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(20);
+        const groups = [...document.querySelectorAll(".props .prop-group")];
+        const first = groups[0] ? getComputedStyle(groups[0]) : null;
+        const second = groups[1] ? getComputedStyle(groups[1]) : null;
+        const w = second ? parseFloat(second.borderTopWidth) || 0 : 0;
+        const color = second?.borderTopColor ?? "";
+        const transparent = !color || color === "rgba(0, 0, 0, 0)" || color === "transparent";
+        const firstOk = !first || (parseFloat(first.borderTopWidth) || 0) === 0;
+        toggle.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(20);
+        window.__DIAG.push(
+          `r91④ 组数=${groups.length} 第二组 border=${w}px ${color} 透明=${transparent} 首组无线=${firstOk}`,
+        );
+        return groups.length >= 2 && w >= 1 && !transparent && firstOk;
+      },
+    ],
+    [
+      "round91 ③：Backlog 行高 ≥32、三个行内键命中区 ≥32、⚙ 与 ✗ 不同权重（3.5）",
+      async () => {
+        await press("Escape");
+        await press("Escape");
+        await settle(20);
+        const item = document.querySelector(".backlog .item") ?? document.querySelector(".item");
+        if (!item) return false;
+        const rowH = parseFloat(getComputedStyle(item).minHeight) || 0;
+        const rowToken = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--row-height")) || 0;
+        const acts = [...item.querySelectorAll(".acts button")];
+        const rects = acts.map((b) => b.getBoundingClientRect());
+        const minHit = rects.length ? Math.min(...rects.map((r) => Math.min(r.width, r.height))) : 0;
+        const color = (sel) => {
+          const b = item.querySelector(sel);
+          return b ? getComputedStyle(b).color : null;
+        };
+        const cGear = color(".props-toggle");
+        const cDel = color(".del");
+        const cEx = color(".exempt");
+        // 行高按密度走（compact 28 / comfortable 32 / loose 36）—— 与 `--row-height` 逐值相等（不硬编码档位）
+        const rowOk = rowH > 0 && Math.abs(rowH - rowToken) < 0.5 && rowH >= 28;
+        // 三个行内键（⊘ / ⚙ / ✗）必须都在；命中区 ≥24（2.5.8 的口径；舒适档实际是 32）
+        const hitOk = minHit >= 24 && acts.length >= 3 && !!item.querySelector(".exempt");
+        // ⚙ 必须与另外两个次级键**都**不同色（不再用 `!cEx` 兜底 —— ⊘ 被删掉就是红）
+        const weightOk = !!cGear && !!cDel && !!cEx && cGear !== cDel && cGear !== cEx;
+        window.__DIAG.push(
+          `r91③ 行高=${rowH} 键数=${acts.length} 最小命中=${Math.round(minHit)} 色 ⚙=${cGear} ✗=${cDel} ⊘=${cEx}`,
+        );
+        return rowOk && hitOk && weightOk;
       },
     ],
   ];

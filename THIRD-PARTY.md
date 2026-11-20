@@ -13,7 +13,7 @@
 
 ## 二、npm 依赖
 
-直接依赖 11 个；`node_modules` 里共 101 个包（含间接，全部为宽松许可）。
+直接依赖 11 个；`node_modules` 里共 109 个包（含间接，全部为宽松许可）。
 
 | 包 | 版本 | 许可 | 用途 |
 | --- | --- | --- | --- |
@@ -26,8 +26,8 @@
 | `svelte` | 5.57.1 | MIT | 开发/构建 |
 | `svelte-check` | 4.7.6 | MIT | 开发/构建 |
 | `typescript` | 6.0.3 | Apache-2.0 | 开发/构建 |
-| `vite` | 8.3.1 | MIT | 开发/构建 |
-| `vitest` | 5.0.2 | MIT | 开发/构建 |
+| `vite` | 8.3.8 | MIT | 开发/构建 |
+| `vitest` | 5.1.1 | MIT | 开发/构建 |
 
 ## 三、Rust 依赖
 
@@ -87,19 +87,20 @@
 
 ## 四、许可审计
 
-**范围 = 全部依赖**（npm 101 个包 + cargo 497 个 crate；不只直接依赖）。
+**范围 = 全部依赖**（npm 109 个包 + cargo 497 个 crate；不只直接依赖）。
 
 **npm 全树的许可分布**
 
 | 许可 | 数量 |
 | --- | --- |
-| MIT | 67 |
+| MIT | 74 |
 | Apache-2.0 OR MIT | 13 |
 | MPL-2.0 | 12 |
 | Apache-2.0 | 5 |
 | MIT OR Apache-2.0 | 2 |
 | ISC | 1 |
 | BSD-3-Clause | 1 |
+| 0BSD | 1 |
 
 审计结论：**没有**需要人工确认的许可（允许集：MIT / MIT-0 / Apache-2.0 / Apache-2.0 WITH LLVM-exception / BSD-2-Clause / BSD-3-Clause / ISC / Zlib / 0BSD / Unlicense / CC0-1.0 / MPL-2.0 / Unicode-3.0 / Unicode-DFS-2016 / BSL-1.0 / CC-BY-4.0 / OpenSSL）。
 > 多许可（A OR B 这种写法）按**宽松那一项**判 —— 例如「MIT OR Apache-2.0 OR LGPL-2.1-or-later」我们选 MIT。

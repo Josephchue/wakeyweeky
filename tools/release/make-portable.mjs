@@ -64,7 +64,8 @@ if (existsSync(OUT_ZIP)) {
 // ---------------------------------------------------------------- 从 MSI 里取 exe 与许可（不重编包）
 
 mkdirSync(EXTRACT, { recursive: true });
-// 7z 对 MSI 会**自动钻进内嵌的 cab**，所以一条 `x` 就能拿到全部负载（实测：8 个文件）
+// 7z 对 MSI 会**自动钻进内嵌的 cab**，所以一条 `x` 就能拿到全部负载（1.0.3 实测 **7 个**：exe + 6 份许可；
+// 1.0.2 当时是 8 个 —— 多一个 1.78MB 的 WebView2 bootstrapper，见 round92 验收 §7.6）
 // —— 不用先解 app.cab 再解里面的东西（那样第二次会找不到文件）
 run(SEVEN_ZIP, ["x", "-y", `-o${EXTRACT}`, MSI]);
 const extracted = readdirSync(EXTRACT).map((f) => path.join(EXTRACT, f));
@@ -131,7 +132,9 @@ writeFileSync(path.join(STAGE, TOP, "portable.flag"), "", "utf8");
 copyFileSync(path.join(REPO, "docs", "公开仓", "便携版使用说明.txt"), path.join(STAGE, TOP, "使用说明.txt"));
 for (const p of resFiles) copyFileSync(p, path.join(STAGE, TOP, "licenses", path.basename(p)));
 
-execFileSync(SEVEN_ZIP, ["a", "-tzip", "-mx=9", OUT_ZIP, TOP], { cwd: STAGE, stdio: "inherit" }); // cwd 决定归档里的路径
+// `-mcu=on`：**强制 zip 里的文件名用 UTF-8**。不加这个开关，7-Zip 按本机 GBK 写「使用说明.txt」，
+// 中文名在别的系统 / 别的解压工具里就是乱码（round92 出包时实测：中央目录里没设 UTF-8 位）。
+execFileSync(SEVEN_ZIP, ["a", "-tzip", "-mx=9", "-mcu=on", OUT_ZIP, TOP], { cwd: STAGE, stdio: "inherit" }); // cwd 决定归档里的路径
 
 // 断言③：压缩包完整性 + 内容清单
 const listing = run(SEVEN_ZIP, ["l", OUT_ZIP]);
@@ -157,6 +160,41 @@ writeFileSync(
   "utf8",
 );
 const entries = listing.split(/\r?\n/).filter((l) => l.includes(TOP));
+
+// 断言④（round92 6b P2-8）：zip 里的**非 ASCII 文件名必须带 UTF-8 标志位**。
+// 背景：不加 `-mcu=on` 时 7-Zip 按本机 GBK 写名字、且不设 bit 11 → 别的系统解压是乱码（1.0.2 就这样发出去的）。
+// 这里直接读中央目录，不依赖 `7z l` 的屏幕输出（控制台编码会骗人）。
+{
+  const buf = readFileSync(OUT_ZIP);
+  let eocd = buf.length - 22;
+  while (eocd > 0 && buf.readUInt32LE(eocd) !== 0x06054b50) eocd--;
+  if (eocd <= 0) {
+    console.error("✗ 找不到 zip 的中央目录（EOCD）—— 包可能坏了");
+    process.exit(1);
+  }
+  const count = buf.readUInt16LE(eocd + 10);
+  let p = buf.readUInt32LE(eocd + 16);
+  const bad = [];
+  const names = [];
+  for (let i = 0; i < count; i++) {
+    const flag = buf.readUInt16LE(p + 8);
+    const len = buf.readUInt16LE(p + 28);
+    const extra = buf.readUInt16LE(p + 30);
+    const comment = buf.readUInt16LE(p + 32);
+    const raw = buf.subarray(p + 46, p + 46 + len);
+    const ascii = raw.every((b) => b < 0x80);
+    names.push(raw.toString("utf8"));
+    if (!ascii && !(flag & 0x800)) bad.push(raw.toString("latin1"));
+    p += 46 + len + extra + comment;
+  }
+  const need = `使用说明.txt`;
+  if (bad.length || !names.some((n) => n.endsWith(need))) {
+    console.error(`✗ 断言④ 失败：zip 条目名编码不对（${bad.length} 条非 UTF-8；说明文件${names.some((n) => n.endsWith(need)) ? "在" : "缺"}）`);
+    console.error(`  条目：${names.join(" · ")}`);
+    process.exit(1);
+  }
+  console.log(`\n✓ 断言④ zip 条目名编码：${count} 条，非 ASCII 名全带 UTF-8 标志位，且含「${need}」`);
+}
 console.log(`\n✓ 便携包：${path.relative(REPO, OUT_ZIP)}`);
 for (const e of entries) console.log(`  ${e.trim()}`);
 console.log(`\n  exe sha256 = ${hMsi}（= MSI 里那一份；ZIP 里就它）`);

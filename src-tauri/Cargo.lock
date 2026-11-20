@@ -4358,7 +4358,7 @@ dependencies = [
 
 [[package]]
 name = "wakeyweeky"
-version = "1.0.2"
+version = "1.0.3"
 dependencies = [
  "chrono",
  "ical",

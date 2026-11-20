@@ -480,13 +480,35 @@ body {
   height: 100%;
   margin: 0;
   background: var(--bg);
-  /* round85（0.31.0）：主题**底纹层**（页面外围）—— 只有新 9 套定义了这两个 token，
-     老 3 套回落到 `none` / `auto`（逐字节零变化）。列底那层见 `Timeline.svelte` 的 `.day-body`。 */
-  background-image: var(--surface-image, none);
-  background-size: var(--surface-size, auto);
   color: var(--text-primary);
   font-family: var(--font-ui);
   font-size: var(--text-body);
+}
+
+/**
+ * round91（1.0.2 · DX-1）：页面**底纹层**铺在**固定合成层**上（`body::before`），不再铺 body 自己的背景图。
+ *
+ * 为什么（实测；闸门探针：单向长滚 90 帧 · 三次取中位 · 块数 45/85 两档）：
+ *   · 旧写法 `html, body { background-image: … }` 同一渐变在 canvas 与 body 各画一遍，谷地黄亮色
+ *     一份 4 层（grid×2 + contour×2），叠上列底那份 4 层 → p95 = **33.4ms（30fps）**；
+ *   · 单层 / 半边（只有页面或只有列底）都是 16.7ms → 成本是**层数 × 同时铺几处**的叠加，不是角度 / 图案密度；
+ *   · 铺到 `position: fixed` 的层 → **16.7ms（60fps）**。深色（45° 单层）本来就 16.7 → §5-DX① 的
+ *     「45° 斜纹贵」不成立。
+ *
+ * 看相（`--paint-shots` vs 改动前的真构建，见 `docs/visual/round91/`）：**内容区逐像素相同**
+ * （同一渐变函数、同一视口尺寸 = 1500×1040），残留差异只在**页面 16px 外边环带**上：
+ * 淡纹相位差 ~1px（灰阶差 ≤ 2/255，细线像元最大 37）—— 肉眼不可辨，但**不是逐像素零变化**，如实记录。
+ * `pointer-events: none`（不吃手势）/ `z-index: -1`（永远在内容之下）。
+ * 老 3 套没定义这两个 token → 这一层什么都不画（逐字节零变化）。
+ */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: var(--surface-image, none);
+  background-size: var(--surface-size, auto);
 }
 
 #app {

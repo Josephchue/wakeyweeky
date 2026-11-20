@@ -59,11 +59,34 @@ const onlyArg = args.indexOf("--only");
  * 为什么单开一维：全矩阵 98 格 × 5 档 = 490 格成本不成比例；字体只影响文字排布（`体-03` 口径）。
  */
 const fontScan = args.includes("--font-scan");
+/**
+ * round91（1.0.2 · R2 DX-1）：**底纹逐层消融实验**（`--paint-ab`）—— 独立模式，不跑断言套件。
+ * 为什么单开：§5-DX① 的「45° 斜纹贵」是**整层去图**得出的，没区分 grid / contour / stripes；
+ * 旧探针又跟着套件留下的块数跑（不可复现）。这里固定 60 块、亮/暗各一遍、逐层消融（运行时改
+ * token，**不碰产品代码**）、每态三次取中位。产出 `docs/visual/round91/paint-ab.json`。
+ */
+const paintAb = args.includes("--paint-ab");
+/** round91（6b P1）：`--paint-ab` 的产物路径可指定 —— 否则「修完复测」会把改动前的取证覆盖掉 */
+const paintAbOutArg = args.indexOf("--paint-ab-out");
+const paintAbOut = paintAbOutArg >= 0 ? args[paintAbOutArg + 1] : "docs/visual/round91/paint-ab.json";
+/**
+ * round91：前后对照截图与逐像素对比 ——
+ *   `--paint-shots <dir>`：固定参数（1500×1040 · endfield · 亮/暗 · 全屏 + 列底放大）拍 4 张；
+ *   `--paint-diff a.png b.png`：在页面里用 canvas 解 PNG 逐像素比（不装依赖；zlib 解码在浏览器里白拿）。
+ * 为什么要它们：本批的修法要声称「看相零变化」——没有前后像素证据，这个声称就只是描述。
+ */
+const paintShotsArg = args.indexOf("--paint-shots");
+const paintShotsDir = paintShotsArg >= 0 ? (args[paintShotsArg + 1] ?? null) : null;
+const paintDiffArg = args.indexOf("--paint-diff");
+const paintDiffPair = paintDiffArg >= 0 ? [args[paintDiffArg + 1], args[paintDiffArg + 2]] : null;
+/** round91 DX-2 ③（二次审计 3.7）：Backlog 属性面板的分组分隔线 —— 1500/715 各一张前后对照 */
+const propsShotsArg = args.indexOf("--props-shots");
+const propsShotsDir = propsShotsArg >= 0 ? (args[propsShotsArg + 1] ?? null) : null;
 let only = onlyArg >= 0 ? (args[onlyArg + 1] ?? "") : "";
-if (fontScan) only = "___none___";
+if (fontScan || paintAb || paintShotsDir || paintDiffPair || propsShotsDir) only = "___none___";
 /** round52：看界面用 —— 跳过真输入探针（探针的**真双击**会点到复盘面板的遮罩上，
  *  「点空白关闭」是正确行为，但那样就拍不到开着的面板了） */
-const noProbe = args.includes("--no-probe") || fontScan;
+const noProbe = args.includes("--no-probe") || fontScan || paintAb || !!paintShotsDir || !!paintDiffPair || !!propsShotsDir;
 /** round64（C10）：首次使用（空库）模式 —— 卡片只在启动那一下判定，所以要页加载前就给标志 */
 const firstRun = args.includes("--first-run");
 /** round73：伪语言压力模式（`?pseudo=1`）—— 界面文案包上【…———】，用来验外置完整性与英文溢出 */
@@ -1665,35 +1688,51 @@ async function realShortOverlayProbe() {
  * 块 clip-path 与它无关；终端（扫描线，轴对齐）同状态是 16.7。已登记 `docs/对账.md` §5-DX（含建议方向）。
  * 所以它红/绿会闪：它现在是「谷地黄 45° 纹理在几十块下的陈本」，不是回归信号。
  */
-async function realPaintProbe() {
-  /** 切一套配色；**返回真正生效的 id**（6b P2：切换失败时四次测量的会是同一套 → 假绿） */
-  const pickPalette = (id) =>
-    evaluateAsync(`(async () => {
-      const wait = (ms) => new Promise((r) => setTimeout(r, ms));
-      if (!document.querySelector(".sanity-pop")) {
-        document.querySelector(".sanity-gear")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-        await wait(80);
-      }
-      document.querySelector('.sanity-pop .ui-palette .palette[data-value="${id}"]')?.dispatchEvent(
-        new MouseEvent("click", { bubbles: true }),
-      );
-      await wait(200);
-      document.querySelector(".sanity-pop .close")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+/**
+ * 切一套配色；**返回真正生效的 id**（6b P2：切换失败时四次测量的会是同一套 → 假绿）。
+ * round91：从 `realPaintProbe()` 里提到模块作用域 —— 闸门探针与 `--paint-ab` 共用同一份实现。
+ */
+const pickPalette = (id) =>
+  evaluateAsync(`(async () => {
+    const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+    if (!document.querySelector(".sanity-pop")) {
+      document.querySelector(".sanity-gear")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
       await wait(80);
-      return document.documentElement.dataset.palette;
-    })()`).catch(() => null);
+    }
+    document.querySelector('.sanity-pop .ui-palette .palette[data-value="${id}"]')?.dispatchEvent(
+      new MouseEvent("click", { bubbles: true }),
+    );
+    await wait(200);
+    document.querySelector(".sanity-pop .close")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    await wait(80);
+    return document.documentElement.dataset.palette;
+  })()`).catch(() => null);
+
+async function realPaintProbe() {
+  /**
+   * round91（1.0.2 · DX-1）：**单向长滚**才是敏感测法。
+   *
+   * 旧写法是「0→406px 锅齿来回」——它反复访问同一片**已栅格化**的区域，缓存命中的话
+   * 谷地黄的 4 层底纹也报 16.7ms（本批实测：同一状态锅齿 16.8 / 单向长滚 33.4）。
+   * 这就是为什么这条探针以前会「一会儿绿一会儿红」：它测的是缓存，不是成本。
+   * 现在每轮从顶部起、一帧一帧把新 tile 带进来（`scrollHeight/clientHeight` 自动算幅度）。
+   */
   const measure = () =>
     evaluateAsync(`(async () => {
       const scroll = document.querySelector(".scroll");
+      if (!scroll) return { err: "没有 .scroll" };
       const frames = [];
       let last = performance.now();
-      const start = scroll ? scroll.scrollTop : 0;
+      const maxTop = Math.max(0, scroll.scrollHeight - scroll.clientHeight);
+      scroll.scrollTop = 0;
+      await new Promise((r) => requestAnimationFrame(() => r()));
+      const step = Math.max(1, maxTop / 90);
       await new Promise((resolve) => {
         let i = 0;
         const tick = (t) => {
           if (i > 6) frames.push(t - last);
           last = t;
-          if (scroll) scroll.scrollTop = start + (i % 30) * 14;
+          scroll.scrollTop = Math.min(maxTop, i * step);
           i += 1;
           if (i < 96) requestAnimationFrame(tick);
           else resolve();
@@ -1707,38 +1746,77 @@ async function realPaintProbe() {
         p50: at(0.5),
         p95: at(0.95),
         max: Math.round((sorted.at(-1) ?? 0) * 100) / 100,
-        // round87（Step 6）：把「量的时候页面上有多少块」一并带上 ——
-        // 底纹成本与同时上屏的块数正相关（全量套件跑完周里可能有几十块，单独跑时只有十几块）。
+        // 成本与同时上屏的块数相关 —— 连同「滚了多少」一起记，验收文档才有可比性
         blocks: document.querySelectorAll("[data-block-id]").length,
+        scrollRange: Math.round(maxTop),
       };
     })()`).catch(() => null);
+  /** 同一个配色测三次取 p95 中位（单次尖尖不算结论） */
+  const measure3 = async () => {
+    const reps = [];
+    for (let i = 0; i < 3; i++) {
+      const r = await measure();
+      if (!r || r.err) return r ?? null;
+      reps.push(r);
+      await sleep(120);
+    }
+    const p = (q) => {
+      const xs = reps.map((r) => r.p95).sort((a, b) => a - b);
+      return xs[Math.min(xs.length - 1, Math.floor(xs.length * q))];
+    };
+    return {
+      ...reps[0],
+      p50: reps.map((r) => r.p50).sort((a, b) => a - b)[1],
+      p95: p(0.5),
+      max: Math.max(...reps.map((r) => r.max)),
+      reps: reps.map((r) => r.p95),
+    };
+  };
   const gotWarm = await pickPalette("warm");
-  const warm = await measure();
+  const warm = await measure3();
   const gotTerminal = await pickPalette("terminal");
-  const terminal = await measure();
+  const terminal = await measure3();
   const gotEndfield = await pickPalette("endfield");
-  const endfield = await measure();
+  const endfield = await measure3();
   const gotWarm2 = await pickPalette("warm");
-  const warm2 = await measure();
+  const warm2 = await measure3();
   // 6b P2：先证「四段真的量了不同的配色」——否则「底纹几乎不花钱」这句话是无根据的
   const switched =
     gotWarm === "warm" && gotTerminal === "terminal" && gotEndfield === "endfield" && gotWarm2 === "warm";
+  const title = "底纹性能探针（单向长滚 90 帧 · 三次取中位 · rAF 间隔）";
   if (!switched) {
-    return { ok: false, why: `配色没切上：warm=${gotWarm} terminal=${gotTerminal} endfield=${gotEndfield} 回warm=${gotWarm2}`, title: "底纹性能探针（滚动 90 帧 · rAF 间隔）" };
+    return { ok: false, why: `配色没切上：warm=${gotWarm} terminal=${gotTerminal} endfield=${gotEndfield} 回warm=${gotWarm2}`, title };
   }
+  // 6b P1（round91）：**测量本身出错 ≠ 样本不足** —— 前者必须红（否则 `.scroll` 选择器一坏，
+  // 四次测量全是 err、blocks 退化成 0、enough=false → ok=true，闸门就永远绿了）。
+  const errs = [warm, terminal, endfield, warm2].map((m) => m?.err).filter(Boolean);
+  if (errs.length) {
+    return { ok: false, why: `测量出错：${errs[0]}`, title };
+  }
+  const blocks = Math.min(warm?.blocks ?? 0, endfield?.blocks ?? 0);
   const base = Math.min(warm?.p95 ?? 99, warm2?.p95 ?? 99);
   const worst = Math.max(terminal?.p95 ?? 0, endfield?.p95 ?? 0);
   const sane = (m) => !!m && Number.isFinite(m.p95) && m.p95 < 40;
-  const ok = switched && sane(warm) && sane(warm2) && sane(terminal) && sane(endfield);
+  /** 相对判据：有底纹的配色不许比无底纹的基线慢一大截（同一次测量、同一页面状态） */
+  const relCap = Math.max(base * 1.25, base + 4);
+  const relativeOk = (worst ?? 99) <= relCap;
+  // 块数门槛：样本太少时**显式跳过**（打印 ⏭，并让退出码认得出来），绝不静默 ok
+  const enough = blocks >= 40;
+  const ok = enough ? sane(warm) && sane(warm2) && sane(terminal) && sane(endfield) && relativeOk : false;
   return {
     ok,
     switched,
+    enough,
+    blocks,
+    base,
+    relCap: Math.round(relCap * 100) / 100,
+    relativeOk,
     warm,
     terminal,
     endfield,
     warm2,
     delta: Math.round((worst - base) * 100) / 100,
-    title: "底纹性能探针（滚动 90 帧 · rAF 间隔）",
+    title,
   };
 }
 
@@ -2447,8 +2525,8 @@ console.log(
     realPaint.skipped
       ? "（跳过）"
       : realPaint.ok
-        ? `✓ rAF 间隔 p50/p95/max（ms）warm=${realPaint.warm?.p50}/${realPaint.warm?.p95}/${realPaint.warm?.max} · terminal=${realPaint.terminal?.p50}/${realPaint.terminal?.p95}/${realPaint.terminal?.max} · endfield=${realPaint.endfield?.p50}/${realPaint.endfield?.p95}/${realPaint.endfield?.max} · 回 warm=${realPaint.warm2?.p95} ｜ 最差Δ=${realPaint.delta}ms ｜ 块数=${realPaint.endfield?.blocks}`
-        : `✗ ${realPaint.why ?? "帧时长异常"} warm=${JSON.stringify(realPaint.warm)} terminal=${JSON.stringify(realPaint.terminal)} endfield=${JSON.stringify(realPaint.endfield)} warm2=${JSON.stringify(realPaint.warm2)}`
+        ? `${realPaint.enough ? "✓" : "⏭ 未判定（样本不足）"} 单向长滚 p95 中位（ms）warm=${realPaint.warm?.p95} · terminal=${realPaint.terminal?.p95} · endfield=${realPaint.endfield?.p95} · 回 warm=${realPaint.warm2?.p95} ｜ 判据：≤${realPaint.relCap}ms（warm×1.25 或 +4）且 <40 ｜ 差异=${realPaint.relativeOk ? "在范围内" : "超限"} ｜ 块数=${realPaint.blocks}${realPaint.enough ? "" : "（**样本不足，不判定**）"} ｜ 三次：warm=${JSON.stringify(realPaint.warm?.reps)} endfield=${JSON.stringify(realPaint.endfield?.reps)}`
+        : `✗ ${realPaint.why ?? "帧时长异常"} warm.p95=${realPaint.warm?.p95} endfield.p95=${realPaint.endfield?.p95}（上限 ${realPaint.relCap}ms）terminal.p95=${realPaint.terminal?.p95} warm2.p95=${realPaint.warm2?.p95} ｜ 块数=${realPaint.blocks} ｜ 三次 warm=${JSON.stringify(realPaint.warm?.reps)} endfield=${JSON.stringify(realPaint.endfield?.reps)}`
   }`,
 );
 console.log(
@@ -2543,15 +2621,503 @@ if (!realShort.ok) {
   cleanup();
   process.exit(1);
 }
-if (!realPaint.ok) {
-  console.error("❌ 底纹性能探针失败 —— 配色没切上或帧时长病态（看上一行）");
+if (!realPaint.ok && realPaint.enough !== false) {
+  console.error("❌ 底纹性能探针失败 —— 配色没切上 / 有底纹的配色比 warm 慢一大截 / 帧时长病态（看上一行）");
   cleanup();
   process.exit(1);
+}
+if (realPaint.ok === false && realPaint.enough === false) {
+  console.warn("⏭ 底纹探针未判定：屏上块数不足 40（样本不足，不当作通过也不当作失败）");
 }
 if (!title.startsWith("ALLOK")) {
   console.error("❌ 预览断言有失败项 —— 上面那行就是失败明细（截图顶部也有 ✓/✗ 列表）");
   cleanup();
   process.exit(1);
+}
+
+// ---------------------------------------------------------------- round91：属性面板截图（DX-2 3.7）
+if (propsShotsDir) {
+  await mkdir(propsShotsDir, { recursive: true });
+  for (const w of [1500, 715]) {
+    await send("Emulation.setDeviceMetricsOverride", { width: w, height, deviceScaleFactor: 1, mobile: false });
+    await sleep(350);
+    await evaluate("document.querySelector('.backlog .item .props-toggle')?.click()");
+    await sleep(450);
+    const shot = await send("Page.captureScreenshot", { format: "png" }).catch(() => null);
+    if (!shot?.data) throw new Error("属性面板截图失败");
+    await writeFile(path.join(propsShotsDir, `props-${w}.png`), Buffer.from(shot.data, "base64"));
+    console.log(`  props-${w}.png`);
+    await evaluate("document.querySelector('.backlog .item .props-toggle')?.click()");
+    await sleep(250);
+  }
+  console.log(`属性面板截图：2 张 → ${propsShotsDir}`);
+  cleanup();
+  process.exit(0);
+}
+
+// ---------------------------------------------------------------- round91：前后对照截图（DX-1 看相证据）
+if (paintShotsDir) {
+  // 固定参数：1500×1040、endfield、亮/暗各两张（全屏 + 列底放大）。两个版本用**同一条命令**拍，像素才有可比性。
+  await mkdir(paintShotsDir, { recursive: true });
+  await send("Emulation.setDeviceMetricsOverride", { width: 1500, height, deviceScaleFactor: 1, mobile: false });
+  await sleep(300);
+  const veilScroll = args.includes("--veil-scroll");
+  // 诊断：页面底纹的「油漆盒」到底是多大（body 盒 vs 视口 vs 排版视口）—— 看相差异只能从这里来
+  const boxes = await evaluate(`JSON.stringify({
+    inner: [window.innerWidth, window.innerHeight],
+    client: [document.documentElement.clientWidth, document.documentElement.clientHeight],
+    bodyRect: (() => { const r = document.body.getBoundingClientRect(); return [Math.round(r.width), Math.round(r.height)]; })(),
+    dpr: window.devicePixelRatio,
+  })`);
+  console.log(`paint-shots 视口：${boxes}`);
+  const grab = async (file, clip) => {
+    const shot = await send("Page.captureScreenshot", clip ? { format: "png", clip } : { format: "png" }).catch(() => null);
+    if (!shot?.data) throw new Error("截图失败：" + file);
+    await writeFile(path.join(paintShotsDir, file), Buffer.from(shot.data, "base64"));
+    console.log(`  ${file}`);
+  };
+  // `--veil-old`：把**改动前的实现**（页面底纹铺在 body 自己的背景图上）在运行时模拟回来 ——
+  // 同一分钟、同一页面状态下拍 A/B，把「时间漂移」和「实现差异」分开（跨进程两次跑比不了）。
+  const veilOld = args.includes("--veil-old");
+  const applyVeilOld = async () => {
+    if (!veilOld) return;
+    await evaluate(`(() => {
+      if (!document.getElementById('pba-old-veil')) {
+        const st = document.createElement('style');
+        st.id = 'pba-old-veil';
+        st.textContent = 'body::before{display:none !important}';
+        document.head.append(st);
+      }
+      const cs = getComputedStyle(document.body, '::before');
+      document.body.style.backgroundImage = cs.backgroundImage;
+      document.body.style.backgroundSize = cs.backgroundSize;
+      return cs.backgroundImage.slice(0, 24);
+    })()`);
+    await sleep(200);
+  };
+  for (const th of ["light", "dark"]) {
+    await send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-color-scheme", value: th }] });
+    await sleep(300);
+    const got = await pickPalette("endfield");
+    if (got !== "endfield") throw new Error(`配色没切上（拿到 ${got}）`);
+    await applyVeilOld();
+    await evaluate("document.querySelector('.scroll') && (document.querySelector('.scroll').scrollTop = 0)");
+    await sleep(250);
+    await grab(`endfield-${th}-full.png`);
+    // 列底放大：DSF=2 拍一块日列（含白底格线 + 底纹），看接缝 / 摩尔纹用
+    await send("Emulation.setDeviceMetricsOverride", { width: 1500, height, deviceScaleFactor: 2, mobile: false });
+    await sleep(250);
+    await grab(`endfield-${th}-zoom.png`, { x: 150, y: 150, width: 520, height: 380, scale: 1 });
+    // `--veil-scroll`：**同一次运行**里把「改动前」的状态模拟回来（attachment: scroll）再拍一套 ——
+    // 同一分钟、同一页面，像素差就只剩实现差异（跨进程两次跑会被时钟 / 现在线干扰）。
+    if (veilScroll) {
+      await evaluate("document.body.style.backgroundAttachment = 'scroll'");
+      await sleep(300);
+      await grab(`endfield-${th}-zoom-scroll.png`, { x: 150, y: 150, width: 520, height: 380, scale: 1 });
+      await send("Emulation.setDeviceMetricsOverride", { width: 1500, height, deviceScaleFactor: 1, mobile: false });
+      await sleep(200);
+      await grab(`endfield-${th}-full-scroll.png`);
+      await evaluate("document.body.style.removeProperty('background-attachment')");
+      await sleep(200);
+    }
+    await send("Emulation.setDeviceMetricsOverride", { width: 1500, height, deviceScaleFactor: 1, mobile: false });
+    await sleep(150);
+  }
+  console.log(`对照截图：4 张 → ${paintShotsDir}`);
+  cleanup();
+  process.exit(0);
+}
+
+// ---------------------------------------------------------------- round91：逐像素对比（不装依赖）
+if (paintDiffPair) {
+  const [fa, fb] = paintDiffPair;
+  const A = readFileSync(fa);
+  const B = readFileSync(fb);
+  const res = await evaluateAsync(`(async () => {
+    const load = (b64) => new Promise((resolve, reject) => {
+      const im = new Image();
+      im.onload = () => resolve(im);
+      im.onerror = () => reject(new Error('图片解不开'));
+      im.src = 'data:image/png;base64,' + b64;
+    });
+    const [ia, ib] = await Promise.all([load(${JSON.stringify(A.toString("base64"))}), load(${JSON.stringify(B.toString("base64"))})]);
+    if (ia.width !== ib.width || ia.height !== ib.height) {
+      return { sizeMismatch: [ia.width, ia.height, ib.width, ib.height] };
+    }
+    const w = ia.width, h = ia.height;
+    const cv = document.createElement('canvas');
+    cv.width = w; cv.height = h;
+    const cx = cv.getContext('2d', { willReadFrequently: true });
+    cx.drawImage(ia, 0, 0);
+    const da = cx.getImageData(0, 0, w, h).data;
+    cx.clearRect(0, 0, w, h);
+    cx.drawImage(ib, 0, 0);
+    const db = cx.getImageData(0, 0, w, h).data;
+    let max = 0, sum = 0, n2 = 0, n8 = 0;
+    let x0 = w, y0 = h, x1 = -1, y1 = -1;
+    const GC = 10, GR = 10;
+    const grid = Array.from({ length: GR }, () => Array(GC).fill(0));
+    for (let i = 0; i < da.length; i += 4) {
+      const d = Math.max(Math.abs(da[i] - db[i]), Math.abs(da[i + 1] - db[i + 1]), Math.abs(da[i + 2] - db[i + 2]));
+      if (d > max) max = d;
+      sum += d;
+      if (d > 2) {
+        n2++;
+        const p = i / 4, x = p % w, y = (p - x) / w;
+        if (x < x0) x0 = x; if (x > x1) x1 = x;
+        if (y < y0) y0 = y;
+        if (y > y1) y1 = y;
+        grid[Math.min(GR - 1, Math.floor((y / h) * GR))][Math.min(GC - 1, Math.floor((x / w) * GC))]++;
+      }
+      if (d > 8) n8++;
+    }
+    // 差异框内的平均色（判断「淡了一层」还是「位置挪了」）
+    let sa = [0, 0, 0], sb = [0, 0, 0], cnt = 0;
+    if (x1 >= 0) {
+      for (let y = y0; y <= y1; y++) {
+        for (let x = x0; x <= x1; x++) {
+          const i = (y * w + x) * 4;
+          sa[0] += da[i]; sa[1] += da[i + 1]; sa[2] += da[i + 2];
+          sb[0] += db[i]; sb[1] += db[i + 1]; sb[2] += db[i + 2];
+          cnt++;
+        }
+      }
+    }
+    const avg = (t) => (cnt ? t.map((v) => Math.round((v / cnt) * 10) / 10) : null);
+    return { w, h, pixels: w * h, max, mean: Math.round((sum / (w * h)) * 1000) / 1000, over2: n2, over8: n8, bbox: x1 < 0 ? null : [x0, y0, x1, y1], grid, bboxAvgA: avg(sa), bboxAvgB: avg(sb) };
+  })()`);
+  console.log(`像素对比：${path.basename(fa)} ↔ ${path.basename(fb)}`);
+  console.log(JSON.stringify(res));
+  cleanup();
+  process.exit(0);
+}
+
+// ---------------------------------------------------------------- round91：底纹逐层消融实验（DX-1 取证）
+if (paintAb) {
+  /**
+   * 量什么：同一页面状态（固定 60 块、1500×1040、DSF=1）下，逐层去掉底纹看滚动帧间隔。
+   * 为什么不用闸门探针直接量：它跟着**断言套件留下的块数**跑（不可复现），而且只做整层去图 ——
+   * 分不出「哪一层贵」。这里的结论进验收文档，也决定 Step 2 改哪一层。
+   */
+  const SEED_N = 60;
+  await send("Emulation.setDeviceMetricsOverride", { width: 1500, height, deviceScaleFactor: 1, mobile: false });
+  await sleep(300);
+
+  const setTheme = async (t) => {
+    await send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-color-scheme", value: t }] });
+    await sleep(300);
+  };
+
+  /** 种 60 块：把本周块收进 stash（**不还原**：本模式跑完就退出，页面是一次性的） */
+  const seeded = await evaluateAsync(`(async () => {
+    const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+    const ws = at(0, 0, 0), we = at(7, 0, 0);
+    window.__PBA = window.__PBA || { stash: 0 };
+    if (!window.__PBA.stash) {
+      for (let i = FIX.blocks.length - 1; i >= 0; i--) {
+        const b = FIX.blocks[i];
+        if (b.end_at > ws && b.start_at < we) { window.__PBA.stash++; FIX.blocks.splice(i, 1); }
+      }
+    }
+    for (let i = FIX.blocks.length - 1; i >= 0; i--) if (String(FIX.blocks[i].id).startsWith('pba')) FIX.blocks.splice(i, 1);
+    let n = 0;
+    for (let d = 0; d < 7 && n < ${SEED_N}; d++) {
+      for (let k = 0; k < 9 && n < ${SEED_N}; k++) {
+        const start = at(d, 8 + k, 0);
+        FIX.blocks.push(BT('pba' + n, start, start + 50 * 60, '栅格样本 ' + n));
+        n++;
+      }
+    }
+    // 强制重拉：先跳下一周再回本周（**同周点 now 不一定重拉**）
+    document.querySelectorAll('.week-nav button')[1]?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    await wait(350);
+    document.querySelector('.week-nav .now')?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    const t0 = Date.now();
+    let count = 0;
+    while (Date.now() - t0 < 5000) {
+      count = document.querySelectorAll('.timeline [data-block-id]').length;
+      if (count >= ${SEED_N}) break;
+      await wait(120);
+    }
+    return { seeded: count, stash: window.__PBA.stash, dpr: window.devicePixelRatio };
+  })()`);
+  console.log(`paint-ab 种子：屏上 ${seeded?.seeded} 块（stash 收起 ${seeded?.stash} 块，DSF=${seeded?.dpr}）`);
+
+  /** 一次测量（滚 90 帧采 rAF 间隔；与闸门探针同一个手法，数字才可比） */
+  /**
+   * 一次测量（滚 90 帧采 rAF 间隔）。
+   *
+   * round91：两种滑法 ——
+   *   · `saw`（旧手法，保数字可与旧债对比）：0→406px 锅齿来回，**会重复访问同一片区域**（栅格缓存后成本≈ 0）；
+   *   · `long`（本批新增）：从顶部单向滚到底部，每帧都带进**新 tile**（真正逼栅格化）。
+   * 两种都跑：若 `saw` 全绿而 `long` 有差，结论就不能靠 `saw` 一条。
+   */
+  const paintMeasure = (long = false, busyMs = 0) =>
+    evaluateAsync(`(async () => {
+      const scroll = document.querySelector('.scroll');
+      if (!scroll) return { err: '没有 .scroll' };
+      const frames = [];
+      let last = performance.now();
+      const maxTop = Math.max(0, scroll.scrollHeight - scroll.clientHeight);
+      // 长滚：每次从顶部起（防上一轮的缓存 + 位置残留）
+      if (${long}) { scroll.scrollTop = 0; await new Promise((r) => requestAnimationFrame(() => r())); }
+      const start = ${long} ? 0 : scroll.scrollTop;
+      const step = ${long} ? Math.max(1, maxTop / 90) : 14;
+      await new Promise((resolve) => {
+        let i = 0;
+        const tick = (t) => {
+          if (i > 6) frames.push(t - last);
+          last = t;
+          scroll.scrollTop = ${long} ? Math.min(maxTop, i * step) : start + (i % 30) * 14;
+          i += 1;
+          // 仪器灵敏度对照：每帧烧点主线程（证明「采样看得见 > 16.7ms」）
+          if (${busyMs} > 0) { const b0 = performance.now(); while (performance.now() - b0 < ${busyMs}) {} }
+          if (i < 96) requestAnimationFrame(tick);
+          else resolve();
+        };
+        requestAnimationFrame(tick);
+      });
+      const sorted = [...frames].sort((a, b) => a - b);
+      const q = (p) => Math.round((sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * p))] ?? 0) * 100) / 100;
+      return {
+        n: sorted.length, p50: q(0.5), p95: q(0.95), max: Math.round((sorted.at(-1) ?? 0) * 100) / 100,
+        blocks: document.querySelectorAll('[data-block-id]').length,
+        maxTop: Math.round(maxTop),
+      };
+    })()`).catch((e) => ({ err: String(e).slice(0, 160) }));
+
+  const pick = (xs, q) => {
+    const s = [...xs].sort((a, b) => a - b);
+    return s[Math.min(s.length - 1, Math.floor(s.length * q))] ?? 0;
+  };
+  /** 三次取中位（p50/p95 取中位，max 取最大 —— 防单次尖尖当结论） */
+  const measure3 = async (label, long = false, busyMs = 0) => {
+    const reps = [];
+    for (let i = 0; i < 3; i++) {
+      const r = await paintMeasure(long, busyMs);
+      if (r?.err) return { err: r.err, label };
+      reps.push(r);
+      await sleep(150);
+    }
+    const row = {
+      label,
+      p50: pick(reps.map((r) => r.p50), 0.5),
+      p95: pick(reps.map((r) => r.p95), 0.5),
+      max: Math.max(...reps.map((r) => r.max)),
+      blocks: reps[0].blocks,
+      scrollRange: reps[0].maxTop,
+      reps: reps.map((r) => r.p95),
+    };
+    process.stdout.write(`  ${label.padEnd(26)} p50=${row.p50}  p95=${row.p95}  max=${row.max}  blocks=${row.blocks}  底=${row.scrollRange}  [${row.reps.join(" ")}]\n`);
+    return row;
+  };
+
+  /** 读「当前配色实际生效的背景图」——用临时探针 div 读 computed `background-image`（var() 已解析） */
+  const probeLayers = () =>
+    evaluateAsync(`(() => {
+      const split = (s) => {
+        const out = []; let depth = 0, cur = '';
+        for (const ch of s) {
+          if (ch === '(') depth++;
+          else if (ch === ')') depth--;
+          if (ch === ',' && depth === 0) { out.push(cur.trim()); cur = ''; } else cur += ch;
+        }
+        if (cur.trim()) out.push(cur.trim());
+        return out;
+      };
+      const read = (imgVar, sizeVar) => {
+        const d = document.createElement('div');
+        d.style.cssText = 'position:absolute;left:-9999px;top:0;width:8px;height:8px;';
+        d.style.backgroundImage = 'var(' + imgVar + ')';
+        d.style.backgroundSize = 'var(' + sizeVar + ')';
+        document.body.append(d);
+        const s = getComputedStyle(d).backgroundImage;
+        d.remove();
+        return split(s);
+      };
+      return { page: read('--surface-image', '--surface-size'), cols: read('--surface-image-cols', '--surface-size-cols') };
+    })()`);
+
+  /** 运行时改 token（null = 还原）；只改 `documentElement` 的内联变量，**不碰产品代码** */
+  const setSurface = (page, cols) =>
+    evaluateAsync(`(() => {
+      const el = document.documentElement;
+      const put = (k, v) => { if (v === null) el.style.removeProperty(k); else el.style.setProperty(k, v); };
+      put('--surface-image', ${JSON.stringify(page)});
+      put('--surface-image-cols', ${JSON.stringify(cols)});
+      const cs = getComputedStyle(el);
+      return {
+        page: cs.getPropertyValue('--surface-image').trim().slice(0, 40),
+        cols: cs.getPropertyValue('--surface-image-cols').trim().slice(0, 40),
+      };
+    })()`);
+
+  const rows = [];
+  // **长滚才是敏感测法**（锅齿循环会反复访问同一片已缓存的 tile → 全报 16.7，旧探针就是这么盲的）
+  for (const th of ["light", "dark"]) {
+    await setTheme(th);
+    const warmId = await pickPalette("warm");
+    const warmSaw = await measure3(`${th} · warm（锅齿 · 旧手法）`);
+    const warm = await measure3(`${th} · warm（长滚）`, true);
+    const got = await pickPalette("endfield");
+    if (got !== "endfield") {
+      console.error(`❌ 配色没切上（拿到 ${got}）—— 测量无意义`);
+      cleanup();
+      process.exit(1);
+    }
+    const fullSaw = await measure3(`${th} · endfield 全量（锅齿 · 旧手法）`);
+    const full = await measure3(`${th} · endfield 全量（长滚）`, true);
+    const layers = await probeLayers();
+    console.log(`  ↳ ${th} 层：page=[${layers.page.map((s) => s.slice(0, 34)).join(" | ")}] cols=[${layers.cols.map((s) => s.slice(0, 34)).join(" | ")}]`);
+    await setSurface("none", null);
+    const noPage = await measure3(`${th} · 去页面层（长滚）`, true);
+    await setSurface(null, "none");
+    const noCols = await measure3(`${th} · 去列底层（长滚）`, true);
+    await setSurface(layers.page[0] ?? "none", layers.cols[0] ?? "none");
+    const only1 = await measure3(`${th} · 只留第 1 层（长滚）`, true);
+    const has2 = [layers.page[1], layers.cols[1]].some((s) => s && s !== "none");
+    let only2 = null;
+    if (has2) {
+      await setSurface(layers.page[1] ?? "none", layers.cols[1] ?? "none");
+      only2 = await measure3(`${th} · 只留第 2 层（长滚）`, true);
+    }
+    await setSurface(null, null);
+    rows.push({ theme: th, warmId, paletteId: got, layers, states: { warmSaw, warm, fullSaw, full, noPage, noCols, only1, only2 } });
+  }
+
+  // —— 仪器灵敏度对照（只亮色，控制时长）——
+  // 为什要它：若一个**已知慢**的状态也报 16.7ms，那这台仪器看不见慢，
+  // 本批所有「底纹不贵/贵」的结论都不能用（那是仪器盲，不是产品快）。
+  // ① 主线程每帧烧 25ms：证明**采样**看得见 > 16.7（10ms 放得下一帧 → 看不出来）；
+  // ② 密 conic 单层：反向参考（如果它不慢，说明「贵」不是图案密度，而是层数/面积）。
+  await setTheme("light");
+  await pickPalette("warm");
+  const busy10 = await measure3("light · 对照：主线程 25ms/帧", false, 25);
+  const SICK =
+    "repeating-conic-gradient(from 0deg at 50% 50%, rgb(255 0 0 / 0.12) 0deg 0.2deg, transparent 0.2deg 0.6deg)";
+  await setSurface(SICK, SICK);
+  const sick = await measure3("light · 参考：密 conic 单层（长滚）", true);
+  await setSurface(null, null);
+  console.log(
+    `仪器灵敏度：主线程 25ms/帧 → p50=${busy10?.p50}ms（期望 ≥ 33）· 密 conic → p95=${sick?.p95}ms`,
+  );
+
+  const extra = { busy10, sick };
+
+  // —— 候选修法（只在亮色跑）：哪一个能回到 16.8，而且看相变化最小 ——
+  await pickPalette("endfield");
+  const L = rows[0].layers; // 亮色 endfield 的层（[0deg, 90deg, radial, radial]）
+  const periodOf = (s) => (s?.match(/(\d+(?:\.\d+)?)px\)\s*$/) ?? [])[1] ?? "24";
+  const P = periodOf(L.page[0]);
+  const TILE = `${P}px ${P}px, ${P}px ${P}px, auto, auto`;
+  /** 只设两层 size（其余不动），null = 还原 */
+  const setSizes = async (page, cols) => {
+    await evaluateAsync(`(() => {
+      const el = document.documentElement;
+      const put = (k, v) => { if (v === null) el.style.removeProperty(k); else el.style.setProperty(k, v); };
+      put('--surface-size', ${JSON.stringify(page)});
+      put('--surface-size-cols', ${JSON.stringify(cols)});
+      return true;
+    })()`);
+  };
+  // A：网格层平铺（看相零变化候选）——只给前两层（grid）写 tile，radial 仍 auto
+  await setSizes(TILE, TILE);
+  const candTile = await measure3("候选 A：网格平铺 24px（长滚）", true);
+  await setSizes(null, null);
+  // B：列底只留 grid（contour 只铺页面）
+  await setSurface(null, [L.page[0], L.page[1]].join(", "));
+  const candColsGrid = await measure3("候选 B：列底只留 grid（长滚）", true);
+  // C：页面只留 grid（contour 只铺列底）
+  await setSurface([L.page[0], L.page[1]].join(", "), null);
+  const candPageGrid = await measure3("候选 C：页面只留 grid（长滚）", true);
+  // D：两边都只留 grid（contour 全不要）
+  const GRID = [L.page[0], L.page[1]].join(", ");
+  await setSurface(GRID, GRID);
+  const candBothGrid = await measure3("候选 D：两边只留 grid（长滚）", true);
+  await setSurface(null, null);
+  console.log(`候选修法（底）= ${P}px`);
+
+  // —— 阈值定位：到底「页面几层」是分水岭（列底、页面各自变量的交叉）——
+  const PG_FULL = L.page.join(", ");
+  const CL_FULL = L.cols.join(", ");
+  const E = {};
+  await setSurface(L.page.slice(0, 3).join(", "), null);
+  E.page3a = await measure3("阈值 E1：页面 3 层（2 grid + 1 radial）", true);
+  await setSurface([L.page[0], L.page[2], L.page[3]].join(", "), null);
+  E.page3b = await measure3("阈值 E2：页面 3 层（1 grid + 2 radial）", true);
+  await setSurface([L.page[2], L.page[3]].join(", "), null);
+  E.pageRad2 = await measure3("阈值 E3：页面 2 层（2 radial）", true);
+  await setSurface(null, L.cols.slice(0, 3).join(", "));
+  E.cols3 = await measure3("阈值 E4：列底 3 层（页面全量）", true);
+  // F：页面只留 grid，但**页面 grid 层数不变**（2 层）—— 与 C 同一个候选，再确认一次
+  await setSurface(GRID, null);
+  E.pageGridAgain = await measure3("阈值 E5：页面只留 grid（复测）", true);
+  await setSurface(PG_FULL, CL_FULL);
+  // F：把「页面层」从 body 的背景图挪到一个 position:fixed 的覆盖层（合成层缓存）——
+  // 看相应该**完全不变**（同一个渐变、同样视口大小），但滚动时不必重绘页面底。
+  const veilOn = await evaluateAsync(`(() => {
+    const cs = getComputedStyle(document.body);
+    const img = cs.backgroundImage, size = cs.backgroundSize;
+    let d = document.getElementById('pba-veil');
+    if (!d) {
+      d = document.createElement('div');
+      d.id = 'pba-veil';
+      d.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:-1;';
+      document.body.append(d);
+    }
+    d.style.backgroundImage = img;
+    d.style.backgroundSize = size;
+    document.body.style.backgroundImage = 'none';
+    return { img: img.slice(0, 30), size };
+  })()`);
+  const candVeil = await measure3("候选 F：页面层改 fixed 覆盖层（长滚）", true);
+  await evaluateAsync(`(() => {
+    document.getElementById('pba-veil')?.remove();
+    document.body.style.removeProperty('background-image');
+    return true;
+  })()`);
+  extra.veil = { veilOn, candVeil };
+
+  // G：**几何不变量**的候选 —— 背景仍铺在 body（油漆区域与改前一致），只加 `background-attachment: fixed`。
+  // 如果它也快，就是零像素变化的修法（比 fixed 覆盖层更保守）。
+  const bodyFixed = await evaluateAsync(`(() => {
+    const el = document.documentElement;
+    const img = getComputedStyle(el).getPropertyValue('--surface-image').trim();
+    const size = getComputedStyle(el).getPropertyValue('--surface-size').trim();
+    if (!document.getElementById('pba-fixed-att')) {
+      const st = document.createElement('style');
+      st.id = 'pba-fixed-att';
+      st.textContent = 'body::before{display:none !important}';
+      document.head.append(st);
+    }
+    document.body.style.backgroundImage = img;
+    document.body.style.backgroundSize = size;
+    document.body.style.backgroundAttachment = 'fixed';
+    return { img: img.slice(0, 24), size, att: getComputedStyle(document.body).backgroundAttachment };
+  })()`);
+  const candBodyFixed = await measure3("候选 G：body 背景 + attachment fixed（长滚）", true);
+  extra.bodyFixed = { bodyFixed, candBodyFixed };
+
+  extra.thresholds = E;
+  extra.candidates = { tilePeriod: P, candTile, candColsGrid, candPageGrid, candBothGrid };
+
+  await mkdir(path.dirname(path.resolve(paintAbOut)), { recursive: true });
+  await writeFile(
+    path.resolve(paintAbOut),
+    JSON.stringify(
+      {
+        note: "round91 DX-1 取证：固定 60 块 × 亮/暗 × 逐层消融（运行时改 token，不碰产品代码）× 三次取中位；长滚=单向从顶到底（敏感），锅齿=旧手法（会反复访问缓存 tile）",
+        seeded,
+        rows,
+        extra,
+      },
+      null,
+      1,
+    ),
+  );
+  console.log(`paint-ab → ${paintAbOut}`);
+  cleanup();
+  process.exit(0);
 }
 
 // ---------------------------------------------------------------- round87：字体档一维（5 档 × zh/en × 1500/715）

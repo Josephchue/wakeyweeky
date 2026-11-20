@@ -22,7 +22,14 @@ import { scan, loadDenylist } from "./privacy-scan.mjs";
 const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 
 /** `INCLUDE` 里**不带去公开仓**的子树（逐条列举；公开仓用不上） */
-const EXCLUDE_PREFIX = ["tools/i18n/archive/"];
+const EXCLUDE_PREFIX = [
+  "tools/i18n/archive/",
+  // round92：只对**私有仓的施工记录**有意义的两组工具 —— 公开仓里没有它们要读的东西
+  // （`tools/retro/*` 要读会话日志 / 交接 / 台账；`tools/ops/*` 要读 AGENTS/维护/活文档），
+  // 而且 `stats.mjs` 会撞隐私硬闸门 H6（它读「会话日志路径」那个环境变量）。1.0.2 导出时它们还不存在 → 公开仓从来没收过。
+  "tools/retro/",
+  "tools/ops/",
+];
 
 /** 从 HEAD 带走的路径（**逐条列举** —— 白名单，不是黑名单） */
 const INCLUDE = [

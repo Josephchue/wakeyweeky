@@ -1,6 +1,6 @@
 {
   "name": "wakeyweeky",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "WakeyWeeky — Windows 本地部署的周任务时间安排与待办工具（MVP）",
   "type": "module",
   "scripts": {

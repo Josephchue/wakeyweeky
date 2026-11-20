@@ -1209,6 +1209,15 @@ import NewTaskInput from "./NewTaskInput.svelte";
     margin-top: 0;
   }
 
+  /* round91（1.0.2 · DX-2 ③ / 二次审计 3.7）：分组之间给一条**分隔线** ——
+     以前只有标题层级、没有线，「任务」与「操作」两组在长表单里分不开。
+     口径与设置一致（`SanitySettings` 的 `.row + .row` 用同一条 `--grid-line`）。 */
+  .prop-group:not(:first-child) {
+    margin-top: var(--space-3);
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--grid-line);
+  }
+
   /* 标签行 / 控件行（与设置 `设-03` 同一套） */
   .prop-label {
     color: var(--text-primary);

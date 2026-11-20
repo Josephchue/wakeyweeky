@@ -11,7 +11,8 @@
      非交互的底色/装饰：块三态 / 层条 / 今天列 / 头部细线；其余配色走 tokens.css 的
      `--accent-deco: var(--accent)` 默认值）；
    · 圆角档（只有直角候选写：--radius-sm / --radius / --radius-lg = 0px）；
-   · 底纹层（--surface-image / --surface-size；铺在 body 与 .day-body，整点格线仍在最上层）；
+   · 底纹层（--surface-image / --surface-size；页面那层铺在 body::before 的固定合成层上（round91：position: fixed），
+     细密型还铺 .day-body（列底），整点格线仍在最上层）；
    · 展示字（round86 · ⑤；round87 加四款自带字）：值在 `decor-86.json` 的 `display` 段）：--font-display（samigirian / mono /
      serif / poiret / jost / archivo / marcellus 七枚举）/ --display-transform(-title) / --display-scale / --display-tracking /
      --display-weight / --display-variant —— 只写这一套装了的键，没装的走 `tokens.css` 的现值。
