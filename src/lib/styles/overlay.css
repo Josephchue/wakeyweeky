@@ -14,7 +14,17 @@
  * - `≤760px` 整屏化（`calc(100vw - 32px)`）；
  * - `overscroll-behavior: contain`（滚到头不把背景一起滚，`栈-05`）。
  *
- * 遮罩：`.overlay-backdrop`（`tabindex="-1"` 由组件给 —— round77 已定「遮罩不进 Tab 顺序」）。
+ * 遮罩：round96 起只有**一个共享遮罩**（`PanelHost` 画，`z = 栈顶 − 1`；点一下 = 退一层，这一下被吃掉）。
+ * 每个面板自己的遮罩已删；说明页/模板的内容不再需要「点外面关自己」的监听。
+ *
+ * **全仓唯一 z 表**（round96 · R5；其他文件不要再写面板相关的 z）：
+ * - 菜单 / 分类选择器：**20**（低于遮罩 —— 面板开着时不该浮到面板上）
+ * - 首次使用卡：30（非模态，遮罩一来就被压暗）
+ * - 板内覆盖（框选矩形 / 现在线 / 动作浮层）：≤ 10（`.board` 里，不越过遮罩）
+ * - 栈面板：`40 + 2 × 层索引`（`--layer-index`，索引 0 最底）
+ * - 共享遮罩：`37 + 2 × 栈深`（= 栈顶 − 1；深度 1→39、2→41…）
+ * - 漂流卡：90（系统层）· Toast：100（系统层）
+ * - 拖拽鬼影：9999（**明列例外**：只在拖拽期出现、`pointer-events: none`）
  */
 
 :root {
@@ -25,7 +35,6 @@
 .overlay-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 40;
   border: none;
   background: var(--scrim);
   cursor: pointer;
@@ -39,7 +48,8 @@
   max-height: 88vh;
   overflow: hidden; /* 内部滚动容器自己滚；这里只保证圆角不被内容顶破 */
   overscroll-behavior: contain;
-  z-index: 41;
+  /* round96（R5）：z 由栈里的索引算 —— 不再有 41/48/49 这种写死值 */
+  z-index: calc(40 + 2 * var(--layer-index, 0));
 }
 
 .overlay-panel.narrow {

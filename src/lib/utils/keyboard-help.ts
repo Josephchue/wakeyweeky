@@ -25,6 +25,8 @@ export const KEY_HELP: KeyHelpSection[] = [
       [{ cmd: "goNow" }, "msg.keyboard_help.49"],
       [{ cmd: "keyHelp" }, "msg.keyboard_help.50"],
       [{ cmd: "settings" }, "msg.keyboard_help.51"],
+      // round94（#15）：手动重载数据（外部程序改过库时用；自动检测也开着）
+      [{ cmd: "reload" }, "msg.keyboard_help.57"],
     ],
   },
   {

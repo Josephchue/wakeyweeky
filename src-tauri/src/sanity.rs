@@ -4,7 +4,8 @@
 //!
 //! ```text
 //! 每天的占用分钟 = 当天各「计入」块区间的**并集**长度（重叠/并排只算一次；按本地日切分）
-//! 占比 = 占用 / 预算（默认 360 分钟 = 6 小时，设置里可改）→ <80% 平静 / 80–99% 接近 / ≥100% 超载
+//! 占比 = 占用 / 预算（默认 360 分钟 = 6 小时，设置里可改）→ <80% 平静 / 80–100% 接近 / >100% 超载
+//! （round94 / #1：预算 = **可接受上限** —— 正好用完不算超，过一点才算）
 //! ```
 //!
 //! **为什么把「加乘」整段删掉**：round44 第一版按「时长 × 系数」（长块 ×1.2 / 重排 ×1.3 / 跳过 ×1.3）算，
@@ -259,13 +260,16 @@ pub(crate) fn is_block_exempt(block: &db::Block, exempt_tasks: &HashSet<&str>) -
     exempt_tasks.contains(block.task_id.as_str()) || (block.is_temp && block.sanity_exempt)
 }
 
-/// 一天的档位：`calm` / `near` / `over`
+/// 一天的档位：`calm` / `near` / `over`。
+///
+/// **预算是「可接受上限」，正好用完不算超**（用户 2026-11-21 反馈 #1：「到 8h 就弹警告，
+/// 应该超过 8h 才弹」）—— 所以这里是严格大于。`near`（80%）口径不动。
 pub fn state_of(minutes: f64, budget: i64) -> &'static str {
     if budget <= 0 {
         return "calm";
     }
     let pct = minutes / budget as f64 * 100.0;
-    if pct >= 100.0 {
+    if pct > 100.0 {
         "over"
     } else if pct >= NEAR_RATIO * 100.0 {
         "near"
@@ -416,6 +420,11 @@ pub fn week_curve(conn: &Connection, week_start: i64, now: i64) -> Result<Sanity
 }
 
 /// 今天是不是超载（**托盘用**；关掉功能就是 false）
+///
+/// ⚠️ 不用 `energy_pct`：那个值是**四舍五入后的百分比**（480/480 → 100，481/480 → 100）——
+/// 拿它跟 100 比会让「正好用完」和「刚过 1 分钟」变成同一个答案。
+/// 也不用 `d.minutes`：它是 `round()` 过的（480.2 分钟 → 480）—— 托盘与顶部条会给出两个答案。
+/// **直接读 `d.state`**：它就是 `state_of(原始分钟, 预算)` 的结果，与界面同一口径（唯一实现）。
 pub fn today_overloaded(conn: &Connection, now: i64) -> bool {
     if !enabled(conn) {
         return false;
@@ -425,7 +434,7 @@ pub fn today_overloaded(conn: &Connection, now: i64) -> bool {
         Ok(w) => w
             .days
             .iter()
-            .any(|d| d.day_start == day && d.energy_pct >= 100),
+            .any(|d| d.day_start == day && d.state == "over"),
         Err(e) => {
             eprintln!("[sanity] 算今天的占用失败（托盘按不超载处理）：{e}");
             false
@@ -579,13 +588,21 @@ mod tests {
         assert!(skipped, "skip 要认出来");
     }
 
+    /// 预算 = 「可接受的上限」：**正好用完不算超**（用户 2026-11-21 反馈 #1「到 8h 就弹警告」）。
+    /// `near`（80%）的门槛**不动**。
     #[test]
     fn test_state_thresholds() {
         assert_eq!(state_of(287.0, 360), "calm"); // 79.7%
         assert_eq!(state_of(288.0, 360), "near"); // 80%
         assert_eq!(state_of(359.0, 360), "near");
-        assert_eq!(state_of(360.0, 360), "over"); // 100%
+        assert_eq!(state_of(360.0, 360), "near"); // 100% = 正好用完，不算超
+        assert_eq!(state_of(360.5, 360), "over"); // 过一点才算超
         assert_eq!(state_of(3600.0, 360), "over");
+        // 用户反馈那一组数（8 小时预算）
+        assert_eq!(state_of(480.0, 480), "near");
+        assert_eq!(state_of(481.0, 480), "over");
+        assert_eq!(state_of(384.0, 480), "near"); // 80%
+        assert_eq!(state_of(383.9, 480), "calm");
     }
 
     /// 一天 12 个一小时的块（互相不挨着）= 12 小时 → 200%
@@ -710,6 +727,22 @@ mod tests {
         assert!(today_overloaded(&conn, fixed_now()), "今天超载");
         db::set_setting(&conn, KEY_ENABLED, "0").expect("写开关失败");
         assert!(!today_overloaded(&conn, fixed_now()), "关掉功能就不进超载");
+    }
+
+    /// #1 的第二条腿（托盘红环）：`today_overloaded` 不许走**四舍五入后**的 `energy_pct` ——
+    /// 480/480 分钟 = 正好用完 → 不算超；481 才是超（以前的 `>=` + `round()` 会两边都判超）。
+    #[test]
+    fn test_today_overloaded_boundary_is_strictly_greater() {
+        let conn = test_conn();
+        db::set_setting(&conn, KEY_BUDGET, "480").expect("写预算失败");
+        let task = create_task(&conn, "刚好八小时", None).expect("建任务失败");
+        // 今天（1/15）08:00–16:00 = 正好 8 小时
+        create_block(&conn, &task.id, ts(2031, 1, 15, 8), ts(2031, 1, 15, 16)).expect("建块失败");
+        assert!(!today_overloaded(&conn, fixed_now()), "正好用完 8 小时不算超载");
+        // 再补 15 分钟 → 超过预算（哪怕只有 1 分钟也算）
+        create_block(&conn, &task.id, ts(2031, 1, 15, 16), ts(2031, 1, 15, 16) + 15 * 60)
+            .expect("建块失败");
+        assert!(today_overloaded(&conn, fixed_now()), "超过预算才算超载");
     }
 
     /// 已完成的块也照算 —— 顺带确认 `mark_block_done` 写的 complete 事件不会把它算成「没做完」

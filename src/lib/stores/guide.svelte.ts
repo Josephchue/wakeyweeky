@@ -1,6 +1,8 @@
 /**
  * round64（C10）：引导条（渐进式提示 + 模板建议）的共享状态。
  *
+ * round96：说明页的层级由**打开源**推导（设置里点 = 叠设置上；重入只重应用 anchor）。
+ *
  * 两条规则（`docs/plans/round64-c10-c11.md` §2.3 / §2.4）：
  * - **一次一条**：提示条只有一个槽；槽被占就不取新的（不推水位线，下次还有机会）；
  * - **可关且尊重「已关」**：提示的「全部关掉」写 `hints_enabled=0`；建议的「不再提」写
@@ -14,7 +16,7 @@ import { takeTemplateSuggestion } from "../ipc/templates";
 import { HINTS, type HintId } from "../utils/hints";
 import { featureOn, prefs, saveFeature, saveTemplateSuggest } from "./settings.svelte";
 import { note } from "./achievements.svelte";
-import { prepareOpen, registerPanel } from "./panels.svelte";
+import { closeLayer, openLayer, registerPanel, type Nest } from "./panels.svelte";
 
 export const guide = $state<{
   /** 正在显示的渐进提示（null = 没有） */
@@ -38,21 +40,30 @@ export function dismissFirstRunAgain(): void {
 }
 
 /** 打开说明页（可选跳到某个分区：`reminders` / `sanity` / `data` / `templates` / `hints` / `features`）
- *  round78（栈-01）：它是**子层**（从设置里打开）—— 关掉它回到设置面板 */
-export function openHelp(anchor?: string): void {
-  prepareOpen("help");
-  guide.helpOpen = true;
-  guide.helpAnchor = anchor ?? null;
+ *  round96：层级由打开源推导 —— 设置里点 = 叠设置上（关掉回设置）；重入只重应用 anchor */
+export function openHelp(anchor?: string, opts: { from?: Element | null; nest?: Nest } = {}): void {
+  if (!openLayer("help", { ...opts, params: { anchor } })) return;
   void note("help"); // round68（19.1）：暗章信号
 }
 
 export function closeHelp(): void {
-  guide.helpOpen = false;
-  guide.helpAnchor = null;
+  closeLayer("help");
 }
 
-// round78（栈-01）：注册给面板栈（子层）
-registerPanel({ id: "help", kind: "child", isOpen: () => guide.helpOpen, close: () => (closeHelp(), true) });
+// round78（栈-01）→ round96：注册给面板栈（只翻旗子 + 应用参数）
+registerPanel({
+  id: "help",
+  open: (params) => {
+    const p = params as { anchor?: string } | undefined;
+    guide.helpOpen = true;
+    guide.helpAnchor = p?.anchor ?? null;
+  },
+  close: () => {
+    guide.helpOpen = false;
+    guide.helpAnchor = null;
+    return true;
+  },
+});
 
 /** 某功能**第一次被用到**时调：后端说该提示才提示（一次一条；已关的槽不抢） */
 export async function maybeHint(id: HintId): Promise<void> {
@@ -103,5 +114,5 @@ export async function openSuggestedTemplate(): Promise<void> {
   guide.suggestion = null;
   if (week === null) return;
   const { openPicker } = await import("./templates.svelte");
-  await openPicker(week);
+  await openPicker(week, { nest: "top" });
 }

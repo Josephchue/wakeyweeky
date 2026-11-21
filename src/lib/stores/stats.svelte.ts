@@ -11,17 +11,11 @@ import { getStats, resetStats as resetStatsIpc } from "../ipc/stats";
 import type { Stats } from "../ipc/types";
 import { featureOn } from "./settings.svelte";
 import { note } from "./achievements.svelte";
-import { prepareOpen, registerPanel } from "./panels.svelte";
+import { closeLayer, openLayer, registerPanel, type Nest } from "./panels.svelte";
 
 export const stats = $state<{
   /** 面板开着吗 */
   open: boolean;
-  /**
-   * round82（11.5 · 案 C）：这次是**作为总览的子层**开的吗。
-   * 决定了三件事：① 开的时候不关总览（`prepareOpen` 的分支）② `Esc` / 关闭只关它这一层
-   * ③ 总览自己关掉时把它一起带走（子层不能比父层活得久）。
-   */
-  asChild: boolean;
   /** 拉回来的数字（null = 还没拿到：加载中 / 失败 / 空库由组件按 loading/failed 区分） */
   data: Stats | null;
   loading: boolean;
@@ -29,7 +23,6 @@ export const stats = $state<{
   failed: boolean;
 }>({
   open: false,
-  asChild: false,
   data: null,
   loading: false,
   failed: false,
@@ -41,22 +34,19 @@ let lastWrittenSeq = 0;
 /**
  * 打开面板 → 重拉一次。
  *
- * round82（11.5）：`asChild` = 「从总览顶栏那个 `▤ 统计` 进来的」——当成总览的**子层**
- * （不关总览、`Esc` 只关自己）；不传 = 顶栏独立入口的旧语义（同级面板）。
+ * round96：层级由**打开源**推导 —— 总览里点「统计」就叠在总览上；顶栏/键盘开口是根层 / `top`。
+ * `asChild` 参数已删（同一面板不再有两种身份）。
  */
-export async function openStats(opts: { asChild?: boolean } = {}): Promise<void> {
+export async function openStats(opts: { from?: Element | null; nest?: Nest } = {}): Promise<void> {
   // round64（C10）：统计开关关掉 → 入口不出现，这是第二道
   if (!featureOn("stats_enabled")) return;
-  stats.asChild = opts.asChild === true;
-  prepareOpen("stats"); // round78（栈-01）：先把该关的关掉（子层只关别的子层，不动父面板）
-  stats.open = true;
+  if (!openLayer("stats", opts)) return;
   void note("stats"); // round68（19.1）：暗章信号
   await loadStats();
 }
 
 export function closeStats(): void {
-  stats.open = false;
-  stats.asChild = false;
+  closeLayer("stats");
 }
 
 /**
@@ -79,13 +69,16 @@ export async function resetStats(): Promise<boolean> {
   }
 }
 
-// round78（栈-01）：注册给面板栈
-// round82（11.5）：**kind 是动态的** —— 从总览进来时是子层（不关总览），从顶栏进来时是同级。
+// round78（栈-01）→ round96：注册给面板栈（只翻旗子；层级由打开源推导）
 registerPanel({
   id: "stats",
-  kind: () => (stats.asChild ? "child" : "sibling"),
-  isOpen: () => stats.open,
-  close: () => (closeStats(), true),
+  open: () => {
+    stats.open = true;
+  },
+  close: () => {
+    stats.open = false;
+    return true;
+  },
 });
 
 /** 拉最新数字。旧的先清掉 + `loading` —— 面板不会拿上一份旧数字冒充最新的 */

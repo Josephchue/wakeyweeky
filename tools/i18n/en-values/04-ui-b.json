@@ -70,7 +70,6 @@
   "这是整块的第 {segIndex} 段，共 {segCount} 段": "Segment {segIndex} of {segCount}",
   "来自每周重复：{repeat_note}（删掉这一块 = 这周不再生成；规则在 Backlog 的 ⚙ 里）": "From a weekly repeat: {repeat_note} (deleting this block means it won't be generated again this week; the rule lives in the ⚙ in Backlog)",
   "临时安排的名字": "Temp block name",
-  "选中后再点一下这里 = 改名（双击整块 = 标记完成）": "With it selected, click here again to rename (double-click the block to mark it done)",
   "标记完成": "Mark as done",
   "标记未完成": "Mark as not done",
   "重新安排": "Reschedule",
@@ -240,5 +239,11 @@
   "不计入精力（这条任务整体不算；开关在 Backlog 那一行）": "Excluded from energy (the whole task is out; the toggle is on the Backlog row)",
   "重新计入精力：这一块现在不算进每天的占用": "Count in energy again: this block doesn't count toward daily usage right now",
   "不计入精力：这一块不算进每天的占用（再点一下恢复）": "Exclude from energy: this block doesn't count toward daily usage (click again to restore)",
-  "0 分钟": "0 minutes"
+  "0 分钟": "0 minutes",
+  "F2 或 ✎ 改名（双击整块 = 标记完成）": "Press F2 or the ✎ button to rename (double-click the block to mark it done)",
+  "改名": "Rename",
+  "检测到外部改动，已重新载入": "External changes detected — reloaded",
+  "已重新载入": "Reloaded",
+  "重新载入数据（外部程序改过库时手动刷新）": "Reload data (manual refresh after another program changed the database)",
+  "重新载入数据": "Reload data"
 }

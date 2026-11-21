@@ -1,6 +1,6 @@
 <script lang="ts">
   import { t } from "../i18n/i18n.svelte";
-  import { focusTrap, scrollableRegion } from "../utils/modal";
+  import { scrollableRegion } from "../utils/modal";
   import Icon from "../icons/Icon.svelte";
   /**
    * C7（round52）：复盘面板 —— 结局马赛克 + 理智曲线 + 事实计数 + 当天明细 + 本周未完成。
@@ -319,15 +319,7 @@
 </script>
 
 {#if review.open}
-  <!-- round77 收尾：遮罩**不进 Tab 顺序**（它只是「点一下关面板」的鼠标快捷键；键盘用面板的 ✕ / Esc） -->
-  <button
-    class="overlay-backdrop"
-    type="button"
-    tabindex="-1"
-    aria-label={t("ui.review_panel.20")}
-    onclick={closeReview}
-  ></button>
-  <!-- round78（栈-03/栈-04）：统一覆盖层外壳（固定左缘 + 宽档 780）+ 模态契约（焦点陷阱 / aria-modal） -->
+  <!-- round96：层外壳（遮罩 / inert / 焦点 / z）由 `PanelHost` 统一给；这里只画面板本体 -->
 <!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role（`section role="dialog"` 是 ARIA 认可写法，Svelte 的检查器偏严） -->
   <section
     class="overlay-panel wide review-panel"
@@ -335,7 +327,6 @@
     role="dialog"
     aria-modal="true"
     aria-label={t("ui.review_panel.21")}
-    use:focusTrap={{ active: review.open }}
     use:scrollableRegion={{ label: t("ui.review_panel.20") }}
   >
     <header class="panel-head">
@@ -396,12 +387,13 @@
       </div>
       {#if featureOn("stats_enabled")}
         <!-- round82（11.5 · 案 1）：统计入口 —— 只在**总览开着且统计开关也开**时出现（四象限表）；
-             开了就是总览的**子层**（`asChild: true`）。总览没开时的独立入口在时间轴顶栏。 -->
+             round96：从总览里点 = 叠在总览上（`from: e.currentTarget`，层级由打开源推导，不再有 `asChild`）。
+             总览没开时的独立入口在时间轴顶栏。 -->
         <button
           class="stats-open"
           type="button"
           title={t("ui.timeline.42")}
-          onclick={() => void openStats({ asChild: true })}><Icon name="chart-column" size={16} />{t(
+          onclick={(e) => void openStats({ from: e.currentTarget })}><Icon name="chart-column" size={16} />{t(
             "ui.timeline.52",
           )}</button
         >
@@ -775,8 +767,8 @@
   /*
    * round82（11.5 · 案 1）：**统计入口搬进总览顶栏**（你 2026-10-06：「统计可以放进总览里面，我觉得放顶栏」）。
    * 位置 = 标题行最右、关闭按钮旁（读作「面板级动作」，不与「本周 / 对比」混读）；
-   * 它把统计当成**总览的子层**开（`openStats({ asChild: true })`：不关总览、`Esc` 只关统计、
-   * 总览关掉时统计跟着关）。总览关着时的独立入口在时间轴顶栏（`Timeline.svelte` 的 `.stats-open`）。
+   * round96：从总览里点 = 叠在总览上（`from: e.currentTarget`；打开源决定层级，不再有 `asChild`）——
+   * `Esc` 只关统计、总览还在；关总览会连坐带走它。总览关着时的独立入口在时间轴顶栏。
    */
   .stats-open {
     display: inline-flex;

@@ -70,6 +70,9 @@ function domChecks() {
       ?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
     await settle(20);
     setScrollHome();
+    // round94（#2）：`goNow()` 会发一个「滚到现在」的 tick，它的 `$effect` 可能落在**下一帧** ——
+    // 不多等一帧的话，`setScrollHome()` 会被它盖掉（实测 ⑬ 抓到 360→596）。
+    await frames(1);
     await settle();
   }
 
@@ -538,6 +541,83 @@ function domChecks() {
     return row;
   };
 
+  /**
+   * round94（#8b）：找一个空档，双击建一块临时安排并退出就地改名 → 返回块元素（和建之前的块数）。用完自己删。
+   * 为什么要重试：空档只看**一个点**，而 30 分钟的区间可能后半段与别人的块重叠 → 新块会被排成 2 列（`.narrow`）。
+   * 改名手势不挑形状（④ 传 allowNarrow: true）；需要「非并排」的调用方留默认。
+   * 返回 `{why}` = 今天看不到 / 找不到合适的格子（调用方给 `{skip}`，不许假绿）。
+   */
+  /**
+   * 删掉刚建出来的临时块。**先确保退出就地改名**：改名期间 `.actions` 是不渲染的（round79），
+   * 直接找垃圾桶会找不到 → 块泄漏 → 后面所有「建一块」都变窄块（6b 实测：空点 113 / 建出 95 / 窄 95 就是这么来的）。
+   */
+  const deleteTempBlock = async (blk) => {
+    const input = blk?.querySelector("input.name-input");
+    if (input) {
+      input.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true }));
+      await settle(20);
+      await frames(1);
+    }
+    blk?.querySelector('.actions button[title="删除块"]')?.dispatchEvent(
+      new MouseEvent("click", { bubbles: true }),
+    );
+    await settle(50);
+  };
+
+  const mkTempBlock = async ({ allowNarrow = false } = {}) => {
+    if (!document.querySelector(".now-line")) return { why: "现在线不在（今天看不到）" };
+    const scroll = document.querySelector(".scroll");
+    const prevScroll = scroll.scrollTop;
+    const prevLeft = scroll.scrollLeft;
+    const count = () => document.querySelectorAll("[data-block-id]").length;
+    const before = count();
+    let tried = 0, made = 0, narrowN = 0;
+    // 全套断言跑完时今天那一列可能已经满了（85 块）→ **七天都试**（#8a 不依赖“今天”）
+    for (let d = 0; d < 7; d++) {
+      for (let h = 3; h < 20; h++) {
+        focusBodyY(yAt(h, 0));
+        await settle();
+        const p = atDay(d, h, 0);
+        const r = scroll.getBoundingClientRect();
+        if (p.y < r.top + 40 || p.y > r.bottom - 40) continue;
+        if (p.x < r.left + 20 || p.x > r.right - 20) continue;
+        const hit = document.elementFromPoint(p.x, p.y);
+        if (!hit || hit.closest("[data-block-id]") || !hit.closest(".day-body")) continue;
+        tried += 1;
+        dblclickAt(d, h, 0);
+        await settle(40);
+        const input = document.activeElement;
+        const id = input?.closest?.("[data-block-id]")?.getAttribute("data-block-id") ?? null;
+        input?.dispatchEvent(
+          new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true }),
+        );
+        await settle(30);
+        const blk = id ? document.querySelector(`[data-block-id="${id}"]`) : null;
+        if (!blk) continue;
+        made += 1;
+        // 默认不要 narrow（浮层会换行，位置判据没意义）；改名手势不挑形状 → ④ 传 allowNarrow: true
+        if (!allowNarrow && blk.classList.contains("narrow")) {
+          if (blk.classList.contains("narrow")) narrowN += 1;
+          await deleteTempBlock(blk);
+          continue;
+        }
+        return {
+          blk,
+          id,
+          before,
+          cleanup: async () => {
+            await deleteTempBlock(blk);
+            scroll.scrollTop = prevScroll;
+            scroll.scrollLeft = prevLeft;
+          },
+        };
+      }
+    }
+    scroll.scrollTop = prevScroll;
+    scroll.scrollLeft = prevLeft;
+    return { why: `七天都找不到合适格子（块数=${before} 空点=${tried} 建出=${made} 窄=${narrowN}）` };
+  };
+
     // ===== round38/39/40：任务面板（分类 + 归档恢复）=====
     // round40（0.7.2）：分类控件第三次改 —— `datalist`（像自动填充的黑框）→ `<select>`（不能打字、数量没处放）
     // → **自建的可创建下拉**（输入框 + 跟着过滤的列表 + 灰字数量 + 回车新建），见 CategoryPicker.svelte。
@@ -1003,6 +1083,86 @@ function domChecks() {
     db.dispatchEvent(ptrEvent("pointerdown", 0, 0));
     db.dispatchEvent(ptrEvent("pointerup", 0, 0));
     await settle();
+  };
+
+  // ===== round96（面板栈）：共享小工具 =====
+  const R96_PANEL_SEL =
+    ".review-panel, .stats-panel, .ach-panel, .help-panel, .switch-panel, .sanity-pop, .keymap-panel, .confirm-panel, .tpl-pop";
+  const r96Host = () => document.querySelector("[data-stack-depth]");
+  const r96Depth = () => {
+    const n = r96Host()?.dataset.stackDepth;
+    return n == null ? null : Number(n);
+  };
+  const r96Rejections = () => {
+    const n = r96Host()?.dataset.stackRejections;
+    return n == null ? null : Number(n);
+  };
+  const r96Mask = () => document.querySelector("button.overlay-backdrop");
+  const r96Layers = () => [...document.querySelectorAll("[data-layer-id]")];
+  const r96Top = () => r96Layers().at(-1)?.getAttribute("data-layer-id") ?? null;
+  const r96Open = (sel) => !!document.querySelector(sel);
+  /** 真指针 + click（自建外部点击监听认 pointerdown；栈的遮罩认 click） */
+  const r96Click = async (node, x, y) => {
+    if (!node) return false;
+    const r = node.getBoundingClientRect();
+    const cx = x ?? r.left + Math.min(20, Math.max(1, r.width / 2));
+    const cy = y ?? r.top + Math.min(20, Math.max(1, r.height / 2));
+    node.dispatchEvent(ptrEvent("pointerdown", cx, cy));
+    node.dispatchEvent(ptrEvent("pointerup", cx, cy));
+    node.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true, clientX: cx, clientY: cy }));
+    await settle(40);
+    return true;
+  };
+  const r96CloseAll = async () => {
+    for (let i = 0; i < 8; i++) {
+      if (!document.querySelector(R96_PANEL_SEL)) break;
+      await pressOnBody("Escape");
+    }
+    const closers = [
+      ".confirm-panel .confirm-cancel",
+      ".ach-panel .close",
+      ".help-panel .close",
+      ".switch-panel .close",
+      ".keymap-panel .close",
+      ".stats-panel .close",
+      ".review-panel .close",
+      ".sanity-pop .close",
+      ".tpl-pop .close",
+    ];
+    for (const sel of closers) {
+      document.querySelector(sel)?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    }
+    await settle(40);
+  };
+  /** 每条 round96 断言都注册收尾：异常 / 提前 return 也把面板关掉（后面还有探针与截图） */
+  const r96Arm = () => {
+    window.__RESTORE = window.__RESTORE || [];
+    window.__RESTORE.push(r96CloseAll);
+  };
+  const r96OpenSettings = async () => {
+    if (!document.querySelector(".sanity-pop")) {
+      document.querySelector(".sanity-gear")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      await settle(40);
+    }
+    return document.querySelector(".sanity-pop");
+  };
+  /** 设置 → 更多 → 成就 → 点「成就」（调用方看返回值） */
+  const r96OpenAchievements = async () => {
+    await r96CloseAll();
+    await openSettingsSub("achievements");
+    document.querySelector(".sanity-pop .ach-view")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    await settle(60);
+    return !!document.querySelector(".ach-panel");
+  };
+  /** 回本周 → 选一块（真指针路径；合成事件不会自己移焦点，selectByClick 已补） */
+  const r96SelectVisible = async () => {
+    await backToThisWeek();
+    await settle(30);
+    const b = FIX.blocks.find((x) => x.id !== "bphantom" && el(x.id));
+    if (!b) return null;
+    el(b.id)?.scrollIntoView({ block: "nearest" });
+    await frames(2);
+    return (await selectByClick(b.id)) ? b.id : null;
   };
 
   return [
@@ -1512,6 +1672,144 @@ function domChecks() {
         return ok;
       },
     ],
+    // ===== round94（3.7 修复）：#13 现在线不许压住动作浮层 =====
+    [
+      "round94 ①：现在线**画在**动作浮层下面（#13，点得到 ✓）",
+      async () => {
+        await press("Escape");
+        await press("Escape");
+        await backToThisWeek();
+        const todayIdx = (new Date().getDay() + 6) % 7; // 0 = 周一
+        if (!document.querySelector(".now-line")) return { skip: "今天看不到 / 现在线关着" };
+        // 今天那一列找一个**真空档**（03:00 起往后试）—— 不能拿别人的块当靶子（双击会把它标完成）
+        const dayBodyEl = document.querySelector(".now-line")?.parentElement;
+        if (!dayBodyEl) return false;
+        const scroll = document.querySelector(".scroll");
+        const prevScroll = scroll.scrollTop;
+        let slot = null;
+        for (let h = 3; h < 20 && !slot; h++) {
+          focusBodyY(yAt(h, 0));
+          await settle();
+          const p = atDay(todayIdx, h, 0);
+          if (p.y < scroll.getBoundingClientRect().top + 40) continue;
+          if (p.y > scroll.getBoundingClientRect().bottom - 40) continue;
+          const hit = document.elementFromPoint(p.x, p.y);
+          if (hit && hit.closest("[data-block-id]")) continue;
+          if (!hit || !hit.closest(".day-body")) continue;
+          slot = { h, p };
+        }
+        if (!slot) {
+          scroll.scrollTop = prevScroll;
+          return { skip: "今天那一列找不到空档" };
+        }
+        const before = document.querySelectorAll("[data-block-id]").length;
+        dblclickAt(todayIdx, slot.h, 0);
+        await settle(40);
+        // 新块会直接进就地改名（C1.8）—— 先 Esc 退出，浮层才会渲染
+        const input = document.activeElement;
+        const id = input?.closest?.("[data-block-id]")?.getAttribute("data-block-id") ?? null;
+        input?.dispatchEvent(
+          new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true }),
+        );
+        await settle(30);
+        const blk = id ? document.querySelector(`[data-block-id="${id}"]`) : null;
+        const acts = blk?.querySelector(".actions");
+        // 用**最右**那颗（删除）：常规块浮层宽于列时左端会被 `.day-body{overflow:hidden}` 裁掉
+        // —— 靶子必须在列里，否则 elementFromPoint 只会返回列体（不是被测对象）。
+        const btns = acts ? [...acts.querySelectorAll("button")] : [];
+        const btn = btns[btns.length - 1];
+        const line = document.querySelector(".now-line");
+        if (!blk || !acts || !btn || !line) {
+          blk?.querySelector('.actions button[title="删除块"]')?.dispatchEvent(
+            new MouseEvent("click", { bubbles: true }),
+          );
+          await settle(40);
+          scroll.scrollTop = prevScroll;
+          return false;
+        }
+        const dayBodyTop = line.parentElement.getBoundingClientRect().top;
+        const b = btn.getBoundingClientRect();
+        const cx = Math.round(b.left + b.width / 2);
+        const cy = Math.round(b.top + b.height / 2);
+        const x = cx;
+        const y = cy;
+        // 只改**可命中性**（线平时 `pointer-events:none`）—— `elementFromPoint` 才能读到「谁画在上面」；
+        // z-index / 位置以外一概不动，测完原样还原。
+        const prev = { top: line.style.top, pe: line.style.pointerEvents, actsPe: acts.style.pointerEvents };
+        line.style.top = cy - dayBodyTop - 1 + "px"; // 按钮中线落在 2px 线的正中间
+        line.style.pointerEvents = "auto";
+        acts.style.pointerEvents = "auto";
+        await settle();
+        const hit = document.elementFromPoint(x, y);
+        const stack = (document.elementsFromPoint?.(x, y) ?? [])
+          .slice(0, 5)
+          .map((n) => (n.className || n.tagName) + "")
+          .join(">");
+        const hitBtn = !!hit && !!hit.closest?.(".actions") && !!hit.closest?.("button");
+        const dbg = `btn=${Math.round(b.left)},${Math.round(b.top)},${Math.round(b.width)}x${Math.round(b.height)} 点=${cx},${cy} 线顶=${Math.round(line.getBoundingClientRect().top)} 块=${Math.round(blk.getBoundingClientRect().left)},${Math.round(blk.getBoundingClientRect().top)} pE=${getComputedStyle(acts).pointerEvents}/${getComputedStyle(btn).pointerEvents} 不透明=${getComputedStyle(acts).opacity}`;
+        line.style.top = prev.top;
+        line.style.pointerEvents = prev.pe;
+        acts.style.pointerEvents = prev.actsPe;
+        // 收尾：删临时块 + 滚回原处（现在线还是**不吃鼠标**）
+        blk.querySelector('.actions button[title="删除块"]')?.dispatchEvent(
+          new MouseEvent("click", { bubbles: true }),
+        );
+        await settle(50);
+        const after = document.querySelectorAll("[data-block-id]").length;
+        const afterPe = getComputedStyle(document.querySelector(".now-line")).pointerEvents;
+        scroll.scrollTop = prevScroll;
+        window.__DIAG.push(
+          `r94① 命中=${hitBtn ? "按钮" : hit?.className || hit?.tagName || "无"} 堆叠=[${stack}] 块数=${before}→${after} 现在线 pe=${afterPe} 空档=${slot.h}:00 ｜ ${dbg}`,
+        );
+        return hitBtn && after === before && afterPe === "none";
+      },
+    ],
+    // ===== round94（#17）：重复行的时间输入不许被裁（写在「写死的 76px」）=====
+    [
+      "round94 ②：重复行的时刻输入框不被裁（#17）",
+      async () => {
+        await press("Escape");
+        await press("Escape");
+        await backToThisWeek();
+        const row = await openPropsOf("复制靶子");
+        const sec = row?.querySelector(".prop.repeat");
+        const time = sec?.querySelector("input.repeat-time");
+        if (!sec || !time) return { skip: "重复功能关着 / 没有 .repeat-time" };
+        sec.scrollIntoView({ block: "nearest" });
+        await settle(10);
+        const form = sec.querySelector(".repeat-form");
+        const tw = time.scrollWidth;
+        const cw = time.clientWidth;
+        // **关键判据**：`scrollWidth` 抓不到这个 bug（Chromium 的时间输入框内部编辑器被硬裁，没有滚动溢出）。
+        // 所以量「它自己需要多宽」—— 拿一个同款克隆把 width 改成 auto（同一父容器、同样的样式）→ 固有宽。
+        const probe = time.cloneNode(true);
+        probe.style.width = "auto";
+        probe.style.position = "absolute";
+        probe.style.visibility = "hidden";
+        probe.value = time.value;
+        form.append(probe);
+        await settle(4);
+        const need = probe.getBoundingClientRect().width;
+        probe.remove();
+        const have = time.getBoundingClientRect().width;
+        const fr = form.getBoundingClientRect();
+        const pr = sec.getBoundingClientRect();
+        // 控件们的右缘也不许钻出属性区（钻出去 = 被裁 / 被遮）
+        const kids = [...form.children].map((n) => n.getBoundingClientRect());
+        const spill = Math.max(0, ...kids.map((r) => Math.round(r.right - pr.right)));
+        const overflow = Math.max(0, Math.round(form.scrollWidth - form.clientWidth));
+        row.querySelector(".props-toggle")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(20);
+        window.__DIAG.push(
+          `r94② 输入 ${Math.round(have)}/${Math.round(need)}（差了 ${Math.round(need - have)}）内宽 ${tw}/${cw} 表单溢出=${overflow} 控件越界=${spill} 框=${Math.round(fr.width)}x${Math.round(fr.height)} 属性区宽=${Math.round(pr.width)}`,
+        );
+        return have + 0.5 >= need && tw <= cw + 1 && overflow <= 1 && spill <= 0;
+      },
+    ],
+    // round94（#8a）的「常显 ✓」已按你 2026-11-21 的验收意见撤销（`TaskBlock` 里那段注释写了原因）：
+    // 鼠标一停上来浮层就铺开、正好盖住那个位置 → 常显的那颗 ✓ 多余。所以这条断言也跟着删了，
+    // 「✓ 在浮层里、点得到」由更早的既有断言（r38 / r42 / r92 那几条）继续守着。
+
     // ===== round24：整天窗口 / 刻度贴线 / 刻度栏吸左 / 跨天块 =====
     [
       "round24：刻度数字与块的上边缘齐平（半格错位已修）",
@@ -1533,11 +1831,49 @@ function domChecks() {
       () => getComputedStyle(dayBody(0)).backgroundImage.includes("repeating-linear-gradient"),
     ],
     [
-      "round24：打开时视野停在 06:00（24 + 12 格 × 28px = 360）",
+      "round24/round94 ⑥：打开时视野停在「现在」（现在线在上 1/3）；看不到今天才回 06:00",
       () => {
-        const top = document.querySelector(".scroll").scrollTop;
-        window.__DIAG.push("scrollTop=" + Math.round(top));
-        return Math.abs(top - 360) <= 5;
+        // round94（#2，你 2026-11-21 拍板）：打开时不再固定停 06:00 —— 让「现在」落在视口上 1/3，
+        // 看不到今天（别的周 / 周末被藏）→ 回落 6:00。初值在 runner 一开始就抓进 `__R94_INIT`
+        // （后面几十条断言会把视野滚得乱七八糟，不能等跑完再量）。
+        const init = window.__R94_INIT;
+        if (!init) return false;
+        const fallback = init.dayHead + 12 * init.slot;
+        const clampTo = (v) => Math.min(Math.max(v, 0), Math.max(0, init.max));
+        // 看不到今天 → 回 6:00（老口径）
+        if (init.nowY === null) {
+          const want = clampTo(fallback);
+          window.__DIAG.push(
+            `r94⑥ 无现在线 → scrollTop=${Math.round(init.scroll)} 期望 6:00=${Math.round(want)}`,
+          );
+          return Math.abs(init.scroll - want) <= 2;
+        }
+        // 看得到今天 → 现在线落在视口**上 1/3**。用「比例带」而不是一条像素线：
+        // 挂载之后提示条 / 脏值会让 `.scroll` 的高度变几像素（实测 824→851 那种），
+        // 精确公式留 ±15px 做副判据；「还停在 6:00」在这个带外面（实测会掉到 55%）。
+        const ratio = init.viewport > 0 ? init.lineInViewport / init.viewport : -1;
+        const topClamped = init.scroll <= 0;
+        const bottomClamped = Math.abs(init.scroll - init.max) <= 1;
+        // 25–50%（理想 33%）：挂载那一刻的布局还没稳 —— 启动时出现的提示条（理智条 / 复盘提醒 / 引导条）
+        // 会让 `.scroll` 的高度变几十到上百像素，锚点跟着漂（实测 33–48%）。
+        // 判据取「**可见区间的上半部**」：用户要的是「现在出现在窗口中间偏左上」，≤50% 就是这个意思。
+        // 「还停在 6:00」在**下午**会掉到 55–66%（能区分）；上午 10–12 点两者本来就重合（见下面 awayFromFallback）。
+        const bandOk = topClamped || bottomClamped || (ratio >= 0.25 && ratio <= 0.5);
+        const want = clampTo(init.dayHead + init.nowY - init.viewport / 3);
+        // 精确公式只做**粗**副判据（±80px）：挂载之后提示条会出现 / 消失，`.scroll` 的高度会变几十像素
+        // （实测两跑差 9px / 19px）—— 拿它当主判据会变成「看运气」。主判据是上面的比例带。
+        const exactOk = Math.abs(init.scroll - want) <= 80;
+        // 6b P1③：「比例带」在**上午 10:00–11:00** 分辨不出旧口径（6:00 + 视口 1/3 ≈ 10:30 ——
+        // 那个时刻「停在 6:00」碰巧也把现在线放在上 1/3）。所以再加一条**只在能区分时生效**的反向判据：
+        // 当「公式目标」离「6:00 回落位」足够远（>200px）时，**实际 scrollTop 不许贴着 6:00 那个位置**。
+        // 不能无条件加 —— 10:30 那两个答案本来就该重合，硬要求就是假精确。
+        const fallbackPos = clampTo(fallback);
+        const distinguishable = Math.abs(want - fallbackPos) > 200;
+        const awayFromFallback = !distinguishable || Math.abs(init.scroll - fallbackPos) > 150;
+        window.__DIAG.push(
+          `r94⑥ scrollTop=${Math.round(init.scroll)} 近似=${Math.round(want)}（±80 粗判） 现在线在视口 ${(ratio * 100).toFixed(1)}%（带 25–50%；6:00 下午会到 55–66%）线上y=${Math.round(init.lineInViewport)} 视口=${init.viewport} 上限=${init.max} 夹 顶=${topClamped} 底=${bottomClamped} 能区分=${distinguishable} 离 6:00 位=${Math.round(Math.abs(init.scroll - fallbackPos))}px 线上内容位=${init.lineInContent === null ? "无" : Math.round(init.lineInContent)} 列体内容位=${init.bodyInContent === null ? "无" : Math.round(init.bodyInContent)} 日头高=${init.headH === null ? "?" : Math.round(init.headH)}`,
+        );
+        return bandOk && exactOk && awayFromFallback;
       },
     ],
     [
@@ -2976,7 +3312,6 @@ function domChecks() {
             " toast=" + toast.slice(-120),
         );
         return toast.includes("漂流链");
-        return true;
       },
     ],
     [
@@ -4832,20 +5167,16 @@ function domChecks() {
         await press("Escape");
         const id = FIX.blocks.find((b) => b.is_temp && b.status === "planned" && el(b.id))?.id;
         if (!id) return false;
-        const clickName = async () => {
-          const n = el(id)?.querySelector(".name.label");
-          if (!n) return false;
-          const r = n.getBoundingClientRect();
-          const x = r.left + 8;
-          const y = r.top + r.height / 2;
-          n.dispatchEvent(ptrEvent("pointerdown", x, y));
-          n.dispatchEvent(ptrEvent("pointerup", x, y));
-          n.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-          await settle(30);
-          return true;
-        };
-        if (!(await clickName())) return false;
-        if (!(await clickName())) return false; // 第一次只选中，第二次才进改名
+        // round94（#8b）：进改名改走 `F2`（旧的「先选中、再单击名字」手势已删）
+        const node = el(id);
+        if (!node) return false;
+        const nb = node.getBoundingClientRect();
+        node.dispatchEvent(ptrEvent("pointerdown", nb.left + 8, nb.top + nb.height / 2));
+        node.dispatchEvent(ptrEvent("pointerup", nb.left + 8, nb.top + nb.height / 2));
+        node.focus({ preventScroll: true });
+        await settle(20);
+        keydown("F2");
+        await settle(40);
         const input = el(id)?.querySelector("input.name-input");
         if (!input) return false;
         const before = blk(id)?.label ?? null;
@@ -5013,14 +5344,14 @@ function domChecks() {
     // ===== round48（0.10.0）：验收回修（改名手势 / 任务级 ⊘ / 手动排序 / 15 分钟颗粒 / 不误翻周）=====
 
     [
-      "round48 ①：临时块改名 = **先选中，再单击名字**；双击块 = 标记完成（两个手势不再打架）",
+      "round48 ①（round94 #8b 改写）：临时块改名 = **F2**（名字上的单击不再进改名）；双击块 = 标记完成",
       async () => {
         await press("Escape");
         // 找一块还在、还没标记的临时块（前面的断言可能动过它们）
         const id = FIX.blocks.find((b) => b.is_temp && b.status === "planned" && el(b.id))?.id;
         if (!id) return false;
-        // 「单击名字」= 真的鼠标序列（pointerdown → pointerup → click）：
-        // 只发一个裸 click 不走 `onPointerDown`，`selectedBeforePress` 就永远保持 false ✗
+        // round94（#8b，你 2026-11-21 拍板 A）：旧的「先选中、再单击名字」手势已删 ——
+        // 名字上的一次单击只选中；改名只走 F2 / 浮层里的 ✎（`round94 ④` 覆盖 ✎ 与名字的单击/双击）。
         const clickName = async () => {
           const n = el(id)?.querySelector(".name.label");
           if (!n) return false;
@@ -5033,27 +5364,31 @@ function domChecks() {
           await settle(30);
           return true;
         };
-        // ① 未选中时单击名字 → **只选中**，不进改名
+        // ① 单击名字 → **只选中**，不进改名
         if (!(await clickName())) return false;
         const notOpened = !el(id)?.querySelector("input.name-input");
-        // ② 选中之后再单击名字 → 出现改名输入框
+        // ② 再单击一次（旧手势在这里进改名）→ 仍不进
         if (!(await clickName())) return false;
+        const stillClosed = !el(id)?.querySelector("input.name-input");
+        // ③ F2 → 出现改名输入框（键盘入口）
+        keydown("F2");
+        await settle(40);
         const input = el(id)?.querySelector("input.name-input");
         const opened = !!input;
         input?.dispatchEvent(
           new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true }),
         );
         await settle(20);
-        // ③ 双击整块 → 标记完成（**不是**改名）
+        // ④ 双击整块 → 标记完成（**不是**改名）
         const body = el(id)?.querySelector(".text") ?? el(id);
         body?.dispatchEvent(new MouseEvent("dblclick", { bubbles: true, cancelable: true }));
         await settle(40);
         const after = blk(id)?.status;
         const noInput = !el(id)?.querySelector("input.name-input");
         window.__DIAG.push(
-          `r48① 未选中单击=${notOpened ? "只选中" : "进了改名✗"} 选中后单击=${opened} 双击后状态=${after} 没进改名=${noInput}`,
+          `r48① 单击名字=${notOpened ? "只选中" : "进了改名✗"} 再单击=${stillClosed} F2=${opened} 双击后状态=${after} 没进改名=${noInput}`,
         );
-        return notOpened && opened && after === "done" && noInput;
+        return notOpened && stillClosed && opened && after === "done" && noInput;
       },
     ],
     [
@@ -6882,30 +7217,31 @@ function domChecks() {
         if (!panel()) return false;
         const before = panelCounts();
         const callsBefore = mosaicCalls().length;
-        // 总览开着时按 Space = 标记完成（键盘事件到 window）。round78（栈-03）：焦点陷阱会把焦点
-        // 放进面板的第一个可聚焦项（可能正是「比上周」那个 checkbox）→ 全局处理器的「输入框守卫」
-        // 会放行 Space。真实用户这时是把焦点留在块上按的 → 测试现场照真路径补一次 focus。
-        el(pick.id)?.focus({ preventScroll: true });
-        await press("Space");
-        const marked = blk(pick.id)?.status === "done";
         const num = (text, label) => Number((text.match(new RegExp(label + " (\\d+)")) || [])[1] ?? -1);
-        // 等面板**自己重拉**：信号 = 又打了一次 get_week_mosaic（当前周），且常驻行跟着变
+        // round96：面板是**模态**（timeline 被 inert）——「开着时数据变」的真实路径只剩**外部改库**：
+        // 模拟另一个窗口把这块标完成，并推高 data_version（round94 #15 的同一套假后端开关）。
+        const raw = blk(pick.id);
+        if (!raw) return false;
+        raw.status = "done";
+        window.__DATA_VERSION = (window.__DATA_VERSION ?? 1) + 1;
         let after = panelCounts();
-        for (let i = 0; i < 40 && num(after, "完成") === num(before, "完成"); i++) {
-          await frames(4);
+        let reparsed = false;
+        for (let i = 0; i < 60; i++) {
+          await new Promise((r) => setTimeout(r, 120));
+          reparsed = mosaicCalls().length > callsBefore && mosaicCalls().slice(-1)[0] === at(0, 0, 0);
           after = panelCounts();
+          if (reparsed && num(after, "完成") === num(before, "完成") + 1) break;
         }
-        const reparsed =
-          mosaicCalls().length > callsBefore && mosaicCalls().slice(-1)[0] === at(0, 0, 0);
+        const marked = blk(pick.id)?.status === "done";
         const grew = num(after, "完成") === num(before, "完成") + 1;
         window.__DIAG.push(
-          `r58⑥ 块=${pick.id} 标了=${marked} 拉周数 ${callsBefore}→${mosaicCalls().length} 前=[${before}] 后=[${after}] 完成+1=${grew} 重拉=${reparsed}`,
+          `r58⑥ 块=${pick.id} 外部写完成=${marked} 拉周数 ${callsBefore}→${mosaicCalls().length} 前=[${before}] 后=[${after}] 完成+1=${grew} 重拉=${reparsed}`,
         );
         window.__FAKE_NOW = null;
         sanityState.nudgedWeek = null;
         await shutReview();
         await setRemindViaGear("hint", "sun", "20:00"); // 还原默认
-        return marked && grew && reparsed;
+        return grew && reparsed;
       },
     ],
     // ===== round60（0.14.0 / 10.1）：数据统计页 —— 全时段累计 + 近 12 周 =====
@@ -7112,6 +7448,9 @@ function domChecks() {
         const before = statsRow("标为完成");
         const callsBefore = window.__STATS_CALLS || 0;
         await shutStats();
+        // round96：关面板后焦点回到「打开它的那个按钮」（a11y 正确；以前 focusTrap 还的是
+        // 「打开前的 activeElement」= 这块）。要按 Space 标块，先把焦点放回块上（真用户也会再点一下）。
+        el(pick.id)?.focus({ preventScroll: true });
         await press("Space"); // 标记完成（键盘路径）
         const marked = blk(pick.id)?.status === "done";
         if (!(await openStatsPanel())) return false;
@@ -7161,7 +7500,7 @@ function domChecks() {
         const hit = box
           ? document.elementFromPoint(box.left + 20, box.top + box.height / 2)
           : null;
-        const backdrop = document.querySelector('button.overlay-backdrop[aria-label="关闭统计"]');
+        const backdrop = document.querySelector("button.overlay-backdrop");
         // round83（§8.1）：统计现在可能是**总览的子层** —— 那会儿命中到的多半是总览遮罩 / 总览面板。
         // 本检查的语义是「遮罩真挡住时间轴」→ 判据 = 那一点**命中不到时间轴**（上面那几层都算挡住）。
         const shielded = !!hit && !hit.closest?.(".board") && !!(backdrop || hit.closest?.(".review-panel"));
@@ -7171,7 +7510,7 @@ function domChecks() {
         // ② 点面板外
         if (!(await openStatsPanel())) return false;
         document
-          .querySelector('button.overlay-backdrop[aria-label="关闭统计"]')
+          .querySelector("button.overlay-backdrop")
           ?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
         await settle(20);
         const byBackdrop = !statsPanel();
@@ -9765,7 +10104,7 @@ function domChecks() {
 
     // ===== round68：成就（暗章）—— 设置区 / MAA 式列表 / 提示与 NEW / 信号 / 写失败 =====
     [
-      "round68 ①：⚙ 有「成就（暗章）」区：默认开、已点亮 3/共 98、有「查看暗章」",
+      "round68 ①：⚙ 有「成就（暗章）」区：默认开、已点亮 3/共 99、有「查看暗章」",
       async () => {
         await press("Escape");
         await openSettingsSub("achievements"); // round78：成就进了「更多」折叠区
@@ -9775,7 +10114,7 @@ function domChecks() {
           (n.textContent ?? "").includes("启用成就"),
         );
         const text = pop.textContent ?? "";
-        const count = text.includes("已点亮 3 / 共 98");
+        const count = text.includes("已点亮 3 / 共 99");
         const countLine = [...pop.querySelectorAll(".row")]
           .map((n) => (n.textContent ?? "").replace(/\s+/g, " ").trim())
           .find((t) => t.includes("已点亮"));
@@ -11468,7 +11807,7 @@ function domChecks() {
       },
     ],
     [
-      "round78 栈：同级替换（开统计 → 总览自动关）/ 子层叠在设置上（关成就回到设置）/ Esc 一次只关一层",
+      "round78 栈：同级替换 / 子层叠在设置上（关成就回到设置）/ Esc 一次只关一层 / 真 pointerdown 不连坐父层",
       async () => {
         await seedRound78();
         const click = (sel) => {
@@ -11483,7 +11822,7 @@ function domChecks() {
           await press("Escape");
           document
             .querySelectorAll(
-              ".review-panel .close, .stats-panel .close, .ach-panel .close, .help-panel .close, .data-panel .close, .sanity-pop .close, .tpl-pop .close",
+              ".review-panel .close, .stats-panel .close, .ach-panel .close, .help-panel .close, .switch-panel .close, .sanity-pop .close, .tpl-pop .close",
             )
             .forEach((b) => b.dispatchEvent(new MouseEvent("click", { bubbles: true })));
           await settle();
@@ -11523,6 +11862,15 @@ function domChecks() {
         await settle(40);
         const ach1 = open(".ach-panel");
         const set2 = open(".sanity-pop");
+        // round96（复核 B-2）：**真 pointerdown** 打在子面板上 —— 旧实现的「点外面关自己」会当场把设置关掉。
+        // （round78 原版全程合成 click，看不到这个 bug —— 这就是那条假绿。）
+        const achNode = document.querySelector(".ach-panel");
+        const ar = achNode?.getBoundingClientRect();
+        if (achNode && ar) {
+          achNode.dispatchEvent(ptrEvent("pointerdown", ar.left + 24, ar.top + 24));
+          await settle(30);
+        }
+        const setAfterDown = open(".sanity-pop");
         await press("Escape");
         await settle(40);
         const ach2 = open(".ach-panel");
@@ -11534,9 +11882,11 @@ function domChecks() {
           "r78栈 顶栏统计→设置替换=" + (s1 && setOpen && !s2) + "（统计开=" + s1 + " 设置开=" + setOpen + " 统计自动关=" + !s2 + "）" +
             " ｜ 总览里统计=子层=" + (s3 && r2) + " Esc 只关统计=" + (!s4 && r3) +
             " ｜ 设置开=" + set1 + " 成就开=" + ach1 + "（设置留住=" + set2 + "）" +
+            " 真 pointerdown 后设置还在=" + setAfterDown +
             " Esc 关成就=" + !ach2 + "（设置还在=" + set3 + "） 再 Esc 关设置=" + !set4,
         );
-        const ok = s1 && setOpen && !s2 && s3 && r2 && !s4 && r3 && set1 && ach1 && set2 && !ach2 && set3 && !set4;
+        const ok =
+          s1 && setOpen && !s2 && s3 && r2 && !s4 && r3 && set1 && ach1 && set2 && setAfterDown && !ach2 && set3 && !set4;
         await restoreRound78();
         return ok;
       },
@@ -11556,7 +11906,7 @@ function domChecks() {
           pop.getAttribute("role") === "dialog" &&
           pop.getAttribute("aria-modal") === "true" &&
           !!pop.getAttribute("aria-labelledby") &&
-          !!document.querySelector(".settings-backdrop");
+          !!document.querySelector(".overlay-backdrop");
         const navs = [...pop.querySelectorAll(".nav-btn")].map((n) => (n.textContent ?? "").trim());
         const wantGroups = ["主题与颜色", "字号与密度", "时间轴", "提醒与控制", "更多"];
         const groupsOk = JSON.stringify(navs) === JSON.stringify(wantGroups);
@@ -12439,7 +12789,7 @@ function domChecks() {
         // ⑥ 点遮罩 → 关 + 不写（同样先验「又弹出来了」）
         await openPanel();
         const upBackdrop = !!panel();
-        document.querySelector(".confirm-backdrop")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        document.querySelector(".overlay-backdrop")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
         await settle(100);
         const afterBackdrop = { closed: !panel(), resets: resets() };
         // ⑦ 父面板（设置）不被关掉 —— modal 层语义
@@ -12478,8 +12828,8 @@ function domChecks() {
         const blks = [...document.querySelectorAll("[data-tpl-mini] .blk")];
         const heads = document.querySelectorAll("[data-tpl-mini] .heads i").length;
         const axis = document.querySelectorAll("[data-tpl-mini] .axis b").length;
-        // 窄窗（≤ 860）时浮窗应被媒体查询藏起来（元素还在 DOM，display:none）
-        const narrowHidden = window.innerWidth > 860 || getComputedStyle(mini).display === "none";
+        // 窄窗（≤ 920）时浮窗应被媒体查询藏起来（元素还在 DOM，display:none）
+        const narrowHidden = window.innerWidth > 920 || getComputedStyle(mini).display === "none";
         const rowIds = new Set(blks.map((b) => b.dataset.row));
         const shape =
           !!pop && !!mini && rows.length > 0 && blks.length >= rows.length && rowIds.size === rows.length && heads === 7 && axis > 0;
@@ -12892,8 +13242,8 @@ function domChecks() {
       async () => {
         await press("Escape");
         await settle(20);
-        if (window.innerWidth <= 860) {
-          return { skip: "窄窗（≤860）浮窗本就不显示；1100 那一跑才是它的靶场" };
+        if (window.innerWidth <= 920) {
+          return { skip: "窄窗（≤920）浮窗本就不显示；1100 那一跑才是它的靶场" };
         }
         document
           .querySelector(".templates-open")
@@ -13391,8 +13741,8 @@ function domChecks() {
       async () => {
         await press("Escape");
         await settle(20);
-        if (window.innerWidth <= 860) {
-          return { skip: "窄窗（≤860）浮窗本就不显示；1100 那一跑才是它的靶场" };
+        if (window.innerWidth <= 920) {
+          return { skip: "窄窗（≤920）浮窗本就不显示；1100 那一跑才是它的靶场" };
         }
         document
           .querySelector(".templates-open")
@@ -14207,7 +14557,7 @@ function domChecks() {
           /键位|Keys|Key bindings/.test(b.textContent ?? ""),
         );
         const oneEntry = entries.length === 1 && entries[0].classList.contains("keymap-open");
-        // ② 点它 → 合并面板：上面是**全部键位（只读）**（含鼠标组 + 固定键），下面是 10 条可改行
+        // ② 点它 → 合并面板：上面是**全部键位（只读）**（含鼠标组 + 固定键），下面是 11 条可改行（round94 加了「重新载入数据」）
         entries[0]?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
         await settle(80);
         let panel = document.querySelector(".keymap-panel");
@@ -14218,7 +14568,7 @@ function domChecks() {
         const fixedOk = ["Ctrl+Z", "Enter", "Esc", "Shift+←→"].every((k) => tableText.includes(k));
         const rows = [...panel.querySelectorAll(".rows tr")];
         const editOk =
-          rows.length === 10 &&
+          rows.length === 11 &&
           rows.some((tr) => (tr.querySelector(".kbd")?.textContent ?? "").trim() === "T") &&
           !!panel.querySelector(".rows .kbd");
         const noOverflow = panel.scrollWidth <= panel.clientWidth + 1;
@@ -14229,7 +14579,7 @@ function domChecks() {
         await press("?");
         await settle(60);
         panel = document.querySelector(".keymap-panel");
-        const viaHelp = !!panel && !!panel.querySelector(".keys .grp") && panel.querySelectorAll(".rows tr").length === 10;
+        const viaHelp = !!panel && !!panel.querySelector(".keys .grp") && panel.querySelectorAll(".rows tr").length === 11;
         await press("Escape");
         await settle(30);
         await press("Escape");
@@ -15886,6 +16236,724 @@ function domChecks() {
         return rowOk && hitOk && weightOk;
       },
     ],
+
+    // ===== round94（#8b）：改名只走 F2 / ✎；双击块（包括名字）= 完成 =====
+    [
+      "round94 ④：单击名字不再进改名（只选中）；✎ / F2 能进；双击名字 = 完成（#8b）",
+      async () => {
+        await press("Escape");
+        await press("Escape");
+        await backToThisWeek();
+        // ④ 只验**改名手势**（F2 / ✎ / 名字单击 / 双击名字）—— 不挑形状（全套跑完时本周常被铺满，
+        // 建出来的块多半是并排窄块；#8a 的「常显 ✓」形状要求由 ③ 单独管）。
+        const made = await mkTempBlock({ allowNarrow: true });
+        if (!made?.blk) return { skip: `建不出靶子：${made?.why ?? "?"}` };
+        const { blk, cleanup, before } = made;
+        const clickName = async () => {
+          const n = blk.querySelector(".name.label");
+          if (!n) return false;
+          const r = n.getBoundingClientRect();
+          const x = r.left + 8;
+          const y = r.top + r.height / 2;
+          n.dispatchEvent(ptrEvent("pointerdown", x, y));
+          n.dispatchEvent(ptrEvent("pointerup", x, y));
+          n.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+          await settle(30);
+          return true;
+        };
+        // ① 未选中单击名字 → 只选中，不进改名
+        if (!(await clickName())) return false;
+        const sel1 = blk.classList.contains("selected");
+        const noInput1 = !blk.querySelector("input.name-input");
+        // ② 已选中再单击名字（旧手势在这里就进改名了）→ 仍不进
+        if (!(await clickName())) return false;
+        const noInput2 = !blk.querySelector("input.name-input");
+        // ③ ✎ → 进改名（Esc 退出）
+        const pencil = blk.querySelector('.actions button.rename');
+        pencil?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(40);
+        const input3 = blk.querySelector("input.name-input");
+        input3?.dispatchEvent(
+          new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true }),
+        );
+        await settle(20);
+        // ④ F2 → 也进改名（Esc 退出）
+        await selectByClick(blk.dataset.blockId);
+        keydown("F2");
+        await settle(40);
+        const input4 = blk.querySelector("input.name-input");
+        input4?.dispatchEvent(
+          new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true }),
+        );
+        await settle(20);
+        // ⑤ 双击**名字** → 完成（不是改名）
+        const nameEl = blk.querySelector(".name.label");
+        nameEl?.dispatchEvent(new MouseEvent("dblclick", { bubbles: true, cancelable: true }));
+        await settle(50);
+        const done = blk.classList.contains("done");
+        const noInput5 = !blk.querySelector("input.name-input");
+        await cleanup();
+        const after = document.querySelectorAll("[data-block-id]").length;
+        window.__DIAG.push(
+          `r94④ 选中=${sel1} 单击两次不进改名=${noInput1}/${noInput2} ✎=${!!input3} F2=${!!input4} 双击名字→${done ? "完成" : "没完成✗"} 没进改名=${noInput5} 块数=${before}→${after}`,
+        );
+        return (
+          sel1 && noInput1 && noInput2 && !!input3 && !!input4 && done && noInput5 && after === before
+        );
+      },
+    ],
+    [
+      "round94 ⑬：挂载之后视野不再被拽走（2 帧后不动 / 切密度也不动；#2 的 `untrack` 闸门）",
+      async () => {
+        await press("Escape");
+        await press("Escape");
+        await backToThisWeek();
+        await settle(30);
+        const scroll = document.querySelector(".scroll");
+        await frames(2); // 把上一轮（⑦ 的 `T`）可能还挂着的 tick 洗掉
+        const lock = scroll.scrollTop;
+        // ① 再等两帧：旧的 `$effect` 若依赖了 `nowY`/`slotHeightPx`，这里就会被重新写一次
+        await frames(2);
+        await settle(10);
+        const afterFrames = Math.round(scroll.scrollTop);
+        // ② 切密度（旧写法读 `slotHeightPx()` 当依赖 → 会被重新执行、把视野拉回 6:00）
+        await pickAppearance(".text-density", "compact");
+        await closeSettings();
+        await settle(30);
+        await frames(2);
+        const afterDensity = Math.round(scroll.scrollTop);
+        await pickAppearance(".text-density", "comfortable");
+        await closeSettings();
+        await settle(30);
+        await frames(2);
+        const afterRestore = Math.round(scroll.scrollTop);
+        window.__DIAG.push(
+          `r94⑬ 起点=${Math.round(lock)} 2 帧后=${afterFrames} 紧凑后=${afterDensity}（差 ${afterDensity - Math.round(lock)}）恢复后=${afterRestore}`,
+        );
+        return Math.abs(afterFrames - lock) <= 1 && Math.abs(afterDensity - lock) <= 1 && Math.abs(afterRestore - lock) <= 1;
+      },
+    ],
+    [
+      "round94 ⑦：跳周不抢滚动；回到本周（T / 按钮）= 回到本周并滚到现在（#2）",
+      async () => {
+        await press("Escape");
+        await press("Escape");
+        await backToThisWeek();
+        await settle(30);
+        const scroll = document.querySelector(".scroll");
+        if (!scroll) return false;
+        // 先把视野放到一个「不是现在」的位置，再跳周 —— 跳周**不许**动滚动位置
+        setScrollHome();
+        await settle(20);
+        const before = Math.round(scroll.scrollTop);
+        document
+          .querySelector(".week-nav button[title^='下一周']")
+          ?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(80);
+        const afterJump = Math.round(scroll.scrollTop);
+        const leftWeek = !!document.querySelector(".week-nav .now"); // 出现「回到本周」= 真跳走了
+        // 按 T（回到本周）→ 既要回来，也要把「现在」滚进视野
+        keydown("t");
+        await settle(150);
+        const line = document.querySelector(".now-line");
+        const sr = scroll.getBoundingClientRect();
+        const ratio = line ? (line.getBoundingClientRect().top - sr.top) / sr.height : -1;
+        const backHome = !document.querySelector(".week-nav .now");
+        // 与 ⑥ 同一个口径：可见区间的**上半部**；但滚到顶/底夹住了就算过 ——
+        // 傍晚（现在线离 24:00 不够 2/3 视口）物理上到不了 1/3，硬要求就是假精确。
+        const clamped =
+          scroll.scrollTop <= 0.5 ||
+          scroll.scrollTop >= scroll.scrollHeight - scroll.clientHeight - 1;
+        const anchored = clamped || (ratio >= 0.2 && ratio <= 0.5);
+        // 头部那颗「回到本周」按钮在同一条路上（统计页的「去时间轴」也走 goNow）—— 这里顺带验按钮存在性
+        window.__DIAG.push(
+          `r94⑦ 跳周不动=${before}→${afterJump}（期望相等）真跳走=${leftWeek} T 回来=${backHome} 现在线=${(ratio * 100).toFixed(1)}%（期望 20–50%，夹住豁免；本次夹=${clamped}）`,
+        );
+        return before === afterJump && leftWeek && backHome && anchored;
+      },
+    ],
+    [
+      "round94 ⑤：Backlog 双击任务名仍进改名（本批没动它，加回归防线）",
+      async () => {
+        await press("Escape");
+        await press("Escape");
+        const row = [...document.querySelectorAll(".item")].find((n) =>
+          (n.querySelector(".label")?.textContent ?? "").startsWith("写周报"),
+        );
+        const label = row?.querySelector(".label");
+        if (!label) return false;
+        label.dispatchEvent(new MouseEvent("dblclick", { bubbles: true, cancelable: true }));
+        await settle(40);
+        const input = row.querySelector("input.edit");
+        const focused = document.activeElement === input;
+        input?.dispatchEvent(
+          new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true }),
+        );
+        await settle(20);
+        const closed = !row.querySelector("input.edit");
+        window.__DIAG.push(`r94⑤ 改名框=${!!input} 拿到焦点=${focused} Esc 收起=${closed}`);
+        return !!input && focused && closed;
+      },
+    ],
+    // ===== round94（#15）：外部改库 → 2.5 秒内自动重拉 + 一条提示 =====
+    [
+      "round94 ⑨：外部改库（data_version 涨）→ ≤3 秒自动重拉 + 一条提示，且只拉一次（#15）",
+      async () => {
+        await press("Escape");
+        await press("Escape");
+        await backToThisWeek();
+        await settle(30);
+        const calls = () => (window.__DBG || []).length;
+        // 等一轮，让轮询建立基线（第一次 tick 只记不比较）
+        await new Promise((r) => setTimeout(r, 2800));
+        const n0 = calls();
+        // 模拟外部脚本直接写库：假后端只认这个值；真后端是「别的连接提交」
+        window.__DATA_VERSION = (window.__DATA_VERSION ?? 1) + 1;
+        const t0 = Date.now();
+        let loaded = false;
+        let waited = 0;
+        while (!loaded && waited < 4000) {
+          await new Promise((r) => setTimeout(r, 120));
+          waited = Date.now() - t0;
+          loaded = calls() > n0;
+        }
+        await settle(40);
+        const toastOk = [...document.querySelectorAll(".toast")].some((n) =>
+          (n.textContent ?? "").includes("外部改动"),
+        );
+        const n1 = calls();
+        // 「只拉一次」：再等一轮，计数不该再涨（基线已经跟上了）
+        await new Promise((r) => setTimeout(r, 2800));
+        const n2 = calls();
+        window.__DIAG.push(
+          `r94⑨ 首次重拉=${loaded} 用时=${waited}ms 提示=${toastOk} 次数 ${n0}→${n1}（再等一轮 →${n2}）`,
+        );
+        return loaded && waited <= 3000 && toastOk && n2 === n1;
+      },
+    ],
+    [
+      "round94 ⑩：App 自己写库**不**触发重载（同连接不涨 data_version；#15）",
+      async () => {
+        await press("Escape");
+        await press("Escape");
+        await backToThisWeek();
+        await settle(30);
+        const calls = () => (window.__DBG || []).length;
+        await new Promise((r) => setTimeout(r, 2800)); // 让基线稳住
+        const n0 = calls();
+        // App 自己的写：点一块的 ✓（走命令层 → 后端自己写库 → reloadWeek 一次）
+        const doneBtn = document.querySelector('[data-block-id="b7"] .actions button[title="标记完成"]');
+        if (!doneBtn) return false;
+        doneBtn.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(80);
+        const n1 = calls();
+        await new Promise((r) => setTimeout(r, 3000)); // 跨过一整轮轮询
+        const n2 = calls();
+        const toastOk = ![...document.querySelectorAll(".toast")].some((n) =>
+          (n.textContent ?? "").includes("外部改动"),
+        );
+        window.__DIAG.push(
+          `r94⑩ 自己写完=${n1 - n0} 次（应 ≥1） 再等一轮=${n2 - n1}（应为 0） 无外部提示=${toastOk}`,
+        );
+        return n1 > n0 && n2 === n1 && toastOk;
+      },
+    ],
+    [
+      "round94 ⑪：正在改名时不重拉（顺延到下一轮）；退出改名后补上（#15）",
+      async () => {
+        await press("Escape");
+        await press("Escape");
+        await backToThisWeek();
+        await settle(30);
+        const calls = () => (window.__DBG || []).length;
+        await new Promise((r) => setTimeout(r, 2800));
+        // 找一块临时块进改名（用浮层里的 ✎ —— round94 #8b 起改名只走 F2/✎）
+        const tempId = FIX.blocks.find((b) => b.is_temp && b.status === "planned" && el(b.id))?.id;
+        const blk = tempId ? el(tempId) : null;
+        const pencil = blk?.querySelector(".actions button.rename");
+        if (!pencil) return { skip: "没有可改名的临时块" };
+        pencil.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(40);
+        const editing = !!document.querySelector("input.name-input");
+        const n0 = calls();
+        window.__DATA_VERSION = (window.__DATA_VERSION ?? 1) + 1;
+        await new Promise((r) => setTimeout(r, 3000)); // 跨过一轮
+        const during = calls();
+        // 退出改名（Esc）→ 下一轮应该补上
+        document.activeElement?.dispatchEvent(
+          new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true }),
+        );
+        const t0 = Date.now();
+        let caught = false;
+        let waited = 0;
+        while (!caught && waited < 4000) {
+          await new Promise((r) => setTimeout(r, 120));
+          waited = Date.now() - t0;
+          caught = calls() > during;
+        }
+        window.__DIAG.push(
+          `r94⑪ 改名中=${editing} 改名期间重拉=${during - n0}（期望 0） 退出后补上=${caught}（${waited}ms）`,
+        );
+        return editing && during === n0 && caught;
+      },
+    ],
+    [
+      "round94 ⑫：头部 ↻ 与局内键 `R` 都能立刻重载；输入框里打 `r` 不触发（#15 手动）",
+      async () => {
+        await press("Escape");
+        await press("Escape");
+        await backToThisWeek();
+        await settle(30);
+        const calls = () => (window.__DBG || []).length;
+        const btn = document.querySelector(".week-nav .reload");
+        if (!btn) return false;
+        const n0 = calls();
+        btn.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(80);
+        const clicked = calls() > n0;
+        const toastOk = [...document.querySelectorAll(".toast")].some((n) =>
+          (n.textContent ?? "").includes("已重新载入"),
+        );
+        // 键 `R`：先等提示走（避免与上一条混），再按
+        await new Promise((r) => setTimeout(r, 200));
+        const n1 = calls();
+        keydown("r");
+        await settle(80);
+        const keyed = calls() > n1;
+        // 在输入框里打 `r` → **不许**重载（Backlog 的「添加任务」框）
+        const input = document.querySelector(".backlog input");
+        if (!input) return false;
+        input.focus();
+        const n2 = calls();
+        input.dispatchEvent(new KeyboardEvent("keydown", { key: "r", bubbles: true, cancelable: true }));
+        await settle(60);
+        const typedNoReload = calls() === n2;
+        input.blur();
+        await settle(20);
+        window.__DIAG.push(
+          `r94⑫ ↻=${clicked} 提示=${toastOk} R 键=${keyed} 输入框里打 r 不重载=${typedNoReload}`,
+        );
+        return clicked && toastOk && keyed && typedNoReload;
+      },
+    ],
+    [
+      "round94 ⑭：暗章面板点「面板外」= 收回（那一下也不许落到时间轴上）（验收带回）",
+      async () => {
+        await press("Escape");
+        await press("Escape");
+        document.querySelector(".sanity-pop .close")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(30);
+        // 走你实际用的那条路：暗章提示 →「查看暗章」→ 面板**单独**打开（下面没有设置面板兜着）
+        window.__emitEvent("achievement-unlocked", [{ id: "r94panel", name: "面板靶子", unlocked_at: 3 }]);
+        await settle(40);
+        const btn = [...document.querySelectorAll(".toast .act")].find((n) =>
+          (n.textContent ?? "").includes("查看暗章"),
+        );
+        if (!btn) return false;
+        btn.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(90);
+        const panel = document.querySelector(".ach-panel");
+        if (!panel) return false;
+        // 面板外取一点（时间轴中部）：**命中的必须是最上面那层遮罩**，不能是块 / 时间轴
+        const scroll = document.querySelector(".scroll")?.getBoundingClientRect();
+        if (!scroll) return false;
+        const x = Math.round(scroll.right - 60);
+        const y = Math.round(scroll.top + 140);
+        const hit = document.elementFromPoint(x, y);
+        const hitClass = (hit?.className || hit?.tagName || "") + "";
+        const hitIsBackdrop = !!hit && hitClass.includes("overlay-backdrop");
+        const outsidePanel = !!hit && !hit.closest?.(".ach-panel");
+        // 真点一下那个点（用命中的元素，模拟「用户点了面板外」）
+        hit?.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+        await settle(70);
+        const closed = !document.querySelector(".ach-panel");
+        const noSelection = !document.querySelector(".block.selected");
+        window.__DIAG.push(
+          `r94⑭ 面板外命中=[${hitClass.slice(0, 40)}] 命中遮罩=${hitIsBackdrop} 在面板内=${!outsidePanel} 点后收回=${closed} 时间轴没被点=${noSelection}`,
+        );
+        return hitIsBackdrop && outsidePanel && closed && noSelection;
+      },
+    ],
+    [
+      "round94 ⑮：暗章面板的标题行**不跟着列表滚**（头固定 + 内容区滚动）（验收带回）",
+      async () => {
+        await press("Escape");
+        await press("Escape");
+        document.querySelector(".sanity-pop .close")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(20);
+        // 用「面板外」那条路打开（单独一层），跟真实使用一致
+        await openSettingsSub("achievements");
+        document.querySelector(".sanity-pop .ach-view")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(90);
+        const panel = document.querySelector(".ach-panel");
+        const head = panel?.querySelector(".panel-head");
+        const body = panel?.querySelector(".body");
+        if (!panel || !head || !body) return false;
+        // 把面板压矮，逼出溢出（预览窗口 1040 高时，几十条暗章也装得下 → 不压就测不到）
+        const prevMax = panel.style.maxHeight;
+        panel.style.maxHeight = "300px";
+        await frames(2);
+        await settle(20);
+        const headBefore = Math.round(head.getBoundingClientRect().top);
+        body.scrollTop = 140;
+        await frames(2);
+        await settle(20);
+        const headAfter = Math.round(head.getBoundingClientRect().top);
+        const bodyScrolled = body.scrollTop > 0;
+        const panelScrolled = panel.scrollTop;
+        const closedByMouse = !!head.querySelector(".close");
+        panel.style.maxHeight = prevMax;
+        body.scrollTop = 0;
+        document.querySelector(".sanity-pop .close")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(20);
+        window.__DIAG.push(
+          `r94⑮ 内容区可滚=${bodyScrolled}（scrollTop=${body.scrollTop}） 面板自己滚=${panelScrolled} 标题 ${headBefore}→${headAfter}（差 ${headBefore - headAfter}） ✕ 还在=${closedByMouse}`,
+        );
+        return bodyScrolled && panelScrolled === 0 && headBefore === headAfter && closedByMouse;
+      },
+    ],
+    // ===== round94（#6）：暗章提示要给出口 =====
+    // 放在**最后**：`openAchievements()` 会打 `panel` 信号（假后端第一次会顺手点亮「对暗号的人」，
+    // 那是 round68 ③ 的靶子）—— 本组挪到前面会把那次一次性点亮的时序提前，弄红 round68 ③。
+    [
+      "round94 ⑧：暗章点亮提示带「查看暗章」，点了直接开面板（#6）",
+      async () => {
+        await press("Escape");
+        await press("Escape");
+        document.querySelector(".ach-panel .close")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        document.querySelector(".sanity-pop .close")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(30);
+        // 连发两条 → 只留**最后一条**暗章提示（round68 的「同时一条」口径不变）
+        window.__emitEvent("achievement-unlocked", [{ id: "r94a", name: "测试暗章甲", unlocked_at: 1 }]);
+        await settle(20);
+        window.__emitEvent("achievement-unlocked", [{ id: "r94b", name: "测试暗章乙", unlocked_at: 2 }]);
+        await settle(60);
+        const mine = [...document.querySelectorAll(".toast")].filter((n) =>
+          /测试暗章甲|测试暗章乙/.test(n.textContent ?? ""),
+        );
+        const one = mine.length === 1 && /测试暗章乙/.test(mine[0]?.textContent ?? "");
+        const t = mine[0];
+        const btn = t?.querySelector(".act");
+        const label = (btn?.textContent ?? "").trim();
+        let panelOpen = false;
+        let gone = false;
+        if (btn) {
+          btn.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+          await settle(90);
+          panelOpen = !!document.querySelector(".ach-panel");
+          gone = ![...document.querySelectorAll(".toast")].some((n) =>
+            /测试暗章乙/.test(n.textContent ?? ""),
+          );
+        }
+        document.querySelector(".ach-panel .close")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(30);
+        window.__DIAG.push(
+          `r94⑧ 暗章提示=${mine.length}（期望 1，最后一条=乙） 按钮=[${label}] 点开面板=${panelOpen} 提示收起=${gone}`,
+        );
+        return one && !!btn && label === "查看暗章" && panelOpen && gone;
+      },
+    ],
+
+    // ===== round96（面板栈）：一张按打开顺序排的栈 =====
+    [
+      "round96 ①：z 由索引算 —— 父层面板 40 / 共享遮罩 41 / 栈顶 42",
+      async () => {
+        r96Arm();
+        await r96CloseAll();
+        await openSettingsSub("achievements");
+        document.querySelector(".sanity-pop .ach-view")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(60);
+        const set = document.querySelector(".sanity-pop");
+        const ach = document.querySelector(".ach-panel");
+        const mask = r96Mask();
+        const z = (n) => (n ? Number(getComputedStyle(n).zIndex) : NaN);
+        const depth = r96Depth();
+        const setZ = z(set);
+        const achZ = z(ach);
+        const maskZ = z(mask);
+        window.__DIAG.push(`r96① 深度=${depth} 设置z=${setZ} 遮罩z=${maskZ} 成就z=${achZ}`);
+        return depth === 2 && setZ === 40 && achZ === 42 && maskZ === 41 && achZ > maskZ && maskZ > setZ;
+      },
+    ],
+    [
+      "round96 ②：点父层露出的那块 = 只退一层（设置留住，不穿透）",
+      async () => {
+        r96Arm();
+        // 窄窗（≤760）面板整屏 → 没有「父层露出的那块」，本检查不成立（1500 才是它的靶场）
+        if (window.innerWidth <= 760) return { skip: "窄窗（≤760）面板整屏，没有父层露出的区域" };
+        await r96OpenAchievements();
+        const set = document.querySelector(".sanity-pop");
+        const ach = document.querySelector(".ach-panel");
+        if (!set || !ach) {
+          window.__DIAG.push("r96② 设置或成就不在");
+          return false;
+        }
+        const sr = set.getBoundingClientRect();
+        const x = Math.round(sr.right - 8);
+        const y = Math.round(sr.bottom - 8);
+        const hit = document.elementFromPoint(x, y);
+        const isMask = !!hit && hit.classList.contains("overlay-backdrop");
+        const inAch = !!hit && !!hit.closest?.(".ach-panel");
+        await r96Click(hit, x, y);
+        const achGone = !document.querySelector(".ach-panel");
+        const setAlive = !!document.querySelector(".sanity-pop");
+        window.__DIAG.push(
+          `r96② 点(${x},${y}) 命中=${hit?.className || hit?.tagName || "无"} 遮罩=${isMask} 命中子层=${inAch} 成就关=${achGone} 设置留=${setAlive}`,
+        );
+        return isMask && !inAch && achGone && setAlive;
+      },
+    ],
+    [
+      "round96 ③：只栈顶可交互 —— 父层 inert / 应用 inert / 栈顶自己不在 inert 子树",
+      async () => {
+        r96Arm();
+        await r96OpenAchievements();
+        const layers = r96Layers();
+        const settingsLayer = layers.find((n) => n.getAttribute("data-layer-id") === "settings");
+        const achLayer = layers.find((n) => n.getAttribute("data-layer-id") === "achievements");
+        const main = document.querySelector("main.shell");
+        const setPanel = document.querySelector(".sanity-pop");
+        const achPanel = document.querySelector(".ach-panel");
+        const setClose = setPanel?.querySelector(".close");
+        const achClose = achPanel?.querySelector(".close");
+        const settingsInert = !!settingsLayer?.hasAttribute("inert");
+        const achInert = !!achLayer?.hasAttribute("inert");
+        const mainInert = !!main?.hasAttribute("inert");
+        const parentInInert = !!setPanel && !!setPanel.closest("[inert]");
+        const topNotInert = !!achPanel && !achPanel.closest("[inert]");
+        setClose?.focus?.();
+        const focusBlocked = document.activeElement !== setClose;
+        achClose?.focus?.();
+        const focusTop = document.activeElement === achClose;
+        window.__DIAG.push(
+          `r96③ 父层inert=${settingsInert} 栈顶inert=${achInert} 应用inert=${mainInert} 父在inert里=${parentInInert} 顶不在inert里=${topNotInert} 父焦点被挡=${focusBlocked} 顶可聚焦=${focusTop}`,
+        );
+        return settingsInert && !achInert && mainInert && parentInInert && topNotInert && focusBlocked && focusTop;
+      },
+    ],
+    [
+      "round96 ④：关父层连坐 —— 关设置带走成就（不留孤儿层）",
+      async () => {
+        r96Arm();
+        await r96OpenAchievements();
+        const depth0 = r96Depth();
+        document.querySelector(".sanity-pop .close")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(60);
+        const bothGone = !document.querySelector(".sanity-pop") && !document.querySelector(".ach-panel");
+        const depth1 = r96Depth();
+        window.__DIAG.push(`r96④ 关前深=${depth0} 两层都关=${bothGone} 关后深=${depth1}`);
+        return depth0 === 2 && bothGone && depth1 === 0;
+      },
+    ],
+    [
+      "round96 ⑤：上限 5 层 —— 第 6 层被拒（栈深不动、计数 +1、栈顶不变）",
+      async () => {
+        r96Arm();
+        await r96OpenAchievements(); // 1 设置 + 2 成就
+        document.querySelector(".ach-panel .reset-ach")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(60);
+        const confirmOpen = !!document.querySelector(".confirm-panel"); // 3
+        await press("o");
+        await settle(60);
+        const reviewOpen = !!document.querySelector(".review-panel"); // 4
+        await press("?");
+        await settle(60);
+        const keymapOpen = !!document.querySelector(".keymap-panel"); // 5
+        const beforeDepth = r96Depth();
+        const beforeRej = r96Rejections();
+        await press("s"); // 第 6 层 → 必须被拒
+        await settle(60);
+        const afterDepth = r96Depth();
+        const afterRej = r96Rejections();
+        const statsOpen = !!document.querySelector(".stats-panel");
+        const top = r96Top();
+        window.__DIAG.push(
+          `r96⑤ 确认=${confirmOpen} 总览=${reviewOpen} 键位=${keymapOpen} 前深=${beforeDepth} 前拒=${beforeRej} 后深=${afterDepth} 后拒=${afterRej} 统计开=${statsOpen} 顶=${top}`,
+        );
+        return (
+          confirmOpen &&
+          reviewOpen &&
+          keymapOpen &&
+          beforeDepth === 5 &&
+          afterDepth === 5 &&
+          afterRej === beforeRej + 1 &&
+          !statsOpen &&
+          top === "keymap"
+        );
+      },
+    ],
+    [
+      "round96 ⑥：同一面板不重开（设置里再点「成就」仍只有一个面板、栈深不变）",
+      async () => {
+        r96Arm();
+        await r96OpenAchievements();
+        const depth0 = r96Depth();
+        const n0 = document.querySelectorAll(".ach-panel").length;
+        document.querySelector(".sanity-pop .ach-view")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(60);
+        const depth1 = r96Depth();
+        const n1 = document.querySelectorAll(".ach-panel").length;
+        const settingsAlive = !!document.querySelector(".sanity-pop");
+        window.__DIAG.push(`r96⑥ 前=${n0}块/深${depth0} 后=${n1}块/深${depth1} 设置留=${settingsAlive}`);
+        return n0 === 1 && n1 === 1 && depth0 === 2 && depth1 === 2 && settingsAlive;
+      },
+    ],
+    [
+      "round96 ⑦：模板升格 —— wide 780 覆盖面板 + 迷你预览在面板内 + 面板头有 ✕",
+      async () => {
+        r96Arm();
+        // 窄窗（≤920）模板面板不是 780 宽（plan §3.5 的算式）→ 本检查不成立
+        if (window.innerWidth <= 920) return { skip: "窄窗（≤920）模板面板不是 wide 780" };
+        await r96CloseAll();
+        document.querySelector(".templates-open")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(260);
+        const pop = document.querySelector(".tpl-pop");
+        const mini = document.querySelector("[data-tpl-preview]");
+        const w = pop ? Math.round(pop.getBoundingClientRect().width) : 0;
+        const inside = !!(pop && mini && pop.contains(mini));
+        const mask = r96Mask();
+        const headClose = !!pop?.querySelector(".panel-head .close");
+        const depth = r96Depth();
+        window.__DIAG.push(`r96⑦ 宽=${w} 预览在面板内=${inside} 遮罩=${!!mask} 头✕=${headClose} 深=${depth}`);
+        return !!pop && w >= 760 && inside && !!mask && headClose && depth === 1;
+      },
+    ],
+    [
+      "round96 ⑧：真 pointerdown 点子面板/子面板 ✕ → 父层仍在（补 round78 的假绿）",
+      async () => {
+        r96Arm();
+        await r96OpenAchievements();
+        const ach = document.querySelector(".ach-panel");
+        const close = ach?.querySelector(".close");
+        const r = close?.getBoundingClientRect();
+        if (!ach || !close || !r) {
+          window.__DIAG.push("r96⑧ 成就面板或其 ✕ 不在");
+          return false;
+        }
+        const cx = r.left + r.width / 2;
+        const cy = r.top + r.height / 2;
+        ach.dispatchEvent(ptrEvent("pointerdown", cx, cy));
+        await settle(30);
+        const setAfterDown = !!document.querySelector(".sanity-pop");
+        await r96Click(close, cx, cy);
+        const achGone = !document.querySelector(".ach-panel");
+        const setAlive = !!document.querySelector(".sanity-pop");
+        window.__DIAG.push(`r96⑧ 真pointerdown后设置=${setAfterDown} 点✕后成就关=${achGone} 设置留=${setAlive}`);
+        return setAfterDown && achGone && setAlive;
+      },
+    ],
+    [
+      "round96 ⑨：说明页点外面只退一层（设置留住、不穿透时间轴）",
+      async () => {
+        r96Arm();
+        await r96CloseAll();
+        const id = await r96SelectVisible();
+        if (!id) return { skip: "本周没有可见的块" };
+        await openSettingsSub("guide");
+        document.querySelector(".sanity-pop .help-open")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(60);
+        const help = document.querySelector(".help-panel");
+        if (!help) {
+          window.__DIAG.push("r96⑨ 说明页没开");
+          return false;
+        }
+        const hr = help.getBoundingClientRect();
+        const x = Math.min(innerWidth - 20, Math.round(hr.right + 60));
+        const y = Math.round(innerHeight * 0.55);
+        if (x <= hr.right + 5) return { skip: "窗口太窄，说明页右侧没有空白区" };
+        const hit = document.elementFromPoint(x, y);
+        const isMask = !!hit && hit.classList.contains("overlay-backdrop");
+        await r96Click(hit, x, y);
+        await settle(60);
+        const helpGone = !document.querySelector(".help-panel");
+        const setAlive = !!document.querySelector(".sanity-pop");
+        const selKept = !!document.querySelector(`[data-block-id="${id}"].selected`);
+        window.__DIAG.push(
+          `r96⑨ 点(${x},${y}) 命中=${hit?.className || hit?.tagName || "无"} 遮罩=${isMask} 说明关=${helpGone} 设置留=${setAlive} 选中保持=${selKept}`,
+        );
+        return isMask && helpGone && setAlive && selKept;
+      },
+    ],
+    [
+      "round96 ⑩：模板点外面只退一层（关闭且不穿透时间轴）",
+      async () => {
+        r96Arm();
+        await r96CloseAll();
+        const id = await r96SelectVisible();
+        if (!id) return { skip: "本周没有可见的块" };
+        document.querySelector(".templates-open")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(240);
+        if (!document.querySelector(".tpl-pop")) {
+          window.__DIAG.push("r96⑩ 模板面板没开");
+          return false;
+        }
+        const x = 12;
+        const y = 12;
+        const hit = document.elementFromPoint(x, y);
+        const isMask = !!hit && hit.classList.contains("overlay-backdrop");
+        await r96Click(hit, x, y);
+        await settle(60);
+        const tplGone = !document.querySelector(".tpl-pop");
+        const selKept = !!document.querySelector(`[data-block-id="${id}"].selected`);
+        window.__DIAG.push(
+          `r96⑩ 点(${x},${y}) 命中=${hit?.className || hit?.tagName || "无"} 遮罩=${isMask} 模板关=${tplGone} 选中保持=${selKept}`,
+        );
+        return isMask && tplGone && selKept;
+      },
+    ],
+    [
+      "round96 ⑪：叠到 3 层解锁「天空即为极限」（假后端 → 短提示）",
+      async () => {
+        r96Arm();
+        await r96OpenAchievements(); // 1+2
+        const beforeSignals = (window.__ACH_SIGNALS || []).filter((s) => s === "stack_deep").length;
+        document.querySelector(".ach-panel .reset-ach")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(120); // 3（确认层）
+        const confirmOpen = !!document.querySelector(".confirm-panel");
+        const afterSignals = (window.__ACH_SIGNALS || []).filter((s) => s === "stack_deep").length;
+        const fired = afterSignals > beforeSignals;
+        const toast = [...document.querySelectorAll(".toast")].map((n) => n.textContent).join("｜");
+        const gotToast = toast.includes("天空即为极限") || toast.includes("Sky's the Limit");
+        // 重复跑的会话里成就可能早就点亮了（本轮不会再弹短提示）——面板里那一行也算证据；
+        // 但 `fired` 必须是**这一次**真的发了信号（防假绿）。
+        const gotRow = [...document.querySelectorAll(".ach-panel .ach")].some((n) =>
+          (n.textContent ?? "").includes("天空即为极限"),
+        );
+        window.__DIAG.push(
+          `r96⑪ 确认=${confirmOpen} 信号=${beforeSignals}→${afterSignals} 短提示=${gotToast} 面板行=${gotRow}`,
+        );
+        return confirmOpen && fired && (gotToast || gotRow);
+      },
+    ],
+    [
+      "round96 ⑫：还焦点 —— 关掉子层回到打开它的那个元素（含 3 层时）",
+      async () => {
+        r96Arm();
+        await r96OpenAchievements(); // 设置 + 成就
+        const opener = document.querySelector(".sanity-pop .ach-view");
+        document.querySelector(".ach-panel .close")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(100);
+        const backToOpener = !!opener && document.activeElement === opener;
+        const settingsAlive = !!document.querySelector(".sanity-pop");
+        // 再叠到 3 层：成就 → 重置确认；点「取消」→ 焦点回到「重置成就」按钮。
+        // （合成 click 不会自己移焦点；真用户点按钮时浏览器会给焦点 → 这里先 focus 再点，照真路径。）
+        opener?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(100);
+        const resetBtn = document.querySelector(".ach-panel .reset-ach");
+        resetBtn?.focus({ preventScroll: true });
+        resetBtn?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(100);
+        const confirmOpen = !!document.querySelector(".confirm-panel");
+        document.querySelector(".confirm-panel .confirm-cancel")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(120);
+        const backToReset = !!resetBtn && document.activeElement === resetBtn;
+        const achAlive = !!document.querySelector(".ach-panel");
+        window.__DIAG.push(
+          `r96⑫ 关成就→打开者=${backToOpener}（设置留=${settingsAlive}） 确认=${confirmOpen} 取消→重置钮=${backToReset}（成就留=${achAlive}）`,
+        );
+        return backToOpener && settingsAlive && confirmOpen && backToReset && achAlive;
+      },
+    ],
   ];
 }
 
@@ -15900,6 +16968,30 @@ setTimeout(() => {
 setTimeout(async () => {
   document.documentElement.dataset.checks = "running";
   mark("start");
+  // round94（#2）：**挂载那一刻的滚动状态**（后面几十条断言会把视野滚得乱七八糟，不能等跑完再量）。
+  // 记：scrollTop / 可视高 / 可滚上限 / 现在线在列内的 y / 现在线相对视口的 y / 当前格高。
+  window.__R94_INIT = (() => {
+    const s = document.querySelector(".scroll");
+    const line = document.querySelector(".now-line");
+    const body = line?.parentElement ?? null;
+    const slot = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--slot-height")) || 0;
+    if (!s) return null;
+    const sr = s.getBoundingClientRect();
+    const lr = line?.getBoundingClientRect() ?? null;
+    return {
+      scroll: s.scrollTop,
+      viewport: s.clientHeight,
+      max: Math.max(0, s.scrollHeight - s.clientHeight),
+      nowY: line && body ? lr.top - body.getBoundingClientRect().top : null,
+      lineInViewport: lr ? lr.top - sr.top : null,
+      // 诊断（round94 验收回修）：现在线在**滚动内容**里的纵向位置 / 日列体在内容里的位置
+      lineInContent: lr ? lr.top - sr.top + s.scrollTop : null,
+      bodyInContent: body ? body.getBoundingClientRect().top - sr.top + s.scrollTop : null,
+      headH: document.querySelector(".timeline .head")?.getBoundingClientRect().height ?? null,
+      slot,
+      dayHead: 28, // utils/timeline.ts::DAY_HEAD_PX
+    };
+  })();
   const lines = [];
   /** round79（工具改进）：**失败断言自己那几条 DIAG** —— 旧写法只印「最后 40 条」，
    *  一旦失败点比较靠前（后面还有几十条断言推 DIAG）就再也看不到现场（本轮实测：r77 的失败原因被挤掉）。 */
@@ -15917,7 +17009,11 @@ setTimeout(async () => {
     const diagMark = (window.__DIAG || []).length;
     try {
       const r = await fn();
-      if (r && typeof r === "object" && r.skip) skip = r.why ?? "";
+      // round94（工具修正）：两种写法都认 —— `{ skip: "原因" }`（新）与 `{ skip: true, why: "原因" }`（round74 的老写法）。
+      // 以前只读 `r.why`，新写法传字符串时原因会被吞成空串（标题里只剩「跳过：」）。
+      if (r && typeof r === "object" && r.skip) {
+        skip = typeof r.skip === "string" ? r.skip : (r.why ?? "");
+      }
       else ok = !!r;
     } catch (err) {
       // 断言里抛异常 = 失败；把原因写进 DIAG，失败时好定位（不然只剩一个 ✗）
@@ -15973,6 +17069,8 @@ setTimeout(async () => {
   // 机器可读结果：node 侧用 --dump-dom 把 title 抠出来断言（有 ✗ 就非零退出）
   const ran = lines.filter((l) => !l.startsWith("—"));
   const skippedN = lines.length - ran.length;
+  // round94（工具改进）：**跳过了哪几条、为什么** —— 以前标题只写「跳过 N」，真跳过时看不出来（要去看截图顶栏）。
+  const skippedNames = lines.filter((l) => l.startsWith("—")).map((l) => l.replace(/^—\s*/, ""));
   const failed = ran.filter((l) => !l.startsWith("✓"));
   const wins = (window.__DBG || []).length;
   const lastWin = (window.__DBG || [])[wins - 1];
@@ -15981,7 +17079,7 @@ setTimeout(async () => {
     " " +
     ran.length +
     " 条" +
-    (skippedN ? `（跳过 ${skippedN}）` : "") +
+    (skippedN ? `（跳过 ${skippedN}：${skippedNames.join(" / ")}）` : "") +
     " ｜ list_blocks 次数=" + +
     wins +
     " 最后一次窗口=" +

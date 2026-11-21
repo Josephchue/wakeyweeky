@@ -33,7 +33,7 @@
     type CommandScope,
     type LockedReason,
   } from "../utils/keybindings";
-  import { focusTrap, scrollableRegion } from "../utils/modal";
+  import { scrollableRegion } from "../utils/modal";
 
   const open = $derived(keymapPanel.open);
 
@@ -160,13 +160,7 @@
 </script>
 
 {#if open}
-  <button
-    class="overlay-backdrop"
-    type="button"
-    tabindex="-1"
-    aria-label={t("ui.keymap_panel.01")}
-    onclick={closeKeymapPanel}
-  ></button>
+  <!-- round96：层外壳（遮罩 / inert / 焦点 / z）由 `PanelHost` 统一给；这里只画面板本体 -->
   <!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role（`section role="dialog"` 是 ARIA 认可写法，Svelte 的检查器偏严） -->
   <section
     class="overlay-panel wide keymap-panel"
@@ -174,7 +168,6 @@
     role="dialog"
     aria-modal="true"
     aria-label={t("ui.keymap_panel.01")}
-    use:focusTrap={{ active: open }}
     use:scrollableRegion={{ label: t("ui.keymap_panel.01") }}
   >
     <header class="panel-head">

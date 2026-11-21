@@ -1,7 +1,8 @@
 /** UI 层共享状态：Toast 队列 + 「哪一块正在就地改名」+ **键盘选中的是哪一块**。 */
+// round96：面板栈的层级由**打开源**推导 —— 设置 / 键位 / 数据位置在这里只注册「翻旗子」。
 
 import { t } from "../i18n/i18n.svelte";
-import { prepareOpen, registerPanel } from "./panels.svelte";
+import { closeLayer, openLayer, registerPanel, type Nest } from "./panels.svelte";
 
 export type Toast = {
   id: string;
@@ -64,16 +65,13 @@ export const taskPanel = $state<{ propsId: string | null; archivedOpen: boolean 
  */
 export const dataSwitch = $state<{ open: boolean; busy: boolean }>({ open: false, busy: false });
 
-export function openDataSwitch() {
-  prepareOpen("data"); // round78（栈-01）：子层（从设置里打开）
-  dataSwitch.open = true;
+export function openDataSwitch(opts: { from?: Element | null; nest?: Nest } = {}) {
+  openLayer("data", opts); // round96：层级由打开源推导（设置里点 = 叠设置上）
 }
 
-/** 关掉（`Esc` / 关闭钮都走它）。返回 false = 切换中，**拒绝关闭**（round78：忙时不丢操作） */
+/** 关掉（`Esc` / 关闭钮都走它）。返回 false = 切换中 / 不在栈里，**拒绝关闭**（round78：忙时不丢操作） */
 export function closeDataSwitch(): boolean {
-  if (dataSwitch.busy) return false;
-  dataSwitch.open = false;
-  return true;
+  return closeLayer("data");
 }
 
 /**
@@ -84,13 +82,12 @@ export function closeDataSwitch(): boolean {
  */
 export const keymapPanel = $state<{ open: boolean }>({ open: false });
 
-export function openKeymapPanel() {
-  prepareOpen("keymap");
-  keymapPanel.open = true;
+export function openKeymapPanel(opts: { from?: Element | null; nest?: Nest } = {}) {
+  openLayer("keymap", opts);
 }
 
 export function closeKeymapPanel() {
-  keymapPanel.open = false;
+  closeLayer("keymap");
 }
 
 /**
@@ -100,20 +97,48 @@ export function closeKeymapPanel() {
  */
 export const settingsPanel = $state<{ open: boolean }>({ open: false });
 
-export function openSettingsPanel() {
-  prepareOpen("settings");
-  settingsPanel.open = true;
+export function openSettingsPanel(opts: { from?: Element | null; nest?: Nest } = {}) {
+  openLayer("settings", opts);
 }
 
 export function closeSettingsPanel() {
-  settingsPanel.open = false;
+  closeLayer("settings");
 }
 
-// round78（栈-01）：数据位置 = 子层；设置 = 同级（模板在 `templates.svelte.ts` 里自己注册）
-registerPanel({ id: "data", kind: "child", isOpen: () => dataSwitch.open, close: () => closeDataSwitch() });
-registerPanel({ id: "settings", kind: "sibling", isOpen: () => settingsPanel.open, close: () => (closeSettingsPanel(), true) });
-// round78（3.1b₂ · 键-03）：键位面板 = 子层（叠在设置上；关掉回设置）；round83（§8.2）与 `?` 总表合并
-registerPanel({ id: "keymap", kind: "child", isOpen: () => keymapPanel.open, close: () => (closeKeymapPanel(), true) });
+// round78（栈-01）→ round96：注册给面板栈（只翻旗子；层级由打开源推导）
+registerPanel({
+  id: "data",
+  open: () => {
+    dataSwitch.open = true;
+  },
+  close: () => {
+    if (dataSwitch.busy) return false;
+    dataSwitch.open = false;
+    return true;
+  },
+  canClose: () => !dataSwitch.busy,
+});
+registerPanel({
+  id: "settings",
+  open: () => {
+    settingsPanel.open = true;
+  },
+  close: () => {
+    settingsPanel.open = false;
+    return true;
+  },
+});
+// round78（3.1b₂ · 键-03）：键位面板（叠在设置上；关掉回设置）；round83（§8.2）与 `?` 总表合并
+registerPanel({
+  id: "keymap",
+  open: () => {
+    keymapPanel.open = true;
+  },
+  close: () => {
+    keymapPanel.open = false;
+    return true;
+  },
+});
 
 /** 收起任务面板里的东西（`Esc` 调；本来就没展开 = 空操作） */
 export function closeTaskPanel() {
@@ -153,7 +178,20 @@ export function toastAchievement(msg: string) {
   for (let i = toasts.length - 1; i >= 0; i--) {
     if (toasts[i].kind === "achievement") toasts.splice(i, 1);
   }
-  pushToast(msg, undefined, 5000, "achievement");
+  pushToast(
+    msg,
+    {
+      // round94（#6，你 2026-11-21 反馈「暗章点亮消息不能跳成就页」）：给提示一个**出口**。
+      // 文案复用设置里那一条（避免再加一个新键）。
+      // 用 `import()`：`achievements` 反过来静态依赖 `ui`（它也要弹 Toast）—— 静态互引会成环。
+      label: t("ui.sanity_settings.69"),
+      run: () => {
+        void import("./achievements.svelte").then((m) => m.openAchievements({ nest: "top" }));
+      },
+    },
+    5000,
+    "achievement",
+  );
 }
 
 /**

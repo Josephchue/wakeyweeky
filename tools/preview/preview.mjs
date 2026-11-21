@@ -448,11 +448,24 @@ const evaluateAsync = async (expression) => {
 if (shotsDir) {
   await mkdir(shotsDir, { recursive: true });
   let scenes = null;
-  for (let i = 0; i < 150 && !scenes; i++) {
-    scenes = await evaluate("JSON.stringify((window.__SHOTS || []).map((s) => s.name))").catch(
+  // round94（工具 bug）：以前只看「truthy」—— 页面还没加载完时 `JSON.stringify([])` 就是 `"[]"`，
+  // 同样是 truthy → 第一次轮询就退出，永远报「没有 window.__SHOTS」（`--shots` 实测全挂）。
+  // 现在：**非空数组**才算拿到（超时照旧报错）。
+  for (let i = 0; i < 150; i++) {
+    const raw = await evaluate("JSON.stringify((window.__SHOTS || []).map((s) => s.name))").catch(
       () => null,
     );
-    if (!scenes) await sleep(100);
+    if (raw) {
+      try {
+        if (JSON.parse(raw).length > 0) {
+          scenes = raw;
+          break;
+        }
+      } catch {
+        // 解析不了 = 页面还没好（或场景表不是数组）；下一轮再试
+      }
+    }
+    await sleep(100);
   }
   const names = (() => {
     if (!scenes) return [];
@@ -1221,6 +1234,89 @@ async function tabWalkthroughProbe() {
     btnFocus,
     actionsOk,
     ringOk,
+  };
+}
+
+/**
+ * round96：**两层栈的真 Tab 走查** —— 设置 → 成就；焦点从成就面板起，Shift+Tab 3 下必须一直在成就层内
+ * （父层 `inert` 的 Tab 语义；合成 keydown 不会执行浏览器的默认 Tab 行为，只能 CDP 真键盘）。
+ */
+async function stackTabProbe() {
+  const tab = async (shift) => {
+    const modifiers = shift ? 8 : 0;
+    await send("Input.dispatchKeyEvent", {
+      type: "keyDown",
+      key: "Tab",
+      code: "Tab",
+      windowsVirtualKeyCode: 9,
+      nativeVirtualKeyCode: 9,
+      modifiers,
+    });
+    await send("Input.dispatchKeyEvent", {
+      type: "keyUp",
+      key: "Tab",
+      code: "Tab",
+      windowsVirtualKeyCode: 9,
+      nativeVirtualKeyCode: 9,
+      modifiers,
+    });
+    await sleep(70);
+  };
+  const closeAll = async () => {
+    await evaluate(
+      `(() => { for (let i = 0; i < 6; i++) document.body.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true })); return true; })()`,
+    ).catch(() => {});
+    await sleep(220);
+  };
+  await closeAll();
+  const opened = await evaluateAsync(`(async () => {
+    document.querySelector(".sanity-gear")?.click();
+    await new Promise((r) => setTimeout(r, 260));
+    document.querySelector(".sanity-pop .more-toggle")?.click();
+    await new Promise((r) => setTimeout(r, 140));
+    document.querySelector(".sanity-pop .achievements-toggle")?.click();
+    await new Promise((r) => setTimeout(r, 140));
+    document.querySelector(".sanity-pop .ach-view")?.click();
+    await new Promise((r) => setTimeout(r, 360));
+    return !!document.querySelector(".ach-panel");
+  })()`).catch(() => false);
+  if (!opened) {
+    await closeAll();
+    return { ok: true, skipped: true, why: "设置/成就面板没打开" };
+  }
+  const state = await evaluate(`(() => {
+    const sets = document.querySelector('[data-layer-id="settings"]');
+    const achs = document.querySelector('[data-layer-id="achievements"]');
+    document.querySelector(".ach-panel .close")?.focus({ preventScroll: true });
+    return {
+      settingsInert: !!sets?.hasAttribute("inert"),
+      achInert: !!achs?.hasAttribute("inert"),
+      startInAch: !!document.activeElement?.closest?.(".ach-panel"),
+    };
+  })()`).catch(() => ({}));
+  let leaked = 0;
+  const seen = [];
+  for (let i = 0; i < 3; i++) {
+    await tab(true);
+    const cur = await evaluate(`(() => {
+      const a = document.activeElement;
+      return {
+        inAch: !!a?.closest?.(".ach-panel"),
+        inSet: !!a?.closest?.(".sanity-pop"),
+        cls: (a?.className ?? "").toString().split(" ")[0] || "?",
+      };
+    })()`).catch(() => ({}));
+    seen.push(`${cur.cls}${cur.inAch ? "(成就内)" : cur.inSet ? "(设置内)" : "(外)"}`);
+    if (!cur.inAch) leaked += 1;
+  }
+  await closeAll();
+  return {
+    ok: !!state.settingsInert && state.achInert === false && !!state.startInAch && leaked === 0,
+    settingsInert: state.settingsInert,
+    achInert: state.achInert,
+    startInAch: state.startInAch,
+    leaked,
+    seen,
   };
 }
 
@@ -2393,6 +2489,8 @@ const realRail = probeSkip ? { ok: true, skipped: true } : await realRailExpandP
 const realCat = probeSkip ? { ok: true, skipped: true } : await realCategoryPickProbe();
 // round77 收尾（界面审计 §1.3 / L5 / L6 · 6b 任务书“Tab 走查”）：真键盘才验得出 `:focus-visible` 与 Tab 顺序
 const realTab = probeSkip ? { ok: true, skipped: true } : await tabWalkthroughProbe();
+// round96：两层栈的真 Tab（父层 inert 的 Tab 语义）
+const realStackTab = probeSkip ? { ok: true, skipped: true } : await stackTabProbe();
 // round78（3.1b₂ · Step 1）：块上动作浮层的真鼠标 / 真键盘（`#1` 链接后常亮 / `#2b` 聚焦盖名字）
 const realActs = probeSkip ? { ok: true, skipped: true } : await realBlockActionsProbe();
 // round82（11.2）：真鼠标 / 真键盘 —— 并排块浮层三档排布（固定宽 / 不竖排 / 命中区 24）
@@ -2492,6 +2590,15 @@ console.log(
   }`,
 );
 console.log(
+  `真键盘探针（round96 两层栈：设置→成就，父层 inert / Shift+Tab 不越层）：${
+    realStackTab.skipped
+      ? `（跳过：${realStackTab.why ?? ""}）`
+      : realStackTab.ok
+        ? `✓ 父层inert=${realStackTab.settingsInert} 栈顶inert=${realStackTab.achInert} · Shift+Tab 3 下都在成就内（${(realStackTab.seen ?? []).join(" → ")}）`
+        : `✗ 父层inert=${realStackTab.settingsInert} 栈顶inert=${realStackTab.achInert} 起扫在成就=${realStackTab.startInAch} 越层=${realStackTab.leaked}（${(realStackTab.seen ?? []).join(" → ")}）`
+  }`,
+);
+console.log(
   `真输入探针（CDP 真鼠标：链两块后浮层不靠焦点常亮 / hover 才出 / Tab 到块上不盖名字）：${
     realActs.skipped
       ? "（跳过）"
@@ -2569,6 +2676,11 @@ if (!realCat.ok) {
 }
 if (!realTab.ok) {
   console.error("❌ 真键盘探针失败 —— 面板开着时 Tab 落到遮罩 / 块聚焦后浮层盖住名字 / Tab 进按钮浮层不出现 / 焦点环不可见（看上一行）");
+  cleanup();
+  process.exit(1);
+}
+if (!realStackTab.ok) {
+  console.error("❌ 真键盘探针失败 —— 两层栈时 Shift+Tab 越过了父层（`inert` 的 Tab 语义没生效；看上一行）");
   cleanup();
   process.exit(1);
 }

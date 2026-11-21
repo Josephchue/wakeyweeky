@@ -1319,6 +1319,7 @@ window.__emitEvent = (event, payload) => {
 
 // round68（19.1）：暗章假数据 —— 与真后端同形（未点亮 = "???" + 条件 + 进度；隐藏档过滤）
 let achievementPanelOpened = false;
+let achievementStackDeep = false;
 function achievementFixture() {
   const t = nowSec - 3600;
   const rows = [
@@ -1330,6 +1331,7 @@ function achievementFixture() {
     { id: "first_template", name: "???", desc: "???", cond: "用一次模板铺骨架", progress: 0, target: 0, unlocked: false, unlocked_at: null, tier: 0, group: "入门", hidden: false },
     { id: "ma_hou_pao", name: "???", desc: "???", cond: "超时完成过一次", progress: 0, target: 0, unlocked: false, unlocked_at: null, tier: 0, group: "彩蛋", hidden: false },
     { id: "panel_first", name: "对暗号的人", desc: "第一次打开暗章面板。", cond: "打开暗章面板", progress: 1, target: 0, unlocked: achievementPanelOpened, unlocked_at: achievementPanelOpened ? nowSec : null, tier: 0, group: "功能探索", hidden: true },
+    { id: "sky_is_the_limit", name: achievementStackDeep ? "天空即为极限" : "???", desc: achievementStackDeep ? "同时叠起三层覆盖面板。" : "???", cond: "面板叠到 3 层", progress: achievementStackDeep ? 1 : 0, target: 0, unlocked: achievementStackDeep, unlocked_at: achievementStackDeep ? nowSec : null, tier: 0, group: "功能探索", hidden: false },
   ];
   // round79（78-11）：点了「重置成就」→ 全部回到未点亮（隐藏档也重新藏起来）——
   // 照真后端的语义：**不是**把行删掉，而是「点亮记录清空 + 计分起点挪到此刻」＝从此刻起重新挣。
@@ -1409,6 +1411,10 @@ window.__TAURI_INTERNALS__ = {
       );
     }
     if (cmd === "list_sequences") return FIX.sequences;
+    // round94（#15）：SQLite `PRAGMA data_version` 的假实现 —— **只被「外部写入」推高**，
+    // App 自己的写路径（mark_block_done / create_block / …）**不碰它**，与真后端同语义。
+    // 断言里 `window.__DATA_VERSION += 1` 就等于「外部脚本改过库了」。
+    if (cmd === "data_version") return window.__DATA_VERSION ?? 1;
     // round64.1（CG）：序列取出的**写侧**（真后端有、以前这里没有 → 「取出」在预览里不可能被记到）
     if (cmd === "remove_sequence_member") {
       takeUndoSnapshot();
@@ -2364,11 +2370,12 @@ window.__TAURI_INTERNALS__ = {
       }
       window.__ACH_CALLS = (window.__ACH_CALLS || 0) + 1;
       const rows = achievementFixture();
-      return { unlocked: rows.filter((r) => r.unlocked).length, total: 98, rows };
+      return { unlocked: rows.filter((r) => r.unlocked).length, total: 99, rows };
     }
     // round79（78-11）：重置成就 —— 清空点亮记录 + 计分起点挪到此刻（断言自己关开关）
     if (cmd === "reset_achievements") {
       window.__ACH_RESET = true;
+      achievementStackDeep = false;
       window.__ACH_RESET_CALLS = (window.__ACH_RESET_CALLS || 0) + 1;
       return null;
     }
@@ -2379,6 +2386,13 @@ window.__TAURI_INTERNALS__ = {
         // 照真后端：点亮 panel_first 并广播（App 监听 → 短提示 + 面板挂 NEW + 重拉）
         window.__emitEvent("achievement-unlocked", [
           { id: "panel_first", name: "对暗号的人", unlocked_at: Math.floor(Date.now() / 1000) },
+        ]);
+      }
+      if (args?.signal === "stack_deep" && !achievementStackDeep) {
+        achievementStackDeep = true;
+        // round96（R-11）：叠到 3 层 → 点亮「天空即为极限」
+        window.__emitEvent("achievement-unlocked", [
+          { id: "sky_is_the_limit", name: "天空即为极限", unlocked_at: Math.floor(Date.now() / 1000) },
         ]);
       }
       return null;

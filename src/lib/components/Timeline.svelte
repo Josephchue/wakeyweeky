@@ -38,6 +38,8 @@ import { note } from "../stores/achievements.svelte";
 import { attachDragHost, drag, refreshDragDrop } from "../stores/drag.svelte";
 import { autoScrollTo, stopAutoScroll } from "../utils/autoscroll";
 import { clock } from "../stores/clock.svelte";
+// round94（#15）：手动重载（↻ 按钮 / 局内键 `R`）共用同一个重拉入口
+import { reloadAll } from "../stores/datasync.svelte";
   import { cancelLink, link, reloadSequences } from "../stores/sequences.svelte";
   import { tasks } from "../stores/tasks.svelte";
   import { featureOn, prefs } from "../stores/settings.svelte";
@@ -74,10 +76,12 @@ import {
     type BlockBox,
 } from "../utils/timeline";
   import { formatClock, formatClockRange, formatDuration, getCurrentWeek } from "../utils/week";
+  // round94（#2）：打开 / 回到本周时「现在」滚到视口上 1/3（纯几何在 `utils/scroll-target.ts`）
+  import { initialScrollTop } from "../utils/scroll-target";
   import { goNow, goWeek } from "../stores/week.svelte";
 import { closeReview, nudge, openReview, review } from "../stores/review.svelte";
 import { closeStats, openStats, stats } from "../stores/stats.svelte";
-import { anyPanelOpen, closeTopPanel } from "../stores/panels.svelte";
+import { anyPanelOpen, closeTopPanel, isTopPanel } from "../stores/panels.svelte";
   import { untrack } from "svelte";
   import { redo, undo } from "../stores/history.svelte";
   import { dayOf, overloadedDays, sanity, sanityBar } from "../stores/sanity.svelte";
@@ -514,7 +518,7 @@ import { anyPanelOpen, closeTopPanel } from "../stores/panels.svelte";
       if (matches(event, "settings") && (singleKeyOn || !isSingleKey("settings"))) {
         event.preventDefault();
         releasePointerFocus();
-        openSettingsPanel();
+        openSettingsPanel({ nest: "top" });
         return;
       }
       if (matches(event, "selectAll") && (singleKeyOn || !isSingleKey("selectAll"))) {
@@ -543,14 +547,16 @@ import { anyPanelOpen, closeTopPanel } from "../stores/panels.svelte";
           return;
         }
       }
-      // round78（3.1b₂ · `键-03`）：`?` 打开/关掉键位面板（子层：叠在设置上也行 —— 不受 anyPanelOpen 拦）
-      // round83（§8.2）：与设置里那个入口**合并成同一个面板** —— `?` 打开时总表在最上（不退化）
+      // round96：`?` 开/关键位面板 —— 已是栈顶才关；没开就叠栈顶（单实例，不重排）
       if (matches(event, "keyHelp")) {
         if (!singleKeyOn) return;
         event.preventDefault();
         releasePointerFocus();
-        if (keymapPanel.open) closeKeymapPanel();
-        else openKeymapPanel();
+        if (keymapPanel.open) {
+          if (isTopPanel("keymap")) closeKeymapPanel();
+        } else {
+          openKeymapPanel({ nest: "top" });
+        }
         return;
       }
 
@@ -563,6 +569,15 @@ import { anyPanelOpen, closeTopPanel } from "../stores/panels.svelte";
         event.preventDefault();
         releasePointerFocus();
         goNow();
+        return;
+      }
+
+      // round94（#15）：局内键 `R` = **手动重载数据**（与头部 `↻` 同一个函数）。
+      // 浮层开着不抢（面板里可能在改设置）；在输入框里时上面已经 `inInput` 早退了 —— 打字不会触发。
+      if (matches(event, "reload") && featureOn("keyboard_enabled") && !anyPanelOpen()) {
+        event.preventDefault();
+        releasePointerFocus();
+        void manualReload();
         return;
       }
 
@@ -580,58 +595,52 @@ import { anyPanelOpen, closeTopPanel } from "../stores/panels.svelte";
       //   并让位给块操作 —— `W/A/S/D` 是方向键的平行键位（`S` = 往下），
       //   旧写法排在块分支之前 → 选中块按 `S` 去开统计、**劫持了「往下」**（实测抓到）。
       //   口径：面板开着 → 只认「关自己那层」；面板没开 → 只在没有选中块/手势时开。
-      //   跨面板的开/关/叠层留给面板栈那一块统一（本步只做「自己那层」）。
+      // round96：键盘开口 = **叠栈顶**（R2）；同键只关「栈顶那一层」（不是栈顶时不动）
       const wantReview = matches(event, "review");
       const wantStats = matches(event, "stats");
       if (wantReview || wantStats) {
         if (!singleKeyOn) return; // round78（键-04）：单键受「键盘快捷键」开关管
-        // round78（栈-07）：面板栈深 → 决定「只关自己那层」还是「可以开」
-        const panelOpen = anyPanelOpen();
         // round82（11.5）/ round78 ④：选中块 / 拿起 / 拖动 / 待链 —— 单键要让位给块操作（`S` = 往下）
         const blockBusy =
           !!selection.blockId || selection.grabbed || drag.blockId !== null || link.pendingId !== null;
-        if (panelOpen) {
-          if (wantReview && featureOn("review_enabled") && review.open) {
-            event.preventDefault();
-            releasePointerFocus();
-            closeReview();
-            return;
-          }
-          if (wantStats && featureOn("stats_enabled") && stats.open) {
-            event.preventDefault();
-            releasePointerFocus();
-            closeStats();
-            return;
-          }
-          // round82（12/11.5）：总览开着（统计没开）→ `S` 把统计当**总览子层**打开
-          // （面板栈里它是 child，`Esc` 只关它这一层，关掉回总览）；块忙着时不出手
-          if (wantStats && featureOn("stats_enabled") && review.open && !blockBusy) {
-            event.preventDefault();
-            releasePointerFocus();
-            void openStats({ asChild: true });
-            return;
-          }
-        } else if (!blockBusy) {
-          if (wantReview && featureOn("review_enabled")) {
-            event.preventDefault();
-            releasePointerFocus();
-            openReview();
-            return;
-          }
-          if (wantStats && featureOn("stats_enabled")) {
-            event.preventDefault();
-            releasePointerFocus();
-            // round83（§8.1 顺带拍 · Q4）：入口口径 = **功能开关** —— 总览功能开着时，
-            // `S` 与顶栏那条一致：先开总览 + 统计子层（键盘仍能直达统计）；
-            // 总览功能关着时才开**独立**统计面板。
-            if (featureOn("review_enabled")) {
-              openReview();
-              void openStats({ asChild: true });
-            } else {
-              openStats();
+        if (wantReview) {
+          if (review.open) {
+            if (isTopPanel("review")) {
+              event.preventDefault();
+              releasePointerFocus();
+              closeReview();
             }
             return;
           }
+          if (!featureOn("review_enabled") || blockBusy) return;
+          event.preventDefault();
+          releasePointerFocus();
+          openReview(undefined, { nest: "top" });
+          return;
+        }
+        if (stats.open) {
+          if (isTopPanel("stats")) {
+            event.preventDefault();
+            releasePointerFocus();
+            closeStats();
+          }
+          return;
+        }
+        if (!featureOn("stats_enabled")) return;
+        if (blockBusy) {
+          // 选中块 / 拿起 / 拖动 / 待链：`S` 是块操作（往下）—— 不拦截，继续往下走
+        } else {
+          event.preventDefault();
+          releasePointerFocus();
+          // round83（§8.1 顺带拍 · Q4）：入口口径 = **功能开关** —— 总览功能开着时，
+          // `S` 仍能直达统计：先开总览（叠栈顶）+ 统计（栈顶）；总览关着时才开独立统计。
+          if (featureOn("review_enabled")) {
+            openReview(undefined, { nest: "top" });
+            void openStats({ nest: "top" });
+          } else {
+            void openStats({ nest: "top" });
+          }
+          return;
         }
       }
 
@@ -653,8 +662,11 @@ import { anyPanelOpen, closeTopPanel } from "../stores/panels.svelte";
       // 改名 / 新建任务的输入框是另一个例外，但那段在上面那条守卫里就返回了。
       if (event.key === "Escape") {
         event.preventDefault();
-        // rounds78（栈-02）：**面板栈顶优先** —— 只关一层（以前 7 处各自监听 → 一次 Esc 全关）
-        if (closeTopPanel()) return;
+        // rounds96：**面板栈顶优先** —— 只关一层；忙时拒绝关闭也吃掉这一下（不再顺手清选中）
+        if (anyPanelOpen()) {
+          closeTopPanel();
+          return;
+        }
         if (selection.grabbed) {
           void handleKeyAction({ type: "cancel" });
           return;
@@ -1208,12 +1220,82 @@ import { anyPanelOpen, closeTopPanel } from "../stores/panels.svelte";
     window.addEventListener("pointercancel", onMarqueeUp);
   }
 
-  // round24：时间轴改成整天 00:00–24:00（用户要 0 点后那段能看见），但**打开时仍停在 06:00**（用户拍板）
-  // —— 06:00 = 第 12 格；只在挂载时滚一次，之后你滚到哪就是哪（换周也不动）
+  // round94（#2）：**打开**时把「现在」滚到视口上 1/3（旧口径：固定停 06:00 —— round24 的老拍板）；
+  // 看不到今天（别的周 / 周末被藏）→ 回落 6:00。只跑**一次**：现在线每分钟跳、切密度、翻周都不许把视野拽走。
+  let didInitialScroll = false;
+  /** 滚一次「现在」（挂载那一次与 `goNow()` 的 tick 共用）——
+   *  读值全部 `untrack`：这是命令，不是派生（否则每分钟的时钟都会把视野拽回去）。 */
+  function scrollToNowOnce(): void {
+    const el = scrollEl;
+    if (!el) return;
+    const target = initialScrollTop({
+      dayHead: DAY_HEAD_PX,
+      nowY: untrack(() => nowY),
+      viewport: el.clientHeight,
+      max: Math.max(0, el.scrollHeight - el.clientHeight),
+      fallback: DAY_HEAD_PX + 12 * untrack(() => slotHeightPx()),
+    });
+    el.scrollTop = target;
+  }
+
   $effect(() => {
-    if (!scrollEl) return;
-    scrollEl.scrollTop = DAY_HEAD_PX + 12 * slotHeightPx();
+    if (!scrollEl || didInitialScroll) return;
+    didInitialScroll = true;
+    untrack(() => scrollToNowOnce());
   });
+
+  /**
+   * round94（#2，验收回修）：挂载那一刻布局**还没稳** —— 启动时陆续出现的提示条（理智条 / 复盘提醒 / 引导条）
+   * 会把 `.scroll` 的有效高度改几十到上百像素，于是「现在线落在上 1/3」会漂到 45–51%（验收实测）。
+   * 这里做**有界的二次锚定**：挂载后 2 秒内、且用户还没碰过滚动区时，高度一变就重新锚一次；
+   * 之后永久停手 —— 换周 / 切密度 / 每分钟的时钟都不许再拽视野（`round94 ⑬` 守着这条）。
+   */
+  const REANCHOR_WINDOW_MS = 2000;
+  $effect(() => {
+    const el = scrollEl;
+    if (!el) return;
+    const settleUntil = performance.now() + REANCHOR_WINDOW_MS;
+    let touched = false;
+    const stop = () => {
+      touched = true;
+    };
+    el.addEventListener("wheel", stop, { passive: true });
+    el.addEventListener("pointerdown", stop);
+    el.addEventListener("keydown", stop);
+    const ro = new ResizeObserver(() => {
+      if (touched || performance.now() > settleUntil) return;
+      untrack(() => scrollToNowOnce());
+    });
+    ro.observe(el);
+    return () => {
+      ro.disconnect();
+      el.removeEventListener("wheel", stop);
+      el.removeEventListener("pointerdown", stop);
+      el.removeEventListener("keydown", stop);
+    };
+  });
+
+  // round94（#2）：**回到本周**也要滚到现在（你 2026-11-21 拍板）。
+  // 三个入口（`T` 键 / 头部「回到本周」/ 统计页「去时间轴」）都走 `goNow()` → 它涨这个 tick；
+  // **跳周（`goWeek` / ←→）不涨** → 「换周不抢滚动」的老口径不变。
+  $effect(() => {
+    const tick = week.nowScrollTick;
+    if (!tick) return; // 0 = 启动时还没点过（挂载那一次由上面管）
+    untrack(() => scrollToNowOnce());
+  });
+
+  /**
+   * round94（#15，你 2026-11-21 拍板）：**手动重载**（头部 `↻` / 局内键 `R`）。
+   * 与自动检测共用一个入口（`reloadAll`）—— 不跑开周维护，只把「任务 / 这一周的块 / 序列」重拉。
+   * 成功给一条短提示（手动动作得有反馈；自动那条另外说「检测到外部改动」）。
+   */
+  async function manualReload(): Promise<void> {
+    // 拖动 / 键盘拿起中不重拉（6b P2）：整周数组被换掉，手势就断在半路。
+    // 改名**不拦** —— 用户主动点 ↻ 就是想刷新；键盘 `R` 在输入框里本来就被 `inInput` 早退了。
+    if (drag.blockId !== null || drag.taskId !== null || selection.grabbed) return;
+    await reloadAll();
+    toast(t("ui.app.11"));
+  }
 
   /**
    * round25：把指针换成落点（手势引擎调用）。**只看坐标**：
@@ -1353,6 +1435,11 @@ import { anyPanelOpen, closeTopPanel } from "../stores/panels.svelte";
       <!-- C1.5：撤销 / 重做（栈空时点一下会提示「没有可撤销的操作」） -->
       <button type="button" title={t("ui.timeline.37")} onclick={() => void undo()}><Icon name="undo-2" size={16} /></button>
       <button type="button" title={t("ui.timeline.38")} onclick={() => void redo()}><Icon name="redo-2" size={16} /></button>
+      <!-- round94（#15，你 2026-11-21 拍板）：**手动重载**（局内键 `R` 同效）。
+           用途：外部程序（学业OS / 脚本）改过库、或你怀疑界面是旧的 —— 不等 2.5 秒的自动检测。 -->
+      <button type="button" class="reload" title={t("ui.timeline.60")} onclick={() => void manualReload()}
+        ><Icon name="refresh-cw" size={16} /></button
+      >
     </nav>
     {#if weekendNoteText}
       <!-- round67.1（你的第 6 条）：没内容就不出现 —— 有块/有预览才说，点一下恢复显示 -->
@@ -1384,7 +1471,7 @@ import { anyPanelOpen, closeTopPanel } from "../stores/panels.svelte";
         class="review-open"
         class:dot={nudge.show}
         title={t("ui.timeline.41")}
-        onclick={() => openReview()}><Icon name="layout-grid" size={16} />{t("ui.timeline.51")}</button
+        onclick={(e) => openReview(undefined, { from: e.currentTarget })}><Icon name="layout-grid" size={16} />{t("ui.timeline.51")}</button
       >
     {/if}
     <!-- 10.1（round60）：数据统计入口（全时段累计；只读面板）
@@ -1396,7 +1483,7 @@ import { anyPanelOpen, closeTopPanel } from "../stores/panels.svelte";
         type="button"
         class="stats-open"
         title={t("ui.timeline.42")}
-        onclick={() => openStats()}><Icon name="chart-column" size={16} />{t("ui.timeline.52")}</button
+        onclick={(e) => openStats({ from: e.currentTarget })}><Icon name="chart-column" size={16} />{t("ui.timeline.52")}</button
       >
     {/if}
     {#if featureOn("templates_enabled")}
@@ -1517,11 +1604,11 @@ import { anyPanelOpen, closeTopPanel } from "../stores/panels.svelte";
               type="button"
               class="day-pick"
               title={t("ui.timeline.45")}
-              onclick={() => openReview(start)}
+              onclick={(e) => openReview(start, { from: e.currentTarget })}
             >
               {formatDayLabel(day)}
             {#if sanity.enabled && load && load.minutes > 0}
-              <!-- C6：耗能小条（常驻指示器）。长度 = 占预算多少；≥100% 变红。
+              <!-- C6：耗能小条（常驻指示器）。长度 = 占预算多少；>100% 变红（round94 / #1：正好用完不算超）。
                    未来那些天是「预计」（还没发生）→ 淡一点；但**超载不淡**（那是要你看见的） -->
               <span
                 class="load {load.state}"
@@ -1898,7 +1985,7 @@ import { anyPanelOpen, closeTopPanel } from "../stores/panels.svelte";
   /* round61（10.2 多选）/ round61.2：框选矩形 —— 覆盖物，不接事件；画在 `.board` 里（内容坐标系） */
   .marquee-rect {
     position: absolute;
-    z-index: 70;
+    z-index: 10; /* round96（R5）：板内覆盖，不再越过栈遮罩（40+） */
     pointer-events: none;
     border: 1px solid var(--accent);
     border-radius: var(--radius);
@@ -2042,7 +2129,7 @@ import { anyPanelOpen, closeTopPanel } from "../stores/panels.svelte";
     opacity: 0.5;
   }
 
-  /* 超载（≥100%）：实心警示色 */
+  /* 超载（>100%；round94 / #1：正好用完不算超）：实心警示色 */
   .load.over i {
     background: var(--warn);
     opacity: 1;
@@ -2102,12 +2189,17 @@ import { anyPanelOpen, closeTopPanel } from "../stores/panels.svelte";
     background: var(--dim-band);
   }
 
-  /* round76（3.1a）：现在线（你要的「现在线」：一条警示色横线 + 右端小牌） */
+  /* round76（3.1a）：现在线（你要的「现在线」：一条警示色横线 + 右端小牌）
+     round94（#13）：`z-index` 3 → **1**。旧值的 bug：`.actions` 也是 3，而线在块之后渲染 →
+     **同层靠后赢**，鼠标悬到块上时线的 2px 把浮出的动作条腰斩（用户实测「点不到」）。
+     为什么是压线而不是抬浮层：浮层在 `.block` 里，而 `.block.selected{z-index:2}` 会新建层叠上下文 ——
+     抬浮层对「选中块」无效；线压到 1 之后：未选中块（auto/0）仍在它下面（线照样压在块身上），
+     选中块（2）与浮层（3）都跑在它上面。日头吸顶（4）不受影响。 */
   .now-line {
     position: absolute;
     right: 0;
     left: 0;
-    z-index: 3; /* 压在块上、但在吸顶日头（z-index 4）下面 */
+    z-index: 1; /* 压在块身上，但在动作浮层（3）与选中块（2）下面 */
     height: 2px;
     background: var(--now-line);
     pointer-events: none;

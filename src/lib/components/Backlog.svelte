@@ -1303,8 +1303,12 @@ import NewTaskInput from "./NewTaskInput.svelte";
     outline: none;
   }
 
+  /* round94（#17）：以前写死 76px —— 比 WebView2 里 `input[type=time]` 的**固有宽度**还窄，
+     内部编辑器直接被硬裁（`scrollWidth` 抓不到这类裁切；宽松档实测固有 77 > 76，用户截图里 `08:15` 被切）。
+     现在跟内容走：固有宽 + 不参与伸缩 → 一行挤不下就换行（`.repeat-form` 本来就是 `flex-wrap`）。 */
   .repeat-form input.repeat-time {
-    width: 76px;
+    width: auto;
+    flex: 0 0 auto;
   }
 
   .repeat-form .layer-toggle {

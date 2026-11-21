@@ -290,7 +290,7 @@
 
   .cat-pop {
     position: fixed;
-    z-index: 50;
+    z-index: 20;
     max-height: 220px;
     padding: var(--space-1);
     overflow-y: auto;

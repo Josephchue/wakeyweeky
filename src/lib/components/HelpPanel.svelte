@@ -1,6 +1,6 @@
 <script lang="ts">
   import { getLocale, t } from "../i18n/i18n.svelte";
-  import { focusTrap, scrollableRegion } from "../utils/modal";
+  import { scrollableRegion } from "../utils/modal";
   import Icon from "../icons/Icon.svelte";
   import RichText from "../i18n/RichText.svelte";
   /**
@@ -51,14 +51,7 @@
 </script>
 
 {#if guide.helpOpen}
-  <!-- round77 收尾：遮罩**不进 Tab 顺序**（它只是「点一下关面板」的鼠标快捷键；键盘用面板的 ✕ / Esc） -->
-  <button
-    type="button"
-    class="backdrop"
-    tabindex="-1"
-    aria-label={t("help.help_panel.04")}
-    onclick={closeHelp}
-  ></button>
+  <!-- round96：层外壳（遮罩 / inert / 焦点 / z）由 `PanelHost` 统一给；这里只画面板本体 -->
 <!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role（`section role="dialog"` 是 ARIA 认可写法，Svelte 的检查器偏严） -->
   <section
     class="overlay-panel wide help-panel"
@@ -66,7 +59,6 @@
     role="dialog"
     aria-modal="true"
     aria-label={t("help.help_panel.05")}
-    use:focusTrap={{ active: guide.helpOpen }}
   >
     <header class="panel-head">
       <h2 class="title">{t("help.help_panel.06")}</h2>
@@ -178,13 +170,6 @@
 
 <style>
   .help-panel {
-    position: fixed;
-    z-index: 41;
-    top: 4vh;
-    left: 50%;
-    transform: translateX(-50%);
-    width: min(640px, 94vw);
-    max-height: 88vh;
     display: flex;
     flex-direction: column;
     background: var(--card);

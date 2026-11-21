@@ -1,6 +1,6 @@
 <script lang="ts">
   import { t, tn } from "../i18n/i18n.svelte";
-  import { confirmDanger, focusTrap, scrollableRegion } from "../utils/modal";
+  import { confirmDanger, scrollableRegion } from "../utils/modal";
   import Icon from "../icons/Icon.svelte";
   /**
    * 10.1 统计页（R36 / round60 / 0.14.0）：全时段累计 + 近 12 周。
@@ -14,7 +14,7 @@
    */
 
   import type { Stats } from "../ipc/types";
-  import { closeStats, openStats, resetStats, stats } from "../stores/stats.svelte";
+  import { closeStats, loadStats, resetStats, stats } from "../stores/stats.svelte";
   import { closeReview } from "../stores/review.svelte";
   import { goNow } from "../stores/week.svelte";
   import { formatDate, formatDuration } from "../utils/week";
@@ -220,15 +220,7 @@
 </script>
 
 {#if stats.open}
-  <!-- round77 收尾：遮罩**不进 Tab 顺序**（它只是「点一下关面板」的鼠标快捷键；键盘用面板的 ✕ / Esc） -->
-  <button
-    class="overlay-backdrop"
-    type="button"
-    tabindex="-1"
-    aria-label={t("ui.stats_panel.48")}
-    onclick={closeStats}
-  ></button>
-  <!-- round78（栈-03/栈-04）：窄档（560）+ 模态契约（焦点陷阱 / aria-modal） -->
+  <!-- round96：层外壳（遮罩 / inert / 焦点 / z）由 `PanelHost` 统一给；这里只画面板本体 -->
 <!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role（`section role="dialog"` 是 ARIA 认可写法，Svelte 的检查器偏严） -->
   <section
     class="overlay-panel narrow stats-panel"
@@ -236,7 +228,6 @@
     role="dialog"
     aria-modal="true"
     aria-label={t("ui.stats_panel.49")}
-    use:focusTrap={{ active: stats.open }}
     use:scrollableRegion={{ label: t("ui.stats_panel.49") }}
   >
     <header class="panel-head">
@@ -250,7 +241,7 @@
         <!-- round78（3.1b₂ · 栈-10）：失败态要有「重试」 -->
         <p class="state">
           {t("ui.stats_panel.53")}
-          <button type="button" class="empty-action" onclick={() => void openStats()}>{t("ui.common.01")}</button>
+          <button type="button" class="empty-action" onclick={() => void loadStats()}>{t("ui.common.01")}</button>
         </p>
       {:else if stats.data === null}
         <p class="state">{t("ui.stats_panel.54")}</p>

@@ -172,5 +172,6 @@
   "调整时间刻度": "Adjust time scale",
   "鼠标": "Mouse",
   "Ctrl+滚轮（分隔条）": "Ctrl+wheel (divider)",
-  "Ctrl+滚轮（时间轴）": "Ctrl+wheel (timeline)"
+  "Ctrl+滚轮（时间轴）": "Ctrl+wheel (timeline)",
+  "重新载入数据（外部改动后）": "Reload data (after an external change)"
 }

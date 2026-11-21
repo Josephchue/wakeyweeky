@@ -1,7 +1,7 @@
 <script lang="ts">
   import { t } from "../i18n/i18n.svelte";
   import Icon from "../icons/Icon.svelte";
-  import { confirmDanger, focusTrap, scrollableRegion } from "../utils/modal";
+  import { confirmDanger, scrollableRegion } from "../utils/modal";
   /**
    * round66（C12）：**数据位置切换**面板（便携模式）。
    *
@@ -91,14 +91,7 @@
 </script>
 
 {#if dataSwitch.open}
-  <!-- round77 收尾：遮罩**不进 Tab 顺序**（它只是「点一下关面板」的鼠标快捷键；键盘用面板的 ✕ / Esc） -->
-  <button
-    type="button"
-    class="overlay-backdrop"
-    tabindex="-1"
-    aria-label={t("ui.data_switch.09")}
-    onclick={() => !busy && closeDataSwitch()}
-  ></button>
+  <!-- round96：层外壳（遮罩 / inert / 焦点 / z）由 `PanelHost` 统一给；这里只画面板本体 -->
 <!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role（`section role="dialog"` 是 ARIA 认可写法，Svelte 的检查器偏严） -->
   <section
     class="overlay-panel narrow switch-panel"
@@ -106,7 +99,6 @@
     role="dialog"
     aria-modal="true"
     aria-label={t("ui.data_switch.10")}
-    use:focusTrap={{ active: dataSwitch.open }}
     use:scrollableRegion={{ label: t("ui.data_switch.11") }}
     data-data-switch
     data-portable={info?.portable ?? false}

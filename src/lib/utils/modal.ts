@@ -3,7 +3,9 @@
  *
  * 依据 W3C APG《Dialog (Modal) Pattern》的硬要求（`docs/visual/round78-PassA-子题地图.md` §栈-03）：
  * - 打开时焦点进面板；`Tab`/`Shift+Tab` **在面板内循环**（不许跑到面板后面的页面）；
- * - 关闭时焦点**还给触发它的那个元素**（找不到就退回一个合理落点）；
+ * - 关闭时焦点**还给触发它的那个元素** —— round96 起这件事由**面板栈**（`PanelHost`）统一做：
+ *   栈知道每层的 `openedBy`，而 `focusTrap` 只负责「进 / 循环」。`deactivate` 不再还焦点
+ *   （否则父层被关时，它会把焦点从**仍开着的子层**里抢回应用 —— round95 复核 B-1）。
  * - 滚动容器要能被键盘够到（W3C ACT 规则 `0ssw9k`：滚动内容必须能顺序聚焦到达）。
  *
  * 为什么用 action 而不是每个面板各写一遍：6 个面板要**同一套**行为 —— 一处实现、六处使用，
@@ -22,7 +24,7 @@
 export { confirmDanger, type DangerOpts } from "../stores/confirm.svelte";
 
 type FocusTrapOptions = {
-  /** 面板开着吗（关掉时把焦点还回去）。面板组件里传 `open`（或 `$derived` 的布尔） */
+  /** 这一层是栈顶吗（只有栈顶把焦点圈在里面；还焦点由 `PanelHost` 统一做） */
   active: boolean;
 };
 
@@ -37,22 +39,32 @@ function focusables(root: HTMLElement): HTMLElement[] {
 }
 
 /**
- * 用法：`<section use:focusTrap={{ active: open }} ...>`
- * 打开：记住当前焦点 → 焦点进面板（第一个可聚焦项；没有就聚焦面板本身，并临时加 `tabindex="-1"`）。
- * 关闭：把焦点还给它。
+ * 焦点进某容器（第一个可聚焦项；没有就返 null）。
+ * round96：栈的「焦点送回」与 `focusTrap` 的「进来」共用这一处。
+ */
+export function focusFirst(root: HTMLElement): HTMLElement | null {
+  const first = focusables(root)[0] ?? null;
+  first?.focus({ preventScroll: false });
+  return first;
+}
+
+/**
+ * 用法：`<div use:focusTrap={{ active: isTop }} ...>`
+ * 打开：焦点进面板（第一个可聚焦项；没有就聚焦容器本身，并临时加 `tabindex="-1"`）。
+ * 关闭：**不还焦点**（round96：还焦点由 `PanelHost` 按 `openedBy` 统一做）。
  */
 export function focusTrap(node: HTMLElement, opts: FocusTrapOptions) {
   let active = opts.active;
-  let restoreTo: HTMLElement | null = null;
   let tempTabIndex = false;
 
   const focusIn = () => {
-    const first = focusables(node)[0] ?? node;
-    if (first === node && !node.hasAttribute("tabindex")) {
+    if (focusFirst(node)) return;
+    // 没东西可聚焦 → 容器自己接（并在 deactivate 时把临时 tabindex 摘掉）
+    if (!node.hasAttribute("tabindex")) {
       node.setAttribute("tabindex", "-1");
       tempTabIndex = true;
     }
-    first.focus({ preventScroll: false });
+    node.focus({ preventScroll: false });
   };
 
   const onKeydown = (event: KeyboardEvent) => {
@@ -72,7 +84,6 @@ export function focusTrap(node: HTMLElement, opts: FocusTrapOptions) {
   };
 
   const activate = () => {
-    restoreTo = (document.activeElement as HTMLElement | null) ?? null;
     // 等一帧：面板的 `{#if}` 刚渲染出来，尺寸/可聚焦项还要一帧才稳定
     queueMicrotask(focusIn);
     // 捕获阶段拦 Tab：面板内循环优先于页面的其它 Tab 处理
@@ -85,9 +96,7 @@ export function focusTrap(node: HTMLElement, opts: FocusTrapOptions) {
       node.removeAttribute("tabindex");
       tempTabIndex = false;
     }
-    // 焦点还给打开它的那个按钮（它没了就留在原地 —— 别把焦点丢到 body 上）
-    if (restoreTo && restoreTo.isConnected) restoreTo.focus({ preventScroll: true });
-    restoreTo = null;
+    // round96（R16）：**不还焦点** —— 还焦点只有一个出口：面板栈（PanelHost 按 openedBy 还）。
   };
 
   if (active) activate();

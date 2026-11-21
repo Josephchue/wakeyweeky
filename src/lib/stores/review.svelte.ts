@@ -17,8 +17,7 @@ import { getSettings, setSetting } from "../ipc/settings";
 import type { MosaicBlock, MosaicState, SanityWeek } from "../ipc/types";
 import { groupByCategory } from "../utils/category";
 import { pastWeeks } from "../utils/weekcard";
-import { prepareOpen, registerPanel } from "./panels.svelte";
-import { closeStats, stats } from "./stats.svelte";
+import { closeLayer, openLayer, registerPanel, type Nest } from "./panels.svelte";
 import { getWeekDays, shiftWeek, weekOf } from "../utils/week";
 import { setExempt as setBlockExempt } from "./blocks.svelte";
 import { setTaskExempt } from "./tasks.svelte";
@@ -174,12 +173,11 @@ export function defaultDay(): number {
  *  ① **每次都重拉**（以前「同一周只拉一次」→ 面板关着时拖了块、再打开还是旧快照，用户实测到）；
  *  ② 默认天**每次都归位**（今天在本周就是今天；否则周一）—— 不再默默记住上次看的那一天
  *     （用户问「我没点日头，为什么下面还有某天的块」）。*/
-export function openReview(day?: number) {
+export function openReview(day?: number, opts: { from?: Element | null; nest?: Nest } = {}) {
   // round64（C10）：总览开关关掉 → 不开面板（入口本来就不出现，这是第二道）
   if (!featureOn("review_enabled")) return;
-  prepareOpen("review"); // round78（栈-01）：同级开口 → 先把别的同级/子层关掉
-  review.open = true;
-  review.day = day ?? defaultDay();
+  // round96：层级由打开源推导 —— 顶栏/日头/⚠ 都在应用里（根层）；提醒自动开用 `top`
+  if (!openLayer("review", { ...opts, params: { day } })) return;
   void maybeHint("review"); // round64：第一次打开总览 → 教学提示
   void note("review"); // round68（19.1）：暗章信号
   void markSeen(week.from);
@@ -187,14 +185,23 @@ export function openReview(day?: number) {
 }
 
 export function closeReview() {
-  review.open = false;
-  // round82（11.5）：统计若是**作为总览子层**开着的，跟着一起关 —— 子层不能比父层活得久。
-  // （从顶栏独立开的统计是同级面板，不归总览管。）
-  if (stats.open && stats.asChild) closeStats();
+  // round96（R6）：关父层连坐 —— 总览上面的统计/确认等由栈统一弹掉（不再手写特例）
+  closeLayer("review");
 }
 
-// round78（栈-01）：把「怎么开关」注册给面板栈（单向依赖：store → panels，不成环）
-registerPanel({ id: "review", kind: "sibling", isOpen: () => review.open, close: () => (closeReview(), true) });
+// round78（栈-01）→ round96：注册给面板栈（层级由打开源推导，注册表只翻旗子 / 应用参数）
+registerPanel({
+  id: "review",
+  open: (params) => {
+    review.open = true;
+    const p = params as { day?: number } | undefined;
+    review.day = p?.day ?? defaultDay();
+  },
+  close: () => {
+    review.open = false;
+    return true;
+  },
+});
 
 /** 数据是不是这一周的；不是就重拉 + 把选中的那天拉回本周 */
 export function ensureMosaic() {
@@ -305,7 +312,7 @@ export function openReviewAt(weekStart: number) {
     review.loadedFrom = 0;
     review.week = null; // 强制重拉
   }
-  openReview();
+  openReview(undefined, { nest: "top" });
 }
 
 // ---------------------------------------------------------------- 周复盘提醒（评审反馈 #1）

@@ -177,8 +177,8 @@ pub struct Def {
     rule: Rule,
 }
 
-/// 定义构造函数（98 条用；短名只为让下面的表好读）
-#[allow(clippy::too_many_arguments)] // 数据表的行；拆成结构体只会让 98 行更难对照
+/// 定义构造函数（定义表用；短名只为让下面的表好读）
+#[allow(clippy::too_many_arguments)] // 数据表的行；拆成结构体只会让每行更难对照
 const fn d(
     id: &'static str,
     name: &'static str,
@@ -223,7 +223,7 @@ pub const DEFS: &[Def] = &[
     d("merge_10", i18n::msg::ACH_MERGE_10_NAME, i18n::msg::ACH_MERGE_10_DESC, i18n::msg::ACH_MERGE_10_COND, 10, 0, false, i18n::msg::ACH_GROUP_STEADY, Rule::Count(CountKey::Merge)),
     d("rearrange_100", i18n::msg::ACH_REARRANGE_100_NAME, i18n::msg::ACH_REARRANGE_100_DESC, i18n::msg::ACH_REARRANGE_100_COND, 100, 0, false, i18n::msg::ACH_GROUP_STEADY, Rule::Count(CountKey::Move)),
     d("days_100", i18n::msg::ACH_DAYS_100_NAME, i18n::msg::ACH_DAYS_100_DESC, i18n::msg::ACH_DAYS_100_COND, 100, 1, false, i18n::msg::ACH_GROUP_STEADY, Rule::ActiveDays),
-    // ---------------- 功能探索（11）
+    // ---------------- 功能探索（12）
     d("batch_first", i18n::msg::ACH_BATCH_FIRST_NAME, i18n::msg::ACH_BATCH_FIRST_DESC, i18n::msg::ACH_BATCH_FIRST_COND, 0, 0, false, i18n::msg::ACH_GROUP_EXPLORE, Rule::Signal),
     d("stats_first", i18n::msg::ACH_STATS_FIRST_NAME, i18n::msg::ACH_STATS_FIRST_DESC, i18n::msg::ACH_STATS_FIRST_COND, 0, 0, false, i18n::msg::ACH_GROUP_EXPLORE, Rule::Signal),
     d("review_first", i18n::msg::ACH_REVIEW_FIRST_NAME, i18n::msg::ACH_REVIEW_FIRST_DESC, i18n::msg::ACH_REVIEW_FIRST_COND, 0, 0, false, i18n::msg::ACH_GROUP_EXPLORE, Rule::Signal),
@@ -235,6 +235,8 @@ pub const DEFS: &[Def] = &[
     d("quiet_first", i18n::msg::ACH_QUIET_FIRST_NAME, i18n::msg::ACH_QUIET_FIRST_DESC, i18n::msg::ACH_QUIET_FIRST_COND, 0, 0, false, i18n::msg::ACH_GROUP_EXPLORE, Rule::Signal),
     d("category_first", i18n::msg::ACH_CATEGORY_FIRST_NAME, i18n::msg::ACH_CATEGORY_FIRST_DESC, i18n::msg::ACH_CATEGORY_FIRST_COND, 0, 0, false, i18n::msg::ACH_GROUP_EXPLORE, Rule::CategoryCount),
     d("panel_first", i18n::msg::ACH_PANEL_FIRST_NAME, i18n::msg::ACH_PANEL_FIRST_DESC, i18n::msg::ACH_PANEL_FIRST_COND, 0, 0, true, i18n::msg::ACH_GROUP_EXPLORE, Rule::Signal),
+    // round96：叠到 3 层面板 —— 致敬 Minecraft 的 `end/elytra`（官方中文「天空即为极限」）
+    d("sky_is_the_limit", i18n::msg::ACH_SKY_IS_THE_LIMIT_NAME, i18n::msg::ACH_SKY_IS_THE_LIMIT_DESC, i18n::msg::ACH_SKY_IS_THE_LIMIT_COND, 0, 0, false, i18n::msg::ACH_GROUP_EXPLORE, Rule::Signal),
     // ---------------- 日子（12）
     d("night_owl", i18n::msg::ACH_NIGHT_OWL_NAME, i18n::msg::ACH_NIGHT_OWL_DESC, i18n::msg::ACH_NIGHT_OWL_COND, 0, 0, false, i18n::msg::ACH_GROUP_DAYS, Rule::HourAny { from: 0, to: 3 }),
     d("early_bird", "WakeyWakey~", i18n::msg::ACH_EARLY_BIRD_DESC, i18n::msg::ACH_EARLY_BIRD_COND, 0, 0, false, i18n::msg::ACH_GROUP_DAYS, Rule::CompleteHours { from: 7, to: 8 }),
@@ -324,6 +326,7 @@ const SIGNALS: &[(&str, &[&str])] = &[
     ("help", &["help_first"]),
     ("quiet", &["quiet_first"]),
     ("panel", &["panel_first"]),
+    ("stack_deep", &["sky_is_the_limit"]),
     ("undo", &["undo_first", "hom_undo5", "undo_100"]),
     ("undo_delete", &["undo_after_delete"]),
     ("past_week", &["past_week"]),
@@ -2099,10 +2102,10 @@ mod tests {
         assert!(unlocked(&conn, "hom_way_ahead"), "done_short 该点亮遥遥领先");
     }
 
-    /// B2 #9 / B1 #11：定义表全覆盖 —— 98 条、id 唯一、四串非空、条件串不含内部术语、三档都有。
+    /// B2 #9 / B1 #11：定义表全覆盖 —— 99 条、id 唯一、四串非空、条件串不含内部术语、三档都有。
     #[test]
     fn test_definition_table_integrity() {
-        assert_eq!(DEFS.len(), 98, "首批 98 条");
+        assert_eq!(DEFS.len(), 99, "首批 99 条");
         let mut ids = HashSet::new();
         let mut tiers = [0u32; 3];
         for def in DEFS {

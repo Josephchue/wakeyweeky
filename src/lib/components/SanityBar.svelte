@@ -61,7 +61,7 @@
       class="sanity-main"
       type="button"
       title={t("ui.sanity_bar.11", { text: text })}
-      onclick={() => openReview(bad[0]?.day_start)}><Icon name="triangle-alert" size={16} />{text}</button
+      onclick={(e) => openReview(bad[0]?.day_start, { from: e.currentTarget })}><Icon name="triangle-alert" size={16} />{text}</button
     >
     <button
       class="sanity-dismiss"

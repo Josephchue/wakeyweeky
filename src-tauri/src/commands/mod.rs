@@ -2,6 +2,7 @@ pub mod achievements;
 pub mod backup;
 pub mod blocks;
 pub mod calendar;
+pub mod data;
 pub mod history;
 pub mod hints;
 pub mod hotkeys;

@@ -5,7 +5,7 @@
  * 写失败由 `ipc/call.ts` 弹 Toast、界面状态不动（不做假成功）。
  */
 import { t } from "../i18n/i18n.svelte";
-import { prepareOpen, registerPanel } from "./panels.svelte";
+import { closeLayer, openLayer, registerPanel, type Nest } from "./panels.svelte";
 import {
   applyTemplate as ipcApplyTemplate,
   createTemplate,
@@ -39,21 +39,34 @@ export const templates = $state<{
   name: "",
 });
 
-/** 打开面板；不传周就用正在看的那一周（从建议条进来时传建议的那一周） */
-export async function openPicker(weekStart?: number): Promise<void> {
-  prepareOpen("templates"); // round78（栈-01）：同级开口 → 先把别的同级/子层关掉
-  templates.open = true;
+/** 打开面板；不传周就用正在看的那一周（从建议条进来时传建议的那一周）
+ *  round96：层级由打开源推导 —— 顶栏入口 = 根层；建议条 = `nest:"top"`；重入只重应用周 */
+export async function openPicker(
+  weekStart?: number,
+  opts: { from?: Element | null; nest?: Nest } = {},
+): Promise<void> {
+  if (!openLayer("templates", { ...opts, params: { weekStart } })) return;
   templates.name = "";
-  templates.weekStart = weekStart ?? week.from;
   await Promise.all([loadList(), loadPreview(templates.weekStart)]);
 }
 
 export function closePicker(): void {
-  templates.open = false;
+  closeLayer("templates");
 }
 
-// round78（栈-01）：注册给面板栈（同级 —— 顶栏入口）
-registerPanel({ id: "templates", kind: "sibling", isOpen: () => templates.open, close: () => (closePicker(), true) });
+// round78（栈-01）→ round96：注册给面板栈（只翻旗子 + 应用参数）
+registerPanel({
+  id: "templates",
+  open: (params) => {
+    const p = params as { weekStart?: number } | undefined;
+    templates.open = true;
+    templates.weekStart = p?.weekStart ?? week.from;
+  },
+  close: () => {
+    templates.open = false;
+    return true;
+  },
+});
 
 /** 重拉名单（打开时、保存/删除后、以及 Ctrl+Z 之后由 history 统一调） */
 export async function loadList(): Promise<void> {

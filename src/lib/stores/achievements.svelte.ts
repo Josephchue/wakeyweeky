@@ -7,7 +7,7 @@
  */
 import { listAchievements, noteAchievement, resetAchievements as resetAchievementsIpc } from "../ipc/achievements";
 import type { AchievementList } from "../ipc/types";
-import { prepareOpen, registerPanel } from "./panels.svelte";
+import { closeLayer, openLayer, registerPanel, type Nest } from "./panels.svelte";
 
 export const achievements = $state<{
   /** 面板开着吗 */
@@ -54,20 +54,28 @@ export async function initAchievements(): Promise<void> {
 }
 
 /** 打开面板：先报 `panel` 信号（「对暗号的人」），再拉最新列表
- *  round78（栈-01）：它是**子层**（从设置里打开）—— 开着它的时候设置面板留在下面，关掉回到设置 */
-export async function openAchievements(): Promise<void> {
-  prepareOpen("achievements");
-  achievements.open = true;
+ *  round96：层级由打开源推导 —— 设置里点 = 叠设置上；Toast「查看暗章」/ 键盘 = `nest:"top"` */
+export async function openAchievements(opts: { from?: Element | null; nest?: Nest } = {}): Promise<void> {
+  if (!openLayer("achievements", opts)) return;
   await note("panel");
   await loadAchievements();
 }
 
 export function closeAchievements(): void {
-  achievements.open = false;
+  closeLayer("achievements");
 }
 
-// round78（栈-01）：注册给面板栈（子层）
-registerPanel({ id: "achievements", kind: "child", isOpen: () => achievements.open, close: () => (closeAchievements(), true) });
+// round78（栈-01）→ round96：注册给面板栈（只翻旗子）
+registerPanel({
+  id: "achievements",
+  open: () => {
+    achievements.open = true;
+  },
+  close: () => {
+    achievements.open = false;
+    return true;
+  },
+});
 
 /** 打一个信号（失败只记日志：ipc 层已弹 Toast，但成就不该拦住主流程） */
 export async function note(signal: string): Promise<void> {

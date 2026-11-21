@@ -16,7 +16,7 @@
  *
  * 不做撤销（round40 定的口径：能撤销的不加确认，不能撤销的才用确认 —— 两者不叠加）。
  */
-import { prepareOpen, registerPanel } from "./panels.svelte";
+import { closeLayer, openLayer, registerPanel } from "./panels.svelte";
 
 export type DangerOpts = { title: string; body: string; ok: string; cancel: string };
 
@@ -26,34 +26,56 @@ export const confirmState = $state<{
   resolve: ((ok: boolean) => void) | null;
 }>({ open: false, opts: null, resolve: null });
 
+/** 本次结账的结果（`close` 回调读它；默认 false = 取消） */
+let pendingResult: boolean | null = null;
+
 /**
  * 危险操作的统一确认（三处「重置/恢复」+ 从备份恢复 + 数据位置切换都走它）。
  * 调用方给四个文案 —— 它们各自必须**说清「毁掉什么、保留什么」**（`重置与恢复调研.md` §2）。
+ *
+ * round96：作为栈顶一层打开；**撞上限 / 忙 → resolve(false)**（fail-closed，危险动作不执行）。
  */
 export function confirmDanger(opts: DangerOpts): Promise<boolean> {
   // 理论上不该「确认框上再开确认框」；真撞上就把前一个按「取消」结掉（不留悬挂的 Promise）
-  if (confirmState.open && confirmState.resolve) confirmState.resolve(false);
-  prepareOpen("confirm");
-  confirmState.opts = opts;
-  confirmState.open = true;
+  if (confirmState.open) {
+    pendingResult = false;
+    closeLayer("confirm");
+  }
+  pendingResult = null;
+  if (!openLayer("confirm", { nest: "top", params: opts })) return Promise.resolve(false);
   return new Promise<boolean>((resolve) => {
     confirmState.resolve = resolve;
   });
 }
 
-/** 面板里的三条出路（取消 / 确认 / Esc / 遮罩）都从这里结账 */
-export function settleConfirm(ok: boolean): void {
+/** 注册给栈的 close：翻旗子 + **微任务里**结账（调用方续体不会在「栈还没弹」时又开新层） */
+function closeConfirm(): boolean {
   const resolve = confirmState.resolve;
+  const ok = pendingResult ?? false;
+  pendingResult = null;
   confirmState.open = false;
   confirmState.opts = null;
   confirmState.resolve = null;
-  resolve?.(ok);
+  if (resolve) queueMicrotask(() => resolve(ok));
+  return true;
 }
 
-// 注册给面板栈（modal：不关父面板；`Esc` 只关它 —— `Timeline` 的全局处理走 `closeTopPanel()`）
+/** 面板里的三条出路（取消 / 确认 / Esc / 遮罩）都从这里结账 */
+export function settleConfirm(ok: boolean): void {
+  if (!confirmState.open) return;
+  pendingResult = ok;
+  if (!closeLayer("confirm")) {
+    // 不在栈里（理论上不该发生）→ 直接结账，别把 Promise 挂着
+    closeConfirm();
+  }
+}
+
+// 注册给面板栈（只有栈顶收 `Esc` / 点遮罩 —— `Timeline` 的全局处理走 `closeTopPanel()`）
 registerPanel({
   id: "confirm",
-  kind: "modal",
-  isOpen: () => confirmState.open,
-  close: () => (settleConfirm(false), true),
+  open: (params) => {
+    confirmState.opts = params as DangerOpts;
+    confirmState.open = true;
+  },
+  close: () => closeConfirm(),
 });

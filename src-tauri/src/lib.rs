@@ -270,6 +270,8 @@ pub fn run() {
             commands::settings::system_locale,
             // round82（3.1c₂ · 淡-05）：夜间档跨界 —— 前端 60 秒节拍调它重刷窗口主题（不写设置）
             commands::settings::refresh_window_theme,
+            // round94（#15）：外部改库检测（`PRAGMA data_version`；前端 2.5 秒轮询一次）
+            commands::data::data_version,
             commands::sequences::create_sequence,
             commands::sequences::link_after,
             commands::sequences::remove_sequence_member,

@@ -24,7 +24,8 @@ export type CommandId =
   | "selectAll"
   | "rename"
   | "followMove"
-  | "followCopy";
+  | "followCopy"
+  | "reload";
 
 /**
  * 作用域（照 `键-04` 的优先级分层，不新造）：冲突只在**同层**里算；
@@ -49,6 +50,9 @@ export const COMMANDS: CommandDef[] = [
   { id: "stats", combo: "s", scope: "global", label: "msg.keyboard_help.48" },
   { id: "newTask", combo: "c", scope: "global", label: "ui.keymap_panel.21" },
   { id: "selectAll", combo: "Ctrl+a", scope: "global", label: "msg.keyboard_help.29" },
+  // round94（#15，你 2026-11-21 拍板）：手动重载数据。**不能用 F5 / Ctrl+R** ——
+  // `WINDOW_RESERVED` 里记着：真机实测那两个会重载整个页面（不是重拉数据）。所以默认给 `r`。
+  { id: "reload", combo: "r", scope: "global", label: "ui.keymap_panel.31" },
   { id: "rename", combo: "F2", scope: "block", label: "ui.keymap_panel.18" },
   { id: "followMove", combo: "Ctrl+x", scope: "block", label: "ui.keymap_panel.22" },
   { id: "followCopy", combo: "Ctrl+c", scope: "block", label: "ui.keymap_panel.23" },

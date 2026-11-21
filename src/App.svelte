@@ -4,13 +4,8 @@
   import type { UnlistenFn } from "@tauri-apps/api/event";
   import Backlog from "./lib/components/Backlog.svelte";
   import DriftCard from "./lib/components/DriftCard.svelte";
-  import ReviewPanel from "./lib/components/ReviewPanel.svelte";
-  import StatsPanel from "./lib/components/StatsPanel.svelte";  import FirstRun from "./lib/components/FirstRun.svelte";
-  import HelpPanel from "./lib/components/HelpPanel.svelte";
-  import DataSwitch from "./lib/components/DataSwitch.svelte";
-  import AchievementsPanel from "./lib/components/AchievementsPanel.svelte";
-  import KeymapPanel from "./lib/components/KeymapPanel.svelte";
-  import ConfirmPanel from "./lib/components/ConfirmPanel.svelte";
+  import FirstRun from "./lib/components/FirstRun.svelte";
+  import PanelHost from "./lib/components/PanelHost.svelte";
   import Timeline from "./lib/components/Timeline.svelte";
   import Toast from "./lib/components/Toast.svelte";
   import { missedSummary, onReminded } from "./lib/ipc/notify";
@@ -34,12 +29,14 @@
     SLOT_HEIGHTS,
   } from "./lib/stores/layout.svelte";
   import { toast, toastAchievement, dataSwitch } from "./lib/stores/ui.svelte";
-  import { anyPanelOpen } from "./lib/stores/panels.svelte";
+  import { anyPanelOpen, stackDepth } from "./lib/stores/panels.svelte";
   import { selection } from "./lib/stores/selection.svelte";
   import { drag } from "./lib/stores/drag.svelte";
   import { createWheelAccumulator } from "./lib/utils/wheel-zoom";
   import { refreshWeek } from "./lib/stores/week.svelte";
   import { startClock, clock } from "./lib/stores/clock.svelte";
+  // round94（#15）：外部改库检测（`PRAGMA data_version` 轮询）+ 手动/自动重载
+  import { startDataWatch, stopDataWatch } from "./lib/stores/datasync.svelte";
   import { checkNudge, loadRemindSettings } from "./lib/stores/review.svelte";
   import { checkTemplateSuggestion, maybeHint } from "./lib/stores/guide.svelte";
   import { loadPrefs, prefs, syncNightTheme } from "./lib/stores/settings.svelte";
@@ -48,9 +45,17 @@
     initAchievements,
     loadAchievements,
     markNew,
+    note,
   } from "./lib/stores/achievements.svelte";
 
-  // C3.3：拿起线头之后 —— 线头跟着鼠标走；点空白处 = 取消（若那个块在链上，等于**解除链接**）。
+  // round96（R-11）：栈深到 3 的**上升沿** → 成就「天空即为极限」
+  // （不锁「本会话一次」：重置成就后还能再挣；后端 apply_signal 本来就去重）
+  let prevStackDepth = 0;
+  $effect(() => {
+    const depth = stackDepth();
+    if (depth >= 3 && prevStackDepth < 3) void note("stack_deep");
+    prevStackDepth = depth;
+  });
   // 用两次左键而不是按住拖：用户明确说「不想一直按着左键」。
   $effect(() => {
     if (!link.pendingId) return;
@@ -93,6 +98,8 @@
 
     // round76（3.1a）：60 秒节拍的「现在」（时间轴的现在线）—— 窗口藏着时自动停
     startClock();
+    // round94（#15）：2.5 秒一次的「别人改过库吗」—— 只在 `data_version` 真变了时重拉
+    startDataWatch();
 
     void (async () => {
       try {
@@ -163,6 +170,7 @@
     return () => {
       clearInterval(weekTimer);
       window.removeEventListener("focus", onFocus);
+      stopDataWatch();
       unlisten?.();
       unlistenBlockUpdated?.();
       unlistenAchievements?.();
@@ -311,7 +319,7 @@
   });
 </script>
 
-<main class="shell" style="--backlog-width: {layout.backlogWidth}px">
+<main class="shell" inert={anyPanelOpen()} style="--backlog-width: {layout.backlogWidth}px">
   <Backlog />
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
   <!--
@@ -343,14 +351,9 @@
 
 <Toast />
 <DriftCard />
-<ReviewPanel />
-<StatsPanel />
-<AchievementsPanel />
-<KeymapPanel />
+<!-- round96：面板栈的唯一宿主（层序 / 共享遮罩 / inert / 还焦点）；它必须在 `main.shell` 之外 -->
+<PanelHost />
 <FirstRun />
-<HelpPanel />
-<DataSwitch />
-<ConfirmPanel />
 
 <style>
   .shell {

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { focusTrap } from "../utils/modal";
   import { confirmState, settleConfirm } from "../stores/confirm.svelte";
 
   /**
@@ -15,14 +14,7 @@
 </script>
 
 {#if confirmState.open && confirmState.opts}
-  <!-- 遮罩：点一下 = 取消（与前两个面板同一套；不进 Tab 顺序 —— 键盘走 Esc / 取消按钮） -->
-  <button
-    type="button"
-    class="overlay-backdrop confirm-backdrop"
-    tabindex="-1"
-    aria-label={confirmState.opts.cancel}
-    onclick={() => settleConfirm(false)}
-  ></button>
+  <!-- round96：层外壳（遮罩 / inert / 焦点 / z）由 `PanelHost` 统一给；这里只画面板本体 -->
   <!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role（`section role="alertdialog"` 是 ARIA 认可写法，Svelte 的检查器偏严 —— 与 SanitySettings 同一套口径） -->
   <section
     class="overlay-panel narrow confirm-panel"
@@ -30,7 +22,6 @@
     aria-modal="true"
     aria-labelledby="confirm-title"
     aria-describedby="confirm-body"
-    use:focusTrap={{ active: true }}
     data-confirm-panel
   >
     <h3 id="confirm-title">{confirmState.opts.title}</h3>
@@ -50,14 +41,8 @@
 {/if}
 
 <style>
-  /* modal 层盖在所有覆盖面板之上（overlay.css 里给 `.modal` 的 z-index 比同级/子层高） */
-  .confirm-backdrop {
-    z-index: 48;
-  }
-
   .overlay-panel.confirm-panel {
     --overlay-w: min(420px, calc(100vw - 32px));
-    z-index: 49;
     padding: var(--space-3);
     background: var(--card);
     border: 1px solid var(--text-secondary);

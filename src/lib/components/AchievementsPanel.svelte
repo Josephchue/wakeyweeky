@@ -1,6 +1,6 @@
 <script lang="ts">
   import { t } from "../i18n/i18n.svelte";
-  import { confirmDanger, focusTrap, scrollableRegion } from "../utils/modal";
+  import { confirmDanger, scrollableRegion } from "../utils/modal";
   import Icon from "../icons/Icon.svelte";
   /**
    * round68（19.1）成就（暗章）面板 —— **照 MAA 的列表形态**：
@@ -59,21 +59,12 @@
 
 
 {#if achievements.open}
-  <!-- round77 收尾：遮罩**不进 Tab 顺序**（它只是「点一下关面板」的鼠标快捷键；键盘用面板的 ✕ / Esc） -->
-  <button
-    class="backdrop"
-    type="button"
-    tabindex="-1"
-    aria-label={t("ui.achievements_panel.01")}
-    onclick={closeAchievements}
-  ></button>
+  <!-- round96：层外壳（遮罩 / inert / 焦点 / z）由 `PanelHost` 统一给；这里只画面板本体 -->
   <div
     class="overlay-panel narrow ach-panel"
     role="dialog"
     aria-modal="true"
     aria-label={t("ui.achievements_panel.02")}
-    use:focusTrap={{ active: achievements.open }}
-    use:scrollableRegion={{ label: t("ui.achievements_panel.01") }}
   >
     <header class="panel-head">
       <h2 class="title">{t("ui.achievements_panel.03")}</h2>
@@ -81,7 +72,7 @@
       <button class="close" type="button" onclick={closeAchievements} title={t("ui.achievements_panel.05")}><Icon name="close" size={16} /></button>
     </header>
 
-    <div class="body">
+    <div class="body" use:scrollableRegion={{ label: t("ui.achievements_panel.01") }}>
       {#if achievements.loading && !achievements.data}
         <p class="state">{t("ui.achievements_panel.06")}</p>
       {:else if achievements.failed}
@@ -156,7 +147,11 @@
     /* round78（栈-04）：定位/宽度/最大高交给 `.overlay-panel.narrow`（固定左缘 + 560 档） */
     display: flex;
     flex-direction: column;
-    overflow: auto;
+    /* round94（验收带回）：「暗章界面最上面一层没有固定」—— 以前这里是 `overflow: auto`，把
+       `.overlay-panel` 的 `overflow: hidden` 顶掉了，滚动容器成了**整个面板** → 列表一长，
+       标题行（暗章 / 已点亮 N / ✕）跟着滚走，鼠标就没地方关它了。
+       现在跟设置 / 统计 / 总览同一个结构：**面板不滚，内容区滚**。 */
+    overflow: hidden;
     background: var(--card);
     border: 1px solid var(--text-secondary);
     border-radius: var(--radius-lg); /* round77：面板/浮层走圆角阶梯的 lg（Fluent：浮层 8px） */
@@ -197,6 +192,11 @@
     flex-direction: column;
     gap: var(--space-4);
     padding: var(--space-4);
+    /* flex 子项要能缩，否则不会出滚动条（`min-height: 0` 是这条的开关） */
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
   }
 
   .state {

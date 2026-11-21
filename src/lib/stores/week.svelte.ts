@@ -16,6 +16,14 @@ export const week = $state({
   from: getCurrentWeek().from,
   to: getCurrentWeek().to,
   following: true,
+  /**
+   * round94（#2）：**要不要把「现在」滚进视野**的信号（单调递增）。
+   * 你 2026-11-21 拍板：「打开」与「回到本周」（`T` 键 / 头部按钮 / 统计页「去时间轴」）都要滚到现在；
+   * **跳周（`goWeek` / ←→）不涨** —— 换周不抢滚动。
+   * 为什么用信号而不是事件总线 / 直接调 DOM：时间轴的滚动容器在 `Timeline` 里，
+   * store 不该去摸 DOM；一个计数器就能让「多个入口」天然同效。
+   */
+  nowScrollTick: 0,
 });
 
 /**
@@ -40,12 +48,13 @@ export function goWeek(deltaWeeks: number) {
   noteWeekDistance(from);
 }
 
-/** 回到「现在所在的周」，并恢复跟随 */
+/** 回到「现在所在的周」，并恢复跟随（round94：顺手让时间轴把「现在」滚进视野） */
 export function goNow() {
   const current = getCurrentWeek();
   week.from = current.from;
   week.to = current.to;
   week.following = true;
+  week.nowScrollTick += 1;
 }
 
 /**

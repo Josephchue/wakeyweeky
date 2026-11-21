@@ -236,7 +236,9 @@ import {
    *
    *  round48（用户 2026-10-03 验收实测）：**取消 round25 那个「临时块双击名字 = 改名」的例外** ——
    *  它和「双击 = 标记完成」抢同一个手势，一次误操作就把块标成完成（而完成**不可回退**）。
-   *  改名改成资源管理器式：**先选中，再单击名字**（见 `onNameClick`）。 */
+   *  round94（#8b，你 2026-11-21 拍板 A）：**取消「先选中、再单击名字」那个改名手势** ——
+   *  名字上的一次单击现在只选中；改名只走 `F2` 与浮层里的 `✎`（显式入口，不再和任何手势抢地盘）。
+   *  普通块的名字属于任务（去 Backlog 改），因此 `✎` 只给**临时安排块**。 */
   async function onDoubleClick(e: MouseEvent) {
     const target = e.target as HTMLElement | null;
     if (target?.closest("button") || target?.closest(".resize") || target?.closest(".actions")) return;
@@ -248,14 +250,9 @@ import {
     }
   }
 
-  /**
-   * round48（用户 2026-10-03 拍板的手势）：**先选中这块，再单击名字 = 改名**（跟文件资源管理器一样）。
-   *
-   * 为什么读 `selectedBeforePress` 而不是「现在选中了吗」：点名字本身会先把它选中
-   * （`onPointerDown` 里的 `selectBlock`），只看「现在」的话**第一次单击就会进改名** ✗。
-   */
-  function onNameClick() {
-    if (!isTempBlock || !selectedBeforePress || selection.grabbed) return;
+  /** round94（#8b）：临时块的 `✎` —— 改名唯一鼠标入口（与 `F2` 同一个命令，都在 store 里） */
+  function onRename() {
+    if (!isTempBlock) return;
     startEditing(block.id);
   }
 
@@ -280,8 +277,6 @@ import {
   const editingName = $derived(editing.blockId === block.id);
 
   let nameInput = $state<HTMLInputElement | null>(null);
-  /** round48：按下那一刻它是不是**已经**选中了（改名手势靠它区分「选中后单击」与「第一次单击」） */
-  let selectedBeforePress = false;
 
   // 一进入改名就聚焦并全选（与 Backlog 改名同一个手感：直接打字即整体替换）
   $effect(() => {
@@ -317,18 +312,14 @@ import {
     // round61（10.2 多选）：Ctrl+左键 = 加/减一块；Shift+左键 = 从锚点起算的一段区间。
     // 两者都不起拖动（想搬整组就直接按住组内某一块拖 —— round61.1 按你验收意见加上了）。
     if (mod) {
-      selectedBeforePress = false;
       e.preventDefault(); // 别让浏览器把 Ctrl+点 当别的默认手势（不碰块内的按钮：上面已经放过）
       toggleSelected(block.id);
       return;
     }
     if (e.shiftKey) {
-      selectedBeforePress = false;
       selectRangeTo(block.id);
       return;
     }
-    // round48：改名手势要区分「这次点击**之前**它选没选中」——不然第一次点名字就会直接进改名
-    selectedBeforePress = selection.ids.includes(block.id) && !selection.grabbed;
     // round61.1（你拍板「移动统一收进拿起」）：按下行为分三种 ——
     // ① 拿起的组内成员 → 拖 = 只动**组预览**（Enter 落地一次写）；
     // ② 未拿起的组内成员 → 收回单选（之后拖动就是普通单块拖动）；
@@ -671,16 +662,15 @@ import {
         onblur={(e) => void commitName((e.currentTarget as HTMLInputElement).value)}
       />
     {:else}
-      <!-- 名字上的单击 = 改名手势（**先选中再点**）。不做成 <button>：按钮会被块体手势跳过，
-           那样名字就不能用来拖动/选中块了。键盘走 F2（Timeline 里那条），所以这里只 ignore 无障碍提示 -->
-      <!-- svelte-ignore a11y_click_events_have_key_events -->
+      <!-- round94（#8b）：名字不再接单击（旧手势 = 先选中再点它改名 —— 跟「双击块 = 完成」抢地盘）。
+           现在只承载文字：拖动 / 选中靠块体，改名走 `F2` 或浮层里的 `✎`。
+           不做成 <button>：按钮会被块体手势跳过，那样名字就不能用来拖动/选中块了。 -->
       <span
         class="name label"
         class:wrap={labelLines > 1}
         class:temp-name={isTempBlock}
         style="--label-lines:{labelLines}"
         title={isTempBlock ? t("ui.task_block.14") : undefined}
-        onclick={onNameClick}
         >{shownName}</span
       >
     {/if}
@@ -699,12 +689,14 @@ import {
        浮层正好压在名字输入框上、抢点击（你 2026-10-06 的图 5）。用不渲染而不是 CSS 隐藏：
        不会 Tab 到看不见的按钮。 -->
   {#if !editingName}
+  <!-- round94（#8a）**已按你 2026-11-21 的验收意见撤掉**：常显的 `.quick-done` 是矫枉过正 ——
+       鼠标停在块上时浮层会自己铺开、正好盖住那个位置，常显的那颗 ✓ 就多余了。
+       现在回到 round77 的口径：**整条动作条悬停 / 键盘焦点才出**（块上自带的那颗 ✓ 就在条里）。
+       保留的一处改动：✓ 排在浮层**最右**（见下）—— 最左列块的浮层左端会被 `.day-body{overflow:hidden}` 裁掉，
+       最常用的那颗不该是被裁的那颗。 -->
   <span class="actions" bind:this={actionsEl}>
     {#if block.status === "planned"}
       <!-- 已标记的块不显示 ✓/✗：后端不允许回退，留着按钮只会产生「点了没反应」的困惑 -->
-      <button type="button" title={t("ui.task_block.16")} aria-label={t("ui.task_block.16")} onclick={onDone}
-        ><Icon name="check" size={14} /></button
-      >
       <button type="button" title={t("ui.task_block.17")} aria-label={t("ui.task_block.17")} onclick={onMissed}
         ><Icon name="x" size={14} /></button
       >
@@ -755,9 +747,30 @@ import {
         }}><Icon name="ban" size={14} /></button
       >
     {/if}
+    {#if isTempBlock}
+      <!-- round94（#8b）：显式的改名入口（只有临时块的名字可编 —— 普通块的名字属于任务，在 Backlog 改）。
+           与 `F2` 同一个命令（`startEditing`），不再靠「先选中再单击名字」那种隐形手势。 -->
+      <button
+        type="button"
+        class="rename"
+        title={t("ui.task_block.26")}
+        aria-label={t("ui.task_block.26")}
+        onclick={(e) => {
+          e.stopPropagation();
+          onRename();
+        }}><Icon name="pencil" size={14} /></button
+      >
+    {/if}
     <button type="button" title={t("ui.task_block.22")} aria-label={t("ui.task_block.22")} onclick={onDelete}
       ><Icon name="trash-2" size={14} /></button
     >
+    {#if block.status === "planned"}
+      <!-- round94：✓ **放在最后**（最右）—— 旧顺序里 ✓ 在最左，而最左列块的浮层左端会被
+           `.day-body{overflow:hidden}` 裁掉（最常用的那颗反而点不到）；放最右既不被裁，也不跟着展开左跳。 -->
+      <button type="button" title={t("ui.task_block.16")} aria-label={t("ui.task_block.16")} onclick={onDone}
+        ><Icon name="check" size={14} /></button
+      >
+    {/if}
   </span>
   {/if}
 </div>
