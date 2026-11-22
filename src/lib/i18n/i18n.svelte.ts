@@ -12,12 +12,13 @@
  * - `?pseudo=1`（仅预览/调试）：把值包成 `【…———】`，给英文版提前做长度压力（dev-only，不进设置）。
  */
 import zh from "../../../messages/zh.json";
+import type { MsgKey } from "./msg-key";
 import en from "../../../messages/en.json";
 
 export type Locale = "zh" | "en";
 /** round81（3.1c₁ · 深-03）：设置里的**档位** —— `system` = 跟随系统（默认） */
 export type LocaleChoice = "system" | "zh" | "en";
-export type MsgKey = keyof typeof zh;
+export type { MsgKey } from "./msg-key";
 export type MsgParams = Record<string, string | number>;
 
 const TABLES: Record<Locale, Record<string, string>> = { zh, en };

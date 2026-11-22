@@ -22,7 +22,9 @@ window.__MATRIX = {  /** 改一格：三个设置项走真 UI（面板里的下�
     // 踩过的坑：只点「本周」在已经处于本周时是 no-op → 视图可能停在一份**过时的快照**上
     // （假库是对的、DOM 是旧的）—— 矩阵因此 72 格全红，而断言全绿（盲点：视图与假库之间没有版本号）。
     const navClick = async (i) => {
-      document.querySelectorAll(".week-nav button")[i]?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      document
+        .querySelector(`.week-nav [data-nav="${i === 0 ? "prev" : "next"}"]`)
+        ?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
       await settleMicro(90);
     };
     await navClick(1); // 下一周

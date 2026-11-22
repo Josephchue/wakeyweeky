@@ -729,6 +729,11 @@ const sanityState = {
   backlogCollapsed: "[]",
   // round67：外观 / 布局（面板形态 / 隐藏周末 / 键位提示栏；默认与真后端一致。round67.2：删「整栏隐藏」）
   backlogPane: "open",
+  backlogTopMode: "chips",
+  backlogHeight: 180,
+  backlogAutoHide: false,
+  headerLayout: '{"left":["week-nav"],"right":["head-actions"]}',
+  backlogEdge: "left",
   weekendHidden: false,
   hintBarMode: "always",
   // round76（3.1a）：外观五件（默认 = 舒适 / 跟随系统 / 暖砂 / 层条上色开 / 分类条关）——
@@ -2005,6 +2010,11 @@ window.__TAURI_INTERNALS__ = {
           backlog_collapsed: sanityState.backlogCollapsed,
           // round67：外观 / 布局三键（round67.2：删「整栏隐藏」）
           backlog_pane: sanityState.backlogPane,
+          backlog_top_mode: sanityState.backlogTopMode,
+          backlog_auto_hide: sanityState.backlogAutoHide ? "1" : "0",
+          header_layout: sanityState.headerLayout,
+          layout_backlog_edge: sanityState.backlogEdge,
+          backlog_height: String(sanityState.backlogHeight),
           weekend_hidden: sanityState.weekendHidden ? "1" : "0",
           hint_bar_mode: sanityState.hintBarMode,
           // round76（3.1a）：外观五件
@@ -2081,6 +2091,11 @@ window.__TAURI_INTERNALS__ = {
       if (args?.key === "backlog_collapsed") sanityState.backlogCollapsed = String(args?.value);
       // round67：外观 / 布局三键（假后端只存，校验在 Rust 单测）
       if (args?.key === "backlog_pane") sanityState.backlogPane = String(args?.value);
+      if (args?.key === "backlog_top_mode") sanityState.backlogTopMode = String(args?.value);
+      if (args?.key === "backlog_auto_hide") sanityState.backlogAutoHide = String(args?.value) === "1";
+      if (args?.key === "header_layout") sanityState.headerLayout = String(args?.value);
+      if (args?.key === "layout_backlog_edge") sanityState.backlogEdge = String(args?.value);
+      if (args?.key === "backlog_height") sanityState.backlogHeight = Number(args?.value) || 180;
       if (args?.key === "weekend_hidden") sanityState.weekendHidden = String(args?.value) === "1";
       if (args?.key === "hint_bar_mode") sanityState.hintBarMode = String(args?.value);
       // round76（3.1a）：外观五件（假后端只存，值域校验在 Rust 单测）

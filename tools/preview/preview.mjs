@@ -169,7 +169,7 @@ const galleryDir =
 const MATRIX_PALETTES = ["warm", "endfield", "north"];
 const MATRIX_THEMES = ["light", "dark"];
 const MATRIX_DENSITIES = ["compact", "comfortable", "loose"];
-const MATRIX_WIDTHS = [1500, 715];
+const MATRIX_WIDTHS = [1500, 1024, 715];
 const MATRIX_LOCALES = ["zh", "en"];
 
 /**

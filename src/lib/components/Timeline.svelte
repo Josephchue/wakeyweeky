@@ -43,7 +43,8 @@ import { reloadAll } from "../stores/datasync.svelte";
   import { cancelLink, link, reloadSequences } from "../stores/sequences.svelte";
   import { tasks } from "../stores/tasks.svelte";
   import { featureOn, prefs } from "../stores/settings.svelte";
-  import { layout, saveSlotHeight, saveWeekendHidden } from "../stores/layout.svelte";
+  import { layout, saveSlotHeight, saveWeekendHidden, saveHeaderLayout } from "../stores/layout.svelte";
+  import { type HeadGroup, type HeadZone, moveInLayout, presetOf } from "../stores/header-layout";
   import { maybeHint } from "../stores/guide.svelte";
   import { week } from "../stores/week.svelte";
   import {
@@ -82,7 +83,7 @@ import {
 import { closeReview, nudge, openReview, review } from "../stores/review.svelte";
 import { closeStats, openStats, stats } from "../stores/stats.svelte";
 import { anyPanelOpen, closeTopPanel, isTopPanel } from "../stores/panels.svelte";
-  import { untrack } from "svelte";
+  import { tick, untrack } from "svelte";
   import { redo, undo } from "../stores/history.svelte";
   import { dayOf, overloadedDays, sanity, sanityBar } from "../stores/sanity.svelte";
   import type { Block, SanityDay } from "../ipc/types";
@@ -96,6 +97,17 @@ import { anyPanelOpen, closeTopPanel, isTopPanel } from "../stores/panels.svelte
   import TaskBlock from "./TaskBlock.svelte";
   import { DENSITY_SCALE, nightSegments } from "../utils/appearance";
   import { appearance } from "../stores/appearance.svelte";
+
+  /** E1 修复批：四组的显示名（grip 的 title 用） */
+  const GROUP_LABEL: Record<
+    HeadGroup,
+    "ui.timeline.67" | "ui.timeline.68" | "ui.timeline.69" | "ui.timeline.70"
+  > = {
+    "week-nav": "ui.timeline.67",
+    edit: "ui.timeline.69",
+    views: "ui.timeline.68",
+    settings: "ui.timeline.70",
+  };
 
   // 换周 → **必须重拉这一周的块**。用户实测（0.6.37）：「左上角时间戳知道我在看哪一周，
   // 表却调不出那一周的数据」—— 就是因为这里原先只重拉了序列 ✗，块要等到别的动作
@@ -301,21 +313,14 @@ import { anyPanelOpen, closeTopPanel, isTopPanel } from "../stores/panels.svelte
     };
   });
 
-  /**
-   * round48：给「现在」一个**会走**的依赖。
-   * 之前 `onNowWeek` 直接读 `getCurrentWeek()`（内部是 `Date.now()`）——它不是响应式的，
-   * 于是这个派生只在 `week.from` 变化时才算一次：app 开过夜/跨周之后，**看着本周却还挂着
-   * 「回到本周」按钮**（用户 2026-10-03 实测）。每分钟滴答一次就够（跨周最多晚一分钟）。
-   */
+  /** round48：给「现在」一个**会走**的依赖（跨周/过夜后「本周」按钮才跟着变）。 */
   let nowTick = $state(0);
   $effect(() => {
     const timer = setInterval(() => (nowTick += 1), 60_000);
     return () => clearInterval(timer);
   });
-
-  /** 是否就在「现在」那一周（决定要不要显示「回到本周」） */
   const onNowWeek = $derived.by(() => {
-    void nowTick; // 读一下：让这个派生跟着上面那口钟重算（`void` 明确表达「只为依赖」）
+    void nowTick;
     return week.from === getCurrentWeek().from;
   });
 
@@ -1419,79 +1424,329 @@ import { anyPanelOpen, closeTopPanel, isTopPanel } from "../stores/panels.svelte
     });
     return () => attachDragHost(null);
   });
+  // ---------------------------------------------------------------- E1 修复批：头部四组的拖动（按落点插入）
+  let dragGroup = $state<HeadGroup | null>(null);
+  let dragging = $state(false);
+  let picked = $state<HeadGroup | null>(null);
+  /** 落点：zone + index（index 按「已摘掉被拖组」的列表算） */
+  let dropSpot = $state<{ zone: HeadZone; index: number } | null>(null);
+  /** 高亮落点所在的那一组（before/after 决定画左边还是右边） */
+  let dropOn = $state<HeadGroup | null>(null);
+  let dropAfter = $state(false);
+  /** 日期按钮的跳周小面板 */
+  let weekPop = $state(false);
+
+  const groupList = (zone: HeadZone, except?: HeadGroup | null) =>
+    layout.header[zone].filter((g) => g !== except);
+
+  /** 指针落点：悬停某组 → 中线左右决定前/后；空白 → 所在区末尾；出区 → 按头部中线 */
+  function spotFromPoint(id: HeadGroup, x: number, y: number) {
+    const el = document.elementFromPoint(x, y);
+    const hovered = el?.closest<HTMLElement>(".head-group");
+    const hoveredId = (hovered?.dataset.group ?? null) as HeadGroup | null;
+    if (hovered && hoveredId && hoveredId !== id) {
+      const r = hovered.getBoundingClientRect();
+      const after = x > r.left + r.width / 2;
+      const zone = (hovered.closest<HTMLElement>(".zone")?.dataset.zone ?? "right") as HeadZone;
+      const list = groupList(zone, id);
+      const at = list.indexOf(hoveredId);
+      return { zone, index: at < 0 ? list.length : at + (after ? 1 : 0) };
+    }
+    const zonesEl = document.querySelector<HTMLElement>(".head-zones");
+    const zr = zonesEl?.getBoundingClientRect();
+    const mid = zr ? zr.left + zr.width / 2 : window.innerWidth / 2;
+    const zone = (el?.closest<HTMLElement>(".zone[data-zone]")?.dataset.zone as HeadZone | undefined) ??
+      (x < mid ? "left" : "right");
+    return { zone, index: groupList(zone, id).length };
+  }
+
+  /** 把落点画成高亮（插到某组前/后；或者同区末尾） */
+  function applySpot(spot: { zone: HeadZone; index: number } | null, id?: HeadGroup | null) {
+    dropSpot = spot;
+    if (!spot) {
+      dropOn = null;
+      return;
+    }
+    const list = groupList(spot.zone, id ?? undefined);
+    const at = Math.max(0, Math.min(list.length, spot.index));
+    if (at < list.length) {
+      dropOn = list[at];
+      dropAfter = false;
+    } else if (list.length) {
+      dropOn = list[list.length - 1];
+      dropAfter = true;
+    } else {
+      dropOn = null;
+    }
+  }
+
+  /** 指针拖：手柄按下才起手；<4px 当点击（不当拖拽）；Esc / pointercancel 取消 */
+  function startGroupDrag(e: PointerEvent, id: HeadGroup) {
+    if (e.button !== 0) return;
+    e.preventDefault();
+    e.stopPropagation();
+    // E1：给自动收起一个可读的「头部组正在拖」信号（Timeline 的拖拽态是组件局部，App 读不到）
+    document.documentElement.dataset.headDrag = "1";
+    const startX = e.clientX;
+    const startY = e.clientY;
+    let moved = false;
+    dragGroup = id;
+    dragging = false;
+    applySpot(null);
+    const onMove = (ev: PointerEvent) => {
+      if (!moved && Math.hypot(ev.clientX - startX, ev.clientY - startY) < 4) return;
+      moved = true;
+      dragging = true;
+      const spot = spotFromPoint(id, ev.clientX, ev.clientY);
+      applySpot(spot, id);
+    };
+    const finish = (commit: boolean) => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onCancel);
+      window.removeEventListener("keydown", onKey);
+      const spot = dropSpot;
+      const wasMoved = moved;
+      dragGroup = null;
+      dragging = false;
+      dropSpot = null;
+      dropOn = null;
+      delete document.documentElement.dataset.headDrag;
+      if (commit && wasMoved && spot) {
+        layout.header = moveInLayout(layout.header, id, spot.zone, spot.index);
+        void saveHeaderLayout();
+      }
+    };
+    const onUp = () => finish(true);
+    const onCancel = () => finish(false);
+    const onKey = (ev: KeyboardEvent) => {
+      if (ev.key === "Escape") {
+        ev.preventDefault();
+        finish(false);
+      }
+    };
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onCancel);
+    window.addEventListener("keydown", onKey);
+  }
+
+  /** 键盘：Space 拿起 / ←→ 在扁平顺序里挪光标 / Enter 放下 / Esc 取消 */
+  let kbAt = $state(0);
+  function flatSpot(n: number, id: HeadGroup) {
+    const left = groupList("left", id);
+    return n <= left.length
+      ? { zone: "left" as HeadZone, index: n }
+      : { zone: "right" as HeadZone, index: n - left.length };
+  }
+  function onGroupGripKey(e: KeyboardEvent, id: HeadGroup) {
+    if (e.key === " " || e.key === "Enter") {
+      e.preventDefault();
+      e.stopPropagation();
+      if (picked !== id) {
+        picked = id;
+        document.documentElement.dataset.headDrag = "1";
+        const flat = [...layout.header.left, ...layout.header.right];
+        kbAt = Math.max(0, flat.indexOf(id));
+        applySpot(flatSpot(kbAt, id), id);
+        return;
+      }
+      if (e.key === " ") {
+        picked = null;
+        delete document.documentElement.dataset.headDrag;
+        dropSpot = null;
+        dropOn = null;
+        return;
+      }
+      const spot = dropSpot;
+      picked = null;
+      delete document.documentElement.dataset.headDrag;
+      dropSpot = null;
+      dropOn = null;
+      if (spot) {
+        layout.header = moveInLayout(layout.header, id, spot.zone, spot.index);
+        void saveHeaderLayout();
+        void tick().then(() => {
+          document
+            .querySelector<HTMLElement>(`.head-group[data-group="${id}"] .group-grip`)
+            ?.focus({ preventScroll: true });
+        });
+      }
+      return;
+    }
+    if (!picked) return;
+    if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+      e.preventDefault();
+      // 必须停在这里：window 上的全局键处理把 ←/→ 当跳周（App 同一条硬约束）
+      e.stopPropagation();
+      const total = [...layout.header.left, ...layout.header.right].length - 1;
+      kbAt = Math.max(0, Math.min(total, kbAt + (e.key === "ArrowRight" ? 1 : -1)));
+      applySpot(flatSpot(kbAt, id), id);
+      return;
+    }
+    if (e.key === "Escape") {
+      e.preventDefault();
+      picked = null;
+      delete document.documentElement.dataset.headDrag;
+      dropSpot = null;
+      dropOn = null;
+    }
+  }
+
+  /** 跳周面板：Esc / 点外面关（点击日期按钮自己不关） */
+  $effect(() => {
+    if (!weekPop) return;
+    const onDown = (ev: PointerEvent) => {
+      const t = ev.target as HTMLElement | null;
+      if (t?.closest?.(".week-anchor")) return;
+      weekPop = false;
+    };
+    const onKey = (ev: KeyboardEvent) => {
+      if (ev.key !== "Escape") return;
+      ev.preventDefault();
+      ev.stopPropagation();
+      weekPop = false;
+    };
+    window.addEventListener("pointerdown", onDown, true);
+    window.addEventListener("keydown", onKey, true);
+    return () => {
+      window.removeEventListener("pointerdown", onDown, true);
+      window.removeEventListener("keydown", onKey, true);
+    };
+  });
 
 </script>
 
-<section class="timeline">
-  <header class="head">
-    <h2 class="range">{range}</h2>
-    <!-- C1.3：跳周（键盘 ← → 同效）；round31：鼠标跳周时顺手取消选中（免得选中的块留在看不到的那一周） -->
-    <nav class="week-nav">
-      <button type="button" title={t("ui.timeline.34")} onclick={() => { clearSelection(); goWeek(-1); }}><Icon name="chevron-left" size={16} /></button>
-      <button type="button" title={t("ui.timeline.35")} onclick={() => { clearSelection(); goWeek(1); }}><Icon name="chevron-right" size={16} /></button>
-      {#if !onNowWeek}
-        <button type="button" class="now" title={t("ui.timeline.36")} onclick={() => { clearSelection(); goNow(); }}>{t("ui.timeline.50")}</button>
-      {/if}
-      <!-- C1.5：撤销 / 重做（栈空时点一下会提示「没有可撤销的操作」） -->
-      <button type="button" title={t("ui.timeline.37")} onclick={() => void undo()}><Icon name="undo-2" size={16} /></button>
-      <button type="button" title={t("ui.timeline.38")} onclick={() => void redo()}><Icon name="redo-2" size={16} /></button>
-      <!-- round94（#15，你 2026-11-21 拍板）：**手动重载**（局内键 `R` 同效）。
-           用途：外部程序（学业OS / 脚本）改过库、或你怀疑界面是旧的 —— 不等 2.5 秒的自动检测。 -->
-      <button type="button" class="reload" title={t("ui.timeline.60")} onclick={() => void manualReload()}
-        ><Icon name="refresh-cw" size={16} /></button
-      >
-    </nav>
-    {#if weekendNoteText}
-      <!-- round67.1（你的第 6 条）：没内容就不出现 —— 有块/有预览才说，点一下恢复显示 -->
-      <button
-        type="button"
-        class="weekend-note"
-        title={t("ui.timeline.39")}
-        onclick={() => {
-          void note("weekend_back"); // round68（19.1）：把隐藏的周末找回来
-          void saveWeekendHidden(false);
-        }}
-      >{t("ui.timeline.40", { weekendNoteText: weekendNoteText })}</button
-      >
+{#snippet headerGroup(id: HeadGroup)}
+  <div
+    class="head-group"
+    data-group={id}
+    class:dragging={dragGroup === id}
+    class:drop-before={(dragging || picked !== null) && dropOn === id && !dropAfter}
+    class:drop-after={(dragging || picked !== null) && dropOn === id && dropAfter}
+  >
+    <button
+      type="button"
+      class="group-grip"
+      title={t("ui.timeline.61", { name: t(GROUP_LABEL[id]) })}
+      aria-label={t("ui.timeline.61", { name: t(GROUP_LABEL[id]) })}
+      onpointerdown={(e) => startGroupDrag(e, id)}
+      onkeydown={(e) => onGroupGripKey(e, id)}
+    ><Icon name="grip-vertical" size={12} /></button>
+    {#if id === "week-nav"}
+      <nav class="week-nav">
+        <button
+          type="button"
+          class="nav-arrow"
+          data-nav="prev"
+          title={t("ui.timeline.34")}
+          onclick={() => { clearSelection(); goWeek(-1); }}><Icon name="chevron-left" size={16} /></button
+        >
+        <span class="week-anchor">
+          <button
+            type="button"
+            class="date-btn range"
+            title={t("ui.timeline.71")}
+            aria-haspopup="dialog"
+            aria-expanded={weekPop}
+            onclick={() => (weekPop = !weekPop)}
+          >{range}</button>
+          {#if weekPop}
+            <div class="week-pop" role="dialog" aria-label={t("ui.timeline.71")}>
+              <button type="button" data-week="prev" onclick={() => { clearSelection(); goWeek(-1); }}>{t("ui.timeline.72")}</button>
+              <button type="button" data-week="now" onclick={() => { clearSelection(); goNow(); }}>{t("ui.timeline.73")}</button>
+              <button type="button" data-week="next" onclick={() => { clearSelection(); goWeek(1); }}>{t("ui.timeline.74")}</button>
+            </div>
+          {/if}
+        </span>
+        <button
+          type="button"
+          class="nav-arrow"
+          data-nav="next"
+          title={t("ui.timeline.35")}
+          onclick={() => { clearSelection(); goWeek(1); }}><Icon name="chevron-right" size={16} /></button
+        >
+        {#if !onNowWeek}
+          <!-- 不在本周时给一个快捷键（与跳周面板里的「本周」同一个动作） -->
+          <button type="button" class="now" title={t("ui.timeline.36")} onclick={() => { clearSelection(); goNow(); }}>{t("ui.timeline.50")}</button>
+        {/if}
+      </nav>
+    {:else if id === "edit"}
+      <div class="head-actions">
+        <button type="button" title={t("ui.timeline.37")} onclick={() => void undo()}><Icon name="undo-2" size={16} /></button>
+        <button type="button" title={t("ui.timeline.38")} onclick={() => void redo()}><Icon name="redo-2" size={16} /></button>
+        <button type="button" class="reload" title={t("ui.timeline.60")} onclick={() => void manualReload()}
+          ><Icon name="refresh-cw" size={16} /></button
+        >
+      </div>
+    {:else if id === "views"}
+      <div class="head-actions">
+        {#if featureOn("review_enabled")}
+          <button
+            type="button"
+            class="review-open"
+            class:dot={nudge.show}
+            title={t("ui.timeline.41")}
+            onclick={(e) => openReview(undefined, { from: e.currentTarget })}><Icon name="layout-grid" size={16} />{t("ui.timeline.51")}</button
+          >
+        {/if}
+        {#if featureOn("stats_enabled") && !featureOn("review_enabled")}
+          <button
+            type="button"
+            class="stats-open"
+            title={t("ui.timeline.42")}
+            onclick={(e) => openStats({ from: e.currentTarget })}><Icon name="chart-column" size={16} />{t("ui.timeline.52")}</button
+          >
+        {/if}
+        {#if featureOn("templates_enabled")}
+          <TemplatePicker />
+        {/if}
+      </div>
+    {:else}
+      <div class="head-actions">
+        <SanitySettings />
+      </div>
     {/if}
-    <!-- round77（3.1b）：**动作组**（视图类入口 + 设置）—— 与左边的跳周/周范围分组，
-         并右对齐（布局重审 L01：以前跟在跳周按钮后面，1500px 下右边空 ~90px）。 -->
+  </div>
+{/snippet}
+
+<section class="timeline" data-header-preset={presetOf(layout.header)}>
+  <header class="head">
+    <div class="head-zones">
+      <div
+        class="zone"
+        data-zone="left"
+        class:drop={(dragging || picked !== null) && dropSpot?.zone === "left"}
+      >
+        {#each layout.header.left as g (g)}{@render headerGroup(g)}{/each}
+      </div>
+      {#if weekendNoteText}
+        <!-- round67.1（你的第 6 条）：没内容就不出现 —— 有块/有预览才说，点一下恢复显示 -->
+        <button
+          type="button"
+          class="weekend-note"
+          title={t("ui.timeline.39")}
+          onclick={() => {
+            void note("weekend_back"); // round68（19.1）：把隐藏的周末找回来
+            void saveWeekendHidden(false);
+          }}
+        >{t("ui.timeline.40", { weekendNoteText: weekendNoteText })}</button
+        >
+      {/if}
+      <div
+        class="zone"
+        data-zone="right"
+        class:drop={(dragging || picked !== null) && dropSpot?.zone === "right"}
+      >
+        {#each layout.header.right as g (g)}{@render headerGroup(g)}{/each}
+      </div>
+    </div>
     {#if gestureHint}
       <!-- C1.3：手势中实时显示时间 —— 15 分钟颗粒度下判断对齐就靠它。
            round77（3.1b）：改成**绝对定位的浮层**（见 `.gesture-hint`）—— 它绝不能占头部高度：
            拖动中途头部变高 = 落点跟着偏（实测偏了一格 = 30 分钟）。 -->
       <span class="gesture-hint">{gestureHint}</span>
     {/if}
-    <div class="head-actions">
-    <!-- C7（round52）：一周总览入口（▦）—— 覆盖式面板，不占常驻空间；到点没看时带一个小点
-         round53：从「复盘」改叫「总览」（用户 2026-10-03：它什么时候都能看，不只周日复盘） -->
-    {#if featureOn("review_enabled")}
-      <button
-        type="button"
-        class="review-open"
-        class:dot={nudge.show}
-        title={t("ui.timeline.41")}
-        onclick={(e) => openReview(undefined, { from: e.currentTarget })}><Icon name="layout-grid" size={16} />{t("ui.timeline.51")}</button
-      >
-    {/if}
-    <!-- 10.1（round60）：数据统计入口（全时段累计；只读面板）
-         round82（11.5）：**总览开着时这个按钮收起来**
-         round83（§8.1）：口径是**功能开关**（`review_enabled` 关 = 总览关）——
-         旧写法拿 `review.open`（面板开着）当「总览关」→ 总览没开时顶栏还多一个独立按钮（你图 1） -->
-    {#if featureOn("stats_enabled") && !featureOn("review_enabled")}
-      <button
-        type="button"
-        class="stats-open"
-        title={t("ui.timeline.42")}
-        onclick={(e) => openStats({ from: e.currentTarget })}><Icon name="chart-column" size={16} />{t("ui.timeline.52")}</button
-      >
-    {/if}
-    {#if featureOn("templates_enabled")}
-      <TemplatePicker />
-    {/if}
-    <!-- C6（round44）：理智值的两个旋钮（每天预算 / 显示开关） -->
-    <SanitySettings />
-    </div>
     {#if link.pendingId}
       <!-- C3 / R18：待链提示条（常驻，直到接上或点空白）
            round32 #2：文案缩短 + 去掉「取消」按钮（点空白本来就是取消 —— 用户点名） -->
@@ -1646,6 +1901,14 @@ import { anyPanelOpen, closeTopPanel, isTopPanel } from "../stores/panels.svelte
             {/if}
             {#if indicator?.dayStart === start}
               <div class="drop-line" style="top: {indicator.y}px"></div>
+              {#if drag.taskId}
+                <!-- E1 修复批 #7：任务拖到时间轴时，除了 2px 落点线，再画一个「时长高度」的半透明块 ——
+                     让「拖出来会占多久」看得见（E1 只有斜着的拖影，没有块形预览）。 -->
+                <div
+                  class="task-drop-preview"
+                  style="top: {indicator.y}px; height: {secondsToPx(dragDuration.seconds || SLOT_SECONDS)}px"
+                ></div>
+              {/if}
             {/if}
             {#each layouts[dayIndex] as box (box.sourceCopy ? box.id + ":source" : box.id)}
               <!-- round29 #5：跨周拉伸时这块不在本周数据里（`blocksById` 里没有它）→ 用预览自带的快照画，
@@ -1717,6 +1980,8 @@ import { anyPanelOpen, closeTopPanel, isTopPanel } from "../stores/panels.svelte
     gap: var(--space-3);
     flex: 1;
     min-width: 0;
+    /* E1：Backlog 吸到上/下时 shell 是纵向——时间轴必须允许被压短，否则 Bottom 栏被顶出视口 */
+    min-height: 0;
     padding: var(--space-3);
     background: var(--card);
     border: 1px solid var(--text-secondary);
@@ -1726,6 +1991,7 @@ import { anyPanelOpen, closeTopPanel, isTopPanel } from "../stores/panels.svelte
   .head {
     display: flex;
     align-items: baseline;
+    column-gap: var(--space-2);
     /* round44（用户验收 0.7.4 的截图）：窄窗口里周范围被跳周按钮 + 键位提示条挤到只剩几十像素，
        文本按连字符断成 5 行竖排（2026- / 09-28 / ~ / 2026- / 10-04）。
        修法：装不下就**整体换行**（第二行放提示条），而不是把周范围压变形。 */
@@ -1769,9 +2035,176 @@ import { anyPanelOpen, closeTopPanel, isTopPanel } from "../stores/panels.svelte
        状态在手势中途翻转（实测 -26px，落点偏一格）；现在组内只剩按钮，与选中态无关。 */
     flex-wrap: nowrap;
     gap: var(--space-1) var(--space-2);
-    margin-left: auto;
     min-width: 0;
     max-width: 100%;
+  }
+
+  /* E1：头部两区 + 两个可拖组 + 预设控件 */
+  .head-zones {
+    display: flex;
+    flex: 1;
+    align-items: baseline;
+    gap: var(--space-3);
+    min-width: 0;
+  }
+
+  .zone {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    /* 水平间距 = 六点宽度（E1F 验收后微调）：六点正好占满空隙、贴着被控组 */
+    gap: var(--space-1) var(--space-3);
+    min-width: 0;
+    min-height: 1px;
+    border-radius: var(--radius-sm);
+  }
+
+  .zone[data-zone="right"] {
+    margin-left: auto;
+    justify-content: flex-end;
+  }
+
+  .zone.drop {
+    outline: 1px dashed var(--accent);
+    outline-offset: 2px;
+  }
+
+  .head-group {
+    position: relative;
+    display: inline-flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .head-group.dragging {
+    opacity: 0.55;
+  }
+
+  /* E1F：六点藏起来 —— 平时不占横向空间，悬停组 / 键盘聚焦才显形 */
+  .group-grip {
+    position: absolute;
+    /* 验收后微调 2：往右挪到「右侧贴住自己这组」—— 六点视觉中心落在按钮左缘，
+       左侧的 8px 就是两组之间的缝（--space-2），所以看上去像正好夹在按钮之间 */
+    left: calc(-1 * var(--space-2));
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--space-3);
+    height: 22px;
+    padding: 0;
+    border: none;
+    background: none;
+    color: var(--text-tertiary);
+    font: inherit;
+    line-height: 1;
+    cursor: grab;
+    touch-action: none;
+    opacity: 0;
+    transition: opacity 80ms;
+  }
+
+  /* 每组区里的**第一个组**（日期组 / 撤销组）左边没有「上一组」，六点放回 12px 缝里；
+     否则它贴在自己的按钮上，看起来像被挤住了（你 2026-11-21 验收反馈）。 */
+  .zone > .head-group:first-child .group-grip {
+    left: calc(-1 * var(--space-3));
+  }
+
+  .head-group:hover > .group-grip,
+  .head-group:focus-within > .group-grip,
+  .group-grip:focus,
+  .group-grip:focus-visible {
+    opacity: 1;
+  }
+
+  .group-grip:hover,
+  .group-grip:focus-visible {
+    color: var(--accent);
+  }
+
+  .group-grip:focus-visible {
+    outline: 1px solid var(--accent);
+    outline-offset: 1px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* 落点：插到这一组的前 / 后 */
+  .head-group.drop-before::before,
+  .head-group.drop-after::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    width: 2px;
+    background: var(--accent);
+    border-radius: 1px;
+  }
+
+  .head-group.drop-before::before {
+    left: -6px;
+  }
+
+  .head-group.drop-after::after {
+    right: -6px;
+  }
+
+  /* 日期按钮 + 跳周面板（E1F） */
+  .week-anchor {
+    position: relative;
+    display: inline-flex;
+  }
+
+  .week-nav .date-btn {
+    padding: 0 var(--space-2);
+    /* 日期是等宽栈（round87 的「不破等宽」断言量的是它）—— 必须压过 .week-nav button 的 font: inherit */
+    font-family: var(--font-mono);
+    font-size: var(--text-title);
+    font-weight: 400;
+    color: var(--text-secondary);
+    border: 1px solid var(--text-secondary);
+    border-radius: var(--radius);
+    background: none;
+    cursor: pointer;
+  }
+
+  .date-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .week-pop {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    min-width: 7.5em;
+    padding: var(--space-1);
+    background: var(--card);
+    border: 1px solid var(--text-secondary);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 12px rgb(0 0 0 / 18%);
+  }
+
+  .week-pop button {
+    padding: var(--space-1) var(--space-2);
+    border: none;
+    border-radius: var(--radius-sm);
+    background: none;
+    color: var(--text-primary);
+    font: inherit;
+    font-size: var(--text-body);
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .week-pop button:hover {
+    background: var(--card-hover, var(--bg));
+    color: var(--accent);
   }
 
   .range {
@@ -1789,8 +2222,8 @@ import { anyPanelOpen, closeTopPanel, isTopPanel } from "../stores/panels.svelte
   /* C1.3：跳周按钮 */
   .week-nav {
     display: flex;
+    align-items: baseline;
     gap: 2px;
-    margin-left: var(--space-2);
     flex: none; /* round44：按钮组不参与压缩（免得按钮自己被挤到内部折行） */
   }
 
@@ -2249,6 +2682,19 @@ import { anyPanelOpen, closeTopPanel, isTopPanel } from "../stores/panels.svelte
   }
 
   /* C1.5：落点指示线（拖动中显示「会落在哪」） */
+  /* E1 修复批 #7：任务拖动落点的块形预览（虚线框，不接指针） */
+  .task-drop-preview {
+    position: absolute;
+    left: 2px;
+    right: 2px;
+    z-index: 1;
+    border: 1px dashed var(--accent);
+    border-radius: var(--radius-sm);
+    background: var(--accent);
+    opacity: 0.16;
+    pointer-events: none;
+  }
+
   .drop-line {
     position: absolute;
     right: 0;
@@ -2334,4 +2780,16 @@ import { anyPanelOpen, closeTopPanel, isTopPanel } from "../stores/panels.svelte
     }
   }
 
+
+  /* E1：窄窗两区允许换行；预设控件不抢同一行（防叠字） */
+  @media (max-width: 900px) {
+    .head-zones {
+      flex-wrap: wrap;
+    }
+
+    /* 窄窗头部放不下三档文字：预设控件收起（设置 → 布局 里有镜像入口，见 Step 8） */
+    .preset-switch {
+      display: none;
+    }
+  }
 </style>

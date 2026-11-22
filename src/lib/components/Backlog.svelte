@@ -24,7 +24,7 @@ import {
 } from "../stores/repeats.svelte";
 import { filterFromUi, filterToUi } from "../utils/backlog-view";
 import { estimateMinutes } from "../utils/duration";
-import { layout, saveBacklogPane, toggleBacklogPane } from "../stores/layout.svelte";
+import { layout, moveBacklogTo, saveBacklogEdge, saveBacklogPane, setDockPreview, toggleBacklogPane, type BacklogEdge } from "../stores/layout.svelte";
 import { moveWithinGroup } from "../utils/list-order";
 import {
   TEMP_TASK_ID,
@@ -50,6 +50,135 @@ import NewTaskInput from "./NewTaskInput.svelte";
    *  round67.1：细轨不再有悬停临时展开（覆层会盖住时间轴 —— 你 2026-10-05 实测否掉）。 */
   async function collapseBacklog() {
     if (await toggleBacklogPane()) closeTaskPanel();
+  }
+
+  /** E1：上/下吸附时为横向（chips 或全宽竖列表两档）；左右保持现有竖列表 */
+  const horizontal = $derived(layout.backlogEdge === "top" || layout.backlogEdge === "bottom");
+  /** E1：收起态 = 手动「«」或自动收起（自动收起不写 backlog_pane） */
+  const collapsed = $derived(layout.backlogPane === "rail" || layout.autoCollapsed);
+  const chips = $derived(
+    horizontal && layout.backlogPane === "open" && layout.backlogTopMode === "chips",
+  );
+
+  /** E1：细轨箭头按吸附边转向（right→左、top→下、bottom→上） */
+  /**
+   * E1F #3：箭头统一用 `chevrons-left` 打底，按停靠边**旋转** ——
+   * 图标集里没有 chevrons-up/down（`iconData` 找不到就渲染空 → 按钮什么都不显示），
+   * 所以不能换名字，只能转。收起 = 指向「收起来的方向」：左 0° / 上 90° / 右 180° / 下 270°。
+   */
+  const collapseDeg = $derived(
+    layout.backlogEdge === "right" ? 180 : layout.backlogEdge === "top" ? 90 : layout.backlogEdge === "bottom" ? 270 : 0,
+  );
+  /** 细轨的展开箭头与收起相反（190° 反过来） */
+  const railDeg = $derived((collapseDeg + 180) % 360);
+
+  /** E1：chips 档的「选中」（列表行不渲染；chip 点击高亮 + aria-pressed） */
+  let chipSelected = $state<string | null>(null);
+
+  /** E1 修复批：横档的浮层位置（打开那一刻算；fixed → 不会被列表视口裁掉） */
+  let propsPos = $state({ x: 0, y: 0 });
+  let archPos = $state({ x: 0, bottom: 0, maxH: 240 });
+
+  /** 任务设置：垂直档仍内联；上/下档开成浮层（不把行撑高、不被 35px 的列表裁掉） */
+  function toggleProps(task: Task, e: MouseEvent) {
+    if (taskPanel.propsId === task.id) {
+      taskPanel.propsId = null;
+      return;
+    }
+    if (horizontal) {
+      const r = (e.currentTarget as HTMLElement).getBoundingClientRect();
+      propsPos = {
+        x: Math.max(8, Math.min(r.left, window.innerWidth - 328)),
+        y: Math.max(8, Math.min(r.bottom + 4, window.innerHeight - 428)),
+      };
+    }
+    taskPanel.propsId = task.id;
+  }
+
+  /** 已归档：垂直档内联；上/下档开成浮层（浮在触发条上方） */
+  function toggleArchived(e: MouseEvent) {
+    if (taskPanel.archivedOpen) {
+      taskPanel.archivedOpen = false;
+      return;
+    }
+    if (horizontal) {
+      const r = (e.currentTarget as HTMLElement).getBoundingClientRect();
+      // 浮层浮在触发条上方；高度上界 = 触发条到视口顶的那点空间（否则上档会跑到视口外）
+      const room = Math.max(120, Math.round(r.top - 12));
+      archPos = {
+        x: Math.max(8, Math.min(r.left, window.innerWidth - 328)),
+        bottom: Math.max(8, window.innerHeight - r.top + 4),
+        maxH: Math.min(Math.round(window.innerHeight * 0.4), room),
+      };
+    }
+    taskPanel.archivedOpen = true;
+  }
+
+  /** E1：抓区头拖到窗口四边（24px 判定）；拖动中把落点写进 layout.dockPreview（App 画四边提示） */
+  function startDockDrag(e: PointerEvent) {
+    if (e.button !== 0) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const startX = e.clientX;
+    const startY = e.clientY;
+    let moved = false;
+    const edgeAt = (x: number, y: number): BacklogEdge | null => {
+      const M = 24;
+      const options: { edge: BacklogEdge; d: number }[] = [
+        { edge: "left", d: x },
+        { edge: "right", d: window.innerWidth - x },
+        { edge: "top", d: y },
+        { edge: "bottom", d: window.innerHeight - y },
+      ];
+      const hit = options.filter((o) => o.d <= M).sort((a, b) => a.d - b.d)[0];
+      return hit ? hit.edge : null;
+    };
+    const onMove = (ev: PointerEvent) => {
+      if (!moved && Math.hypot(ev.clientX - startX, ev.clientY - startY) < 4) return;
+      moved = true;
+      setDockPreview(edgeAt(ev.clientX, ev.clientY));
+    };
+    const finish = (commit: boolean) => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onCancel);
+      window.removeEventListener("keydown", onKey);
+      const edge = layout.dockPreview;
+      setDockPreview(null);
+      if (commit && moved && edge) {
+        moveBacklogTo(edge);
+        void saveBacklogEdge(edge);
+      }
+    };
+    const onUp = () => finish(true);
+    const onCancel = () => finish(false);
+    const onKey = (ev: KeyboardEvent) => {
+      if (ev.key === "Escape") {
+        ev.preventDefault();
+        finish(false);
+      }
+    };
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onCancel);
+    window.addEventListener("keydown", onKey);
+  }
+
+  /** E1：键盘换边（方向键直接落位；Enter/Space 不抢 —— 手柄是按钮） */
+  function onDockGripKey(e: KeyboardEvent) {
+    const map: Record<string, BacklogEdge> = {
+      ArrowLeft: "left",
+      ArrowRight: "right",
+      ArrowUp: "top",
+      ArrowDown: "bottom",
+    };
+    const edge = map[e.key];
+    if (!edge) return;
+    e.preventDefault();
+    e.stopPropagation();
+    if (layout.backlogEdge === edge) return;
+    moveBacklogTo(edge);
+    void saveBacklogEdge(edge);
   }
 
   /** 任务属性面板（v2 ④ 的 `update_task(id, patch)`）：弹性任务 / 预估时长 / 分类。
@@ -300,7 +429,9 @@ import NewTaskInput from "./NewTaskInput.svelte";
     if (editingId === task.id || taskPanel.propsId === task.id) return;
     if (e.button !== 0) return;
     const target = e.target as HTMLElement | null;
-    if (target?.closest("button") || target?.closest("input")) return;
+    // E1：chips 本身就是按钮 —— 允许它起「拖到时间轴」的手势（其余按钮仍排除）
+    if (target?.closest(".chip") === null && (target?.closest("button") || target?.closest("input")))
+      return;
     const item = e.currentTarget as HTMLElement;
     const rect = item.getBoundingClientRect();
     beginPointerDrag({
@@ -441,175 +572,8 @@ import NewTaskInput from "./NewTaskInput.svelte";
 
 <!-- round67.1：细轨 = 整条可点的展开入口（**不再有悬停临时展开**：覆层会把时间轴盖住，
      而「从 Backlog 拖任务去时间轴」正是主用法 —— 你 2026-10-05 实测） -->
-<section class="backlog" class:rail={layout.backlogPane === "rail"}>
-  {#if layout.backlogPane === "rail"}
-    <!-- 细轨：整条都是按钮（命中区约 40×N，比原来 24px 的 » 大得多） -->
-    <button
-      type="button"
-      class="rail-strip"
-      title={t("ui.backlog.17", { length: visibleTasks.length })}
-      aria-label={t("ui.backlog.18", { length: visibleTasks.length })}
-      onclick={() => void saveBacklogPane("open")}
-    >
-      <span class="rail-arrow"><Icon name="chevrons-right" size={16} /></span>
-      <span class="rail-count">{visibleTasks.length}</span>
-    </button>
-  {/if}
-  <div class="pane">
-  <header class="head">
-    <h2 class="title">Backlog</h2>
-    <div class="tools">
-      <!-- round47（8.1）：一扇门两页 —— 筛选（全部 / 各分类 / 未分类）+「✎ 管理工作…」 -->
-      <CategoryMenu
-        tasks={visibleTasks}
-        {allCategories}
-        filter={effFilter}
-        onFilter={setFilter}
-        onRename={onRenameCategory}
-      />
-      <button
-        type="button"
-        class="group-toggle"
-        class:on={grouped}
-        aria-pressed={grouped}
-        title={t("ui.backlog.19")}
-        onclick={() => setGrouped(!grouped)}>{t("ui.backlog.59")}</button
-      >
-      <button
-        type="button"
-        class="collapse"
-        title={t("ui.backlog.20")}
-        aria-label={t("ui.backlog.21")}
-        onclick={collapseBacklog}><Icon name="chevrons-left" size={16} /></button
-      >
-    </div>
-  </header>
-
-  {#if effFilter !== null}
-    <p class="only">
-      {t("ui.backlog.22", { effFilter: categoryLabel(effFilter) })}
-      <button type="button" title={t("ui.backlog.23")} onclick={() => setFilter(null)}><Icon name="close" size={14} /></button>
-    </p>
-  {/if}
-
-  <!-- round47：在「只看学习」里新建的任务**直接归到那一类**（筛「未分类」/ 没筛选 → 不设分类） -->
-  <NewTaskInput category={effFilter === "" ? null : effFilter} onAdded={onTaskAdded} />
-
-  <ul class="list">
-    {#if shownTasks.length === 0}
-      <!-- round78（3.1b₂ · 教-01/教-02）：**空库空态** —— 一句话 + 一个直接动作
-           （动作 = 聚焦上面那个「添加任务…」输入框；以前这里什么都不显示，一片空白）。
-           判据用 `shownTasks.length`：`renderGroups` 在不分组时永远有一个（空）组 —— 拿它判不出空库。 -->
-      <li class="empty">
-        <p class="empty-text">{t("ui.backlog.63")}</p>
-        <button type="button" class="gf empty-add" onclick={() => requestNewTask()}>{t("ui.backlog.64")}</button>
-      </li>
-    {:else}
-      {#each renderGroups as g (g.key)}
-      {#if g.head}
-        <li class="ghead">
-          <button
-            type="button"
-            class="ghead-btn"
-            aria-expanded={!groupCollapsed(g.name)}
-            title={groupCollapsed(g.name) ? t("ui.backlog.24") : t("ui.backlog.25")}
-            onclick={() => toggleGroup(g.name)}>
-            <span class="caret"><Icon name={groupCollapsed(g.name) ? "chevron-right" : "chevron-down"} size={14} /></span>
-            {categoryLabel(g.name)} ({g.tasks.length})
-          </button>
-        </li>
-      {/if}
-      {#if !g.head || !groupCollapsed(g.name)}
-      {#each g.tasks as task, i (task.id)}
-        <li
-          class="item"
-          data-group={String(g.name)}
-          class:reordering={reorder?.id === task.id}
-          class:drop-before={reorder?.group === String(g.name) && reorder.to === i}
-          class:drop-after={reorder?.group === String(g.name) &&
-            reorder.to === g.tasks.length &&
-            i === g.tasks.length - 1}
-          onpointerdown={(e) => onPointerDown(e, task)}
-        >
-        {#if canReorder}
-          <!-- round48：抓手 —— 拖它 = 上下排序；**拖行体仍是「拖到时间轴建块」**（两个手势不打架） -->
-          <button
-            type="button"
-            class="grip"
-            title={t("ui.backlog.26")}
-            aria-label={t("ui.backlog.27")}
-            onpointerdown={(e) => startReorder(e, task.id, i, String(g.name))}
-            onkeydown={(e) => void onGripKey(e, i, String(g.name))}><Icon name="grip-vertical" size={16} /></button
-          >
-        {/if}
-        {#if editingId === task.id}
-          <input
-            class="edit"
-            bind:this={inputEl}
-            bind:value={draft}
-            maxlength="200"
-            aria-label={t("ui.backlog.28")}
-            onkeydown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                void commitEdit(task);
-              } else if (e.key === "Escape") {
-                e.preventDefault();
-                cancelEdit();
-              }
-            }}
-            onblur={() => void commitEdit(task)}
-          />
-        {:else}
-          <span
-            class="label"
-            role="button"
-            tabindex="0"
-            title={t("ui.backlog.29")}
-            ondblclick={() => void startEdit(task)}
-            onkeydown={(e) => {
-              if (keymapMatches(e, "rename")) {
-                e.preventDefault();
-                void startEdit(task);
-              }
-            }}>{task.title}</span
-          >
-        {/if}
-        <span class="acts">
-          {#if sanity.enabled}
-            <!-- round48（用户 2026-10-03）：⊘ 放在 ⚙ 的**左边**，两个键一起靠右。
-                 它是**任务级**开关：管这条任务的**所有块**。功能关掉时它不出现（沿用 round45 的口径） -->
-            <button
-              type="button"
-              class="exempt"
-              class:off={task.sanity_exempt}
-              title={task.sanity_exempt
-                ? t("ui.backlog.30")
-                : t("ui.backlog.31")}
-              onclick={(e) => {
-                e.stopPropagation();
-                void onToggleExempt(task);
-              }}><Icon name="ban" size={16} /></button
-            >
-          {/if}
-          <button
-            class="props-toggle"
-            type="button"
-            title={t("ui.backlog.32")}
-            onclick={() => (taskPanel.propsId = taskPanel.propsId === task.id ? null : task.id)}><Icon name="settings" size={16} /></button
-          >
-          <button
-            class="del"
-            type="button"
-            title={t("ui.backlog.33")}
-            onclick={() => void onDelete(task)}><Icon name="close" size={16} /></button
-          >
-        </span>
-        {#if taskPanel.propsId === task.id}
-          <!-- round27：原来的「弹性任务（拖出来的块默认进弹性层）」勾选框已删 —— 用户 2026-10-01 拍板。
-               理由：那个字段（`tasks.is_elastic`）全仓没有任何逻辑读它，块层现在一律默认弹性，
-               留个勾选只会让人以为它会变什么。（数据库字段先留着，要彻底删得走迁移。） -->
-          <div class="props">
+{#snippet taskProps(task: Task)}
+  <div class="props">
             <!-- round78（3.1b₂ · 栈-11）：属性面板按「任务 / 重复 / 操作」分组（与设置同一套行结构） -->
             <h3 class="prop-group">{t("ui.backlog.65")}</h3>
             <label class="prop">
@@ -713,7 +677,245 @@ import NewTaskInput from "./NewTaskInput.svelte";
               >
               <button type="button" onclick={() => (taskPanel.propsId = null)}>{t("ui.backlog.61")}</button>
             </div>
-          </div>
+  </div>
+{/snippet}
+
+{#snippet archBody()}
+  <ul class="arch-list">
+    {#each archShown as task (task.id)}
+      <li>
+        <span class="arch-title" title={task.title}>{task.title}</span>
+        {#if task.category}<span class="arch-cat">{task.category}</span>{/if}
+        <button
+          type="button"
+          title={t("ui.backlog.52")}
+          onclick={() => void onUnarchive(task)}>{t("ui.backlog.62")}</button
+        >
+      </li>
+    {/each}
+  </ul>
+{/snippet}
+
+<section
+  class="backlog"
+  class:rail={collapsed}
+  class:horizontal={horizontal}
+  class:chips-mode={horizontal && layout.backlogTopMode === "chips" && layout.backlogPane === "open"}
+>
+  {#if collapsed}
+    <!-- 细轨：整条都是按钮（命中区约 40×N，比原来 24px 的 » 大得多） -->
+    <button
+      type="button"
+      class="rail-strip"
+      title={t("ui.backlog.17", { length: visibleTasks.length })}
+      aria-label={t("ui.backlog.18", { length: visibleTasks.length })}
+      onclick={() => {
+        if (layout.autoCollapsed) layout.autoCollapsed = false;
+        else void saveBacklogPane("open");
+      }}
+      onfocus={() => {
+        if (layout.autoCollapsed && layout.backlogAutoHide) layout.autoCollapsed = false;
+      }}
+    >
+      <span class="rail-arrow rot" style="--rot: {railDeg}deg"><Icon name="chevrons-left" size={16} /></span>
+      <span class="rail-count">{visibleTasks.length}</span>
+    </button>
+  {/if}
+  <div class="pane">
+  <header class="head">
+    <button
+      type="button"
+      class="dock-grip"
+      title={t("ui.backlog.67")}
+      aria-label={t("ui.backlog.67")}
+      onpointerdown={startDockDrag}
+      onkeydown={onDockGripKey}><Icon name="grip-vertical" size={14} /></button
+    >
+    <h2 class="title">Backlog</h2>
+    <div class="tools">
+      <!-- round47（8.1）：一扇门两页 —— 筛选（全部 / 各分类 / 未分类）+「✎ 管理工作…」 -->
+      <CategoryMenu
+        tasks={visibleTasks}
+        {allCategories}
+        filter={effFilter}
+        onFilter={setFilter}
+        onRename={onRenameCategory}
+      />
+      <button
+        type="button"
+        class="group-toggle"
+        class:on={grouped}
+        aria-pressed={grouped}
+        title={t("ui.backlog.19")}
+        onclick={() => setGrouped(!grouped)}>{t("ui.backlog.59")}</button
+      >
+      <button
+        type="button"
+        class="collapse"
+        style="--rot: {collapseDeg}deg"
+        title={t("ui.backlog.20")}
+        aria-label={t("ui.backlog.21")}
+        onclick={collapseBacklog}><span class="rot"><Icon name="chevrons-left" size={16} /></span></button
+      >
+    </div>
+  </header>
+
+  {#if effFilter !== null}
+    <p class="only">
+      {t("ui.backlog.22", { effFilter: categoryLabel(effFilter) })}
+      <button type="button" title={t("ui.backlog.23")} onclick={() => setFilter(null)}><Icon name="close" size={14} /></button>
+    </p>
+  {/if}
+
+  <!-- round47：在「只看学习」里新建的任务**直接归到那一类**（筛「未分类」/ 没筛选 → 不设分类） -->
+  <div class="new-task-row">
+    <NewTaskInput category={effFilter === "" ? null : effFilter} onAdded={onTaskAdded} />
+  </div>
+
+  {#if chips}
+    <div class="chips">
+      {#if visibleTasks.length === 0}
+        <span class="chip-empty">{t("ui.backlog.63")}</span>
+      {:else}
+        {#each visibleTasks as task (task.id)}
+          <button
+            type="button"
+            class="chip"
+            title={task.title}
+            data-task-id={task.id}
+            aria-pressed={chipSelected === task.id}
+            class:on={chipSelected === task.id}
+            onclick={() => (chipSelected = chipSelected === task.id ? null : task.id)}
+            onpointerdown={(e) => onPointerDown(e, task)}
+          >
+            <span class="chip-name">{task.title}</span>
+            <span class="chip-meta">{t("msg.week.01", { minutes: estimateMinutes(task.estimated_minutes) })}</span>
+          </button>
+        {/each}
+      {/if}
+    </div>
+  {:else}
+  <ul class="list">
+    {#if shownTasks.length === 0}
+      <!-- round78（3.1b₂ · 教-01/教-02）：**空库空态** —— 一句话 + 一个直接动作
+           （动作 = 聚焦上面那个「添加任务…」输入框；以前这里什么都不显示，一片空白）。
+           判据用 `shownTasks.length`：`renderGroups` 在不分组时永远有一个（空）组 —— 拿它判不出空库。 -->
+      <li class="empty">
+        <p class="empty-text">{t("ui.backlog.63")}</p>
+        <button type="button" class="gf empty-add" onclick={() => requestNewTask()}>{t("ui.backlog.64")}</button>
+      </li>
+    {:else}
+      {#each renderGroups as g (g.key)}
+      {#if g.head}
+        <li class="ghead">
+          <button
+            type="button"
+            class="ghead-btn"
+            aria-expanded={!groupCollapsed(g.name)}
+            title={groupCollapsed(g.name) ? t("ui.backlog.24") : t("ui.backlog.25")}
+            onclick={() => toggleGroup(g.name)}>
+            <span class="caret"><Icon name={groupCollapsed(g.name) ? "chevron-right" : "chevron-down"} size={14} /></span>
+            {categoryLabel(g.name)} ({g.tasks.length})
+          </button>
+        </li>
+      {/if}
+      {#if !g.head || !groupCollapsed(g.name)}
+      {#each g.tasks as task, i (task.id)}
+        <li
+          class="item"
+          data-group={String(g.name)}
+          class:reordering={reorder?.id === task.id}
+          class:drop-before={reorder?.group === String(g.name) && reorder.to === i}
+          class:drop-after={reorder?.group === String(g.name) &&
+            reorder.to === g.tasks.length &&
+            i === g.tasks.length - 1}
+          onpointerdown={(e) => onPointerDown(e, task)}
+        >
+        {#if canReorder}
+          <!-- round48：抓手 —— 拖它 = 上下排序；**拖行体仍是「拖到时间轴建块」**（两个手势不打架） -->
+          <button
+            type="button"
+            class="grip"
+            title={t("ui.backlog.26")}
+            aria-label={t("ui.backlog.27")}
+            onpointerdown={(e) => startReorder(e, task.id, i, String(g.name))}
+            onkeydown={(e) => void onGripKey(e, i, String(g.name))}><Icon name="grip-vertical" size={16} /></button
+          >
+        {/if}
+        {#if editingId === task.id}
+          <input
+            class="edit"
+            bind:this={inputEl}
+            bind:value={draft}
+            maxlength="200"
+            aria-label={t("ui.backlog.28")}
+            onkeydown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                void commitEdit(task);
+              } else if (e.key === "Escape") {
+                e.preventDefault();
+                cancelEdit();
+              }
+            }}
+            onblur={() => void commitEdit(task)}
+          />
+        {:else}
+          <span
+            class="label"
+            role="button"
+            tabindex="0"
+            title={t("ui.backlog.29")}
+            ondblclick={() => void startEdit(task)}
+            onkeydown={(e) => {
+              if (keymapMatches(e, "rename")) {
+                e.preventDefault();
+                void startEdit(task);
+              }
+            }}>{task.title}</span
+          >
+        {/if}
+        <span class="acts">
+          {#if sanity.enabled}
+            <!-- round48（用户 2026-10-03）：⊘ 放在 ⚙ 的**左边**，两个键一起靠右。
+                 它是**任务级**开关：管这条任务的**所有块**。功能关掉时它不出现（沿用 round45 的口径） -->
+            <button
+              type="button"
+              class="exempt"
+              class:off={task.sanity_exempt}
+              title={task.sanity_exempt
+                ? t("ui.backlog.30")
+                : t("ui.backlog.31")}
+              onclick={(e) => {
+                e.stopPropagation();
+                void onToggleExempt(task);
+              }}><Icon name="ban" size={16} /></button
+            >
+          {/if}
+          <button
+            class="props-toggle"
+            type="button"
+            title={t("ui.backlog.32")}
+            onclick={(e) => toggleProps(task, e)}><Icon name="settings" size={16} /></button
+          >
+          <button
+            class="del"
+            type="button"
+            title={t("ui.backlog.33")}
+            onclick={() => void onDelete(task)}><Icon name="close" size={16} /></button
+          >
+        </span>
+        {#if taskPanel.propsId === task.id}
+          <!-- round27：原来的「弹性任务（拖出来的块默认进弹性层）」勾选框已删 —— 用户 2026-10-01 拍板。
+               理由：那个字段（`tasks.is_elastic`）全仓没有任何逻辑读它，块层现在一律默认弹性，
+               留个勾选只会让人以为它会变什么。（数据库字段先留着，要彻底删得走迁移。） -->
+          {#if horizontal}
+            <div class="props-pop" style="left: {propsPos.x}px; top: {propsPos.y}px">
+              {@render taskProps(task)}
+            </div>
+          {:else}
+            {@render taskProps(task)}
+          {/if}
         {/if}
         </li>
       {/each}
@@ -721,6 +923,7 @@ import NewTaskInput from "./NewTaskInput.svelte";
       {/each}
     {/if}
   </ul>
+  {/if}
 
   <!-- round38：归档的「出口」——没有出口的归档，用户只会当成删除，于是不敢用它（round26 的原话就是「归档是什么」） -->
   {#if archivedTasks.length > 0}
@@ -730,7 +933,7 @@ import NewTaskInput from "./NewTaskInput.svelte";
           type="button"
           class="arch-toggle"
           title={t("ui.backlog.50")}
-          onclick={() => (taskPanel.archivedOpen = !taskPanel.archivedOpen)}
+          onclick={(e) => toggleArchived(e)}
           >{t("ui.backlog.51", { length: effArchFilter === null
             ? archivedTasks.length
             : `${archShown.length} / ${archivedTasks.length}` })}<Icon
@@ -752,19 +955,14 @@ import NewTaskInput from "./NewTaskInput.svelte";
         {/if}
       </div>
       {#if taskPanel.archivedOpen}
-        <ul class="arch-list">
-          {#each archShown as task (task.id)}
-            <li>
-              <span class="arch-title" title={task.title}>{task.title}</span>
-              {#if task.category}<span class="arch-cat">{task.category}</span>{/if}
-              <button
-                type="button"
-                title={t("ui.backlog.52")}
-                onclick={() => void onUnarchive(task)}>{t("ui.backlog.62")}</button
-              >
-            </li>
-          {/each}
-        </ul>
+        {#if horizontal}
+          <div
+            class="arch-pop"
+            style="left: {archPos.x}px; bottom: {archPos.bottom}px; max-height: {archPos.maxH}px"
+          >{@render archBody()}</div>
+        {:else}
+          {@render archBody()}
+        {/if}
       {/if}
     </div>
   {/if}
@@ -802,6 +1000,219 @@ import NewTaskInput from "./NewTaskInput.svelte";
     align-items: center;
   }
 
+  /* E1：吸到上/下 = 横向面板（chips 或两列竖列表） */
+  .backlog.horizontal {
+    flex: 0 0 var(--backlog-height);
+    width: 100%;
+    height: var(--backlog-height);
+    min-height: 0;
+  }
+
+  /* E1 修复批：上/下档顶栏收成一行 —— 标题组 + 筛选提示 + 添加任务同一行，chips/列表占剩余高度 */
+  /* E1F #2：chips 档 = 任务栏感 —— 高度贴内容（顶栏一行 + chips 一行 + 归档一行），
+     不再固定 180 留一大片空白；高度只在 panel 档由分隔条控制。 */
+  .backlog.horizontal.chips-mode {
+    height: auto;
+    flex-basis: auto;
+  }
+
+  .backlog.horizontal.chips-mode .pane {
+    height: auto;
+  }
+
+  .backlog.horizontal .pane {
+    display: grid;
+    grid-template-columns: auto auto minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    column-gap: var(--space-2);
+    row-gap: var(--space-1);
+    /* ⚠ 必须 stretch：列表比行高时，center 会让它**居中溢出**，把顶栏和归档一起盖住
+       （PROBE05 实测：列表 -28..244，而面板是 16..196）。第 1 行的三个控件单独 align-self: center。 */
+    align-items: stretch;
+    min-height: 0;
+    height: 100%;
+  }
+
+  .backlog.horizontal .pane > .head {
+    grid-row: 1;
+    grid-column: 1;
+    align-self: center;
+    min-width: 0;
+  }
+
+  .backlog.horizontal .pane > .only {
+    grid-row: 1;
+    grid-column: 2;
+    align-self: center;
+    margin: 0;
+  }
+
+  .backlog.horizontal .pane > .new-task-row {
+    grid-row: 1;
+    grid-column: 3;
+    align-self: center;
+    min-width: 0;
+  }
+
+  .backlog.horizontal .pane > .chips,
+  .backlog.horizontal .pane > .list {
+    grid-row: 2;
+    grid-column: 1 / -1;
+    min-height: 0;
+  }
+
+  .backlog.horizontal .pane > .archived {
+    grid-row: 3;
+    grid-column: 1 / -1;
+  }
+
+  .backlog.horizontal .list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-4);
+    align-content: start;
+    overflow: auto;
+  }
+
+  .backlog.horizontal .chips {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: var(--space-1);
+  }
+
+  /* E1 修复批 #1：滚动条太厚 —— 横档的 chips / 列表 / 两个浮层统一细条 */
+  .backlog.horizontal .chips,
+  .backlog.horizontal .list,
+  .props-pop,
+  .arch-pop {
+    scrollbar-width: thin;
+    scrollbar-color: var(--text-tertiary) transparent;
+  }
+
+  .backlog.horizontal .chips::-webkit-scrollbar,
+  .backlog.horizontal .list::-webkit-scrollbar,
+  .props-pop::-webkit-scrollbar,
+  .arch-pop::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .backlog.horizontal .chips::-webkit-scrollbar-thumb,
+  .backlog.horizontal .list::-webkit-scrollbar-thumb,
+  .props-pop::-webkit-scrollbar-thumb,
+  .arch-pop::-webkit-scrollbar-thumb {
+    background: var(--text-tertiary);
+    border-radius: 3px;
+  }
+
+  /* E1 修复批 #5/#4：横档的「任务设置 / 已归档」浮层（fixed，不撑行、不被列表裁切） */
+  .props-pop {
+    position: fixed;
+    z-index: 20;
+    width: 320px;
+    max-height: 60vh;
+    overflow: auto;
+    padding: var(--space-1);
+    background: var(--card);
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    box-shadow: 0 6px 20px rgb(0 0 0 / 20%);
+  }
+
+  .props-pop .props {
+    background: none;
+    border: none;
+  }
+
+  .arch-pop {
+    position: fixed;
+    z-index: 20;
+    width: 320px;
+    max-height: 40vh;
+    overflow: auto;
+    padding: var(--space-1);
+    background: var(--card);
+    border: 1px solid var(--text-secondary);
+    border-radius: var(--radius);
+    box-shadow: 0 6px 20px rgb(0 0 0 / 20%);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex: none;
+    padding: var(--space-1) var(--space-2);
+    border: 1px solid var(--grid-line);
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    color: var(--text-primary);
+    font: inherit;
+    font-size: var(--text-meta);
+    white-space: nowrap;
+    cursor: grab;
+    touch-action: none;
+  }
+
+  .chip:hover,
+  .chip.on {
+    border-color: var(--accent);
+  }
+
+  .chip.on {
+    background: var(--block-fill-planned);
+  }
+
+  .chip-name {
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .chip-meta {
+    color: var(--text-tertiary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .chip-empty {
+    color: var(--text-tertiary);
+    font-size: var(--text-meta);
+  }
+
+  .backlog.horizontal.rail {
+    flex-basis: 12px;
+    width: 100%;
+    height: 12px;
+    padding: 0 var(--space-2);
+    flex-direction: row;
+  }
+
+  .backlog.horizontal.rail .rail-strip {
+    flex-direction: row;
+    gap: var(--space-2);
+    padding: 0;
+  }
+
+  .dock-grip {
+    flex: none;
+    padding: 0 2px;
+    border: none;
+    background: none;
+    color: var(--text-tertiary);
+    font: inherit;
+    line-height: 1;
+    cursor: grab;
+    touch-action: none;
+  }
+
+  .dock-grip:hover,
+  .dock-grip:focus-visible {
+    color: var(--accent);
+  }
+
   .backlog.rail .pane {
     display: none;
   }
@@ -828,6 +1239,12 @@ import NewTaskInput from "./NewTaskInput.svelte";
 
   .rail-strip:hover .rail-count {
     color: var(--accent);
+  }
+
+  /* E1F：箭头按 --rot 转（收起键 / 细轨展开键共用；图标集没有 chevrons-up/down） */
+  .rot {
+    display: inline-flex;
+    transform: rotate(var(--rot, 0deg));
   }
 
   .rail-arrow {

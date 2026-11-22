@@ -1,7 +1,7 @@
 //! v2 ④ 的设置命令（`get_settings` / `set_setting`）—— 一直到 round44 才做（C6 的预算要能改）。
 //!
 //! 纪律（照 v2 ④ 的「键值对，**只存已知键**」）：
-//! - **白名单**以 `KNOWN_KEYS` 为准（共 **53** 键：理智值两个 + 提醒七个（开始 / 结束 / 开始提前 / 复盘到点动作 / 提醒时刻 / 免打扰截止 + 明早时刻）+ C13 计划开关 + Backlog 栏宽 + 视图记忆三个 + **round64 的 15 个功能开关 + round66 的全局快捷键** + **round67 的外观 / 布局三个**（面板形态 / 隐藏周末 / 键位提示栏；16 布尔 + 模板建议 JSON，默认全开，见 `crate::features`）+ **round68 的成就两键**（默认开）+ **round69 的每周重复开关** + **round74 的语言键**（`ui_locale`，默认中文）+ **round76 的外观五件**（密度 / 深浅色 / 配色 / 层条上色 / 分类底边条，见 `crate::appearance`）+ **round77 的两键**（图标集 `icon_set` / 块内第二行 `block_second_line`）+ **round78 的现在线**（`now_line`）+ **round80 的模板预览**（`template_preview`，默认开）+ **round81 的时间 / 日期两键**（`time_format` / `date_format`，默认 system，见 `crate::datetime`）+ **时间刻度**（`slot_height`，默认 auto = 跟密度）+ **round82 的夜间三键**（`night_dim` / `night_start` / `night_end`，第四档主题与淡化带共用）+ **round82 的键位覆盖**（`key_bindings`，用户改的快捷键；逐条回落在前端）。
+//! - **白名单**以 `KNOWN_KEYS` 为准（共 **58** 键：理智值两个 + 提醒七个（开始 / 结束 / 开始提前 / 复盘到点动作 / 提醒时刻 / 免打扰截止 + 明早时刻）+ C13 计划开关 + Backlog 栏宽 + 视图记忆三个 + **round64 的 15 个功能开关 + round66 的全局快捷键** + **round67 的外观 / 布局三个**（面板形态 / 隐藏周末 / 键位提示栏；16 布尔 + 模板建议 JSON，默认全开，见 `crate::features`）+ **round68 的成就两键**（默认开）+ **round69 的每周重复开关** + **round74 的语言键**（`ui_locale`，默认中文）+ **round76 的外观五件**（密度 / 深浅色 / 配色 / 层条上色 / 分类底边条，见 `crate::appearance`）+ **round77 的两键**（图标集 `icon_set` / 块内第二行 `block_second_line`）+ **round78 的现在线**（`now_line`）+ **round80 的模板预览**（`template_preview`，默认开）+ **round81 的时间 / 日期两键**（`time_format` / `date_format`，默认 system，见 `crate::datetime`）+ **时间刻度**（`slot_height`，默认 auto = 跟密度）+ **round82 的夜间三键**（`night_dim` / `night_start` / `night_end`，第四档主题与淡化带共用）+ **round82 的键位覆盖**（`key_bindings`，用户改的快捷键；逐条回落在前端）+ **E1 四键**（`header_layout` / `layout_backlog_edge` / `backlog_top_mode` / `backlog_auto_hide`）。
 //!   别把 `settings` 表当通用键值库用 —— 那样谁都能往里塞垃圾（而且写错键名不会报错）。
 //! - 值按键校验（开关只认 `0`/`1`、预算 60–1440 的整数、JSON 键过结构）—— 非法值返回中文错误、**不落库**。
 //! - 读的时候把**默认值**填好（前端不必知道默认是多少）。。
@@ -45,6 +45,16 @@ pub const KEY_BACKLOG_GROUPED: &str = "backlog_grouped";
 pub const KEY_BACKLOG_COLLAPSED: &str = "backlog_collapsed";
 /// round67：Backlog 面板形态（`"open"` / `"rail"`）—— 当前是展开还是收起成细轨（round67.2：「整栏隐藏」档已删）
 pub const KEY_BACKLOG_PANE: &str = "backlog_pane";
+/// E1：Backlog 吸到上/下时的形态（`"chips"` = 横向标签条 / `"panel"` = 全宽竖列表）
+pub const KEY_BACKLOG_TOP_MODE: &str = "backlog_top_mode";
+/// E1：Backlog 自动收起（任务栏式；`"1"` = 开，默认关）
+pub const KEY_BACKLOG_AUTO_HIDE: &str = "backlog_auto_hide";
+/// E1：头部按钮组排布（JSON：`{"left":["week-nav"],"right":["edit","views","settings"]}`，四个组各出现一次；旧形状 `head-actions` 读时自动拆开）
+pub const KEY_HEADER_LAYOUT: &str = "header_layout";
+/// E1 修复批：上/下档的 Backlog 高度（96–360；默认 180）
+pub const KEY_BACKLOG_HEIGHT: &str = "backlog_height";
+/// E1：Backlog 吸在哪条边（`left` / `right` / `top` / `bottom`）
+pub const KEY_BACKLOG_EDGE: &str = "layout_backlog_edge";
 /// round67：隐藏周六、周日两列（`"1"` = 只看工作日 5 列）
 pub const KEY_WEEKEND_HIDDEN: &str = "weekend_hidden";
 /// round67：键位提示栏显示策略（`"always"` / `"hidden"`；round67.1 按用户实测删掉了「按需」档）
@@ -63,6 +73,10 @@ pub const KEY_ACHIEVEMENT_TOAST: &str = crate::achievements::TOAST_KEY;
 /// 栏宽范围（与前端 `ui.svelte.ts` 的夹子同一个值；两边都挡一道）
 pub const MIN_BACKLOG_WIDTH: i64 = 180;
 pub const MAX_BACKLOG_WIDTH: i64 = 520;
+/// 上/下档高度范围（与前端 `layout.svelte.ts` 的 `BACKLOG_H_*` 同一套值）
+pub const MIN_BACKLOG_HEIGHT: i64 = 96;
+pub const MAX_BACKLOG_HEIGHT: i64 = 360;
+pub const DEFAULT_BACKLOG_HEIGHT: i64 = 180;
 
 /// 允许前端读写的键（白名单；`get_settings` 只会返回这里的键）
 /// round57（0.13.0）：`review_remind`（旧开关）退役，换成三选一 `review_action` —— 键数不变（8）。
@@ -79,7 +93,9 @@ pub const MAX_BACKLOG_WIDTH: i64 = 520;
 /// round80（79-02）：+1 键（模板预览 `template_preview`，默认开）→ **46**。
 /// round82（3.1c₂）：+3 键（夜间淡化 `night_dim` 默认开 · 夜间时段 `night_start` / `night_end`，默认 22:00 / 06:00）+1 键（键位覆盖 `key_bindings`）→ **53**。
 /// round87（3.3 字体方案）：+1 键（界面字体族 `ui_font`，默认档 = 旧观感）→ **54**。
-pub const KNOWN_KEYS: [&str; 54] = [
+/// E1：+4 键（`backlog_top_mode` / `backlog_auto_hide` / `header_layout` / `layout_backlog_edge`）→ **58**。
+/// E1 修复批：+1 键（`backlog_height` 上/下档高度）→ **59**。
+pub const KNOWN_KEYS: [&str; 59] = [
     KEY_BUDGET,
     KEY_ENABLED,
     KEY_SCHEDULER,
@@ -96,6 +112,11 @@ pub const KNOWN_KEYS: [&str; 54] = [
     KEY_BACKLOG_COLLAPSED,
     // round67：外观 / 布局三个（默认：展开 / 显示周末 / 常显）
     KEY_BACKLOG_PANE,
+    KEY_BACKLOG_TOP_MODE,
+    KEY_BACKLOG_AUTO_HIDE,
+    KEY_HEADER_LAYOUT,
+    KEY_BACKLOG_EDGE,
+    KEY_BACKLOG_HEIGHT,
     KEY_WEEKEND_HIDDEN,
     KEY_HINT_BAR_MODE,
     // round64（C10）：15 个功能开关（默认全开；键名唯一实现在 `crate::features`）
@@ -217,6 +238,39 @@ fn normalize_slot_height(raw: &str) -> Option<String> {
     }
 }
 
+/// `header_layout` 的规范形态：`{"left":[组],"right":[组]}`，两个组各出现一次
+fn normalize_header_layout(raw: &str) -> Option<String> {
+    let value: serde_json::Value = serde_json::from_str(raw).ok()?;
+    let obj = value.as_object()?;
+    let left = obj.get("left")?.as_array()?;
+    let right = obj.get("right")?.as_array()?;
+    // E1 修复批：四个组（week-nav / edit / views / settings）；旧形状的 `head-actions` 就地拆成后三组
+    let allowed = ["week-nav", "edit", "views", "settings"];
+    let mut seen: Vec<String> = Vec::new();
+    let mut out: Vec<Vec<String>> = vec![Vec::new(), Vec::new()];
+    for (i, arr) in [left, right].into_iter().enumerate() {
+        for item in arr {
+            let group = item.as_str()?;
+            let expanded: Vec<&str> = if group == "head-actions" {
+                vec!["edit", "views", "settings"]
+            } else {
+                vec![group]
+            };
+            for g in expanded {
+                if !allowed.contains(&g) || seen.iter().any(|s| s == g) {
+                    return None;
+                }
+                seen.push(g.to_string());
+                out[i].push(g.to_string());
+            }
+        }
+    }
+    if seen.len() != allowed.len() {
+        return None;
+    }
+    serde_json::to_string(&serde_json::json!({"left": out[0], "right": out[1]})).ok()
+}
+
 /// `backlog_collapsed` 的规范形态：字符串数组（去重、每项非空且 ≤60 字、最多 100 项）
 fn normalize_backlog_collapsed(raw: &str) -> Option<String> {
     let value: serde_json::Value = serde_json::from_str(raw).ok()?;
@@ -305,6 +359,26 @@ pub fn get_settings_impl(conn: &Connection) -> Result<Settings, String> {
             KEY_BACKLOG_PANE => {
                 if matches!(stored.trim(), "rail" | "hidden") { "rail" } else { "open" }.to_string()
             }
+            // E1：上/下形态 —— 只认 chips / panel；旧库缺省 / 坏值回 chips（默认 = 横向标签条）
+            KEY_BACKLOG_TOP_MODE => {
+                if stored.trim() == "panel" { "panel" } else { "chips" }.to_string()
+            }
+            KEY_BACKLOG_AUTO_HIDE => {
+                if stored.trim() == "1" { "1" } else { "0" }.to_string()
+            }
+            KEY_HEADER_LAYOUT => normalize_header_layout(&stored)
+                .unwrap_or_else(|| "{\"left\":[\"week-nav\"],\"right\":[\"edit\",\"views\",\"settings\"]}".to_string()),
+            KEY_BACKLOG_EDGE => {
+                if matches!(stored.trim(), "right" | "top" | "bottom") { stored.trim() } else { "left" }.to_string()
+            }
+            // E1 修复批：上/下档高度（旧库缺键 / 坏值 → 180）
+            KEY_BACKLOG_HEIGHT => stored
+                .trim()
+                .parse::<i64>()
+                .ok()
+                .filter(|v| (MIN_BACKLOG_HEIGHT..=MAX_BACKLOG_HEIGHT).contains(v))
+                .unwrap_or(DEFAULT_BACKLOG_HEIGHT)
+                .to_string(),
             KEY_WEEKEND_HIDDEN => {
                 if stored.trim() == "1" { "1" } else { "0" }.to_string()
             }
@@ -522,6 +596,34 @@ pub fn set_setting_impl(conn: &Connection, key: &str, value: &str) -> Result<(),
                 return Err(i18n::t(i18n::msg::ERR_CMD_SETTINGS_17).to_string());
             }
             db::set_setting(conn, key, v)
+        }
+        KEY_BACKLOG_TOP_MODE => {
+            if !matches!(v, "chips" | "panel") {
+                return Err(i18n::t(i18n::msg::ERR_CMD_SETTINGS_17).to_string());
+            }
+            db::set_setting(conn, key, v)
+        }
+        KEY_BACKLOG_AUTO_HIDE => {
+            if !matches!(v, "0" | "1") {
+                return Err(i18n::t(i18n::msg::ERR_CMD_SETTINGS_17).to_string());
+            }
+            db::set_setting(conn, key, v)
+        }
+        KEY_HEADER_LAYOUT => normalize_header_layout(v)
+            .ok_or_else(|| i18n::t(i18n::msg::ERR_CMD_SETTINGS_17).to_string())
+            .and_then(|canonical| db::set_setting(conn, key, &canonical)),
+        KEY_BACKLOG_EDGE => {
+            if !matches!(v, "left" | "right" | "top" | "bottom") {
+                return Err(i18n::t(i18n::msg::ERR_CMD_SETTINGS_17).to_string());
+            }
+            db::set_setting(conn, key, v)
+        }
+        KEY_BACKLOG_HEIGHT => {
+            let px = v.trim().parse::<i64>().map_err(|_| i18n::t(i18n::msg::ERR_CMD_SETTINGS_17).to_string())?;
+            if !(MIN_BACKLOG_HEIGHT..=MAX_BACKLOG_HEIGHT).contains(&px) {
+                return Err(tf!(i18n::msg::ERR_CMD_SETTINGS_22, p1 = MIN_BACKLOG_HEIGHT, p2 = MAX_BACKLOG_HEIGHT));
+            }
+            db::set_setting(conn, key, &px.to_string())
         }
         KEY_HINT_BAR_MODE => {
             if !matches!(v, "always" | "hidden") {
@@ -868,6 +970,44 @@ mod tests {
     }
 
     #[test]
+    fn test_backlog_height_validation() {
+        let conn = db::test_conn();
+        // 缺键 → 默认 180
+        assert_eq!(
+            get_settings_impl(&conn)
+                .expect("读失败")
+                .values
+                .get(KEY_BACKLOG_HEIGHT)
+                .map(String::as_str),
+            Some("180")
+        );
+        set_setting_impl(&conn, KEY_BACKLOG_HEIGHT, "240").expect("写 240 失败");
+        assert_eq!(
+            get_settings_impl(&conn)
+                .expect("读失败")
+                .values
+                .get(KEY_BACKLOG_HEIGHT)
+                .map(String::as_str),
+            Some("240")
+        );
+        for bad in ["0", "95", "361", "tall", ""] {
+            assert!(
+                set_setting_impl(&conn, KEY_BACKLOG_HEIGHT, bad).is_err(),
+                "非法高度 {bad:?} 必须被拒"
+            );
+        }
+        assert_eq!(
+            get_settings_impl(&conn)
+                .expect("读失败")
+                .values
+                .get(KEY_BACKLOG_HEIGHT)
+                .map(String::as_str),
+            Some("240"),
+            "非法值不该污染已存的值"
+        );
+    }
+
+    #[test]
     fn test_backlog_width_validation() {
         let conn = db::test_conn();
         set_setting_impl(&conn, KEY_BACKLOG_WIDTH, "300").expect("写 300 失败");
@@ -1008,6 +1148,29 @@ mod tests {
         assert!(set_setting_impl(&conn, KEY_BACKLOG_COLLAPSED, "[\"\"]").is_err(), "空名要拒");
     }
 
+    #[test]
+    fn test_normalize_header_layout() {
+        assert_eq!(
+            normalize_header_layout("{\"left\":[\"week-nav\"],\"right\":[\"edit\",\"views\",\"settings\"]}").as_deref(),
+            Some("{\"left\":[\"week-nav\"],\"right\":[\"edit\",\"views\",\"settings\"]}")
+        );
+        // E1 修复批：旧形状（2 组）读时升级 —— head-actions 就地拆成三组
+        assert_eq!(
+            normalize_header_layout("{\"left\":[\"week-nav\"],\"right\":[\"head-actions\"]}").as_deref(),
+            Some("{\"left\":[\"week-nav\"],\"right\":[\"edit\",\"views\",\"settings\"]}")
+        );
+        assert_eq!(
+            normalize_header_layout("{\"left\":[\"head-actions\",\"week-nav\"],\"right\":[]}").as_deref(),
+            Some("{\"left\":[\"edit\",\"views\",\"settings\",\"week-nav\"],\"right\":[]}")
+        );
+        assert!(normalize_header_layout("{\"left\":[\"week-nav\"],\"right\":[]}").is_none());
+        assert!(
+            normalize_header_layout("{\"left\":[\"week-nav\"],\"right\":[\"week-nav\",\"edit\",\"views\"]}").is_none(),
+            "重复组要拒"
+        );
+        assert!(normalize_header_layout("nope").is_none());
+    }
+
     /// round64（C10）：`features` 的键名清单与设置白名单**不许漂移**（两份清单怕各改一边）
     #[test]
     fn test_feature_keys_are_known_settings() {
@@ -1017,7 +1180,7 @@ mod tests {
             assert!(set_setting_impl(&conn, key, "1").is_ok(), "{key} 该能写");
         }
         assert!(KNOWN_KEYS.contains(&features::TEMPLATE_SUGGEST));
-        assert_eq!(KNOWN_KEYS.len(), 54, "round87（3.3）后一共 54 键（round82 的 53 + 界面字体族 ui_font）");
+        assert_eq!(KNOWN_KEYS.len(), 59, "E1 的 58 + E1 修复批的 backlog_height");
     }
 
     /// round82（3.1c₂ · 绑-08…10）：键位覆盖（JSON）—— 缺键 / 坏 JSON / 结构不对三态；未知 id 由前端逐条回落

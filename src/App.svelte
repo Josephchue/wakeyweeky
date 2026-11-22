@@ -19,7 +19,11 @@
   import {
     BACKLOG_MAX,
     BACKLOG_MIN,
+    BACKLOG_H_MAX,
+    BACKLOG_H_MIN,
+    BACKLOG_H_DEFAULT,
     backlogDefault,
+    clampBacklogHeight,
     clampBacklogWidth,
     layout,
     loadLayoutSettings,
@@ -28,6 +32,7 @@
     slotHeightEffective,
     SLOT_HEIGHTS,
   } from "./lib/stores/layout.svelte";
+  import { persistBacklogHeight } from "./lib/stores/layout-persist";
   import { toast, toastAchievement, dataSwitch } from "./lib/stores/ui.svelte";
   import { anyPanelOpen, stackDepth } from "./lib/stores/panels.svelte";
   import { selection } from "./lib/stores/selection.svelte";
@@ -285,6 +290,42 @@
     void saveBacklogWidth(layout.backlogWidth);
   }
 
+  /** E1：上/下吸附时的分隔条（拖高度；顶部向下拖变高、底部向上拖变高） */
+  function startResizeHeight(e: PointerEvent) {
+    const fromY = e.clientY;
+    const fromHeight = layout.backlogHeight;
+    const sign = layout.backlogEdge === "top" ? 1 : -1;
+    const move = (ev: PointerEvent) => {
+      layout.backlogHeight = clampBacklogHeight(fromHeight + sign * (ev.clientY - fromY));
+    };
+    const up = () => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", up);
+      window.removeEventListener("pointercancel", up);
+      void persistBacklogHeight(layout.backlogHeight);
+    };
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", up);
+    window.addEventListener("pointercancel", up);
+  }
+
+  function resetBacklogHeight() {
+    layout.backlogHeight = BACKLOG_H_DEFAULT;
+    void persistBacklogHeight(BACKLOG_H_DEFAULT);
+  }
+
+  /** 键盘也能调高度：↑/↓ 每次 10px，Shift 40px */
+  function onSplitterKeyHeight(e: KeyboardEvent) {
+    if (e.key !== "ArrowUp" && e.key !== "ArrowDown") return;
+    e.preventDefault();
+    e.stopPropagation();
+    const step = e.shiftKey ? 40 : 10;
+    layout.backlogHeight = clampBacklogHeight(
+      layout.backlogHeight + (e.key === "ArrowDown" ? step : -step),
+    );
+    void persistBacklogHeight(layout.backlogHeight);
+  }
+
   // ---------------------------------------------------------------- round81（3.1c₁ · 宽-02/04/09）
   /** Ctrl+滚轮（含触控板捏合）：**只在时间轴上接管**（= 时间刻度）；
    *  其它位置一律不拦（浏览器缩放是无障碍能力，不能全局抢）。浮层开着 / 手势中不接管。
@@ -317,33 +358,184 @@
     window.addEventListener("wheel", onWindowWheel, { passive: false });
     return () => window.removeEventListener("wheel", onWindowWheel);
   });
+
+  // ---------------------------------------------------------------- E1：任务栏式自动收起
+  // 规则（§4.3）：指针离开 Backlog 且无焦点在内 → 6s 收；指针进窗口边缘 8px 热区 → 120ms 展。
+  // 抑制：任一面板开 / 块或任务拖动 / 框选 / 拿起 / Backlog 内编辑 / 正在拖 Backlog 或按钮组 /
+  //     窗口失焦（失焦直接清计时器）。收起用 `autoCollapsed`，**不动**用户手动的 `backlogPane`、不写库。
+  const AUTO_HIDE_MS = 6000;
+  const AUTO_HIDE_HOT = 8;
+  const AUTO_HIDE_OPEN_MS = 120;
+
+  $effect(() => {
+    if (!layout.backlogAutoHide && layout.autoCollapsed) layout.autoCollapsed = false;
+  });
+
+  onMount(() => {
+    let collapseTimer: ReturnType<typeof setTimeout> | null = null;
+    let expandTimer: ReturnType<typeof setTimeout> | null = null;
+
+    const clearCollapse = () => {
+      if (collapseTimer !== null) {
+        clearTimeout(collapseTimer);
+        collapseTimer = null;
+      }
+    };
+    const clearExpand = () => {
+      if (expandTimer !== null) {
+        clearTimeout(expandTimer);
+        expandTimer = null;
+      }
+    };
+    const hasFocusInside = () =>
+      !!document.activeElement?.closest?.(".backlog");
+    const blocked = () =>
+      anyPanelOpen() ||
+      document.documentElement.dataset.headDrag === "1" ||
+      layout.dockPreview !== null ||
+      !!drag.blockId ||
+      !!drag.taskId ||
+      selection.grabbed ||
+      !!document.querySelector(".marquee-rect") ||
+      !!document.activeElement?.closest?.(".backlog input, .backlog textarea");
+    const inBacklog = (x: number, y: number) => {
+      const el = document.querySelector(".backlog");
+      if (!el) return false;
+      const r = el.getBoundingClientRect();
+      return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
+    };
+    const inHotZone = (x: number, y: number) => {
+      // 边缘 8px **或细轨本身**（左右细轨 40px / 上下细条 12px —— 文案承诺了「或细轨」）
+      if (document.elementFromPoint(x, y)?.closest?.(".backlog")) return true;
+      if (layout.backlogEdge === "left") return x <= AUTO_HIDE_HOT;
+      if (layout.backlogEdge === "right") return x >= window.innerWidth - AUTO_HIDE_HOT;
+      if (layout.backlogEdge === "top") return y <= AUTO_HIDE_HOT;
+      return y >= window.innerHeight - AUTO_HIDE_HOT;
+    };
+    function collapseNow() {
+      collapseTimer = null;
+      if (!layout.backlogAutoHide || layout.backlogPane !== "open" || layout.autoCollapsed) return;
+      if (blocked() || hasFocusInside()) {
+        collapseTimer = setTimeout(collapseNow, AUTO_HIDE_MS);
+        return;
+      }
+      layout.autoCollapsed = true;
+    }
+    const scheduleCollapse = () => {
+      if (collapseTimer !== null) return;
+      if (!layout.backlogAutoHide || layout.autoCollapsed || layout.backlogPane !== "open") return;
+      collapseTimer = setTimeout(collapseNow, AUTO_HIDE_MS);
+    };
+    const onMove = (ev: PointerEvent) => {
+      if (!layout.backlogAutoHide) {
+        clearCollapse();
+        clearExpand();
+        return;
+      }
+      if (layout.autoCollapsed) {
+        clearCollapse();
+        if (inHotZone(ev.clientX, ev.clientY)) {
+          if (expandTimer === null) {
+            expandTimer = setTimeout(() => {
+              expandTimer = null;
+              if (layout.backlogAutoHide && layout.autoCollapsed) layout.autoCollapsed = false;
+            }, AUTO_HIDE_OPEN_MS);
+          }
+        } else {
+          clearExpand();
+        }
+        return;
+      }
+      if (inBacklog(ev.clientX, ev.clientY) || hasFocusInside()) clearCollapse();
+      else scheduleCollapse();
+    };
+    const onFocusIn = (ev: FocusEvent) => {
+      if ((ev.target as Element | null)?.closest?.(".backlog")) clearCollapse();
+    };
+    const onBlur = () => {
+      clearCollapse();
+      clearExpand();
+    };
+    window.addEventListener("pointermove", onMove);
+    document.addEventListener("focusin", onFocusIn);
+    window.addEventListener("blur", onBlur);
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      document.removeEventListener("focusin", onFocusIn);
+      window.removeEventListener("blur", onBlur);
+      clearCollapse();
+      clearExpand();
+    };
+  });
 </script>
 
-<main class="shell" inert={anyPanelOpen()} style="--backlog-width: {layout.backlogWidth}px">
-  <Backlog />
+{#snippet splitterV()}
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
   <!--
     WAI-ARIA APG 的 **window splitter** 就是「可聚焦的 separator」：`role="separator"` +
     `tabindex=0` + `aria-valuenow` —— svelte-check 不认识这个模式，所以显式忽略那条告警。
   -->
   <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-  {#if layout.backlogPane === "open"}
-    <div
-      class="splitter"
-      role="separator"
-      aria-orientation="vertical"
-      aria-label={t("ui.app.08")}
-      aria-valuenow={layout.backlogWidth}
-      aria-valuemin={BACKLOG_MIN}
-      aria-valuemax={BACKLOG_MAX}
-      tabindex="0"
-      title={t("ui.app.09")}
-      onpointerdown={startResize}
-      ondblclick={resetBacklogWidth}
-      onkeydown={onSplitterKey}
-    ></div>
+  <div
+    class="splitter"
+    role="separator"
+    aria-orientation="vertical"
+    aria-label={t("ui.app.08")}
+    aria-valuenow={layout.backlogWidth}
+    aria-valuemin={BACKLOG_MIN}
+    aria-valuemax={BACKLOG_MAX}
+    tabindex="0"
+    title={t("ui.app.09")}
+    onpointerdown={startResize}
+    ondblclick={resetBacklogWidth}
+    onkeydown={onSplitterKey}
+  ></div>
+{/snippet}
+
+{#snippet splitterH()}
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+  <div
+    class="splitter h"
+    role="separator"
+    aria-orientation="horizontal"
+    aria-label={t("ui.app.10")}
+    aria-valuenow={layout.backlogHeight}
+    aria-valuemin={BACKLOG_H_MIN}
+    aria-valuemax={BACKLOG_H_MAX}
+    tabindex="0"
+    title={t("ui.app.11")}
+    onpointerdown={startResizeHeight}
+    ondblclick={resetBacklogHeight}
+    onkeydown={onSplitterKeyHeight}
+  ></div>
+{/snippet}
+
+<main
+  class="shell"
+  data-backlog-edge={layout.backlogEdge}
+  data-dock-preview={layout.dockPreview ?? ""}
+  inert={anyPanelOpen()}
+  style="--backlog-width: {layout.backlogWidth}px; --backlog-height: {layout.backlogHeight}px"
+>
+  {#if layout.backlogEdge === "left" || layout.backlogEdge === "top"}
+    <Backlog />
+    {#if layout.backlogPane === "open" && !layout.autoCollapsed}
+      {#if layout.backlogEdge === "left"}{@render splitterV()}{:else if layout.backlogTopMode === "panel"}{@render splitterH()}{/if}
+    {/if}
   {/if}
   <Timeline />
+  {#if layout.backlogEdge === "right" || layout.backlogEdge === "bottom"}
+    {#if layout.backlogPane === "open" && !layout.autoCollapsed}
+      {#if layout.backlogEdge === "right"}{@render splitterV()}{:else if layout.backlogTopMode === "panel"}{@render splitterH()}{/if}
+    {/if}
+    <Backlog />
+  {/if}
+  {#if layout.dockPreview}
+    {#each ["left", "right", "top", "bottom"] as edge (edge)}
+      <div class="dock-hint" data-edge={edge} class:on={layout.dockPreview === edge}></div>
+    {/each}
+  {/if}
   {#if import.meta.env.DEV}
     <button class="debug" onclick={debugListTasks}>Debug</button>
   {/if}
@@ -362,6 +554,46 @@
     gap: 0;
     height: 100%;
     padding: var(--space-4);
+  }
+
+  /* E1：Backlog 吸在上/下时，shell 变纵向（Backlog → 分隔条 → 时间轴 / 时间轴 → 分隔条 → Backlog） */
+  .shell[data-backlog-edge="top"],
+  .shell[data-backlog-edge="bottom"] {
+    flex-direction: column;
+  }
+
+  /* E1：拖动中的四边落点提示（不接指针；面板栈 z=40 起，这里压在内容上） */
+  .dock-hint {
+    position: fixed;
+    z-index: 6;
+    background: var(--accent);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 80ms;
+  }
+
+  .dock-hint[data-edge="left"] {
+    inset: 0 auto 0 0;
+    width: 10px;
+  }
+
+  .dock-hint[data-edge="right"] {
+    inset: 0 0 0 auto;
+    width: 10px;
+  }
+
+  .dock-hint[data-edge="top"] {
+    inset: 0 0 auto 0;
+    height: 10px;
+  }
+
+  .dock-hint[data-edge="bottom"] {
+    inset: auto 0 0 0;
+    height: 10px;
+  }
+
+  .dock-hint.on {
+    opacity: 0.22;
   }
 
   /* round45：分隔条 —— 平时看不见（只是一道 16px 的沟），悬停/聚焦时出一条细线 */
@@ -387,6 +619,23 @@
   .splitter:hover::before,
   .splitter:focus-visible::before {
     background: var(--accent);
+  }
+
+  /* E1：上/下吸附的分隔条 = 横向（高度用 row-resize，细线横向居中） */
+  .splitter.h {
+    width: 100%;
+    height: var(--space-4);
+    cursor: row-resize;
+  }
+
+  .splitter.h::before {
+    top: 50%;
+    bottom: auto;
+    left: 0;
+    right: 0;
+    width: auto;
+    height: 2px;
+    transform: translateY(-50%);
   }
 
   .debug {

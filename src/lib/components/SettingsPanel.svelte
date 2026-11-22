@@ -101,11 +101,17 @@
     layout,
     loadLayoutSettings,
     resetLayout,
+    applyHeaderPreset,
+    headerPreset,
+    saveBacklogAutoHide,
+    saveBacklogTopMode,
+    saveHeaderLayout,
     saveHintBarMode,
     saveSlotHeight,
     saveWeekendHidden,
     slotHeightEffective,
     SLOT_HEIGHTS,
+    type BacklogTopMode,
     type HintBarMode,
     type SlotHeight,
   } from "../stores/layout.svelte";
@@ -402,6 +408,27 @@
     const next: SlotHeight = el.value === "auto" ? "auto" : (Number(el.value) as SlotHeight);
     if (await saveSlotHeight(next)) return;
     el.value = String(layout.slotHeight);
+  }
+
+  /** E1：Backlog 吸到上/下时的形态（chips|panel）—— 写失败把控件拨回去（BQ 口径） */
+  async function commitBacklogTopMode(el: HTMLSelectElement) {
+    const next: BacklogTopMode = el.value === "panel" ? "panel" : "chips";
+    if (await saveBacklogTopMode(next)) return;
+    el.value = layout.backlogTopMode;
+  }
+
+  /** E1：头部按钮组预设（窄窗头部控件收起时的镜像入口；写失败只记日志 —— 排布已生效） */
+  function commitHeaderPreset(el: HTMLSelectElement) {
+    const id = el.value;
+    if (id !== "default" && id !== "right" && id !== "left") return;
+    applyHeaderPreset(id);
+    void saveHeaderLayout();
+  }
+
+  /** E1：自动收起开关 —— 写失败把勾选拨回去（BQ 口径） */
+  async function commitBacklogAutoHide(el: HTMLInputElement) {
+    if (await saveBacklogAutoHide(el.checked)) return;
+    el.checked = layout.backlogAutoHide;
   }
 
   /** round81（3.1c₁ · 宽-05）：**复位布局** —— 无确认（可逆、不删数据；你 2026-10-06 拍）；
@@ -1045,6 +1072,32 @@
             </select>
           </label>
           <p class="hint">{t("ui.sanity_settings.170")}</p>
+          <!-- E1F：头部按钮组预设的**唯一入口**（头部三段控件已删，任何宽度都用这里） -->
+          <label class="row">
+            <span>{t("ui.sanity_settings.199")}</span>
+            <select
+              class="preset-mirror"
+              value={headerPreset()}
+              onchange={(e) => commitHeaderPreset(e.currentTarget)}
+            >
+              <option value="default">{t("ui.timeline.63")}</option>
+              <option value="right">{t("ui.timeline.64")}</option>
+              <option value="left">{t("ui.timeline.65")}</option>
+              <option value="custom" disabled>{t("ui.timeline.66")}</option>
+            </select>
+          </label>
+          <p class="hint">{t("ui.sanity_settings.200")}</p>
+          <!-- E1：任务栏式自动收起（默认关；开后才生效；时间 6s / 热区 8px / 展开 120ms） -->
+          <label class="row switch">
+            <input
+              type="checkbox"
+              class="backlog-auto-hide"
+              checked={layout.backlogAutoHide}
+              onchange={(e) => void commitBacklogAutoHide(e.currentTarget)}
+            />
+            <span>{t("ui.sanity_settings.197")}</span>
+          </label>
+          <p class="hint">{t("ui.sanity_settings.198")}</p>
           <div class="backup-row">
             <button type="button" class="reset-layout" onclick={() => void doResetLayout()}
               >{t("ui.sanity_settings.169")}</button
@@ -1216,6 +1269,19 @@
             >{moreOpen ? `▾ ${t("ui.sanity_settings.98")}` : `▸ ${t("ui.sanity_settings.99", { n: 6 })}`}</button
           >
           {#if moreOpen}
+            <!-- E1：Backlog 吸到上/下时的形态（两档；只影响上下，不碰左右） -->
+            <label class="row">
+              <span>{t("ui.sanity_settings.193")}</span>
+              <select
+                class="backlog-top-mode"
+                value={layout.backlogTopMode}
+                onchange={(e) => void commitBacklogTopMode(e.currentTarget)}
+              >
+                <option value="chips">{t("ui.sanity_settings.194")}</option>
+                <option value="panel">{t("ui.sanity_settings.195")}</option>
+              </select>
+            </label>
+            <p class="hint">{t("ui.sanity_settings.196")}</p>
             <!-- 数据 -->
             <div class="sub-acc">
               <button

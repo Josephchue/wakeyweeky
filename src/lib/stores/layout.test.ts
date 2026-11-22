@@ -23,6 +23,12 @@ const {
   saveSlotHeight,
   saveWeekendHidden,
   toggleBacklogPane,
+  applyHeaderPreset,
+  headerPreset,
+  moveHeaderGroup,
+  saveHeaderLayout,
+  saveBacklogEdge,
+  resetLayout: resetLayoutAction,
 } = await import("./layout.svelte");
 
 function resetLayout() {
@@ -30,6 +36,12 @@ function resetLayout() {
   layout.backlogPane = "open";
   layout.weekendHidden = false;
   layout.hintBarMode = "always";
+  layout.header = { left: ["week-nav"], right: ["edit", "views", "settings"] };
+  layout.backlogEdge = "left";
+  layout.backlogTopMode = "chips";
+  layout.backlogAutoHide = false;
+  layout.autoCollapsed = false;
+  layout.dockPreview = null;
 }
 
 beforeEach(() => {
@@ -131,5 +143,115 @@ describe("写入", () => {
     expect(layout.backlogPane).toBe("open");
     await toggleBacklogPane();
     expect(layout.backlogPane).toBe("rail");
+  });
+});
+
+describe("E1 头部按钮组预设", () => {
+  it("默认档：nav 左 / 三个动作组在右", () => {
+    expect(headerPreset()).toBe("default");
+    expect(layout.header).toEqual({ left: ["week-nav"], right: ["edit", "views", "settings"] });
+  });
+
+  it("三档预设各自就位", () => {
+    applyHeaderPreset("right");
+    expect(layout.header).toEqual({ left: [], right: ["week-nav", "edit", "views", "settings"] });
+    expect(headerPreset()).toBe("right");
+    applyHeaderPreset("left");
+    expect(layout.header).toEqual({ left: ["week-nav", "edit", "views", "settings"], right: [] });
+    expect(headerPreset()).toBe("left");
+    applyHeaderPreset("default");
+    expect(headerPreset()).toBe("default");
+  });
+
+  it("拖一个组换区 → 自定义；点默认回来", () => {
+    moveHeaderGroup("week-nav", "right");
+    expect(layout.header).toEqual({ left: [], right: ["edit", "views", "settings", "week-nav"] });
+    expect(headerPreset()).toBe("custom");
+    applyHeaderPreset("default");
+    expect(headerPreset()).toBe("default");
+  });
+
+  it("同区移动到末尾 = 换序（两组同区时也能拖）", () => {
+    moveHeaderGroup("settings", "left");
+    expect(layout.header).toEqual({ left: ["week-nav", "settings"], right: ["edit", "views"] });
+    moveHeaderGroup("settings", "left", 0);
+    expect(layout.header).toEqual({ left: ["settings", "week-nav"], right: ["edit", "views"] });
+    expect(headerPreset()).toBe("custom");
+  });
+});
+
+describe("E1 持久化", () => {
+  it("读回头部排布 / 停靠边 / 上下的形态 / 自动收起", async () => {
+    vi.mocked(ipc.getSettings).mockResolvedValue({
+      values: {
+        header_layout: '{"left":[],"right":["week-nav","edit","views","settings"]}',
+        layout_backlog_edge: "top",
+        backlog_top_mode: "panel",
+        backlog_auto_hide: "1",
+        backlog_height: "260",
+      },
+    } as never);
+    await loadLayoutSettings();
+    expect(layout.header).toEqual({ left: [], right: ["week-nav", "edit", "views", "settings"] });
+    expect(layout.backlogEdge).toBe("top");
+    expect(layout.backlogTopMode).toBe("panel");
+    expect(layout.backlogAutoHide).toBe(true);
+    expect(layout.backlogHeight).toBe(260);
+  });
+
+  it("旧形状（2 组）读回时升级成 4 组", async () => {
+    vi.mocked(ipc.getSettings).mockResolvedValue({
+      values: {
+        header_layout: '{"left":["week-nav"],"right":["head-actions"]}',
+      },
+    } as never);
+    await loadLayoutSettings();
+    expect(layout.header).toEqual({ left: ["week-nav"], right: ["edit", "views", "settings"] });
+  });
+
+  it("坏 JSON / 坏边值都回默认", async () => {
+    vi.mocked(ipc.getSettings).mockResolvedValue({
+      values: {
+        header_layout: "nope",
+        layout_backlog_edge: "diag",
+        backlog_top_mode: "x",
+        backlog_auto_hide: "yes",
+      },
+    } as never);
+    await loadLayoutSettings();
+    expect(layout.header).toEqual({ left: ["week-nav"], right: ["edit", "views", "settings"] });
+    expect(layout.backlogEdge).toBe("left");
+    expect(layout.backlogTopMode).toBe("chips");
+    expect(layout.backlogAutoHide).toBe(false);
+  });
+
+  it("saveHeaderLayout / saveBacklogEdge 写库", async () => {
+    vi.mocked(ipc.setSetting).mockResolvedValue(undefined as never);
+    await saveHeaderLayout();
+    expect(ipc.setSetting).toHaveBeenCalledWith("header_layout", JSON.stringify(layout.header));
+    await saveBacklogEdge("right");
+    expect(ipc.setSetting).toHaveBeenCalledWith("layout_backlog_edge", "right");
+  });
+
+  it("resetLayout 写 E1 四键并复位状态", async () => {
+    vi.mocked(ipc.setSetting).mockResolvedValue(undefined as never);
+    layout.header = { left: [], right: ["week-nav", "edit", "views", "settings"] };
+    layout.backlogEdge = "bottom";
+    layout.backlogTopMode = "panel";
+    layout.backlogAutoHide = true;
+    const ok = await resetLayoutAction();
+    expect(ok).toBe(true);
+    expect(ipc.setSetting).toHaveBeenCalledWith(
+      "header_layout",
+      JSON.stringify({ left: ["week-nav"], right: ["edit", "views", "settings"] }),
+    );
+    expect(ipc.setSetting).toHaveBeenCalledWith("backlog_height", "180");
+    expect(ipc.setSetting).toHaveBeenCalledWith("layout_backlog_edge", "left");
+    expect(ipc.setSetting).toHaveBeenCalledWith("backlog_top_mode", "chips");
+    expect(ipc.setSetting).toHaveBeenCalledWith("backlog_auto_hide", "0");
+    expect(layout.header).toEqual({ left: ["week-nav"], right: ["edit", "views", "settings"] });
+    expect(layout.backlogEdge).toBe("left");
+    expect(layout.backlogTopMode).toBe("chips");
+    expect(layout.backlogAutoHide).toBe(false);
   });
 });

@@ -526,6 +526,20 @@ function domChecks() {
     keydown(key, opts);
     await settle(30);
   };
+
+  /** E1F：切预设 —— 头部三段已收进设置，**唯一入口 = 设置里的镜像**（所有宽度都走它） */
+  async function e1SetPreset(id) {
+    document.querySelector(".sanity-gear")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    await settle(60);
+    const sel = document.querySelector(".sanity-pop .preset-mirror");
+    if (!sel) return false;
+    sel.value = id;
+    sel.dispatchEvent(new Event("change", { bubbles: true }));
+    await settle(40);
+    document.querySelector(".overlay-backdrop")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    await settle(60);
+    return true;
+  }
   /** round38：打开某条任务的任务面板（**已开着就不点**，否则又把它关掉） */
   const openPropsOf = async (titleStart) => {
     const row = [...document.querySelectorAll(".item")].find((node) =>
@@ -766,11 +780,11 @@ function domChecks() {
       .querySelector(".week-nav .now")
       ?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
     await settle(20);
-    const dir = offset < 0 ? 0 : 1;
+    const sel = offset < 0 ? '[data-nav="prev"]' : '[data-nav="next"]';
     for (let i = 0; i < Math.abs(offset); i++) {
       document
-        .querySelectorAll(".week-nav button")
-        [dir]?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        .querySelector(`.week-nav ${sel}`)
+        ?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
       await settle(8);
     }
     await settle(30);
@@ -1100,7 +1114,6 @@ function domChecks() {
   const r96Mask = () => document.querySelector("button.overlay-backdrop");
   const r96Layers = () => [...document.querySelectorAll("[data-layer-id]")];
   const r96Top = () => r96Layers().at(-1)?.getAttribute("data-layer-id") ?? null;
-  const r96Open = (sel) => !!document.querySelector(sel);
   /** 真指针 + click（自建外部点击监听认 pointerdown；栈的遮罩认 click） */
   const r96Click = async (node, x, y) => {
     if (!node) return false;
@@ -1138,13 +1151,6 @@ function domChecks() {
   const r96Arm = () => {
     window.__RESTORE = window.__RESTORE || [];
     window.__RESTORE.push(r96CloseAll);
-  };
-  const r96OpenSettings = async () => {
-    if (!document.querySelector(".sanity-pop")) {
-      document.querySelector(".sanity-gear")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-      await settle(40);
-    }
-    return document.querySelector(".sanity-pop");
   };
   /** 设置 → 更多 → 成就 → 点「成就」（调用方看返回值） */
   const r96OpenAchievements = async () => {
@@ -1472,7 +1478,7 @@ function domChecks() {
       "C1.6：跳到下一周能看到那一周的块（bphantom）",
       async () => {
         const nav = document.querySelector(".week-nav");
-        const next = nav.querySelectorAll("button")[1];
+        const next = nav.querySelector('[data-nav="next"]');
         next.click();
         await new Promise((r) => setTimeout(r, 200));
         return !!el("bphantom");
@@ -1482,7 +1488,7 @@ function domChecks() {
       "C1.6：从下一周跳回上一周，原来的块还在（用户报的「什么都看不到」）",
       async () => {
         const nav = document.querySelector(".week-nav");
-        const prev = nav.querySelectorAll("button")[0];
+        const prev = nav.querySelector('[data-nav="prev"]');
         prev.click();
         await new Promise((r) => setTimeout(r, 200));
         return !!el("b1") && !!el("b2");
@@ -1501,7 +1507,7 @@ function domChecks() {
     [
       "0.6.38：连点两次「›」后，必须出现「只在两周后」的那一块（b11）",
       async () => {
-        const next = document.querySelector(".week-nav").querySelectorAll("button")[1];
+        const next = document.querySelector('.week-nav [data-nav="next"]');
         next.click();
         await settle(20);
         next.click();
@@ -1512,7 +1518,7 @@ function domChecks() {
     [
       "0.6.38：再连点两次「‹」回到本周，本周的块还在（b11 不该混进来）",
       async () => {
-        const prev = document.querySelector(".week-nav").querySelectorAll("button")[0];
+        const prev = document.querySelector('.week-nav [data-nav="prev"]');
         prev.click();
         await settle(20);
         prev.click();
@@ -2078,13 +2084,13 @@ function domChecks() {
       "round25⑤（回归）：同一块在**上周**那一周照旧画前一截 +「续到次日 05:00」",
       async () => {
         const nav = document.querySelector(".week-nav");
-        nav.querySelectorAll("button")[0].click(); // 去上一周
+        nav.querySelector('[data-nav="prev"]').click(); // 去上一周
         await settle(20);
         const box = document.querySelector('[data-block-id="b15"]');
         const top = topInDay("b15", 6); // 上周日那一列
         const mark = box?.parentElement?.querySelector(".cont-mark")?.textContent?.trim() ?? "";
         const ok = top >= 0 && mark === "续到次日 05:00";
-        document.querySelector(".week-nav").querySelectorAll("button")[1].click(); // 回本周
+        document.querySelector('.week-nav [data-nav="next"]').click(); // 回本周（下一周 → 再上一周）
         await settle(20);
         setScrollHome();
         await settle();
@@ -2453,9 +2459,9 @@ function domChecks() {
       "round25C1.8：换周再回来 → 临时块与名字都还在（落库了）",
       async () => {
         const nav = document.querySelector(".week-nav");
-        nav.querySelectorAll("button")[1].click(); // 下一周
+        nav.querySelector('[data-nav="next"]').click(); // 下一周
         await settle(20);
-        nav.querySelectorAll("button")[0].click(); // 回到本周
+        nav.querySelector('[data-nav="prev"]').click(); // 回到本周
         await settle(20);
         focusBodyY(yAt(4, 0));
         await settle();
@@ -2748,7 +2754,7 @@ function domChecks() {
             !!document.querySelector(".link-hint"),
         );
         const nav = document.querySelector(".week-nav");
-        nav.querySelectorAll("button")[1].click(); // 下一周：源块留在上一周、DOM 里没有它
+        nav.querySelector('[data-nav="next"]').click(); // 下一周：源块留在上一周、DOM 里没有它
         await settle(20);
         obs.push(
           "换周后 提示条=" +
@@ -2766,7 +2772,7 @@ function domChecks() {
         const rect = line?.getBoundingClientRect();
         const day0Left = document.querySelector(".day-body").getBoundingClientRect().left;
         const atLeftEdge = !!rect && Math.abs(rect.left - day0Left) <= 2;
-        nav.querySelectorAll("button")[0].click(); // 回到本周
+        nav.querySelector('[data-nav="prev"]').click(); // 回到本周
         await settle(20);
         document
           .querySelector(".link-hint button")
@@ -4236,7 +4242,7 @@ function domChecks() {
     [
       "round33 #2：长跨度块往上缩下边缘时，原尾巴那一列不留幻影",
       async () => {
-        document.querySelectorAll(".week-nav button")[1]?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        document.querySelector('.week-nav [data-nav="next"]')?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
         await settle(30);
         focusBlock("b55");
         await settle();
@@ -4262,7 +4268,7 @@ function domChecks() {
       "round34：跨天块把终点缩到次日 00:00 → 块落到前一列、相机跟到那一列的底（可见）",
       async () => {
         // b58 在下一周（周一 20:00 → 周二 00:45）：先跳过去
-        document.querySelectorAll(".week-nav button")[1]?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        document.querySelector('.week-nav [data-nav="next"]')?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
         await settle(30);
         await selectByClick("b58");
         // Shift+↑（下边缘）= 一次缩 15 分钟：00:45 → 00:30 → 00:15 → 00:00
@@ -8932,7 +8938,7 @@ function domChecks() {
         const grew = libAfter - libBefore === rowsAfter && rowsAfter > 0;
         // 收尾（顺手验证撤销）：点工具栏 ↶ 把这次套用撤掉 —— 块数回原样，后面的探针/截图不被弄脏
         document
-          .querySelector('.week-nav button[title^="撤销"]')
+          .querySelector('.head-group[data-group="edit"] button[title^="撤销"]')
           ?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
         await settle(60);
         const undone = window.__FIX.blocks.length === libBefore;
@@ -9382,7 +9388,7 @@ function domChecks() {
         );
         // 收尾：撤销这次套用（块 + 任务都回位）→ 删模板 → 收起面板
         document
-          .querySelector('.week-nav button[title^="撤销"]')
+          .querySelector('.head-group[data-group="edit"] button[title^="撤销"]')
           ?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
         await settle(60);
         const undone =
@@ -16347,7 +16353,7 @@ function domChecks() {
         await settle(20);
         const before = Math.round(scroll.scrollTop);
         document
-          .querySelector(".week-nav button[title^='下一周']")
+          .querySelector('.week-nav [data-nav="next"]')
           ?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
         await settle(80);
         const afterJump = Math.round(scroll.scrollTop);
@@ -16505,7 +16511,7 @@ function domChecks() {
         await backToThisWeek();
         await settle(30);
         const calls = () => (window.__DBG || []).length;
-        const btn = document.querySelector(".week-nav .reload");
+        const btn = document.querySelector('.head-group[data-group="edit"] .reload');
         if (!btn) return false;
         const n0 = calls();
         btn.dispatchEvent(new MouseEvent("click", { bubbles: true }));
@@ -16952,6 +16958,829 @@ function domChecks() {
           `r96⑫ 关成就→打开者=${backToOpener}（设置留=${settingsAlive}） 确认=${confirmOpen} 取消→重置钮=${backToReset}（成就留=${achAlive}）`,
         );
         return backToOpener && settingsAlive && confirmOpen && backToReset && achAlive;
+      },
+    ],
+
+    // ===== E1（布局实验）：头部按钮组预设 + 拖动换区 =====
+    [
+      "E1 ①：预设三档 —— 都靠右 / 都靠左 各就位（一次 rAF、无过渡；入口 = 设置镜像）",
+      async () => {
+        const tl = document.querySelector(".timeline");
+        const zoneOf = (id) =>
+          document.querySelector(`.head-group[data-group="${id}"]`)?.closest(".zone")?.dataset.zone ?? "-";
+        const snap = () =>
+          [zoneOf("week-nav"), zoneOf("edit"), zoneOf("views"), zoneOf("settings"), tl?.dataset.headerPreset ?? "-"].join("/");
+        const group = () => document.querySelector('.head-group[data-group="week-nav"]');
+        await e1SetPreset("default");
+        await e1SetPreset("right");
+        const r1 = snap();
+        const x1 = group()?.getBoundingClientRect().left ?? -1;
+        await frames(3);
+        const x2 = group()?.getBoundingClientRect().left ?? -1;
+        await e1SetPreset("left");
+        const r2 = snap();
+        await e1SetPreset("default");
+        const r3 = snap();
+        const g = group();
+        const noTransition = g ? getComputedStyle(g).transitionDuration === "0s" : false;
+        const noAnim = Math.abs(x1 - x2) <= 1;
+        window.__DIAG.push(`E1① 右=${r1} 左=${r2} 默认=${r3} 过渡0=${noTransition} 一帧稳=${noAnim}`);
+        return (
+          r1 === "right/right/right/right/right" &&
+          r2 === "left/left/left/left/left" &&
+          r3 === "left/right/right/right/default" &&
+          noTransition &&
+          noAnim
+        );
+      },
+    ],
+    [
+      "E1 ②：拖 week-nav 手柄到右区 —— 组换区、按钮仍可点、Tab 顺序=视觉顺序",
+      async () => {
+        if (window.innerWidth <= 900) {
+          return { skip: "窄窗（≤900）两区上下堆叠，Tab 顺序断言不适用；换区在 1500 验证" };
+        }
+        await e1SetPreset("default");
+        await frames(1);
+        const grip = document.querySelector('.head-group[data-group="week-nav"] .group-grip');
+        const right = document.querySelector('.zone[data-zone="right"]')?.getBoundingClientRect();
+        if (!grip || !right) {
+          window.__DIAG.push(`E1② 缺手柄=${!grip} 缺右区=${!right}`);
+          return false;
+        }
+        const gr = grip.getBoundingClientRect();
+        firePointer("pointerdown", gr.left + gr.width / 2, gr.top + gr.height / 2);
+        await settle();
+        const editEl = document.querySelector('.head-group[data-group="edit"]');
+        const er = editEl?.getBoundingClientRect() ?? right;
+        const tx = er.left + 2;
+        const ty = er.top + er.height / 2;
+        firePointer("pointermove", tx, ty);
+        await settle();
+        firePointer("pointerup", tx, ty);
+        await settle(20);
+        const zone = document
+          .querySelector('.head-group[data-group="week-nav"]')
+          ?.closest(".zone")?.dataset.zone;
+        const preset = document.querySelector(".timeline")?.dataset.headerPreset;
+        document.querySelector(".review-open")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(60);
+        const opened = !!document.querySelector(".review-panel");
+        document
+          .querySelector(".review-panel .close")
+          ?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(60);
+        const btns = [...document.querySelectorAll(".head-group button")].filter(
+          (b) => b.offsetParent !== null && b.getAttribute("tabindex") !== "-1",
+        );
+        const xs = btns.map((b) => b.getBoundingClientRect().left);
+        const orderOk = xs.every((x, i) => i === 0 || x >= xs[i - 1] - 1);
+        // 头部拖拽信号（自动收起抑制用）：真按下 + 移动 → 置位；Esc → 清掉
+        const grip2 = document.querySelector('.head-group[data-group="week-nav"] .group-grip');
+        let headFlag = false;
+        let flagCleared = false;
+        if (grip2) {
+          const r2 = grip2.getBoundingClientRect();
+          firePointer("pointerdown", r2.left + r2.width / 2, r2.top + r2.height / 2);
+          await settle();
+          firePointer("pointermove", r2.left + r2.width / 2 + 24, r2.top + r2.height / 2);
+          await settle();
+          headFlag = document.documentElement.dataset.headDrag === "1";
+          window.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true }));
+          await settle(20);
+          flagCleared = !document.documentElement.dataset.headDrag;
+        }
+        window.__DIAG.push(
+          `E1② 区=${zone} 预设=${preset} 总览可开=${opened} Tab顺序=${orderOk} 头拖信号=${headFlag}/${flagCleared}`,
+        );
+        return zone === "right" && preset === "right" && opened && orderOk && headFlag && flagCleared;
+      },
+    ],
+    [
+      "E1 ③：手动拖后 = 自定义；设置里点默认复位回默认档",
+      async () => {
+        const tl = document.querySelector(".timeline");
+        await e1SetPreset("left");
+        const leftZone = tl?.dataset.headerPreset;
+        // 拖一个组换区 = custom
+        const grip = document.querySelector('.head-group[data-group="views"] .group-grip');
+        const left = document.querySelector('.zone[data-zone="left"]')?.getBoundingClientRect();
+        if (grip && left) {
+          const g = grip.getBoundingClientRect();
+          firePointer("pointerdown", g.left + g.width / 2, g.top + g.height / 2);
+          await settle();
+          firePointer("pointermove", left.left + 4, left.top + 4);
+          await settle();
+          firePointer("pointerup", left.left + 4, left.top + 4);
+          await settle(60);
+        }
+        const custom = tl?.dataset.headerPreset;
+        await e1SetPreset("default");
+        const preset = tl?.dataset.headerPreset;
+        const zone = document
+          .querySelector('.head-group[data-group="views"]')
+          ?.closest(".zone")?.dataset.zone;
+        window.__DIAG.push(`E1③ 左=${leftZone} 拖后=${custom} 复位=${preset} 视图区=${zone}`);
+        return leftZone === "left" && custom === "custom" && preset === "default" && zone === "right";
+      },
+    ],
+    [
+      "E1 ④：Backlog 四边吸附 —— 左/右/上/下 + 回左（尺寸记忆）",
+      async () => {
+        const shell = document.querySelector("main.shell");
+        const dragBacklog = async (x, y) => {
+          const grip = document.querySelector(".backlog .dock-grip");
+          if (!grip) return null;
+          const r = grip.getBoundingClientRect();
+          firePointer("pointerdown", r.left + r.width / 2, r.top + r.height / 2);
+          await settle();
+          firePointer("pointermove", x, y);
+          await settle();
+          firePointer("pointerup", x, y);
+          await settle(30);
+          return shell?.dataset.backlogEdge ?? null;
+        };
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        const beforeW = document.querySelector(".backlog")?.getBoundingClientRect().width ?? 0;
+        const left = await dragBacklog(4, h / 2);
+        const right = await dragBacklog(w - 4, h / 2);
+        // 右停靠时用分隔条键盘把栏宽加宽（6×10px），回左后必须是这个宽度（尺寸记忆）
+        const sp = document.querySelector(".splitter");
+        if (sp) {
+          for (let i = 0; i < 6; i++) {
+            sp.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true, cancelable: true }));
+          }
+          await settle(30);
+        }
+        const wide = document.querySelector(".backlog")?.getBoundingClientRect().width ?? 0;
+        const top = await dragBacklog(w / 2, 4);
+        const topH = document.querySelector(".backlog")?.getBoundingClientRect().height ?? 0;
+        const bottom = await dragBacklog(w / 2, h - 4);
+        // 顶/底各扫一次横向溢出（715 的极端宽度也走这里）
+        const topBad = top === "top" ? (await scanOverflow()).length : -1;
+        const bottomBad = bottom === "bottom" ? (await scanOverflow()).length : -1;
+        const grip = document.querySelector(".backlog .dock-grip");
+        let back = null;
+        let preview = "";
+        let hitInfo = "";
+        if (grip) {
+          const gr = grip.getBoundingClientRect();
+          const hit = document.elementFromPoint(gr.left + gr.width / 2, gr.top + gr.height / 2);
+          hitInfo = `${hit?.tagName ?? "?"}.${String(hit?.className ?? "").split(" ")[0]}`;
+          firePointer("pointerdown", gr.left + gr.width / 2, gr.top + gr.height / 2);
+          await settle();
+          firePointer("pointermove", 4, h / 2);
+          await settle();
+          preview = shell?.dataset.dockPreview ?? "";
+          firePointer("pointerup", 4, h / 2);
+          await settle(30);
+          back = shell?.dataset.backlogEdge ?? null;
+        }
+        const afterW = document.querySelector(".backlog")?.getBoundingClientRect().width ?? 0;
+        // 键盘换边：手柄上 ↑ → top，← → left
+        const pressEdge = async (key) => {
+          document
+            .querySelector(".backlog .dock-grip")
+            ?.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }));
+          await settle(30);
+        };
+        await pressEdge("ArrowUp");
+        const kbTop = shell?.dataset.backlogEdge;
+        await pressEdge("ArrowLeft");
+        const kbLeft = shell?.dataset.backlogEdge;
+        window.__DIAG.push(
+          `E1④ ${left}→${right}→${top}(高${Math.round(topH)})→${bottom}→${back}（预览=${preview} 命中=${hitInfo}）宽 ${Math.round(beforeW)}→${Math.round(afterW)}（加宽后 ${Math.round(wide)}）溢出 顶=${topBad} 底=${bottomBad} 键盘=${kbTop}/${kbLeft}`,
+        );
+        return (
+          [left, right, top, bottom, back].join(",") === "left,right,top,bottom,left" &&
+          topH > 60 &&
+          Math.abs(afterW - wide) <= 1 &&
+          topBad === 0 &&
+          bottomBad === 0 &&
+          kbTop === "top" &&
+          kbLeft === "left"
+        );
+      },
+    ],
+    [
+      "E1 ⑤：上下两档（chips/panel）—— 设置里切、两档都能用，chip 能拖建块",
+      async () => {
+        const dragBacklog = async (x, y) => {
+          const grip = document.querySelector(".backlog .dock-grip");
+          if (!grip) return null;
+          const r = grip.getBoundingClientRect();
+          firePointer("pointerdown", r.left + r.width / 2, r.top + r.height / 2);
+          await settle();
+          firePointer("pointermove", x, y);
+          await settle();
+          firePointer("pointerup", x, y);
+          await settle(30);
+          return document.querySelector("main.shell")?.dataset.backlogEdge ?? null;
+        };
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        const top = await dragBacklog(w / 2, 4);
+        const setMode = async (mode) => {
+          document.querySelector(".sanity-gear")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+          await settle(60);
+          document
+            .querySelector(".sanity-pop .more-toggle")
+            ?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+          await settle(40);
+          const sel = document.querySelector(".sanity-pop .backlog-top-mode");
+          if (!sel) return false;
+          sel.value = mode;
+          sel.dispatchEvent(new Event("change", { bubbles: true }));
+          await settle(50);
+          document.querySelector(".overlay-backdrop")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+          await settle(60);
+          return true;
+        };
+        const setPanel = await setMode("panel");
+        const panelOk =
+          !!document.querySelector(".backlog.horizontal .list") &&
+          !document.querySelector(".backlog .chips");
+        const setChips = await setMode("chips");
+        const chipCount = document.querySelectorAll(".backlog .chips .chip").length;
+        const chip = document.querySelector(".backlog .chips .chip");
+        let chipSelectedOk = false;
+        let created = false;
+        const chipTask = chip?.getAttribute("data-task-id") ?? "";
+        if (chip) {
+          chip.click();
+          await settle(20);
+          chipSelectedOk = chip.getAttribute("aria-pressed") === "true";
+          const r = chip.getBoundingClientRect();
+          firePointer("pointerdown", r.left + 6, r.top + r.height / 2);
+          await settle();
+          const p = atDay(0, 10, 0);
+          firePointer("pointermove", p.x, p.y);
+          await settle();
+          firePointer("pointerup", p.x, p.y);
+          await settle(60);
+          const want = at(0, 10, 0);
+          created = FIX.blocks.some(
+            (b) => b.task_id === chipTask && b.start_at >= want && b.start_at <= want + 1800,
+          );
+        }
+        const chipSizeOk = [...document.querySelectorAll(".backlog .chips .chip")].every((c) => {
+          const r = c.getBoundingClientRect();
+          return r.height >= 18 && r.width > 24;
+        });
+        await dragBacklog(4, h / 2);
+        window.__DIAG.push(
+          `E1⑤ 顶=${top} 面板=${setPanel}/${panelOk} chips=${setChips}/${chipCount} 选中=${chipSelectedOk} 尺寸=${chipSizeOk} 建块=${created} 回左=${document.querySelector("main.shell")?.dataset.backlogEdge}`,
+        );
+        return top === "top" && setPanel && panelOk && setChips && chipCount > 0 && chipSelectedOk && chipSizeOk && created;
+      },
+    ],
+    [
+      "E1 ⑥：任务栏式自动收起 —— 6s 收、碰边 120ms 展、面板开时抑制",
+      async () => {
+        const waitFrames = async (ms) => {
+          const n = Math.ceil(ms / 16);
+          for (let i = 0; i < n; i++) await frames(1);
+        };
+        const openSettings = async () => {
+          document.querySelector(".sanity-gear")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+          await settle(60);
+        };
+        const closePanel = async () => {
+          document.querySelector(".overlay-backdrop")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+          await settle(60);
+        };
+        const rail = () => !!document.querySelector(".backlog.rail");
+        // 打开自动收起
+        await openSettings();
+        const box = document.querySelector(".sanity-pop .backlog-auto-hide");
+        if (!box) {
+          window.__DIAG.push("E1⑥ 设置里没有 .backlog-auto-hide");
+          return false;
+        }
+        if (!box.checked) {
+          box.click();
+          await settle(40);
+        }
+        await closePanel();
+        // 指针离开 Backlog → 6s 收
+        firePointer("pointermove", window.innerWidth * 0.6, window.innerHeight * 0.5);
+        await settle();
+        await waitFrames(6400);
+        const collapsed = rail();
+        // 碰左边缘：60ms 仍收、260ms 展（反向对照 120ms 阈值）
+        firePointer("pointermove", 4, window.innerHeight * 0.5);
+        await settle();
+        await waitFrames(60);
+        const notYet = rail();
+        await waitFrames(220);
+        const expanded = !rail();
+        // 反向 6s：展开后移出，4.5s 仍展，再 2.2s 收
+        firePointer("pointermove", window.innerWidth * 0.6, window.innerHeight * 0.5);
+        await settle();
+        await waitFrames(4500);
+        const stillExpanded = !rail();
+        await waitFrames(2200);
+        const collapsedAgain = rail();
+        // 细轨中线（x=20）也要展开（文案承诺「边缘或细轨」）
+        firePointer("pointermove", 20, window.innerHeight * 0.5);
+        await settle();
+        await waitFrames(260);
+        const railExpanded = !rail();
+        // 抑制：面板开着，指针离开 6.4s 仍不收
+        await openSettings();
+        firePointer("pointermove", window.innerWidth * 0.6, window.innerHeight * 0.5);
+        await settle();
+        await waitFrames(6400);
+        const suppressed = !rail();
+        // 还原：关掉自动收起
+        const box2 = document.querySelector(".sanity-pop .backlog-auto-hide");
+        if (box2?.checked) {
+          box2.click();
+          await settle(40);
+        }
+        await closePanel();
+        await waitFrames(60);
+        window.__DIAG.push(
+          `E1⑥ 收=${collapsed} 60ms仍收=${notYet} 边缘展=${expanded} 4.5s仍展=${stillExpanded} 6.7s收=${collapsedAgain} 细轨展=${railExpanded} 面板抑制=${suppressed}`,
+        );
+        return (
+          collapsed &&
+          notYet &&
+          expanded &&
+          stillExpanded &&
+          collapsedAgain &&
+          railExpanded &&
+          suppressed
+        );
+      },
+    ],
+    [
+      "E1 ⑦：持久化 —— 预设 / 停靠边 / 开关都写进假后端",
+      async () => {
+        const shell = document.querySelector("main.shell");
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        const dragBacklog = async (x, y) => {
+          const grip = document.querySelector(".backlog .dock-grip");
+          if (!grip) return null;
+          const r = grip.getBoundingClientRect();
+          firePointer("pointerdown", r.left + r.width / 2, r.top + r.height / 2);
+          await settle();
+          firePointer("pointermove", x, y);
+          await settle();
+          firePointer("pointerup", x, y);
+          await settle(40);
+          return shell?.dataset.backlogEdge ?? null;
+        };
+        const openSettings = async () => {
+          document.querySelector(".sanity-gear")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+          await settle(60);
+        };
+        const closePanel = async () => {
+          document.querySelector(".overlay-backdrop")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+          await settle(60);
+        };
+        await e1SetPreset("right");
+        const edge = await dragBacklog(w / 2, 4);
+        await openSettings();
+        const box = document.querySelector(".sanity-pop .backlog-auto-hide");
+        if (box && !box.checked) {
+          box.click();
+          await settle(50);
+        }
+        await closePanel();
+        const st = window.__SANITY_STATE || {};
+        const header = String(st.headerLayout ?? "");
+        const rightOk = header.includes('"right":["week-nav","edit","views","settings"]');
+        const saved = rightOk && st.backlogEdge === "top" && st.backlogAutoHide === true;
+        // 还原
+        await e1SetPreset("default");
+        await dragBacklog(4, h / 2);
+        await openSettings();
+        const box2 = document.querySelector(".sanity-pop .backlog-auto-hide");
+        if (box2?.checked) {
+          box2.click();
+          await settle(40);
+        }
+        await closePanel();
+        window.__DIAG.push(`E1⑦ 边=${edge} 头部右=${rightOk} 自动收起=${st.backlogAutoHide} 已存=${saved}`);
+        return edge === "top" && saved;
+      },
+    ],
+    [
+      "E1 ⑧：复位布局 —— 头部 / 停靠边 / 上下形态 / 自动收起 / 栏宽全回默认",
+      async () => {
+        const shell = document.querySelector("main.shell");
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        const dragBacklog = async (x, y) => {
+          const grip = document.querySelector(".backlog .dock-grip");
+          if (!grip) return null;
+          const r = grip.getBoundingClientRect();
+          firePointer("pointerdown", r.left + r.width / 2, r.top + r.height / 2);
+          await settle();
+          firePointer("pointermove", x, y);
+          await settle();
+          firePointer("pointerup", x, y);
+          await settle(40);
+          return shell?.dataset.backlogEdge ?? null;
+        };
+        const openSettings = async () => {
+          document.querySelector(".sanity-gear")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+          await settle(60);
+        };
+        // 造非默认：预设都靠左、拖到底、panel、自动收起开
+        await e1SetPreset("left");
+        await dragBacklog(w / 2, h - 4);
+        await openSettings();
+        const sel = document.querySelector(".sanity-pop .backlog-top-mode");
+        if (sel) {
+          sel.value = "panel";
+          sel.dispatchEvent(new Event("change", { bubbles: true }));
+          await settle(50);
+        }
+        const box = document.querySelector(".sanity-pop .backlog-auto-hide");
+        if (box && !box.checked) {
+          box.click();
+          await settle(50);
+        }
+        // 点「复位布局」
+        document.querySelector(".sanity-pop .reset-layout")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(140);
+        document.querySelector(".overlay-backdrop")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(60);
+        const st = window.__SANITY_STATE || {};
+        const edge = shell?.dataset.backlogEdge;
+        const preset = document.querySelector(".timeline")?.dataset.headerPreset;
+        const width = document.querySelector(".backlog")?.getBoundingClientRect().width ?? 0;
+        const ok = edge === "left" && preset === "default" && st.backlogEdge === "left" && st.backlogTopMode === "chips" && st.backlogAutoHide === false;
+        window.__DIAG.push(
+          `E1⑧ 边=${edge} 预设=${preset} 宽=${Math.round(width)} 后端=${st.backlogEdge}/${st.backlogTopMode}/${st.backlogAutoHide}`,
+        );
+        return ok && Math.abs(width - 260) <= 1;
+      },
+    ],
+    // ===== E1F（E1 修复批）：头部四组 + 上下档空间 + 细节点 =====
+    [
+      "E1F ①：头部四组（‹ 日期 › / 撤销组 / 视图组 / 设置）+ 预设三段移出头部",
+      async () => {
+        const order = [...document.querySelectorAll(".head-group")].map((g) => g.dataset.group);
+        const zone = (id) =>
+          document.querySelector(`.head-group[data-group="${id}"]`)?.closest(".zone")?.dataset.zone ?? "-";
+        const noPreset = !document.querySelector(".preset-switch");
+        const hasDate = !!document.querySelector(".head-group[data-group='week-nav'] .date-btn");
+        const ok =
+          order.join(",") === "week-nav,edit,views,settings" &&
+          zone("week-nav") === "left" &&
+          zone("edit") === "right" &&
+          zone("views") === "right" &&
+          zone("settings") === "right" &&
+          noPreset &&
+          hasDate;
+        window.__DIAG.push(
+          `E1F① 组=${order.join(",")} 区=${["week-nav", "edit", "views", "settings"].map(zone).join("/")} 预设控件=${noPreset} 日期按钮=${hasDate}`,
+        );
+        return ok;
+      },
+    ],
+    [
+      "E1F ②：六点悬停/聚焦才显形（平时不占横向空间）",
+      async () => {
+        const grip = document.querySelector('.head-group[data-group="views"] .group-grip');
+        const before = grip ? Number(getComputedStyle(grip).opacity) : -1;
+        grip?.focus();
+        await frames(6);
+        const after = grip ? Number(getComputedStyle(grip).opacity) : -1;
+        const focusable = grip ? grip.tabIndex >= 0 && !!grip.getAttribute("aria-label") : false;
+        const outOfFlow = grip ? getComputedStyle(grip).position === "absolute" : false;
+        grip?.blur();
+        await settle(10);
+        window.__DIAG.push(`E1F② 平时=${before} 聚焦=${after} 可聚焦=${focusable} 脱离布局=${outOfFlow}`);
+        return before <= 0.05 && after >= 0.95 && focusable && outOfFlow;
+      },
+    ],
+    [
+      "E1F ③：日期是按钮 —— 点开跳周面板（上一周 / 本周 / 下一周）并可换周",
+      async () => {
+        const btn = document.querySelector(".head-group[data-group='week-nav'] .date-btn");
+        const beforeText = document.querySelector(".range")?.textContent ?? "";
+        btn?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(60);
+        const pop = document.querySelector(".week-pop");
+        const n = pop ? pop.querySelectorAll("button[data-week]").length : 0;
+        pop
+          ?.querySelector('button[data-week="next"]')
+          ?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(160);
+        const afterText = document.querySelector(".range")?.textContent ?? "";
+        const moved = beforeText !== afterText;
+        // 再点「上一周」→ 回到原文本（证明 prev/next 是反向，不是随便变了）
+        pop
+          ?.querySelector('button[data-week="prev"]')
+          ?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(160);
+        const backText = document.querySelector(".range")?.textContent ?? "";
+        const inverse = backText === beforeText;
+        window.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+        await settle(40);
+        const closed = !document.querySelector(".week-pop");
+        document
+          .querySelector(".head-group[data-group='week-nav'] .date-btn")
+          ?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(40);
+        document
+          .querySelector('.week-pop button[data-week="now"]')
+          ?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(160);
+        window.__DIAG.push(`E1F③ 按钮=${!!btn} 三项=${n} 换周=${moved} 反向=${inverse} Esc关=${closed}`);
+        return !!btn && n === 3 && moved && inverse && closed;
+      },
+    ],
+    [
+      "E1F ④：按落点插入 —— 视图组拖到日期组前面（跨区）",
+      async () => {
+        const dragGroup = async (id, targetId, side) => {
+          const g = document.querySelector(`.head-group[data-group="${id}"] .group-grip`);
+          const t = document.querySelector(`.head-group[data-group="${targetId}"]`);
+          if (!g || !t) return false;
+          const gr = g.getBoundingClientRect();
+          const tr = t.getBoundingClientRect();
+          const tx = side === "before" ? tr.left + 2 : tr.right - 2;
+          const ty = tr.top + tr.height / 2;
+          firePointer("pointerdown", gr.left + gr.width / 2, gr.top + gr.height / 2);
+          await settle();
+          firePointer("pointermove", tx, ty);
+          await settle(30);
+          firePointer("pointerup", tx, ty);
+          await settle(60);
+          return true;
+        };
+        const orderOf = (zone) =>
+          [...document.querySelectorAll(`.zone[data-zone="${zone}"] .head-group`)]
+            .map((g) => g.dataset.group)
+            .join(",");
+        const did = await dragGroup("views", "week-nav", "before");
+        const left = orderOf("left");
+        const right = orderOf("right");
+        const saved = String(window.__SANITY_STATE?.headerLayout ?? "").includes('"left":["views","week-nav"]');
+        await dragGroup("views", "edit", "after"); // 还原
+        window.__DIAG.push(`E1F④ 拖=${did} 左=${left} 右=${right} 存=${saved}`);
+        return did && left === "views,week-nav" && right === "edit,settings" && saved;
+      },
+    ],
+    [
+      "E1F ⑤：同区越过 —— 设置组拖到撤销组前面",
+      async () => {
+        const dragGroup = async (id, targetId, side) => {
+          const g = document.querySelector(`.head-group[data-group="${id}"] .group-grip`);
+          const t = document.querySelector(`.head-group[data-group="${targetId}"]`);
+          if (!g || !t) return false;
+          const gr = g.getBoundingClientRect();
+          const tr = t.getBoundingClientRect();
+          const tx = side === "before" ? tr.left + 2 : tr.right - 2;
+          const ty = tr.top + tr.height / 2;
+          firePointer("pointerdown", gr.left + gr.width / 2, gr.top + gr.height / 2);
+          await settle();
+          firePointer("pointermove", tx, ty);
+          await settle(30);
+          firePointer("pointerup", tx, ty);
+          await settle(60);
+          return true;
+        };
+        const orderOf = (zone) =>
+          [...document.querySelectorAll(`.zone[data-zone="${zone}"] .head-group`)]
+            .map((g) => g.dataset.group)
+            .join(",");
+        const did = await dragGroup("settings", "edit", "before");
+        const right = orderOf("right");
+        await dragGroup("settings", "views", "after"); // 还原
+        const restored = orderOf("right");
+        window.__DIAG.push(`E1F⑤ 拖=${did} 右=${right} 还原=${restored}`);
+        return did && right === "settings,edit,views" && restored === "edit,views,settings";
+      },
+    ],
+    [
+      "E1F ⑥：上下档顶栏收成一行（标题 / 筛选 / 分组 / 收起 / 添加任务）",
+      async () => {
+        const w = window.innerWidth;
+        const grip = document.querySelector(".backlog .dock-grip");
+        const gr = grip?.getBoundingClientRect();
+        firePointer("pointerdown", gr.left + gr.width / 2, gr.top + gr.height / 2);
+        await settle();
+        firePointer("pointermove", w / 2, 4);
+        await settle(30);
+        firePointer("pointerup", w / 2, 4);
+        await settle(80);
+        const head = document.querySelector(".backlog .head")?.getBoundingClientRect();
+        const input = document.querySelector(".backlog .new-task")?.getBoundingClientRect();
+        const mid = (r) => (r ? (r.top + r.bottom) / 2 : -1);
+        const sameRow = !!head && !!input && Math.abs(mid(head) - mid(input)) < 10;
+        const chipsH = document.querySelector(".backlog .chips")?.getBoundingClientRect().height ?? 0;
+        const bl = document.querySelector(".backlog");
+        const panelH = bl?.getBoundingClientRect().height ?? 0;
+        const hugs = !!bl?.classList.contains("chips-mode") && panelH <= 170;
+        window.__DIAG.push(
+          `E1F⑥ 同行=${sameRow} 头中=${Math.round(mid(head))} 输入中=${Math.round(mid(input))} chips高=${Math.round(chipsH)} 面板高=${Math.round(panelH)} 贴内容=${hugs}`,
+        );
+        return sameRow && chipsH >= 20 && hugs;
+      },
+    ],
+    [
+      "E1F ⑦：上下 panel 档 —— 任务设置浮层在视口内 + 两档文案无括号",
+      async () => {
+        const openSettings = async () => {
+          document.querySelector(".sanity-gear")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+          await settle(60);
+        };
+        const closeSettings = async () => {
+          document.querySelector(".overlay-backdrop")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+          await settle(60);
+        };
+        await openSettings();
+        document
+          .querySelector(".sanity-pop .more-toggle")
+          ?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(40);
+        const sel = document.querySelector(".sanity-pop .backlog-top-mode");
+        const opts = [...document.querySelectorAll(".sanity-pop .backlog-top-mode option")].map(
+          (o) => o.textContent ?? "",
+        );
+        const popText = document.querySelector(".sanity-pop")?.textContent ?? "";
+        const dirty = ["（省地方）", "（看全列表）", "（空闲自动隐藏）", "（或细轨）", "（头部控件会收起）"].filter((t) =>
+          popText.includes(t),
+        );
+        const noParen = opts.length >= 2 && opts.every((s) => !/[（(]/.test(s)) && dirty.length === 0;
+        let setPanel = false;
+        if (sel) {
+          sel.value = "panel";
+          sel.dispatchEvent(new Event("change", { bubbles: true }));
+          await settle(60);
+          setPanel = true;
+        }
+        await closeSettings();
+        // 高度分隔条只在 panel 档出现（chips 档贴内容）→ 拖一下，高度要变且落库
+        const spH = document.querySelector(".splitter.h");
+        const h0 = document.querySelector(".backlog")?.getBoundingClientRect().height ?? 0;
+        const panelDefault = Math.abs(h0 - 180) <= 2;
+        let splitOk = false;
+        let h1 = h0;
+        if (spH) {
+          const sr = spH.getBoundingClientRect();
+          firePointer("pointerdown", sr.left + sr.width / 2, sr.top + sr.height / 2);
+          await settle();
+          firePointer("pointermove", sr.left + sr.width / 2, sr.top + sr.height / 2 + 40);
+          await settle(40);
+          firePointer("pointerup", sr.left + sr.width / 2, sr.top + sr.height / 2 + 40);
+          await settle(60);
+          h1 = document.querySelector(".backlog")?.getBoundingClientRect().height ?? 0;
+          splitOk = Math.abs(h1 - h0) >= 20 && Number(window.__SANITY_STATE?.backlogHeight) === Math.round(h1);
+        }
+        const row = document.querySelector(".backlog.horizontal .list .item");
+        row?.querySelector(".props-toggle")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(80);
+        const props = document.querySelector(".backlog .props-pop .props");
+        const pr = props?.getBoundingClientRect();
+        const inView = !!pr && pr.top >= 0 && pr.bottom <= window.innerHeight && pr.height > 40;
+        const listH = document.querySelector(".backlog.horizontal .list")?.getBoundingClientRect().height ?? 0;
+        // 还原：关任务设置 + 切回 chips（后面 ⑨⑩ 要用 chips）
+        row?.querySelector(".props-toggle")?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(40);
+        await openSettings();
+        document
+          .querySelector(".sanity-pop .more-toggle")
+          ?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(40);
+        const sel2 = document.querySelector(".sanity-pop .backlog-top-mode");
+        if (sel2) {
+          sel2.value = "chips";
+          sel2.dispatchEvent(new Event("change", { bubbles: true }));
+          await settle(50);
+        }
+        await closeSettings();
+        window.__DIAG.push(
+          `E1F⑦ 切panel=${setPanel} 选项=${JSON.stringify(opts)} 无括号=${noParen} 脏括号=${dirty.length} 默认高=${panelDefault} props=${pr ? Math.round(pr.top) + ".." + Math.round(pr.bottom) : "无"} 在视口=${inView} list高=${Math.round(listH)} 分隔条=${Math.round(h0)}→${Math.round(h1)} 存=${splitOk}`,
+        );
+        return setPanel && noParen && inView && splitOk && panelDefault;
+      },
+    ],
+    [
+      "E1F ⑧：上下档「已归档」开浮层（不把行撑高），Esc 关闭",
+      async () => {
+        const toggle = document.querySelector(".backlog .arch-toggle");
+        toggle?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await settle(80);
+        const pop = document.querySelector(".arch-pop");
+        const pr = pop?.getBoundingClientRect();
+        const inView = !!pr && pr.top >= 0 && pr.bottom <= window.innerHeight && pr.height > 20;
+        const rows = pop ? pop.querySelectorAll(".arch-list li").length : 0;
+        window.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+        await settle(60);
+        const closed = !document.querySelector(".arch-pop");
+        window.__DIAG.push(`E1F⑧ 浮层=${!!pop} 条目=${rows} 在视口=${inView} Esc关=${closed}`);
+        return !!pop && rows >= 1 && inView && closed;
+      },
+    ],
+    [
+      "E1F ⑨：细滚动条（thin）+ 收起键方向跟着停靠边走",
+      async () => {
+        const chips = document.querySelector(".backlog .chips");
+        const sw = chips ? getComputedStyle(chips).scrollbarWidth : "-";
+        const collapseBtn = document.querySelector(".backlog .collapse");
+        const icon = collapseBtn?.querySelector("[data-icon]")?.getAttribute("data-icon") ?? "-";
+        const paths = collapseBtn?.querySelectorAll("svg path").length ?? 0;
+        const rotEl = collapseBtn?.querySelector(".rot");
+        const m0 = rotEl ? getComputedStyle(rotEl).transform : "none";
+        const deg0 = m0 === "none" ? 0 : new DOMMatrix(m0).b; // rotate(90°) → b ≈ 1
+        const topOk = sw === "thin" && icon === "chevrons-left" && paths >= 1 && deg0 > 0.9;
+        const h = window.innerHeight;
+        const grip = document.querySelector(".backlog .dock-grip");
+        const gr = grip?.getBoundingClientRect();
+        firePointer("pointerdown", gr.left + gr.width / 2, gr.top + gr.height / 2);
+        await settle();
+        firePointer("pointermove", window.innerWidth / 2, h - 4);
+        await settle(30);
+        firePointer("pointerup", window.innerWidth / 2, h - 4);
+        await settle(80);
+        const rotEl2 = document.querySelector(".backlog .collapse .rot");
+        const m1 = rotEl2 ? getComputedStyle(rotEl2).transform : "none";
+        const deg1 = m1 === "none" ? 0 : new DOMMatrix(m1).b; // rotate(270°) → b ≈ -1
+        window.__DIAG.push(`E1F⑨ scrollbar=${sw} 顶b=${deg0.toFixed(2)} 底b=${deg1.toFixed(2)} 路径=${paths}`);
+        return topOk && deg1 < -0.9;
+      },
+    ],
+    [
+      "E1F ⑩：chips 拖拽 —— 时间轴出现「时长高度」的预览块（不只有落点线）",
+      async () => {
+        const grip = document.querySelector(".backlog .dock-grip");
+        const gr = grip?.getBoundingClientRect();
+        firePointer("pointerdown", gr.left + gr.width / 2, gr.top + gr.height / 2);
+        await settle();
+        firePointer("pointermove", window.innerWidth / 2, 4);
+        await settle(30);
+        firePointer("pointerup", window.innerWidth / 2, 4);
+        await settle(80);
+        const chip = document.querySelector(".backlog .chips .chip");
+        const meta = chip?.querySelector(".chip-meta")?.textContent ?? "";
+        const minutes = Number((meta.match(/(\d+)/) ?? [])[1] ?? 0);
+        let previewH = -1;
+        let lineOk = false;
+        let dy = 999;
+        if (chip) {
+          const r = chip.getBoundingClientRect();
+          firePointer("pointerdown", r.left + 6, r.top + r.height / 2);
+          await settle();
+          const p = atDay(0, 10, 0);
+          firePointer("pointermove", p.x, p.y);
+          await settle(80);
+          const pv = document.querySelector(".task-drop-preview");
+          previewH = pv?.getBoundingClientRect().height ?? -1;
+          const line = document.querySelector(".drop-line");
+          lineOk = !!line;
+          dy = pv && line ? Math.abs(pv.getBoundingClientRect().top - line.getBoundingClientRect().top) : 999;
+          firePointer("pointerup", p.x, p.y);
+          await settle(80);
+        }
+        // 还原：回左停靠（后面还有一整套旧断言）
+        const grip2 = document.querySelector(".backlog .dock-grip");
+        const gr2 = grip2?.getBoundingClientRect();
+        firePointer("pointerdown", gr2.left + gr2.width / 2, gr2.top + gr2.height / 2);
+        await settle();
+        firePointer("pointermove", 4, window.innerHeight / 2);
+        await settle(30);
+        firePointer("pointerup", 4, window.innerHeight / 2);
+        await settle(80);
+        const slot = Number(getComputedStyle(document.documentElement).getPropertyValue("--slot-height")) || 30;
+        const want = minutes ? (minutes / 30) * slot : -1;
+        window.__DIAG.push(
+          `E1F⑩ 分钟=${minutes} 预览高=${Math.round(previewH)} 期望≈${Math.round(want)} 落点线=${lineOk} 顶差=${Math.round(dy)}`,
+        );
+        return minutes > 0 && previewH > 0 && Math.abs(previewH - want) <= 10 && lineOk && dy <= 2;
+      },
+    ],
+    [
+      "E1F ⑪：键盘拿起 → ← 只挪位置（不跳周）→ Enter 放下",
+      async () => {
+        await e1SetPreset("default");
+        const tl = document.querySelector(".timeline");
+        const range0 = document.querySelector(".range")?.textContent ?? "";
+        const grip = document.querySelector('.head-group[data-group="views"] .group-grip');
+        grip?.focus();
+        const key = (k) =>
+          grip?.dispatchEvent(new KeyboardEvent("keydown", { key: k, bubbles: true, cancelable: true }));
+        key(" ");
+        await settle(30);
+        key("ArrowLeft");
+        await settle(30);
+        const range1 = document.querySelector(".range")?.textContent ?? "";
+        const weekStable = range1 === range0;
+        key("Enter");
+        await settle(80);
+        const order = [...document.querySelectorAll(".head-group")].map((g) => g.dataset.group).join(",");
+        const preset = tl?.dataset.headerPreset;
+        await e1SetPreset("default");
+        window.__DIAG.push(`E1F⑪ 周不变=${weekStable} 顺序=${order} 档=${preset}`);
+        return weekStable && order === "week-nav,views,edit,settings" && preset === "custom";
       },
     ],
   ];

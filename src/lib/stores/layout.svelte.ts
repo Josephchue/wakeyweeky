@@ -9,6 +9,19 @@
  * 落库走 `settings` 白名单键（键名与取值范围在 Rust `commands/settings.rs` 也有同一套校验，两边都挡一道）。
  */
 import { getSettings, setSetting } from "../ipc/settings";
+import {
+  HEADER_PRESETS,
+  applyPresetTo,
+  cloneHeaderLayout,
+  moveInLayout,
+  parseHeaderLayout,
+  presetOf,
+  zoneOf,
+  type HeadGroup,
+  type HeaderLayout,
+  type HeaderPresetId,
+  type HeadZone,
+} from "./header-layout";
 import { setSlotHeightProvider } from "../utils/timeline";
 import { appearance, slotHeightPx } from "./appearance.svelte";
 
@@ -38,12 +51,93 @@ export function slotHeightEffective(): number {
 
 /** round67：Backlog 面板当前形态 —— 展开 / 收起成细轨（round67.2：「整栏隐藏」档已删） */
 export type BacklogPane = "open" | "rail";
+
+/** E1：Backlog 可吸附的四条边；上/下有「横向 chip / 全宽面板」两档（backend key: backlog_top_mode） */
+export type BacklogEdge = "left" | "right" | "top" | "bottom";
+export type BacklogTopMode = "chips" | "panel";
+
+export const BACKLOG_H_MIN = 96;
+export const BACKLOG_H_MAX = 360;
+export const BACKLOG_H_DEFAULT = 180;
+
+export function clampBacklogHeight(px: number): number {
+  if (!Number.isFinite(px)) return BACKLOG_H_DEFAULT;
+  return Math.max(BACKLOG_H_MIN, Math.min(BACKLOG_H_MAX, Math.round(px)));
+}
 /** round67：键位提示栏显示策略 */
 export type HintBarMode = "always" | "hidden";
 
+/* E1 修复批：头部模型拆到 `header-layout.ts`（纯函数），这里只保留状态与写库。
+   旧形状（2 组）的读时升级在 `parseHeaderLayout` 里。 */
+export type { HeadGroup, HeadZone, HeaderPresetId, HeaderLayout } from "./header-layout";
+export { HEADER_GROUPS, HEADER_PRESETS } from "./header-layout";
+
+/** 栏宽夹子（与 Rust 的 `MIN_BACKLOG_WIDTH` / `MAX_BACKLOG_WIDTH` 同一个区间） */
 export function clampBacklogWidth(px: number): number {
   if (!Number.isFinite(px)) return BACKLOG_DEFAULT;
   return Math.max(BACKLOG_MIN, Math.min(BACKLOG_MAX, Math.round(px)));
+}
+
+/** E1：应用一档预设（只改内存；落库在 saveHeaderLayout） */
+export function applyHeaderPreset(id: HeaderPresetId): void {
+  layout.header = applyPresetTo(id);
+}
+
+/** E1：当前排布对应哪一档；都不匹配 = 自定义 */
+export function headerPreset(): HeaderPresetId | "custom" {
+  return presetOf(layout.header);
+}
+
+/** E1：某个组现在在哪个区 */
+export function headerZoneOf(id: HeadGroup): HeadZone {
+  return zoneOf(layout.header, id);
+}
+
+/** E1：把一个组移到目标区的指定位置（index 缺省 = 追加到末尾） */
+export function moveHeaderGroup(id: HeadGroup, zone: HeadZone, index?: number): void {
+  layout.header = moveInLayout(layout.header, id, zone, index);
+}
+/** E1：Backlog 吸到某条边（只改内存；Step 8 落库） */
+export function moveBacklogTo(edge: BacklogEdge): void {
+  layout.backlogEdge = edge;
+}
+
+/** E1：拖动时的落点预览（不落库） */
+export function setDockPreview(edge: BacklogEdge | null): void {
+  layout.dockPreview = edge;
+}
+
+/** E1：上/下形态（chips|panel）—— 写库失败返回 false（BQ 口径：界面不动）；写成功后改内存态 */
+export async function saveBacklogTopMode(mode: BacklogTopMode): Promise<boolean> {
+  if (!(await writeSetting("backlog_top_mode", mode))) return false;
+  layout.backlogTopMode = mode;
+  return true;
+}
+
+/** E1：自动收起开关 —— 关掉时把临时收起态一起清掉（不让界面停在「已收但开关关」的怪状态） */
+export async function saveBacklogAutoHide(on: boolean): Promise<boolean> {
+  if (!(await writeSetting("backlog_auto_hide", on ? "1" : "0"))) return false;
+  layout.backlogAutoHide = on;
+  if (!on) layout.autoCollapsed = false;
+  return true;
+}
+
+/** E1：头部排布落库（拖 / 预设后调用；失败只记日志 —— 界面已经生效，不值得弹 Toast） */
+export async function saveHeaderLayout(): Promise<void> {
+  try {
+    await setSetting("header_layout", JSON.stringify(layout.header));
+  } catch (err) {
+    console.error("[layout] 存头部排布失败（这次会话内仍生效）", err);
+  }
+}
+
+/** E1：停靠边落库（拖动松手后调用；失败只记日志） */
+export async function saveBacklogEdge(edge: BacklogEdge): Promise<void> {
+  try {
+    await setSetting("layout_backlog_edge", edge);
+  } catch (err) {
+    console.error("[layout] 存停靠边失败（这次会话内仍生效）", err);
+  }
 }
 
 export const layout = $state<{
@@ -53,12 +147,30 @@ export const layout = $state<{
   hintBarMode: HintBarMode;
   /** round81（3.1c₁）：时间刻度格高（`auto` = 跟密度；数字 = 用户手动选的档位） */
   slotHeight: SlotHeight;
+  /** E1：头部按钮组排布（三档预设 = 这里的快照；拖动 = 自定义） */
+  header: HeaderLayout;
+  /** E1：Backlog 吸在哪条边 / 上下的形态 / 上下高度 / 拖动中的预览边 */
+  backlogEdge: BacklogEdge;
+  backlogHeight: number;
+  backlogTopMode: BacklogTopMode;
+  /** E1：自动收起（任务栏式；默认关） */
+  backlogAutoHide: boolean;
+  /** E1：自动收起后的临时收起态（不落库；手动「«」仍走 backlogPane） */
+  autoCollapsed: boolean;
+  dockPreview: BacklogEdge | null;
 }>({
   backlogWidth: BACKLOG_DEFAULT,
   backlogPane: "open",
   weekendHidden: false,
   hintBarMode: "always",
   slotHeight: "auto",
+  header: cloneHeaderLayout(HEADER_PRESETS.default),
+  backlogEdge: "left",
+  backlogHeight: BACKLOG_H_DEFAULT,
+  backlogTopMode: "chips",
+  backlogAutoHide: false,
+  autoCollapsed: false,
+  dockPreview: null,
 });
 
 /** 把生效格高落到 `<html>`（手动档 = 内联覆盖；`auto` = 撤掉内联让 tokens 的密度档生效） */
@@ -96,6 +208,16 @@ function applyLayoutValues(values: Record<string, string>): void {
   layout.slotHeight = (SLOT_HEIGHTS as readonly number[]).includes(slot)
     ? (slot as SlotHeight)
     : "auto";
+  // E1：头部排布 / 停靠边 / 上下的形态 / 自动收起（坏值一律回默认）
+  layout.header = parseHeaderLayout(values["header_layout"]) ?? cloneHeaderLayout(HEADER_PRESETS.default);
+  const edge = values["layout_backlog_edge"];
+  layout.backlogEdge = edge === "right" || edge === "top" || edge === "bottom" ? edge : "left";
+  layout.backlogTopMode = values["backlog_top_mode"] === "panel" ? "panel" : "chips";
+  layout.backlogAutoHide = values["backlog_auto_hide"] === "1";
+  // E1 修复批：上/下档高度（旧库缺键 / 坏值 → 默认 180；区间 96–360）
+  const bh = Number(values["backlog_height"]);
+  layout.backlogHeight = Number.isFinite(bh) && bh > 0 ? clampBacklogHeight(bh) : BACKLOG_H_DEFAULT;
+  layout.autoCollapsed = false;
   paintSlotHeight();
 }
 
@@ -137,6 +259,11 @@ export async function resetLayout(): Promise<boolean> {
     writeSetting("weekend_hidden", "0"),
     writeSetting("hint_bar_mode", "always"),
     writeSetting("slot_height", "auto"),
+    writeSetting("header_layout", JSON.stringify(HEADER_PRESETS.default)),
+    writeSetting("layout_backlog_edge", "left"),
+    writeSetting("backlog_top_mode", "chips"),
+    writeSetting("backlog_auto_hide", "0"),
+    writeSetting("backlog_height", String(BACKLOG_H_DEFAULT)),
   ]);
   const ok = results.every(Boolean);
   if (ok) {
@@ -145,6 +272,12 @@ export async function resetLayout(): Promise<boolean> {
     layout.weekendHidden = false;
     layout.hintBarMode = "always";
     layout.slotHeight = "auto";
+    layout.header = cloneHeaderLayout(HEADER_PRESETS.default);
+    layout.backlogEdge = "left";
+    layout.backlogHeight = BACKLOG_H_DEFAULT;
+    layout.backlogTopMode = "chips";
+    layout.backlogAutoHide = false;
+    layout.autoCollapsed = false;
     paintSlotHeight();
     return true;
   }
@@ -156,6 +289,12 @@ export async function resetLayout(): Promise<boolean> {
   } catch {
     layout.backlogWidth = width;
     layout.slotHeight = "auto";
+    layout.header = cloneHeaderLayout(HEADER_PRESETS.default);
+    layout.backlogEdge = "left";
+    layout.backlogHeight = BACKLOG_H_DEFAULT;
+    layout.backlogTopMode = "chips";
+    layout.backlogAutoHide = false;
+    layout.autoCollapsed = false;
     paintSlotHeight();
   }
   return false;

@@ -245,5 +245,16 @@
   "检测到外部改动，已重新载入": "External changes detected — reloaded",
   "已重新载入": "Reloaded",
   "重新载入数据（外部程序改过库时手动刷新）": "Reload data (manual refresh after another program changed the database)",
-  "重新载入数据": "Reload data"
+  "重新载入数据": "Reload data",
+  "拖动{name}": "Drag {name}",
+  "布局预设": "Layout presets",
+  "默认": "Default",
+  "都靠右": "All right",
+  "都靠左": "All left",
+  "自定义": "Custom",
+  "周导航": "Week navigation",
+  "动作组": "Actions",
+  "编辑操作": "Edit actions",
+  "跳周": "Jump to week",
+  "回到这一周": "Back to this week"
 }
